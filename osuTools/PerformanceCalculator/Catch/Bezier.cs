@@ -13,7 +13,7 @@ namespace osuTools.PerformanceCalculator.Catch
         public Bezier(List<OsuPixel> points)
         {
             Points = points;
-            Order = Position.Count;
+            Order = Points.Count;
             CalcPoints();
         }
 
@@ -21,7 +21,7 @@ namespace osuTools.PerformanceCalculator.Catch
 
         void CalcPoints()
         {
-            if (Points.Count != 0)
+            if (Position.Count != 0)
                 throw new InvalidOperationException("Bezier was calculated twice!");
             List<OsuPixel> subPoint = new List<OsuPixel>();
             for (int i = 0; i < Points.Count; i++)
@@ -33,7 +33,7 @@ namespace osuTools.PerformanceCalculator.Catch
                     subPoint.Clear();
                 }
 
-                if (subPoint.Count > 1 && subPoint[i] == subPoint[i-1])
+                else if (subPoint.Count > 1 && Points[i] == subPoint[subPoint.Count - 1])
                 {
                     bezier(subPoint);
                     subPoint.Clear();

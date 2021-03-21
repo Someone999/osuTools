@@ -290,7 +290,6 @@
     <Compile Include="SyncPPInfo\Main.cs" />
     <Compile Include="SyncPPInfo\mmfReader.cs" />
     <Compile Include="SyncPPInfo\Properties.cs" />
-    <Compile Include="Unused.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -300,7 +299,7 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties Reactor_Deploy="0" Reactor_Output="" Reactor_Configuration="ALL" Reactor_Project="" Reactor_Commands="" Reactor_Enabled="0" />
+      <UserProperties Reactor_Enabled="0" Reactor_Commands="" Reactor_Project="" Reactor_Configuration="ALL" Reactor_Output="" Reactor_Deploy="0" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>

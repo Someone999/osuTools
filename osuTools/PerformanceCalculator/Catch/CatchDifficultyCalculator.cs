@@ -139,7 +139,7 @@ namespace osuTools.PerformanceCalculator.Catch
                 last = difficultyHitObject;
             }
             double difficulty = 0, weight = 1;
-            highestStrain.Sort((x, y) => (int)x - (int)y == 0 ? 0 : (int)x > (int)y ? -1 : 1);
+            highestStrain.Sort((x, y) => Math.Sign(y - x));
             foreach (var strain in highestStrain)
             {
                 difficulty += weight * strain;

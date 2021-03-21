@@ -4,6 +4,7 @@ using osuTools.Beatmaps;
 using osuTools.Beatmaps.HitObject;
 using osuTools.Game.Mods;
 using osuTools.osuToolsException;
+using osuTools.PerformanceCalculator.Catch;
 using RealTimePPDisplayer.Beatmap;
 using RealTimePPDisplayer.Calculator;
 using RealTimePPDisplayer.Displayer;
@@ -18,9 +19,14 @@ namespace osuTools.Game.Modes
         public override Mod[] AvaliableMods => Mod.CatchMods;
         public override string Description => "接水果";
 
+
         public double GetMaxPerformance(ORTDPWrapper ortdpInfo)
         {
-            return GetPPTuple(ortdpInfo).MaxPP;
+            var b = new CatchBeatmap(ortdpInfo.Beatmap);
+            if (performanceCalculator == null)
+                performanceCalculator =
+                    new CatchPerformanceCalculator(b, ortdpInfo.Mods);
+            return performanceCalculator.CalculatePerformance(1, b.MaxCombo, 0);
         }
 
         public PPTuple GetPPTuple(ORTDPWrapper ortdpInfo)
@@ -67,9 +73,15 @@ namespace osuTools.Game.Modes
             }
         }
 
+        private CatchPerformanceCalculator performanceCalculator;
         public double GetPerformance(ORTDPWrapper ortdpInfo)
         {
-            return GetPPTuple(ortdpInfo).RealTimePP;
+            var b = new CatchBeatmap(ortdpInfo.Beatmap);
+            if (performanceCalculator == null)
+                performanceCalculator =
+                    new CatchPerformanceCalculator(b, ortdpInfo.Mods);
+            return performanceCalculator.CalculatePerformance(ortdpInfo.Accuracy, b.MaxCombo, ortdpInfo.cMiss);
+            //return GetPPTuple(ortdpInfo).RealTimePP;
         }
 
         public OsuGameMode LegacyMode => OsuGameMode.Catch;

@@ -116,8 +116,8 @@ namespace osuTools.PerformanceCalculator.Catch
                 }
                 else
                 {
-                    if (curve is IHasPointProcessor hasPointProcessor)
-                        point = hasPointProcessor.PointAtDistance(currentDis);
+                    
+                        point = (curve as IHasPointProcessor).PointAtDistance(currentDis);
                 }
                 
                 Ticks.Add((new CatchSliderTick(point.x, point.y, j.Offset + addTime * (Ticks.Count + 1))));
@@ -138,7 +138,8 @@ namespace osuTools.PerformanceCalculator.Catch
                     point = (curve as IHasPointProcessor).PointAtDistance(dist);
                 
                 EndTicks.Add(new CatchSliderTick(point.x, point.y, BaseHitObject.Offset + timeOffset));
-                List<CatchSliderTick> repeatTicks = ObjectCopy.DeepCopy(Ticks);
+                List<CatchSliderTick> repeatTicks=new List<CatchSliderTick>();
+                Ticks.ForEach(tick=>repeatTicks.Add((CatchSliderTick)tick.Clone()));
 
                 
                 double normalizedTimeValue = 0d;

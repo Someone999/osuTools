@@ -2,8 +2,7 @@
 
 namespace osuTools.PerformanceCalculator.Catch
 {
-    [Serializable]
-    public class CatchSliderTick:ICatchHitObject
+    public class CatchSliderTick:ICatchHitObject,ICloneable
     {
         public double x { get; internal set; }
         public double y { get; internal set; }
@@ -14,6 +13,11 @@ namespace osuTools.PerformanceCalculator.Catch
             this.x = x;
             this.y = y;
             Offset = offset;
+        }
+
+        public object Clone()
+        {
+            return new CatchSliderTick(x, y, Offset);
         }
     }
 }

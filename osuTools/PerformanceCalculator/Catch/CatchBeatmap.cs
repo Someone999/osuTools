@@ -19,6 +19,14 @@ namespace osuTools.PerformanceCalculator.Catch
             {CatchTimePointType.RawSPM, new SortedDictionary<double, double>()}
         };
 
+        void AddOrAssign(CatchTimePointType type,double offset, double value)
+        {
+            if (CatchTimePoints[type].ContainsKey(offset))
+                CatchTimePoints[type][offset] = value;
+            else
+                CatchTimePoints[type].Add(offset,value);
+            
+        }
         public List<CatchHitObject> CatchHitObjects { get; } = new List<CatchHitObject>();
         public CatchDifficultyAttribute Difficulty { get; } = new CatchDifficultyAttribute();
         public int MaxCombo { get; private set; }
@@ -53,17 +61,17 @@ namespace osuTools.PerformanceCalculator.Catch
                     timefocus = -100;
                 if (timefocus < 0)
                 {
-                    CatchTimePoints[CatchTimePointType.SPM].Add(t.Offset,-100 / t.BeatLength);
-                    CatchTimePoints[CatchTimePointType.RawSPM].Add(t.Offset, t.BeatLength);
+                    AddOrAssign(CatchTimePointType.SPM,t.Offset,-100 / t.BeatLength);
+                    AddOrAssign(CatchTimePointType.RawSPM,t.Offset, t.BeatLength);
                 }
                 else
                 {
                     if (CatchTimePoints[CatchTimePointType.BPM].Count == 0)
                         offset = 0;
-                    CatchTimePoints[CatchTimePointType.BPM].Add(offset,t.BPM);
-                    CatchTimePoints[CatchTimePointType.RawBPM].Add(offset,t.BeatLength);
-                    CatchTimePoints[CatchTimePointType.SPM].Add(offset, 1);
-                    CatchTimePoints[CatchTimePointType.RawSPM].Add(offset, -100);
+                    AddOrAssign(CatchTimePointType.BPM,offset,t.BPM);
+                    AddOrAssign(CatchTimePointType.RawBPM,offset,t.BeatLength);
+                    AddOrAssign(CatchTimePointType.SPM,offset, 1);
+                    AddOrAssign(CatchTimePointType.RawSPM,offset, -100);
                 }
             }
         }
