@@ -517,7 +517,15 @@ namespace osuTools
         ///     当前pp
         /// </summary>
         [AvailableVariable("CurrentPP", "LANG_VAR_CURRENTPP")]
-        public double CurrentPP => ppinfo.CurrentPP;
+        public double CurrentPP
+        {
+            get
+            {
+                if (CurrentMode is IHasPerformanceCalculator h)
+                    return h.GetPerformance(this);
+                return ppinfo.CurrentPP;
+            }
+        }
 
         /// <summary>
         ///     标题
