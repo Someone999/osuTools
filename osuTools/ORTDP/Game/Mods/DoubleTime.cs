@@ -5,6 +5,7 @@ namespace osuTools.Game.Mods
 {
     public class DoubleTimeMod : Mod, ILegacyMod, IHasConflictMods, IChangeTimeRateMod
     {
+        public override bool IsRankedMod { get; protected set; } = true;
         public override string Name { get; protected set; } = "DoubleTime";
         public override string ShortName { get; protected set; } = "DT";
         public override double ScoreMultiplier { get; protected set; } = 1.12d;

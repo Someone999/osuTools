@@ -2,7 +2,7 @@
 {
     public class RelaxMod : Mod, ILegacyMod, IHasConflictMods
     {
-        public override bool IsRankedMod => true;
+        public override bool IsRankedMod => false;
         public override string Name => "Relax";
         public override string ShortName => "Relax";
         public override double ScoreMultiplier => 0.0;

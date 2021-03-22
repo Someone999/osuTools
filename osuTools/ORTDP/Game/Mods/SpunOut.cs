@@ -2,11 +2,8 @@
 {
     public class SpunOutMod : Mod, ILegacyMod, IHasConflictMods
     {
-        public override bool IsRankedMod
-        {
-            get => true;
-            protected set => IsRankedMod = value;
-        }
+        public override bool IsRankedMod { get; protected set; } = false;
+       
 
         public override string Name
         {
