@@ -15,6 +15,7 @@ namespace osuTools.PerformanceCalculator.Catch
         {
             Points = points;
             SetupPath();
+            //Console.WriteLine("PerfectCircle");
         }
 
         void SetupPath()
@@ -23,7 +24,6 @@ namespace osuTools.PerformanceCalculator.Catch
             (cx, cy, Radius) = tuple;
             if (VectorUtility.IsLeft(Points))
                 Radius *= -1;
-            Console.WriteLine($"Catmull point ({cx},{cy})");
         }
 
         public OsuPixel PointAtDistance(double length)

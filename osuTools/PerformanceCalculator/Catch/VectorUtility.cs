@@ -26,9 +26,12 @@ namespace osuTools.PerformanceCalculator.Catch
             if (d == 0)
                 throw new ArgumentException("Invalid circle! Unable to chose angle.");
 
-            var ux = ((Math.Pow(p[0].x, 2) + Math.Pow(p[0].y, 2)) * (p[1].y - p[2].y) +
-                      (Math.Pow(p[1].x, 2) + Math.Pow(p[1].y, 2)) * (p[2].y - p[0].y) +
-                      (Math.Pow(p[2].x, 2) + Math.Pow(p[2].y, 2)) * (p[0].y - p[1].y)) / d;
+            var ux = ((Math.Pow(p[0].x, 2) + Math.Pow(p[0].y, 2)) * 
+                      (p[1].y - p[2].y) +
+                      (Math.Pow(p[1].x, 2) + Math.Pow(p[1].y, 2)) * 
+                      (p[2].y - p[0].y) +
+                      (Math.Pow(p[2].x, 2) + Math.Pow(p[2].y, 2)) * 
+                      (p[0].y - p[1].y)) / d;
             var uy = ((Math.Pow(p[0].x, 2) + Math.Pow(p[0].y, 2)) * (p[2].x - p[1].x) +
                       (Math.Pow(p[1].x, 2) + Math.Pow(p[1].y, 2)) * (p[0].x - p[2].x) +
                       (Math.Pow(p[2].x, 2) + Math.Pow(p[2].y, 2)) * (p[1].x - p[0].x)) / d;

@@ -279,6 +279,7 @@
     <Compile Include="PerformanceCalculator\Catch\Linear.cs" />
     <Compile Include="PerformanceCalculator\Catch\MathUtlity.cs" />
     <Compile Include="PerformanceCalculator\Catch\Perfect.cs" />
+    <Compile Include="PerformanceCalculator\Catch\ValueObserver.cs" />
     <Compile Include="PerformanceCalculator\Catch\VectorUtility.cs" />
     <Compile Include="Replays\Replay\Classes.cs" />
     <Compile Include="Replays\Replay\Main.cs" />
@@ -299,7 +300,7 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties Reactor_Enabled="0" Reactor_Commands="" Reactor_Project="" Reactor_Configuration="ALL" Reactor_Output="" Reactor_Deploy="0" />
+      <UserProperties Reactor_Deploy="0" Reactor_Output="" Reactor_Configuration="ALL" Reactor_Project="" Reactor_Commands="" Reactor_Enabled="0" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>

@@ -153,6 +153,7 @@ namespace osuTools
             PlayerName = player.Trim();
         }
 
+        private IHasPerformanceCalculator performanceCalculator;
         private void InitLisenter(OsuRTDataProviderPlugin pl)
         {
             
@@ -190,6 +191,11 @@ namespace osuTools
             GameMode = new GMMode(last, mode);
             CanFail = !Mods.Mods.Any(innerMod =>
                 innerMod is NoFailMod || innerMod is AutoPilotMod || innerMod is RelaxMod);
+            if (CurrentMode is IHasPerformanceCalculator has)
+            {
+                performanceCalculator = has;
+            }
+
             /*if (CurrentMode is IHasPerformanceCalculator m)
             {
                 if (Beatmap.Mode == OsuGameMode.Mania)
@@ -357,7 +363,10 @@ namespace osuTools
                     if (Beatmap.Mode != OsuGameMode.Osu)
                     {
                         if (Game.Modes.GameMode.FromLegacyMode(Beatmap.Mode) is IHasPerformanceCalculator bm)
+                        {
                             PreCalculatedPP = bm.GetMaxPerformance(this);
+                            bm.SetBeatmap(Beatmap);
+                        }
                     }
                     else
                     {

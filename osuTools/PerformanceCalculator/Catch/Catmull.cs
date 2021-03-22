@@ -22,6 +22,7 @@ namespace osuTools.PerformanceCalculator.Catch
             Step = 2.5 / Constants.SLIDER_QUALITY;
             Order = points.Count;
             CalcPoints();
+            //Console.WriteLine("Catmull");
         }
 
         void CalcPoints()

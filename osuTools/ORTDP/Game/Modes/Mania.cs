@@ -22,6 +22,12 @@ namespace osuTools.Game.Modes
             return GetPPTuple(ortdpInfo).MaxPP;
         }
 
+        private OsuRTDataProvider.BeatmapInfo.Beatmap _innerBeatmap;
+
+        public void SetBeatmap(Beatmap b)
+        {
+
+        }
         public PPTuple GetPPTuple(ORTDPWrapper ortdpInfo)
         {
             try

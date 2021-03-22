@@ -18,22 +18,28 @@ namespace osuTools.Game.Modes
         public override string ModeName => "Catch";
         public override Mod[] AvaliableMods => Mod.CatchMods;
         public override string Description => "接水果";
-
-
+        private CatchBeatmap _innerBeatmap;
+        private int _maxCombo;
+        public void SetBeatmap(Beatmap b)
+        {
+            _innerBeatmap = new CatchBeatmap(b);
+            _maxCombo = _innerBeatmap.MaxCombo;
+        }
         public double GetMaxPerformance(ORTDPWrapper ortdpInfo)
         {
-            var b = new CatchBeatmap(ortdpInfo.Beatmap);
+            if (_innerBeatmap == null)
+                SetBeatmap(ortdpInfo.Beatmap);
             if (performanceCalculator == null)
                 performanceCalculator =
-                    new CatchPerformanceCalculator(b, ortdpInfo.Mods);
-            return performanceCalculator.CalculatePerformance(1, b.MaxCombo, 0);
+                    new CatchPerformanceCalculator(_innerBeatmap, ortdpInfo.Mods);
+            return performanceCalculator.CalculatePerformance(1, _maxCombo, 0);
         }
 
         public PPTuple GetPPTuple(ORTDPWrapper ortdpInfo)
         {
             try
             {
-                calculator = calculator == null ? new CatchTheBeatPerformanceCalculator() : calculator;
+                calculator = calculator ?? new CatchTheBeatPerformanceCalculator();
                 calculator.Beatmap = new BeatmapReader(ortdpInfo.ORTDPBeatmap, (int) ortdpInfo.Beatmap.Mode);
                 if (ortdpInfo.DebugMode)
                     IO.CurrentIO.Write(
@@ -76,11 +82,12 @@ namespace osuTools.Game.Modes
         private CatchPerformanceCalculator performanceCalculator;
         public double GetPerformance(ORTDPWrapper ortdpInfo)
         {
-            var b = new CatchBeatmap(ortdpInfo.Beatmap);
+            if (_innerBeatmap == null)
+                SetBeatmap(ortdpInfo.Beatmap);
             if (performanceCalculator == null)
                 performanceCalculator =
-                    new CatchPerformanceCalculator(b, ortdpInfo.Mods);
-            return performanceCalculator.CalculatePerformance(ortdpInfo.Accuracy, b.MaxCombo, ortdpInfo.cMiss);
+                    new CatchPerformanceCalculator(_innerBeatmap, ortdpInfo.Mods);
+            return performanceCalculator.CalculatePerformance(ortdpInfo.Accuracy, ortdpInfo.Combo, ortdpInfo.cMiss);
             //return GetPPTuple(ortdpInfo).RealTimePP;
         }
 

@@ -511,7 +511,15 @@ namespace osuTools
         ///     总pp
         /// </summary>
         [AvailableVariable("MaxPP", "LANG_VAR_MAXPP")]
-        public double MaxPP => ppinfo.MaxPP;
+        public double MaxPP
+        {
+            get
+            {
+                /*if (CurrentMode is IHasPerformanceCalculator h)
+                    return h.GetMaxPerformance(this);*/
+                return ppinfo.MaxPP;
+            }
+        }
 
         /// <summary>
         ///     当前pp
@@ -521,8 +529,8 @@ namespace osuTools
         {
             get
             {
-                if (CurrentMode is IHasPerformanceCalculator h)
-                    return h.GetPerformance(this);
+                /*if (CurrentMode is IHasPerformanceCalculator h)
+                    return h.GetPerformance(this);*/
                 return ppinfo.CurrentPP;
             }
         }

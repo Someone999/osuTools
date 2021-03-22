@@ -15,6 +15,7 @@ namespace osuTools.PerformanceCalculator.Catch
             Points = points;
             Order = Points.Count;
             CalcPoints();
+            //Console.WriteLine("Bezier");
         }
 
         public int Order { get; private set; }
