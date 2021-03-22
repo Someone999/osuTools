@@ -274,6 +274,7 @@
     <Compile Include="PerformanceCalculator\Catch\CatchSliderTick.cs" />
     <Compile Include="PerformanceCalculator\Catch\CatchTimePointType.cs" />
     <Compile Include="PerformanceCalculator\Catch\Catmull.cs" />
+    <Compile Include="PerformanceCalculator\Catch\CloneableList.cs" />
     <Compile Include="PerformanceCalculator\Catch\Constants.cs" />
     <Compile Include="PerformanceCalculator\Catch\Interface.cs" />
     <Compile Include="PerformanceCalculator\Catch\Linear.cs" />
@@ -300,7 +301,7 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties Reactor_Deploy="0" Reactor_Output="" Reactor_Configuration="ALL" Reactor_Project="" Reactor_Commands="" Reactor_Enabled="0" />
+      <UserProperties Reactor_Enabled="0" Reactor_Commands="" Reactor_Project="" Reactor_Configuration="ALL" Reactor_Output="" Reactor_Deploy="0" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>

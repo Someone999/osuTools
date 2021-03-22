@@ -14,6 +14,7 @@ namespace osuTools.PerformanceCalculator.Catch
     {
         private T _val;
         private T _oldVal;
+        
         public bool BreakWhenChange { get; set; }
         public ValueObserver(T val = default,bool breakWhenAssign = false)
         {

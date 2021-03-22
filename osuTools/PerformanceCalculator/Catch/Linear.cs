@@ -5,9 +5,9 @@ namespace osuTools.PerformanceCalculator.Catch
 {
     class Linear:ICurveAlgorithm
     {
-        public List<OsuPixel> Position { get; }
+        public CloneableList<OsuPixel> Position { get; }
 
-        public Linear(List<OsuPixel> points) => Position = points;
+        public Linear(CloneableList<OsuPixel> points) => Position = points;
         
     }
 }

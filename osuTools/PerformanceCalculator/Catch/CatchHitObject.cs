@@ -16,9 +16,9 @@ namespace osuTools.PerformanceCalculator.Catch
         public double y { get => BaseHitObject.Position.y; }
         public double Offset { get => BaseHitObject.Offset; }
         public IHitObject BaseHitObject { get; }
-        public List<CatchSliderTick> Ticks { get; } = new List<CatchSliderTick>();
-        public List<CatchSliderTick> EndTicks { get; } = new List<CatchSliderTick>();
-        public List<OsuPixel> Path { get; internal set; } = new List<OsuPixel>();
+        public CloneableList<CatchSliderTick> Ticks { get; } = new CloneableList<CatchSliderTick>();
+        public CloneableList<CatchSliderTick> EndTicks { get; } = new CloneableList<CatchSliderTick>();
+        public CloneableList<OsuPixel> Path { get; internal set; } = new CloneableList<OsuPixel>();
         public Dictionary<CatchTimePointType, double> TimePoint { get; } = null;
         public CatchDifficultyAttribute Difficulty { get; } = null;
         public ValueObserver<double> TickDistance { get; } = new ValueObserver<double>();
@@ -106,7 +106,7 @@ namespace osuTools.PerformanceCalculator.Catch
 
                 if (j.CurveType == CurveTypes.PerfectCircle)
                 {
-                    Path = new List<OsuPixel>();
+                    Path = new CloneableList<OsuPixel>();
                     var l = 0;
                     var step = 5;
                     while (l < j.Length)
@@ -150,8 +150,8 @@ namespace osuTools.PerformanceCalculator.Catch
                 Console.WriteLine($"EndTick?{point.x}?{point.y}?{BaseHitObject.Offset + timeOffset}");
                 EndTicks.Add(new CatchSliderTick(point.x, point.y, BaseHitObject.Offset + timeOffset));
                
-                List<CatchSliderTick> repeatTicks=new List<CatchSliderTick>();
-                Ticks.ForEach(tick=>repeatTicks.Add((CatchSliderTick)tick.Clone()));
+                CloneableList<CatchSliderTick> repeatTicks=new CloneableList<CatchSliderTick>();
+                repeatTicks = (CloneableList<CatchSliderTick>)Ticks.Clone();
 
                 
                 double normalizedTimeValue = 0d;
