@@ -1,0 +1,6 @@
+﻿namespace osuTools
+{
+    namespace OtherTools
+    {
+    }
+}
