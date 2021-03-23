@@ -90,7 +90,7 @@ namespace osuTools.Beatmaps
 
                 if (temparr[0].StartsWith("0,0,\""))
                 {
-                    if (!string.IsNullOrEmpty(BackgroundFileName))
+                    if (string.IsNullOrEmpty(BackgroundFileName))
                         BackgroundFileName = temparr[0].Split(',')[2].Replace("\"", "").Trim();
                     continue;
                 }
