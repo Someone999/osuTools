@@ -276,9 +276,16 @@
     <Compile Include="PerformanceCalculator\Catch\Catmull.cs" />
     <Compile Include="PerformanceCalculator\Catch\CloneableList.cs" />
     <Compile Include="PerformanceCalculator\Catch\Constants.cs" />
-    <Compile Include="PerformanceCalculator\Catch\Interface.cs" />
+    <Compile Include="PerformanceCalculator\Catch\DifficultyEnumerator.cs" />
+    <Compile Include="PerformanceCalculator\Catch\ICurveAlgorithm.cs" />
+    <Compile Include="PerformanceCalculator\Catch\IHasPointProcessor.cs" />
+    <Compile Include="PerformanceCalculator\Catch\IHasPosition.cs" />
+    <Compile Include="PerformanceCalculator\Catch\ICatchHitObject.cs" />
     <Compile Include="PerformanceCalculator\Catch\Linear.cs" />
     <Compile Include="PerformanceCalculator\Catch\MathUtlity.cs" />
+    <Compile Include="PerformanceCalculator\Catch\MKeyValuePair.cs" />
+    <Compile Include="PerformanceCalculator\Catch\ObservableList.cs" />
+    <Compile Include="PerformanceCalculator\Catch\ObserveListEnumerator.cs" />
     <Compile Include="PerformanceCalculator\Catch\Perfect.cs" />
     <Compile Include="PerformanceCalculator\Catch\ValueObserver.cs" />
     <Compile Include="PerformanceCalculator\Catch\VectorUtility.cs" />
