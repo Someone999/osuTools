@@ -129,7 +129,7 @@ namespace osuTools.PerformanceCalculator.Catch
                 {
                     point = (curve as IHasPointProcessor).PointAtDistance(currentDis);
                 }
-                Console.WriteLine($"Tick?{point.x}?{point.y}?{j.Offset + addTime * (Ticks.Count + 1)}");
+                //Console.WriteLine($"Tick?{point.x}?{point.y}?{j.Offset + addTime * (Ticks.Count + 1)}");
                 Ticks.Add((new CatchSliderTick(point.x, point.y, j.Offset + addTime * (Ticks.Count + 1))));
                 
                 currentDis += TickDistance.Value;
@@ -149,9 +149,8 @@ namespace osuTools.PerformanceCalculator.Catch
                 //Console.WriteLine($"{Offset}?{point.x}?{point.y}");
                 Console.WriteLine($"EndTick?{point.x}?{point.y}?{BaseHitObject.Offset + timeOffset}");
                 EndTicks.Add(new CatchSliderTick(point.x, point.y, BaseHitObject.Offset + timeOffset));
-               
-                CloneableList<CatchSliderTick> repeatTicks=new CloneableList<CatchSliderTick>();
-                repeatTicks = (CloneableList<CatchSliderTick>)Ticks.Clone();
+
+                var repeatTicks = (CloneableList<CatchSliderTick>)Ticks.Clone();
 
                 
                 double normalizedTimeValue = 0d;
