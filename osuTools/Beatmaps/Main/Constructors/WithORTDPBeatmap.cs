@@ -92,6 +92,7 @@ namespace osuTools.Beatmaps
                 {
                     if (string.IsNullOrEmpty(BackgroundFileName))
                         BackgroundFileName = temparr[0].Split(',')[2].Replace("\"", "").Trim();
+                    FullBackgroundFileName = Path.Combine(BeatmapFolder, BackgroundFileName);
                     continue;
                 }
 
@@ -100,6 +101,7 @@ namespace osuTools.Beatmaps
                     if (!string.IsNullOrEmpty(vi))
                     {
                         vi = temparr[0].Split(',')[2].Replace("\"", "").Trim();
+                        fuvi = Path.Combine(BeatmapFolder, VideoFileName);
                         HasVideo = true;
                     }
                     else
