@@ -2,16 +2,29 @@
 
 namespace osuTools.StoryBoard.Command
 {
+    /// <summary>
+    /// 表示StoryBoard图象的位置
+    /// </summary>
     public class StoryBoardPoint
     {
+        /// <summary>
+        /// 使用x和y坐标来初始化一个StoryBoardPoint
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
         public StoryBoardPoint(double x, double y)
         {
-            this.x = x;
-            this.y = y;
+            this.X = x;
+            this.Y = y;
         }
-
-        public double x { get; set; }
-        public double y { get; set; }
+        /// <summary>
+        /// x坐标
+        /// </summary>
+        public double X { get; set; }
+        /// <summary>
+        /// y坐标
+        /// </summary>
+        public double Y { get; set; }
     }
 
     public class MoveTranslation : ITranslation

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace osuTools.PerformanceCalculator.Catch
 {
-    public class ObserveList<T> : IList<T>
+    public class ObservableList<T> : IList<T>
     {
         private T[] _objArr;
         private int len, capacity;
@@ -41,7 +41,7 @@ namespace osuTools.PerformanceCalculator.Catch
                 _objArr = newArr;
             }
         }
-        public ObserveList()
+        public ObservableList()
         {
             _objArr = new T[0];
         }
@@ -171,7 +171,7 @@ namespace osuTools.PerformanceCalculator.Catch
 
         public int Count => len;
         public bool IsReadOnly => true;
-        public IEnumerator<T> GetEnumerator() => new ObserveListEnumerator<T>(this);
+        public IEnumerator<T> GetEnumerator() => new ObservableListEnumerator<T>(this);
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
     }
 }

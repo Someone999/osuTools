@@ -6,9 +6,18 @@ namespace osuTools.Skins.Settings.Mania
 {
     public class ManiaSkinSetting
     {
+        /// <summary>
+        /// 列开始的位置
+        /// </summary>
         public double ColumnStart { get; internal set; } = 136;
         public double ColumnRight { get; internal set; } = 19;
+        /// <summary>
+        /// 列间隙，有多列时用半角逗号隔开
+        /// </summary>
         public string ColumnSpacing { get; internal set; } = "0";
+        /// <summary>
+        /// 列宽，有多列时用半角逗号隔开
+        /// </summary>
         public string ColumnWidth { get; internal set; } = "30";
         public string ColumnLineWidth { get; internal set; } = "2";
         public double BarlineHeight { get; internal set; } = 1.2;

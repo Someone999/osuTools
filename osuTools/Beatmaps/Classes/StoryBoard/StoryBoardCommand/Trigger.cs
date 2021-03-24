@@ -4,15 +4,24 @@ using osuTools.StoryBoard.Command;
 
 namespace osuTools.StoryBoard.Command
 {
+    /// <summary>
+    /// 触发器
+    /// </summary>
     public class Trigger : ITriggerCommand, IDurable
     {
+        /// <inheritdoc />
         public StoryBoardEvent Command { get; } = StoryBoardEvent.Trigger;
+        /// <inheritdoc />
         public List<IStoryBoardSubCommand> SubCommands { get; set; } = new List<IStoryBoardSubCommand>();
+        /// <inheritdoc />
         public IStoryBoardCommand ParentCommand { get; set; }
+        /// <inheritdoc />
         public string TriggerType { get; set; }
+        /// <inheritdoc />
         public int StartTime { get; set; }
+        /// <inheritdoc />
         public int EndTime { get; set; }
-
+        /// <inheritdoc />
         public void Parse(string line)
         {
             var parts = line.Split(',');

@@ -63,7 +63,7 @@ namespace osuTools.Beatmaps.HitObject
         {
             return $"{Position.x},{Position.y},{Offset},{1 << (int) HitObjectType},{0},{HitSample.GetData()}";
         }
-
+        /// <inheritdoc />
         public override string ToString()
         {
             return $"Type:{HitObjectType} Offset:{Offset}";

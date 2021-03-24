@@ -29,7 +29,6 @@ namespace osuTools
         private BreakTimeCollection breaktimes = new BreakTimeCollection();
         private int cBtime;
         private int cTmpoint;
-        private int i;
         private MD5String md5str = new MD5String(), md5str1 = new MD5String();
         private bool noFailTriggered;
         private TimePointCollection timepoints = new TimePointCollection();
@@ -250,7 +249,6 @@ namespace osuTools
             cMiss = 0;
             Score = 0;
             acc = 0;
-            i = 0;
             cBtime = 0;
             cTmpoint = 0;
             maxcb = 0;
@@ -374,7 +372,6 @@ namespace osuTools
                     }
                 }
 
-                i = 0;
                 timepoints.TimePoints = Beatmap.TimePoints.TimePoints.Where(tp => tp.Uninherited).ToList();
                 breaktimes = Beatmap.BreakTimes;
                 NowPlaying = Beatmap.ToString();

@@ -71,6 +71,7 @@ namespace osuTools.Beatmaps
             return (int) (obj.Start * obj.End);
         }
 
+        /// <inheritdoc />
         public string ToOsuFormat()
         {
             return $"2,{Start},{End}";

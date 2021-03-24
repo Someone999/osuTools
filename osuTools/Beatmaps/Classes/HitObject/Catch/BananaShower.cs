@@ -3,25 +3,38 @@ using osuTools.Beatmaps.HitObject.Sounds;
 
 namespace osuTools.Beatmaps.HitObject
 {
+    /// <summary>
+    /// Catch的香蕉雨
+    /// </summary>
     public class BananaShower : IHitObject, INoteGrouped, IHasEndHitObject
     {
-        private string hitsample;
-        private int type;
-        public int EndTime { get; internal set; }
-        public HitObjectTypes HitObjectType { get; } = HitObjectTypes.BananaShower;
-        public int Offset { get; set; } = -1;
-        public OsuPixel Position { get; } = new OsuPixel(256, 192);
-        public HitSounds HitSound { get; set; } = HitSounds.Normal;
-        public HitSample HitSample { get; set; } = new HitSample();
-        public OsuGameMode SpecifiedMode { get; } = OsuGameMode.Catch;
+        private string _hitsample = null;
+        private int _type;
 
+        /// <inheritdoc />
+        public int EndTime { get; internal set; }
+
+        /// <inheritdoc />
+        public HitObjectTypes HitObjectType { get; } = HitObjectTypes.BananaShower;
+
+        /// <inheritdoc />
+        public int Offset { get; set; } = -1;
+        /// <inheritdoc />
+        public OsuPixel Position { get; } = new OsuPixel(256, 192);
+        /// <inheritdoc />
+        public HitSounds HitSound { get; set; } = HitSounds.Normal;
+        /// <inheritdoc />
+        public HitSample HitSample { get; set; } = new HitSample();
+        /// <inheritdoc />
+        public OsuGameMode SpecifiedMode { get; } = OsuGameMode.Catch;
+        /// <inheritdoc />n
         public void Parse(string data)
         {
             var info = data.Split(',');
             var val = double.Parse(info[2]);
             Offset = double.IsNaN(val) || double.IsInfinity(val) ? 0 : (int) val;
-            type = int.Parse(info[3]);
-            var types = HitObjectTools.GetGenericTypesByInt<HitObjectTypes>(type);
+            _type = int.Parse(info[3]);
+            var types = HitObjectTools.GetGenericTypesByInt<HitObjectTypes>(_type);
             if (!types.Contains(HitObjectTypes.Spinner))
             {
                 throw new ArgumentException("该行的数据不适用。");
@@ -37,7 +50,7 @@ namespace osuTools.Beatmaps.HitObject
 
         public string ToOsuFormat()
         {
-            return $"256,192,{Offset},{1 << (int) HitObjectType},{1 << (int) HitSound},{EndTime},{hitsample}";
+            return $"256,192,{Offset},{1 << (int) HitObjectType},{1 << (int) HitSound},{EndTime},{_hitsample}";
         }
 
         public bool IsNewGroup { get; set; }

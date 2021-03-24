@@ -4,6 +4,10 @@ namespace osuTools.Beatmaps
 {
     partial class Beatmap
     {
+        /// <summary>
+        /// 使用<seealso cref="OnlineBeatmap"/>初始化Beatmap对象>
+        /// </summary>
+        /// <param name="olbeatmap"></param>
         public Beatmap(OnlineBeatmap olbeatmap)
         {
             t = olbeatmap.Title;

@@ -2,11 +2,18 @@
 
 namespace osuTools.StoryBoard.Command
 {
+    /// <summary>
+    /// StoryBoard主命令
+    /// </summary>
     public class StoryBoardMainCommand : IStoryBoardMainCommand
     {
+        /// <inheritdoc />
         public StoryBoardResourceType ResourceType { get; set; }
+        /// <inheritdoc />
         public List<IStoryBoardSubCommand> SubCommands { get; set; } = new List<IStoryBoardSubCommand>();
+        /// <inheritdoc />
         public IStoryBoardResource Resource { get; set; }
+        /// <inheritdoc />
 
         public void Parse(string line)
         {

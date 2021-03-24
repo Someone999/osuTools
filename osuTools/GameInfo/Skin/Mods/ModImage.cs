@@ -26,10 +26,11 @@ namespace osuTools.Skins.SkinObjects.Mods
         ///     皮肤元素类型的名字，应为Mod
         /// </summary>
         public string SkinImageTypeName { get; } = "Mod";
-
+        ///<inheritdoc/>
         public string FileName { get; } = "default";
+        ///<inheritdoc/>
         public string FullPath { get; } = "default";
-
+        ///<inheritdoc/>
         public Image LoadImage()
         {
             if (FileName == "default" && FullPath == "default")
@@ -38,7 +39,7 @@ namespace osuTools.Skins.SkinObjects.Mods
                 return Image.FromFile(FullPath);
             throw new SkinFileNotFoundException();
         }
-
+        ///<inheritdoc/>
         public ISkinImage GetHighResolutionImage()
         {
             var tmpname = FileName.Replace(".png", "@2x.png");

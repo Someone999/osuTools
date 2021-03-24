@@ -21,11 +21,13 @@ namespace osuTools.Skins.SkinObjects.Generic
             var type = fileName.Replace(".png", "");
             FullPath = fullFileName;
         }
-
+        ///<inheritdoc/>
         public string FileName { get; protected set; } = "default";
+        ///<inheritdoc/>
         public string FullPath { get; protected set; } = "default";
+        ///<inheritdoc/>
         public string SkinImageTypeName { get; protected set; } = "MenuSkinImage";
-
+        ///<inheritdoc/>
         public Image LoadImage()
         {
             if (FileName == "default" && FullPath == "default")
@@ -34,7 +36,7 @@ namespace osuTools.Skins.SkinObjects.Generic
                 return Image.FromFile(FullPath);
             throw new SkinFileNotFoundException();
         }
-
+        ///<inheritdoc/>
         public ISkinImage GetHighResolutionImage()
         {
             var tmpname = FileName.Replace(".png", "@2x.png");

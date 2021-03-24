@@ -4,16 +4,28 @@ using osuTools.StoryBoard.Command;
 
 namespace osuTools.StoryBoard.Command
 {
+    /// <summary>
+    /// 参数
+    /// </summary>
     public class Parameter : IStoryBoardSubCommand, IDurable, IHasEasing
     {
+        /// <summary>
+        /// 行为
+        /// </summary>
         public ParameterOperation Operation { get; set; } = ParameterOperation.None;
+        /// <inheritdoc />
         public int StartTime { get; set; }
+        /// <inheritdoc />
         public int EndTime { get; set; }
+        /// <inheritdoc />
         public StoryBoardEasing Easing { get; set; }
+        /// <inheritdoc />
         public StoryBoardEvent Command { get; } = StoryBoardEvent.Parameter;
+        /// <inheritdoc />
         public List<IStoryBoardSubCommand> SubCommands { get; set; } = new List<IStoryBoardSubCommand>();
+        /// <inheritdoc />
         public IStoryBoardCommand ParentCommand { get; set; }
-
+        /// <inheritdoc />
         public void Parse(string line)
         {
             var parts = line.Split(',');

@@ -11,19 +11,48 @@ namespace osuTools.PerformanceCalculator.Catch
     {
         private T[] _objArr;
         private int len, capacity;
+        /// <summary>
+        /// 为OnAddItem提供参数
+        /// </summary>
+        /// <param name="item">被添加的元素</param>
+        public delegate void AddItemEventHandler(T item);
+        /// <summary>
+        /// 为OnRemoveItem提供参数
+        /// </summary>
+        /// <param name="item">要删除的元素</param>
+        /// <param name="success">删除是否成功</param>
 
-        public delegate void AddItem(T item);
+        public delegate void RemoveItemEventHandler(T item,bool success);
+        /// <summary>
+        /// 为OnInsertItem提供参数
+        /// </summary>
+        /// <param name="item">要添加的元素</param>
+        /// <param name="index">被添加到的位置</param>
 
-        public delegate void RemoveItem(T item,bool success);
+        public delegate void InsertItemEventHandler(T item, int index);
+        /// <summary>
+        /// 
+        /// </summary>
 
-        public delegate void InsertItem(T item, int index);
 
-        public delegate void ClearItem();
+        public delegate void ClearItemEventHandler();
+        /// <summary>
+        /// 添加元素时触发的事件
+        /// </summary>
 
-        public event AddItem OnAdd = item => { };
-        public event RemoveItem OnRemove = (item,suc) => { };
-        public event InsertItem OnInsert = (item, index) => { };
-        public event ClearItem OnClear = () => { };
+        public event AddItemEventHandler OnAdd = item => { };
+        /// <summary>
+        /// 移除元素时触发的事件
+        /// </summary>
+        public event RemoveItemEventHandler OnRemove = (item,suc) => { };
+        /// <summary>
+        /// 插入元素时触发的事件
+        /// </summary>
+        public event InsertItemEventHandler OnInsert = (item, index) => { };
+        /// <summary>
+        /// 清空列表时触发的事件
+        /// </summary>
+        public event ClearItemEventHandler OnClear = () => { };
 
         int IndexProcessor(int len,int index)
         {
@@ -41,18 +70,21 @@ namespace osuTools.PerformanceCalculator.Catch
                 _objArr = newArr;
             }
         }
+        /// <summary>
+        /// 初始化一个长度为0的ObservableList
+        /// </summary>
         public ObservableList()
         {
             _objArr = new T[0];
         }
-
+        ///<inheritdoc/>
         public void Add(T item)
         {
             extend();
             _objArr[len++] = item;
             OnAdd(item);
         }
-
+        ///<inheritdoc/>
         public bool Remove(T item)
         {
             int itemHash = -1;
@@ -84,7 +116,7 @@ namespace osuTools.PerformanceCalculator.Catch
             OnRemove(item,suc);
             return suc;
         }
-
+        ///<inheritdoc/>
         public int IndexOf(T item)
         {
             for (int i = 0; i < len; i++)
@@ -100,7 +132,7 @@ namespace osuTools.PerformanceCalculator.Catch
             }
             return -1;
         }
-
+        ///<inheritdoc/>
         public void RemoveAt(int index)
         {
             index = IndexProcessor(len,index);
@@ -109,6 +141,7 @@ namespace osuTools.PerformanceCalculator.Catch
             Array.Copy(_objArr, index + 1, _objArr, index, len - index - 1);
             _objArr[--len] = default;
         }
+        ///<inheritdoc/>
         public void Insert(int index,T item)
         {
 
@@ -127,6 +160,7 @@ namespace osuTools.PerformanceCalculator.Catch
             OnInsert(item, index);
             len++;
         }
+        ///<inheritdoc/>
 
         public T this[int index]
         {
@@ -142,12 +176,15 @@ namespace osuTools.PerformanceCalculator.Catch
                 _objArr[index] = value;
             }
         }
+        ///<inheritdoc/>
 
         public void Clear()
         {
             Array.Clear(_objArr, 0, len);
+            OnClear();
             len = 0;
         }
+        ///<inheritdoc/>
         public bool Contains(T item)
         {
             for (int i = 0; i < len; i++)
@@ -163,14 +200,16 @@ namespace osuTools.PerformanceCalculator.Catch
             }
             return false;
         }
-
+        ///<inheritdoc/>
         public void CopyTo(T[] arr, int index)
         {
             Array.Copy(_objArr,arr,len);
         }
-
+        ///<inheritdoc/>
         public int Count => len;
+        ///<inheritdoc/>
         public bool IsReadOnly => true;
+        ///<inheritdoc/>
         public IEnumerator<T> GetEnumerator() => new ObservableListEnumerator<T>(this);
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
     }

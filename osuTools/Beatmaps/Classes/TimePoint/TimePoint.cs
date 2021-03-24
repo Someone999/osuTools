@@ -37,7 +37,7 @@ namespace osuTools.Beatmaps
 
             effect = int.Parse(data[7]);
             BPM = double.Parse((1 / BeatLength * 1000 * 60).ToString());
-            bitprocesser(effect);
+            Bitprocesser(effect);
         }
 
         /// <summary>
@@ -115,24 +115,25 @@ namespace osuTools.Beatmaps
         {
             return a.GetHashCode(a) == b.GetHashCode(b);
         }
-
+       
+        /// <inheritdoc />
         public string ToOsuFormat()
         {
             return
                 $"{Offset},{BeatLength},{Meter},{(int) SampleSet},{SampleIndex},{Volume},{(Uninherited ? 1 : 0)},{effect}";
         }
 
-        private void bitprocesser(int num)
+        private void Bitprocesser(int num)
         {
             var cur = num;
             if (cur == 0) return;
             while (cur > 0)
             {
-                var log2int = (int) Math.Truncate(Math.Log(cur, 2));
-                var value = log2int;
+                var log2Int = (int) Math.Truncate(Math.Log(cur, 2));
+                var value = log2Int;
                 if (value == 0) KiaiTime = true;
                 if (value == 3) OmitFirstBarline = true;
-                cur -= (int) Math.Pow(2, log2int);
+                cur -= (int) Math.Pow(2, log2Int);
             }
         }
 
@@ -152,6 +153,9 @@ namespace osuTools.Beatmaps
     /// </summary>
     public class TimePointCollection
     {
+        /// <summary>
+        /// 原始列表
+        /// </summary>
         public List<TimePoint> TimePoints { get; set; } = new List<TimePoint>();
 
         /// <summary>

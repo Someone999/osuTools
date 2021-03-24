@@ -4,6 +4,9 @@ using osuTools.StoryBoard.Command;
 
 namespace osuTools.StoryBoard.Command
 {
+    /// <summary>
+    /// Y轴的运动变换
+    /// </summary>
     public class MoveYTranslation : ITranslation
     {
         /// <summary>
@@ -30,21 +33,31 @@ namespace osuTools.StoryBoard.Command
         ///     终点
         /// </summary>
         public double TargetPoint { get; set; }
-
+        ///<inheritdoc/>
         public int StartTime { get; set; }
+        ///<inheritdoc/>
         public int EndTime { get; set; }
     }
-
+    /// <summary>
+    /// 在Y轴上的移动
+    /// </summary>
     public class MoveY : IStoryBoardSubCommand, IDurable, IHasEasing, IShortcutableCommand
     {
+        ///<inheritdoc/>
         public int StartTime { get; set; }
+        ///<inheritdoc/>
         public int EndTime { get; set; }
+        ///<inheritdoc/>
         public StoryBoardEasing Easing { get; set; }
+        ///<inheritdoc/>
         public List<ITranslation> Translations { get; set; } = new List<ITranslation>();
+        ///<inheritdoc/>
         public StoryBoardEvent Command { get; } = StoryBoardEvent.MoveY;
+        ///<inheritdoc/>
         public List<IStoryBoardSubCommand> SubCommands { get; set; } = new List<IStoryBoardSubCommand>();
+        ///<inheritdoc/>
         public IStoryBoardCommand ParentCommand { get; set; }
-
+        ///<inheritdoc/>
         public void Parse(string line)
         {
             var parts = line.Split(',');

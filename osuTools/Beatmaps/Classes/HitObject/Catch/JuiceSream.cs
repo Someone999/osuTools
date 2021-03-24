@@ -184,9 +184,9 @@ namespace osuTools.Beatmaps.HitObject
             b.Append($"{HitSample}");
             return b.ToString();
         }
-
+        /// <inheritdoc />
         public bool IsNewGroup { get; set; }
-
+        /// <inheritdoc />
         public override string ToString()
         {
             return $"Type:{HitObjectType} Offset:{Offset}";

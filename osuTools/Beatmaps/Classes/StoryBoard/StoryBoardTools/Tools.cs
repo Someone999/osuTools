@@ -9,10 +9,10 @@ namespace osuTools.StoryBoard
     public static class StoryBoardTools
     {
         /// <summary>
-        ///     通过字符串获取事件类型
+        ///     通过正确的字符串获取事件类型
         /// </summary>
-        /// <param name="storyBoardEvent"></param>
-        /// <returns></returns>
+        /// <param name="storyBoardEvent">事件的字符串</param>
+        /// <returns>事件类型</returns>
         public static StoryBoardEvent GetEventByString(string storyBoardEvent)
         {
             if (storyBoardEvent.Length > 3)
@@ -30,6 +30,11 @@ namespace osuTools.StoryBoard
             if (storyBoardEvent == "P") return StoryBoardEvent.Parameter;
             return StoryBoardEvent.None;
         }
+        /// <summary>
+        /// 通过正确的字符串获取事件的类对象
+        /// </summary>
+        /// <param name="storyBoardEvent">正确的字符串</param>
+        /// <returns>事件对应的类的对象</returns>
 
         public static IStoryBoardSubCommand GetEventClassByString(string storyBoardEvent)
         {

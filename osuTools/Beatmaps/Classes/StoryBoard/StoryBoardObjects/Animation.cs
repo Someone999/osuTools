@@ -3,20 +3,34 @@ using osuTools.osuToolsException;
 
 namespace osuTools.StoryBoard
 {
+    /// <summary>
+    /// 表示一个动画
+    /// </summary>
     public class Animation : IStoryBoardAnimation
     {
+        /// <inheritdoc />
         public StoryBoardOrigin Origin { get; set; }
+        /// <inheritdoc />
         public StoryBoardLayer Layer { get; set; }
+        /// <inheritdoc />
         public OsuPixel Position { get; set; }
+        /// <inheritdoc />
         public StoryBoardResourceType ResourceType { get; } = StoryBoardResourceType.Animation;
+        /// <inheritdoc />
         public string DataIdentifier { get; } = "Animation";
+        /// <inheritdoc />
         public string Path { get; set; } = "";
+        /// <inheritdoc />
         public int Offset { get; set; } = -1;
+        /// <inheritdoc />
         public int ExcpectLength { get; set; } = 9;
+        /// <inheritdoc />
         public double FrameCount { get; set; }
+        /// <inheritdoc />
         public double FrameDelay { get; set; }
+        /// <inheritdoc />
         public StoryBoardAnimationLoopType LoopType { get; set; }
-
+        /// <inheritdoc />
         public void Parse(string dataline)
         {
             if (!dataline.StartsWith("Animation,")) throw new FailToParseException("该行的数据不适用。");

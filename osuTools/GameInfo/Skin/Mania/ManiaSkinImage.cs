@@ -30,10 +30,13 @@ namespace osuTools.Skins.SkinObjects.Mania
             FullPath = ini;
             SkinImageTypeName = skinImageTypeName;
         }
-
+        ///<inheritdoc/>
         public string FileName { get; }
+        ///<inheritdoc/>
         public string FullPath { get; }
+        ///<inheritdoc/>
         public string SkinImageTypeName { get; }
+        ///<inheritdoc/>
 
         public Image LoadImage()
         {
@@ -41,7 +44,7 @@ namespace osuTools.Skins.SkinObjects.Mania
                 return Image.FromFile(FullPath);
             throw new SkinFileNotFoundException();
         }
-
+        ///<inheritdoc/>
         public ISkinImage GetHighResolutionImage()
         {
             var tmpname = FileName.Replace(".png", "@2x.png");

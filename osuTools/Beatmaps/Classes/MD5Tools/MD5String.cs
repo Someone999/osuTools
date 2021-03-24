@@ -58,7 +58,7 @@ namespace osuTools.Beatmaps
             foreach (var b in md5.Hash) stringBuilder.Append(b.ToString("x2"));
             return stringBuilder.ToString();
         }
-
+        /// <inheritdoc />
         public override int GetHashCode()
         {
             if (!(CurrentMD5 is null)) return CurrentMD5.GetHashCode();
@@ -67,10 +67,14 @@ namespace osuTools.Beatmaps
                 return md5str.GetHashCode();
             return base.GetHashCode();
         }
-
+        /// <inheritdoc />
         public override bool Equals(object obj)
         {
-            return base.Equals(obj);
+            if (obj is null)
+                return false;
+            if (obj is MD5String m)
+                return md5str == m.md5str || CurrentMD5 == m.CurrentMD5;
+            return obj.Equals(this);
         }
 
         /// <summary>

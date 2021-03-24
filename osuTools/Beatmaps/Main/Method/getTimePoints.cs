@@ -4,20 +4,22 @@ namespace osuTools.Beatmaps
 {
     partial class Beatmap
     {
-        private TimePointCollection tps;
-
+        private TimePointCollection _tps;
+        /// <summary>
+        /// 谱面的所有时间点
+        /// </summary>
         public TimePointCollection TimePoints
         {
             get
             {
-                if (tps == null)
-                    getTimePoints();
-                return tps;
+                if (_tps == null)
+                    GetTimePoints();
+                return _tps;
             }
-            private set => tps = value;
+            private set => _tps = value;
         }
 
-        private void getTimePoints()
+        private void GetTimePoints()
         {
             var map = File.ReadAllLines(FullPath);
             var timePoints = new TimePointCollection();
@@ -36,7 +38,7 @@ namespace osuTools.Beatmaps
                 if (nstr != "TimingPoints") continue;
             }
 
-            tps = timePoints;
+            _tps = timePoints;
         }
     }
 }

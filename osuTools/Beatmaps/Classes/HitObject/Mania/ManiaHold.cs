@@ -93,7 +93,7 @@ namespace osuTools.Beatmaps.HitObject
         ///     长条所在行
         /// </summary>
         public int Column { get; set; }
-
+        /// <inheritdoc />
         public override string ToString()
         {
             return $"Type:{HitObjectType} Offset:{Offset}";

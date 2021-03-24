@@ -49,6 +49,7 @@ namespace osuTools.Beatmaps.HitObject
         ///     滑条的长度
         /// </summary>
         public double Length { get; set; }
+        /// <inheritdoc />
 
         public HitObjectTypes HitObjectType { get; } = HitObjectTypes.Slider;
 

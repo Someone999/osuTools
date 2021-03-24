@@ -4,6 +4,9 @@ using osuTools.Attributes;
 
 namespace osuTools.Beatmaps.BeatmapFileCreator
 {
+    /// <summary>
+    /// 将谱面写入文件
+    /// </summary>
     [WorkingInProgress(DevelopmentStage.Developing, "2020/10/25")]
     public interface IBeatmapFileCreator
     {

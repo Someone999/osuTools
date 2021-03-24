@@ -89,7 +89,7 @@ namespace osuTools.Beatmaps.HitObject
         {
             BeatmapColumn = column >= 1 && column <= 10 ? column : -1;
         }
-
+        /// <inheritdoc />
         public override string ToString()
         {
             return $"Type:{HitObjectType} Offset:{Offset}";

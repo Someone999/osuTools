@@ -5,6 +5,9 @@ using osuTools.Skins.Tools;
 
 namespace osuTools.Skins
 {
+    /// <summary>
+    /// 游戏的皮肤
+    /// </summary>
     public partial class Skin
     {
         private void getGenericSkinImage()

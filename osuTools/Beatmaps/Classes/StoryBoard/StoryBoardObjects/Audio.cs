@@ -38,9 +38,11 @@ namespace osuTools.StoryBoard
         ///     音量，以百分比为单位
         /// </summary>
         public int Volume { get; set; } = -1;
-
+        /// <inheritdoc />
         public int ExcpectLength { get; } = 5;
+        /// <inheritdoc />
         public string DataIdentifier { get; } = "Sample";
+        /// <inheritdoc />
         public StoryBoardResourceType ResourceType { get; } = StoryBoardResourceType.Audio;
 
         /// <summary>

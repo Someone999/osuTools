@@ -79,9 +79,9 @@ namespace osuTools.Beatmaps.HitObject
         {
             return $"256,192,{Offset},{1 << (int) HitObjectType},{1 << (int) HitSound},{EndTime},{HitSample.GetData()}";
         }
-
+        /// <inheritdoc />
         public bool IsNewGroup { get; set; }
-
+        /// <inheritdoc />
         public override string ToString()
         {
             return $"Type:{HitObjectType} Offset:{Offset}";

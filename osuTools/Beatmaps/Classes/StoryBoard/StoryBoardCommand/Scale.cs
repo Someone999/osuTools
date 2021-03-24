@@ -4,8 +4,15 @@ using osuTools.StoryBoard.Command;
 
 namespace osuTools.StoryBoard.Command
 {
+    /// <summary>
+    /// 缩放倍率
+    /// </summary>
     public class ScaleMultiplier
     {
+        /// <summary>
+        /// 使用整体缩放倍率初始化ScaleMultiplier
+        /// </summary>
+        /// <param name="overall">整体缩放倍率</param>
         public ScaleMultiplier(double overall)
         {
             Overall = overall;
@@ -16,7 +23,9 @@ namespace osuTools.StoryBoard.Command
         /// </summary>
         public double Overall { get; set; } = 1;
     }
-
+    /// <summary>
+    /// 缩放变化
+    /// </summary>
     public class ScaleTranslation : ITranslation
     {
         public ScaleTranslation(ScaleMultiplier start, ScaleMultiplier target, int starttm, int endtm)
@@ -26,23 +35,37 @@ namespace osuTools.StoryBoard.Command
             StartTime = starttm;
             EndTime = endtm;
         }
-
+        /// <summary>
+        /// 起始状态
+        /// </summary>
         public ScaleMultiplier StartScaleMultiplier { get; set; }
+        /// <summary>
+        /// 目标状态
+        /// </summary>
         public ScaleMultiplier TargetScaleMultiplier { get; set; }
+        /// <inheritdoc />
         public int StartTime { get; set; }
+        /// <inheritdoc />
         public int EndTime { get; set; }
     }
 
     public class Scale : IStoryBoardSubCommand, IDurable, IHasEasing, IShortcutableCommand
     {
+        /// <inheritdoc />
         public int StartTime { get; set; }
+        /// <inheritdoc />
         public int EndTime { get; set; }
+        /// <inheritdoc />
         public StoryBoardEasing Easing { get; set; }
+        /// <inheritdoc />
         public List<ITranslation> Translations { get; set; } = new List<ITranslation>();
+        /// <inheritdoc />
         public StoryBoardEvent Command { get; } = StoryBoardEvent.Scale;
+        /// <inheritdoc />
         public List<IStoryBoardSubCommand> SubCommands { get; set; } = new List<IStoryBoardSubCommand>();
+        /// <inheritdoc />
         public IStoryBoardCommand ParentCommand { get; set; }
-
+        /// <inheritdoc />
         public void Parse(string line)
         {
             var parts = line.Split(',');

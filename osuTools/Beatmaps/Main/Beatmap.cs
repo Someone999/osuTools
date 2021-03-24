@@ -161,14 +161,14 @@ namespace osuTools
             [AvailableVariable("Beatmap.HasVideo", "LANG_VAR_HASVIDEO")]
             public bool HasVideo { get; } = false;
 
-            internal void SetBeatmapID(int beatmap_id)
+            internal void SetBeatmapID(int beatmapId)
             {
-                id = beatmap_id;
+                id = beatmapId;
             }
 
-            internal void SetBeatmapSetID(int beatmapset_id)
+            internal void SetBeatmapSetID(int beatmapsetId)
             {
-                setid = beatmapset_id;
+                setid = beatmapsetId;
             }
 
             /// <summary>
@@ -202,8 +202,9 @@ namespace osuTools
             /// <returns></returns>
             public static bool operator ==(Beatmap a, Beatmap b)
             {
-                if ((object) a == null && (object) b != null || (object) a != null && b == null) return false;
-                if ((object) a == null && (object) b == null) return true;
+                if (a is null && b is null) return true;
+                if (a is null || b is null) return false;
+
                 try
                 {
                     return a.MD5 == b.MD5;
@@ -222,8 +223,9 @@ namespace osuTools
             /// <returns></returns>
             public static bool operator !=(Beatmap a, Beatmap b)
             {
-                if ((object) a == null && (object) b != null || (object) a != null && b == null) return true;
-                if ((object) a == null && (object) b == null) return false;
+                if (a is null && b is null) return false;
+                if (a is null || b is null) return true;
+                
                 try
                 {
                     return a.MD5 != b.MD5;
@@ -234,6 +236,7 @@ namespace osuTools
                 }
             }
 
+            /// <inheritdoc />
             public override string ToString()
             {
                 return $"{Artist} - {Title} [{Version}]";

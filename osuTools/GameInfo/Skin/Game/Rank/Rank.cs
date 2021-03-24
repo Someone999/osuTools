@@ -14,11 +14,13 @@ namespace osuTools.Skins.SkinObjects.Generic.Rank
             var type = fileName.Replace(".png", "");
             FullPath = fullFileName;
         }
-
+        ///<inheritdoc/>
         public string FileName { get; } = "default";
+        ///<inheritdoc/>
         public string FullPath { get; } = "default";
+        ///<inheritdoc/>
         public string SkinImageTypeName { get; } = "RankSkinImage";
-
+        ///<inheritdoc/>
         public Image LoadImage()
         {
             if (FileName == "default" && FullPath == "default")
@@ -27,7 +29,7 @@ namespace osuTools.Skins.SkinObjects.Generic.Rank
                 return Image.FromFile(FullPath);
             throw new SkinFileNotFoundException();
         }
-
+        ///<inheritdoc/>
         public ISkinImage GetHighResolutionImage()
         {
             var tmpname = FileName.Replace(".png", "@2x.png");

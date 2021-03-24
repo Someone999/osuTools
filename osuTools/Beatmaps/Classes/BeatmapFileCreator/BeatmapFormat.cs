@@ -4,6 +4,9 @@ namespace osuTools.Beatmaps.BeatmapFileCreator
 {
     public partial class BeatmapFileCreator
     {
+        /// <summary>
+        /// 默认的谱面格式
+        /// </summary>
         public static string BeatmapFileFormat =
             "osu file format v14\n\n" +
             "[General]\n" +
