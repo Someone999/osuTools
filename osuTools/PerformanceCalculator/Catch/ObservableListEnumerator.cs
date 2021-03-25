@@ -3,7 +3,8 @@ using System.Collections.Generic;
 
 namespace osuTools.PerformanceCalculator.Catch
 {
-    public class ObservableListEnumerator<T> : IEnumerator<T>
+    
+    class ObservableListEnumerator<T> : IEnumerator<T>
     {
         private readonly ObservableList<T> _innerList;
         private readonly int _len;
