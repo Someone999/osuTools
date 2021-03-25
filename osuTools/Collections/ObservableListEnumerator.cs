@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 
-namespace osuTools.PerformanceCalculator.Catch
+namespace osuTools.Collections
 {
     
     class ObservableListEnumerator<T> : IEnumerator<T>

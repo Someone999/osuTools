@@ -6,6 +6,7 @@ using System.Drawing.Drawing2D;
 using System.Reflection;
 using osuTools.Beatmaps;
 using osuTools.Beatmaps.HitObject;
+using osuTools.Collections;
 using osuTools.ExtraMethods;
 
 namespace osuTools.PerformanceCalculator.Catch
@@ -16,16 +17,16 @@ namespace osuTools.PerformanceCalculator.Catch
         public double y { get => BaseHitObject.Position.y; }
         public double Offset { get => BaseHitObject.Offset; }
         public IHitObject BaseHitObject { get; }
-        public CloneableList<CatchSliderTick> Ticks { get; } = new CloneableList<CatchSliderTick>();
-        public CloneableList<CatchSliderTick> EndTicks { get; } = new CloneableList<CatchSliderTick>();
-        public CloneableList<OsuPixel> Path { get; internal set; } = new CloneableList<OsuPixel>();
-        public Dictionary<CatchTimePointType, double> TimePoint { get; } = null;
+        public CloneableObservableList<CatchSliderTick> Ticks { get; } = new CloneableObservableList<CatchSliderTick>();
+        public CloneableObservableList<CatchSliderTick> EndTicks { get; } = new CloneableObservableList<CatchSliderTick>();
+        public CloneableObservableList<OsuPixel> Path { get; internal set; } = new CloneableObservableList<OsuPixel>();
+        public System.Collections.Generic.Dictionary<CatchTimePointType, double> TimePoint { get; } = null;
         public CatchDifficultyAttribute Difficulty { get; } = null;
         public ValueObserver<double> TickDistance { get; } = new ValueObserver<double>();
 
         public double Duration { get; }
 
-        public CatchHitObject(IHitObject hitobject, Dictionary<CatchTimePointType, double> timePoint = null,CatchDifficultyAttribute difficulty=null,double tickDistance = 1)
+        public CatchHitObject(IHitObject hitobject, System.Collections.Generic.Dictionary<CatchTimePointType, double> timePoint = null,CatchDifficultyAttribute difficulty=null,double tickDistance = 1)
         {
             TickDistance.OnChanged += (oldVal, val) => {if(val != 1) Console.WriteLine($"Value changed {oldVal}=>{val}"); };
 
@@ -101,12 +102,12 @@ namespace osuTools.PerformanceCalculator.Catch
             {
                 if (j.CurveType == CurveTypes.Linear)
                 {
-                    Path = new Linear(j.curvePoints).Position;
+                    Path = new CloneableObservableList<OsuPixel>(new Linear(j.curvePoints).Position) ;
                 }
 
                 if (j.CurveType == CurveTypes.PerfectCircle)
                 {
-                    Path = new CloneableList<OsuPixel>();
+                    Path = new CloneableObservableList<OsuPixel>();
                     var l = 0;
                     var step = 5;
                     while (l < j.Length)

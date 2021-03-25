@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace osuTools.PerformanceCalculator.Catch
+namespace osuTools.Collections
 {
     /// <summary>
     /// 在添加、删除、插入元素和清空列表时触发事件的列表
@@ -55,7 +52,31 @@ namespace osuTools.PerformanceCalculator.Catch
         /// 清空列表时触发的事件
         /// </summary>
         public event ClearItemEventHandler OnClear = () => { };
-
+        /// <summary>
+        /// 将一个<see cref="IEnumerator{T}"/>中的内容添加到这个列表
+        /// </summary>
+        /// <param name="collection">要添加的集合</param>
+        public void AddRange(IEnumerable<T> collection)
+        {
+            foreach (var item in collection)
+            {
+                Add(item);
+            }
+        }
+        /// <summary>
+        /// 对集合中的每个元素执行操作
+        /// </summary>
+        /// <param name="action">要执行的操作</param>
+        /// <param name="skipNull">是否跳过null</param>
+        public void ForEach(Action<T> action, bool skipNull = false)
+        {
+            foreach (var item in this)
+            {
+                if (skipNull && item == null)
+                    continue;
+                action.Invoke(item);
+            }
+        }
         int IndexProcessor(int len,int index)
         {
             index = index < 0 ? len + index : index;
@@ -79,6 +100,11 @@ namespace osuTools.PerformanceCalculator.Catch
         {
             _objArr = new T[0];
         }
+       /// <summary>
+       /// 使用另一个集合的元素填充列表
+       /// </summary>
+       /// <param name="collection">集合</param>
+        public ObservableList(IEnumerable<T> collection) => AddRange(collection);
         ///<inheritdoc/>
         public void Add(T item)
         {

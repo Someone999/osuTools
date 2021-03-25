@@ -139,6 +139,8 @@
     <Compile Include="Beatmaps\Main\Method\getStoryBoardResources.cs" />
     <Compile Include="Beatmaps\Main\Method\getTimePoints.cs" />
     <Compile Include="Beatmaps\Main\Properties.cs" />
+    <Compile Include="Collections\Dictionary.cs" />
+    <Compile Include="Collections\DictionaryEnumerator.cs" />
     <Compile Include="GameInfo\Skin\Exception.cs" />
     <Compile Include="GameInfo\Skin\Game\GenericSkinSound.cs" />
     <Compile Include="GameInfo\Skin\Game\Menu\MenuButton.cs" />
@@ -274,7 +276,8 @@
     <Compile Include="PerformanceCalculator\Catch\CatchSliderTick.cs" />
     <Compile Include="PerformanceCalculator\Catch\CatchTimePointType.cs" />
     <Compile Include="PerformanceCalculator\Catch\Catmull.cs" />
-    <Compile Include="PerformanceCalculator\Catch\CloneableList.cs" />
+    <Compile Include="Collections\CloneableList.cs" />
+    <Compile Include="Collections\CloneableObservableList.cs" />
     <Compile Include="PerformanceCalculator\Catch\Constants.cs" />
     <Compile Include="PerformanceCalculator\Catch\DifficultyEnumerator.cs" />
     <Compile Include="PerformanceCalculator\Catch\ICurveAlgorithm.cs" />
@@ -284,10 +287,10 @@
     <Compile Include="PerformanceCalculator\Catch\Linear.cs" />
     <Compile Include="PerformanceCalculator\Catch\MathUtlity.cs" />
     <Compile Include="PerformanceCalculator\Catch\MKeyValuePair.cs" />
-    <Compile Include="PerformanceCalculator\Catch\ObservableList.cs" />
-    <Compile Include="PerformanceCalculator\Catch\ObservableListEnumerator.cs" />
+    <Compile Include="Collections\ObservableList.cs" />
+    <Compile Include="Collections\ObservableListEnumerator.cs" />
     <Compile Include="PerformanceCalculator\Catch\Perfect.cs" />
-    <Compile Include="PerformanceCalculator\Catch\ValueObserver.cs" />
+    <Compile Include="ValueObserver.cs" />
     <Compile Include="PerformanceCalculator\Catch\VectorUtility.cs" />
     <Compile Include="Replays\Replay\Classes.cs" />
     <Compile Include="Replays\Replay\Main.cs" />

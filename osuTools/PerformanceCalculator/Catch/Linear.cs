@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using osuTools.Beatmaps.HitObject;
+using osuTools.Collections;
 
 namespace osuTools.PerformanceCalculator.Catch
 {

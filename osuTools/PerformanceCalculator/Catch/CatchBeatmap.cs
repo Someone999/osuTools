@@ -132,7 +132,6 @@ namespace osuTools.PerformanceCalculator.Catch
                     double pLen = j.Length;
                     var tmPt = GetAllTimePoints(hitObject.Offset);
                     ValueObserver<double> tickDistance = ValueObserver<double>.FromValue((100 * BaseBeatmap.SliderMultiplier) / BaseBeatmap.SliderTickRate);
-                    tickDistance.OnChanged += (val, d) => { Console.WriteLine($"[Beatmap] TickDistance changed {val}=>{d}"); };
                     if(BaseBeatmap.BeatmapVersion >= 8)
                         tickDistance /= (MathUtlity.Clamp(-1 * tmPt[CatchTimePointType.RawSPM], 10, 1000) / 100);
                     var curvePoints = new List<OsuPixel>(j.CurvePoints);
