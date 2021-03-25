@@ -7,10 +7,14 @@ using System.Threading.Tasks;
 
 namespace osuTools.PerformanceCalculator.Catch
 {
+    /// <summary>
+    /// 在添加、删除、插入元素和清空列表时触发事件的列表
+    /// </summary>
+    /// <typeparam name="T">元素类型</typeparam>
     public class ObservableList<T> : IList<T>
     {
         private T[] _objArr;
-        private int len, capacity;
+        private int _len, _capacity = 0;
         /// <summary>
         /// 为OnAddItem提供参数
         /// </summary>
@@ -33,8 +37,6 @@ namespace osuTools.PerformanceCalculator.Catch
         /// <summary>
         /// 
         /// </summary>
-
-
         public delegate void ClearItemEventHandler();
         /// <summary>
         /// 添加元素时触发的事件
@@ -61,12 +63,12 @@ namespace osuTools.PerformanceCalculator.Catch
                 throw new IndexOutOfRangeException("Index的值超出范围。");
             return index;
         }
-        void extend()
+        void Extend()
         {
-            if (len == capacity)
+            if (_len == _capacity)
             {
-                T[] newArr = new T[capacity == 0 ? 4 : capacity * 2];
-                Array.Copy(_objArr,newArr,len);
+                T[] newArr = new T[_capacity == 0 ? 4 : _capacity * 2];
+                Array.Copy(_objArr,newArr,_len);
                 _objArr = newArr;
             }
         }
@@ -80,8 +82,8 @@ namespace osuTools.PerformanceCalculator.Catch
         ///<inheritdoc/>
         public void Add(T item)
         {
-            extend();
-            _objArr[len++] = item;
+            Extend();
+            _objArr[_len++] = item;
             OnAdd(item);
         }
         ///<inheritdoc/>
@@ -91,15 +93,15 @@ namespace osuTools.PerformanceCalculator.Catch
             bool suc = false;
             if (item != null)
                itemHash = item.GetHashCode();
-            for (int i = 0; i < len; i++)
+            for (int i = 0; i < _len; i++)
             {
                 if (item == null)
                 {
                     if (_objArr[i] == null)
                     {
                         _objArr[i] = default;
-                        Array.Copy(_objArr, i + 1, _objArr, i, len - i - 1);
-                        _objArr[--len] = default;
+                        Array.Copy(_objArr, i + 1, _objArr, i, _len - i - 1);
+                        _objArr[--_len] = default;
                         suc = true;
                     }
                 }
@@ -107,8 +109,8 @@ namespace osuTools.PerformanceCalculator.Catch
                     if (_objArr[i].Equals(item))
                     {
                         _objArr[i] = default;
-                        Array.Copy(_objArr, i + 1, _objArr, i, len - i - 1);
-                        _objArr[--len] = default;
+                        Array.Copy(_objArr, i + 1, _objArr, i, _len - i - 1);
+                        _objArr[--_len] = default;
                         suc = true;
                     }
             }
@@ -119,7 +121,7 @@ namespace osuTools.PerformanceCalculator.Catch
         ///<inheritdoc/>
         public int IndexOf(T item)
         {
-            for (int i = 0; i < len; i++)
+            for (int i = 0; i < _len; i++)
             {
                 if (item == null)
                 {
@@ -135,30 +137,30 @@ namespace osuTools.PerformanceCalculator.Catch
         ///<inheritdoc/>
         public void RemoveAt(int index)
         {
-            index = IndexProcessor(len,index);
+            index = IndexProcessor(_len,index);
             OnRemove(_objArr[index],true);
             _objArr[index] = default;
-            Array.Copy(_objArr, index + 1, _objArr, index, len - index - 1);
-            _objArr[--len] = default;
+            Array.Copy(_objArr, index + 1, _objArr, index, _len - index - 1);
+            _objArr[--_len] = default;
         }
         ///<inheritdoc/>
         public void Insert(int index,T item)
         {
 
-            index = IndexProcessor(len, index);
-            T[] before = new T[index], after = new T[len - index];
-            T[] summary = new T[len + 1];
+            index = IndexProcessor(_len, index);
+            T[] before = new T[index], after = new T[_len - index];
+            T[] summary = new T[_len + 1];
             int pos = 0;
             Array.Copy(_objArr, before, index);
-            Array.Copy(_objArr, index, after, 0, len - index);
+            Array.Copy(_objArr, index, after, 0, _len - index);
             Array.Copy(before, 0, summary, pos, index);
             pos += index;
             Array.Copy(new [] {item},0, summary,pos, 1);
             pos++;
-            Array.Copy(after,0, summary,pos, len - index);
+            Array.Copy(after,0, summary,pos, _len - index);
             _objArr = summary;
             OnInsert(item, index);
-            len++;
+            _len++;
         }
         ///<inheritdoc/>
 
@@ -167,12 +169,12 @@ namespace osuTools.PerformanceCalculator.Catch
             get
             {
 
-                index = IndexProcessor(len, index);
+                index = IndexProcessor(_len, index);
                 return _objArr[index];
             }
             set
             {
-                index = IndexProcessor(len, index);
+                index = IndexProcessor(_len, index);
                 _objArr[index] = value;
             }
         }
@@ -180,14 +182,14 @@ namespace osuTools.PerformanceCalculator.Catch
 
         public void Clear()
         {
-            Array.Clear(_objArr, 0, len);
+            Array.Clear(_objArr, 0, _len);
             OnClear();
-            len = 0;
+            _len = 0;
         }
         ///<inheritdoc/>
         public bool Contains(T item)
         {
-            for (int i = 0; i < len; i++)
+            for (int i = 0; i < _len; i++)
             {
                 if (item == null)
                 {
@@ -203,10 +205,10 @@ namespace osuTools.PerformanceCalculator.Catch
         ///<inheritdoc/>
         public void CopyTo(T[] arr, int index)
         {
-            Array.Copy(_objArr,arr,len);
+            Array.Copy(_objArr,arr,_len);
         }
         ///<inheritdoc/>
-        public int Count => len;
+        public int Count => _len;
         ///<inheritdoc/>
         public bool IsReadOnly => true;
         ///<inheritdoc/>
