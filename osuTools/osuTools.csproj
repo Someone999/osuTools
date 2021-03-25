@@ -139,8 +139,6 @@
     <Compile Include="Beatmaps\Main\Method\getStoryBoardResources.cs" />
     <Compile Include="Beatmaps\Main\Method\getTimePoints.cs" />
     <Compile Include="Beatmaps\Main\Properties.cs" />
-    <Compile Include="Collections\Dictionary.cs" />
-    <Compile Include="Collections\DictionaryEnumerator.cs" />
     <Compile Include="GameInfo\Skin\Exception.cs" />
     <Compile Include="GameInfo\Skin\Game\GenericSkinSound.cs" />
     <Compile Include="GameInfo\Skin\Game\Menu\MenuButton.cs" />
