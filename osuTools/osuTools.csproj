@@ -187,6 +187,7 @@
     <Compile Include="ORTDP\Game\Mods\SpunOut.cs" />
     <Compile Include="ORTDP\Game\Mods\SuddenDeath.cs" />
     <Compile Include="OsuDB\DifficultyRate.cs" />
+    <Compile Include="OsuDB\MKeyValuePair.cs" />
     <Compile Include="OsuDB\OsuBeatmap.cs" />
     <Compile Include="OsuDB\OsuBeatmapDB.cs" />
     <Compile Include="OsuDB\OsuBeatmapStatus.cs" />
@@ -284,7 +285,6 @@
     <Compile Include="PerformanceCalculator\Catch\ICatchHitObject.cs" />
     <Compile Include="PerformanceCalculator\Catch\Linear.cs" />
     <Compile Include="PerformanceCalculator\Catch\MathUtlity.cs" />
-    <Compile Include="PerformanceCalculator\Catch\MKeyValuePair.cs" />
     <Compile Include="Collections\ObservableList.cs" />
     <Compile Include="Collections\ObservableListEnumerator.cs" />
     <Compile Include="PerformanceCalculator\Catch\Perfect.cs" />
@@ -309,7 +309,7 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties Reactor_Deploy="0" Reactor_Output="" Reactor_Configuration="ALL" Reactor_Project="" Reactor_Commands="" Reactor_Enabled="0" />
+      <UserProperties Reactor_Enabled="0" Reactor_Commands="" Reactor_Project="" Reactor_Configuration="ALL" Reactor_Output="" Reactor_Deploy="0" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>
