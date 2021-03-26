@@ -56,14 +56,14 @@ namespace osuTools.Beatmaps
                 var temparr = str.Split(':');
                 if (temparr[0].Contains("AudioFile"))
                 {
-                    au = temparr[1].Trim();
+                    AudioFileName = temparr[1].Trim();
                     FullAudioFileName = Path.GetDirectoryName(dir) + "\\" + AudioFileName;
                     continue;
                 }
 
                 if (temparr[0].Contains("Title") && temparr[0].Length <= "Titleuni".Length)
                 {
-                    t = temparr[1].Trim();
+                    Title = temparr[1].Trim();
                     continue;
                 }
 
@@ -75,107 +75,113 @@ namespace osuTools.Beatmaps
 
                 if (temparr[0].Contains("TitleUnicode"))
                 {
-                    ut = str.Replace("TitleUnicode:", "").Trim();
+                    TitleUnicode = str.Replace("TitleUnicode:", "").Trim();
                     continue;
                 }
 
                 if (temparr[0].Contains("Artist") && temparr[0].Length <= "Artistuni".Length)
                 {
-                    a = str.Replace("Artist:", "").Trim();
+                    Artist = str.Replace("Artist:", "").Trim();
                     continue;
                 }
 
                 if (temparr[0].Contains("ArtistUnicode"))
                 {
-                    ua = str.Replace("ArtistUnicode:", "").Trim();
+                    ArtistUnicode = str.Replace("ArtistUnicode:", "").Trim();
                     continue;
                 }
 
                 if (temparr[0].Contains("Creator"))
                 {
-                    c = str.Replace("Creator:", "").Trim();
+                    Creator = str.Replace("Creator:", "").Trim();
                     continue;
                 }
 
                 if (temparr[0].Contains("Version"))
                 {
-                    ver = str.Replace("Version:", "").Trim();
-                    dif = ver;
+                    Version = str.Replace("Version:", "").Trim();
+                    Difficulty = Version;
                     continue;
                 }
 
                 if (temparr[0].Contains("Maker"))
                 {
-                    mak = str.Replace("Maker:", "").Trim();
+                    Maker = str.Replace("Maker:", "").Trim();
                     continue;
                 }
 
                 if (temparr[0].Contains("Source"))
                 {
-                    sou = str.Replace("Source:", "").Trim();
+                    Source = str.Replace("Source:", "").Trim();
                     continue;
                 }
 
                 if (temparr[0].Contains("Tags"))
                 {
-                    tag = str.Replace("Tags:", "").Trim();
+                    Tags = str.Replace("Tags:", "").Trim();
                     continue;
                 }
 
                 if (temparr[0].Contains("BeatmapId"))
                 {
-                    int.TryParse(temparr[1].Trim(), out id);
+                    int.TryParse(temparr[1].Trim(), out var id);
+                    BeatmapId = id;
                     continue;
                 }
 
                 if (temparr[0].Contains("CircleSize"))
                 {
-                    double.TryParse(temparr[1].Trim(), out cs);
+                    double.TryParse(temparr[1].Trim(), out var c);
+                    CS = c;
                     continue;
                 }
 
                 if (temparr[0].Contains("OverallDifficulty"))
                 {
-                    double.TryParse(temparr[1].Trim(), out od);
+                    double.TryParse(temparr[1].Trim(), out var o);
+                    OD = o;
                     continue;
                 }
 
                 if (temparr[0].Contains("ApproachRate"))
                 {
-                    double.TryParse(temparr[1].Trim(), out ar);
+                    double.TryParse(temparr[1].Trim(), out var a);
+                    AR = a;
+
                     continue;
                 }
 
                 if (temparr[0].Contains("HPDrainRate"))
                 {
-                    double.TryParse(temparr[1].Trim(), out hp);
+                    double.TryParse(temparr[1].Trim(), out var h);
+                    HP = h;
                     continue;
                 }
 
                 if (temparr[0].Contains("Mode"))
                 {
-                    if (!ModeHasSet)
+                    if (!_modeHasSet)
                     {
-                        int.TryParse(temparr[1].Trim(), out m);
-                        Mode = (OsuGameMode) m;
-                        ModeHasSet = true;
+                        int.TryParse(temparr[1].Trim(), out _m);
+                        Mode = (OsuGameMode) _m;
+                        _modeHasSet = true;
                     }
 
                     continue;
                 }
 
-                DownloadLink = $"http://osu.ppy.sh/b/{BeatmapID}";
+                DownloadLink = $"http://osu.ppy.sh/b/{BeatmapId}";
                 if (str.StartsWith("0,0,\"")) BackgroundFileName = str.Split(',')[2].Replace("\"", "").Trim();
                 if (str.StartsWith("Video,"))
                 {
-                    vi = str.Split(',')[2].Replace("\"", "").Trim();
+                    VideoFileName = str.Split(',')[2].Replace("\"", "").Trim();
                     HasVideo = true;
                 }
             }
 
             getAddtionalInfo(map);
-            md5calc.ComputeHash(File.ReadAllBytes(dir));
-            MD5 = md5calc.GetMD5String();
+            _md5Calc.ComputeHash(File.ReadAllBytes(dir));
+            MD5 = _md5Calc.GetMD5String();
         }
     }
 }

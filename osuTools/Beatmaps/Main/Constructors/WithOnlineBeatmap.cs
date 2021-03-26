@@ -10,19 +10,19 @@ namespace osuTools.Beatmaps
         /// <param name="olbeatmap"></param>
         public Beatmap(OnlineBeatmap olbeatmap)
         {
-            t = olbeatmap.Title;
-            ut = t;
-            a = olbeatmap.Artist;
-            ua = a;
-            c = olbeatmap.Creator;
-            dif = olbeatmap.Version;
-            ver = dif;
+            Title = olbeatmap.Title;
+            TitleUnicode = Title;
+            Artist = olbeatmap.Artist;
+            ArtistUnicode = Artist;
+            Creator = olbeatmap.Creator;
+            Difficulty = olbeatmap.Version;
+            Version = Difficulty;
             FileName = "";
             FullPath = "";
             DownloadLink = "";
-            sou = olbeatmap.Source;
-            tag = olbeatmap.Tags;
-            mak = "";
+            Source = olbeatmap.Source;
+            Tags = olbeatmap.Tags;
+            Maker = "";
             MD5 = new MD5String(olbeatmap.MD5);
             FullAudioFileName = "";
         }

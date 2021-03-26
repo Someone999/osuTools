@@ -29,7 +29,7 @@ namespace osuTools.Game.Modes
         {
             try
             {
-                calculator = calculator == null ? new StdPerformanceCalculator() : calculator;
+                calculator = calculator ?? new StdPerformanceCalculator();
                 calculator.ClearCache();
                 calculator.Beatmap = new BeatmapReader(ortdpInfo.ORTDPBeatmap, (int) ortdpInfo.Beatmap.Mode);
                 if (ortdpInfo.DebugMode)
@@ -50,7 +50,7 @@ namespace osuTools.Game.Modes
             catch (Exception ex)
             {
                 IO.CurrentIO.Write("Error when PreCalc PP.");
-                if (ortdpInfo.DebugMode) IO.CurrentIO.Write($"[osuTools::PrePPCalc::Taiko] Exception:{ex.Message}");
+                if (ortdpInfo.DebugMode) IO.CurrentIO.Write($"[osuTools::PrePPCalc::Std] Exception:{ex.Message}");
                 return new PPTuple
                 {
                     FullComboAccuracyPP = -1,

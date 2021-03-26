@@ -605,13 +605,13 @@ namespace osuTools
         ///     谱面ID
         /// </summary>
         [AvailableVariable("BeatmapId", "LANG_VAR_BEATMAPID")]
-        public int BeatmapID => Beatmap == null ? -1 : Beatmap.BeatmapID;
+        public int BeatmapID => Beatmap == null ? -1 : Beatmap.BeatmapId;
 
         /// <summary>
         ///     谱面集ID
         /// </summary>
         [AvailableVariable("BeatmapSetId", "LANG_VAR_BEATMAPSETID")]
-        public int BeatmapSetID => Beatmap == null ? -1 : Beatmap.BeatmapSetID;
+        public int BeatmapSetID => Beatmap == null ? -1 : Beatmap.BeatmapSetId;
 
         /// <summary>
         ///     此谱面打击物件的数量

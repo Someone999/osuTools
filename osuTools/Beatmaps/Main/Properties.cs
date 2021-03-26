@@ -23,38 +23,19 @@ namespace osuTools
             ///     谱面对应的视频文件的全路径
             /// </summary>
             [AvailableVariable("Beatmap.FullVideoFileName", "LANG_VAR_FULLVDFILENAME")]
-            public string FullVideoFileName
-            {
-                get
-                {
-                    if (HasVideo) return fuvi;
-                    return null;
-                }
-            }
+            public string FullVideoFileName { get; } = "";
 
             /// <summary>
             ///     谱面对应的音频文件名
             /// </summary>
             [AvailableVariable("Beatmap.AudioFileName", "LANG_VAR_AUDIOFILENAME")]
-            public string AudioFileName
-            {
-                get => au;
-                set => au = value;
-            }
+            public string AudioFileName { get; set; } = "";
 
             /// <summary>
             ///     谱面对应的视频文件名
             /// </summary>
             [AvailableVariable("Beatmap.AudioFileName", "LANG_VAR_VIDEOFILENAME")]
-            public string VideoFileName
-            {
-                get
-                {
-                    if (HasVideo) return vi;
-                    return null;
-                }
-                set => vi = value;
-            }
+            public string VideoFileName { get; set; } = "";
 
             /// <summary>
             ///     存储谱面的文件夹的全路径
@@ -71,101 +52,61 @@ namespace osuTools
             /// <summary>
             ///     谱面的来源
             /// </summary>
-            public string Source
-            {
-                get => sou;
-                set => sou = value;
-            }
+            public string Source { get; set; } = "";
 
             /// <summary>
             ///     谱面的标签
             /// </summary>
             [AvailableVariable("Beatmap.Tags", "LANG_VAR_TAGS")]
-            public string Tags
-            {
-                get => tag;
-                set => tag = value;
-            }
+            public string Tags { get; set; } = "";
 
             /// <summary>
             ///     谱面的作者
             /// </summary>
             [AvailableVariable("Beatmap.Maker", "LANG_VAR_CREATOR")]
-            public string Maker
-            {
-                get => mak;
-                set => mak = value;
-            }
+            public string Maker { get; set; } = "";
 
             /// <summary>
             ///     标题
             /// </summary>
             [AvailableVariable("Beatmap.Title", "LANG_VAR_TITLE")]
-            public string Title
-            {
-                get => t;
-                set => t = value;
-            }
+            public string Title { get; set; } = "";
 
             /// <summary>
             ///     标题的Unicode形式
             /// </summary>
             [AvailableVariable("Beatmap.TitleUnicode", "LANG_VAR_TITLEUNICODE")]
-            public string TitleUnicode
-            {
-                get => ut;
-                set => ut = value;
-            }
+            public string TitleUnicode { get; set; } = "";
 
             /// <summary>
             ///     艺术家
             /// </summary>
             [AvailableVariable("Beatmap.Artist", "LANG_VAR_ARTIST")]
-            public string Artist
-            {
-                get => a;
-                set => a = value;
-            }
+            public string Artist { get; set; } = "";
 
             /// <summary>
             ///     艺术家的Unicode形式
             /// </summary>
             [AvailableVariable("Beatmap.ArtistUnicode", "LANG_VAR_ARTISTUNICODE")]
-            public string ArtistUnicode
-            {
-                get => ua;
-                set => ua = value;
-            }
+            public string ArtistUnicode { get; set; } = "";
 
             /// <summary>
             ///     谱面的作者
             /// </summary>
             [AvailableVariable("Beatmap.Creator", "LANG_VAR_CREATOR")]
-            public string Creator
-            {
-                get => c;
-                set => c = value;
-            }
+            public string Creator { get; set; } = "";
 
             /// <summary>
             ///     谱面的难度
             /// </summary>
             [AvailableVariable("Beatmap.Difficulty", "LANG_VAR_DIFFICULTY")]
-            public string Difficulty
-            {
-                get => dif;
-                set => dif = value;
-            }
+            public string Difficulty { get; set; } = "";
 
             /// <summary>
             ///     谱面的难度
             /// </summary>
             [AvailableVariable("Beatmap.Version", "LANG_VAR_DIFFICULTY")]
-            public string Version
-            {
-                get => ver;
-                set => ver = value;
-            }
+            public string Version { get; set; } = "";
 
             /// <summary>
             ///     谱面文件的文件名
@@ -195,61 +136,37 @@ namespace osuTools
             ///     谱面ID
             /// </summary>
             [AvailableVariable("Beatmap.BeatmapId", "LANG_VAR_BEATMAPID")]
-            public int BeatmapID
-            {
-                get => id;
-                set => id = value;
-            }
+            public int BeatmapId { get; set; } = -2048;
 
             /// <summary>
             ///     综合难度
             /// </summary>
             [AvailableVariable("OD", "LANG_VAR_OD")]
-            public double OD
-            {
-                get => od;
-                set => od = value;
-            }
+            public double OD { get; set; } = -1;
 
             /// <summary>
             ///     掉血速度，回血难度
             /// </summary>
             [AvailableVariable("Beatmap.HP", "LANG_VAR_HPDRAIN")]
-            public double HP
-            {
-                get => hp;
-                set => hp = value;
-            }
+            public double HP { get; set; } = -1;
 
             /// <summary>
             ///     缩圈速度
             /// </summary>
             [AvailableVariable("AR", "LANG_VAR_AR")]
-            public double AR
-            {
-                get => ar;
-                set => ar = value;
-            }
+            public double AR { get; set; } = -1;
 
             /// <summary>
             ///     圈圈大小
             /// </summary>
             [AvailableVariable("CS", "LANG_VAR_CS")]
-            public double CS
-            {
-                get => cs;
-                set => cs = value;
-            }
+            public double CS { get; set; } = -1;
 
             /// <summary>
             ///     难度星级
             /// </summary>
             [AvailableVariable("Beatmap.Stars", "LANG_VAR_STARS")]
-            public double Stars
-            {
-                get => stars;
-                set => stars = value;
-            }
+            public double Stars { get; set; } = -1;
 
             /// <summary>
             ///     谱面包含的所有HitObject
@@ -258,11 +175,11 @@ namespace osuTools
             {
                 get
                 {
-                    if (hitObjects == null)
-                        getHitObjects();
-                    return hitObjects;
+                    if (_hitObjects == null)
+                        GetHitObjects();
+                    return _hitObjects;
                 }
-                set => hitObjects = value;
+                set => _hitObjects = value;
             }
 
             /// <summary>
@@ -272,11 +189,11 @@ namespace osuTools
             {
                 get
                 {
-                    if (breakTimes == null)
+                    if (_breakTimes == null)
                         getBreakTimes();
-                    return breakTimes;
+                    return _breakTimes;
                 }
-                set => breakTimes = value;
+                set => _breakTimes = value;
             }
         }
     }

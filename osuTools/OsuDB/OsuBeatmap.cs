@@ -192,9 +192,9 @@ namespace osuTools.OsuDB
         /// <returns></returns>
         public static bool operator ==(OsuBeatmap a, OsuBeatmap b)
         {
-            if ((object) a == null && (object) b != null)
-                return false;
-            if ((object) a != null && (object) b == null)
+            if (a is null && b is null)
+                return true;
+            if (a is null || b is null)
                 return false;
             return a.MD5 == b.MD5;
         }
@@ -206,9 +206,9 @@ namespace osuTools.OsuDB
         /// <param name="b"></param>
         public static bool operator !=(OsuBeatmap a, OsuBeatmap b)
         {
-            if (a is null && !(b is null)) 
-                return true;
-            if (!(a is null) && b is null)
+            if (a is null && b is null)
+                return false;
+            if (a is null || b is null) 
                 return true;
             return a.MD5 != b.MD5;
         }

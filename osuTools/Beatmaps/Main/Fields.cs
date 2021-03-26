@@ -7,40 +7,18 @@ namespace osuTools.Beatmaps
 {
     partial class Beatmap
     {
-        [NonSerialized] private StringBuilder b = new StringBuilder();
+        [NonSerialized] private StringBuilder _b = new StringBuilder();
 
-        private BreakTimeCollection breakTimes;
+        private BreakTimeCollection _breakTimes;
 
-        private HitObjectCollection hitObjects;
+        private HitObjectCollection _hitObjects;
 
-        private int id = -2048,
-            setid = -2048;
+        private int _m;
 
-        private int m;
+        [NonSerialized] private MD5CryptoServiceProvider _md5Calc = new MD5CryptoServiceProvider();
 
-        [NonSerialized] private MD5CryptoServiceProvider md5calc = new MD5CryptoServiceProvider();
+        private bool _modeHasSet;
 
-        private bool ModeHasSet;
 
-        private double
-            od,
-            cs,
-            hp,
-            ar,
-            stars;
-
-        private string t = "",
-            ut = "",
-            a = "",
-            ua = "",
-            c = "",
-            dif = "",
-            ver = "",
-            au = "",
-            sou = "",
-            tag = "",
-            mak = "",
-            vi = "",
-            fuvi = "";
     }
 }

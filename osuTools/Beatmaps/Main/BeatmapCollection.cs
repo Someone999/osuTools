@@ -47,8 +47,8 @@ namespace osuTools
                 OnlyTheFirstBeatmap
             }
 
-            private readonly List<Beatmap> beatmaps = new List<Beatmap>();
-            private readonly List<string> sinfo = new List<string>();
+            private readonly List<Beatmap> _beatmaps = new List<Beatmap>();
+            private readonly List<string> _sinfo = new List<string>();
 
             /// <summary>
             ///     将<see cref="OsuDB.OsuBeatmapCollection" />的信息转移到BeatmapCollection中
@@ -57,7 +57,7 @@ namespace osuTools
             public BeatmapCollection(OsuBeatmapCollection c)
             {
                 foreach (var beatmap in c)
-                    beatmaps.Add(new Beatmap(beatmap));
+                    _beatmaps.Add(new Beatmap(beatmap));
             }
 
             /// <summary>
@@ -65,7 +65,7 @@ namespace osuTools
             /// </summary>
             public BeatmapCollection()
             {
-                beatmaps = new List<Beatmap>();
+                _beatmaps = new List<Beatmap>();
             }
 
             /// <summary>
@@ -75,22 +75,22 @@ namespace osuTools
             {
                 get
                 {
-                    beatmaps.Sort(sortfun);
-                    return beatmaps;
+                    _beatmaps.Sort(sortfun);
+                    return _beatmaps;
                 }
             }
 
             /// <summary>
             ///     获取谱面的简易信息
             /// </summary>
-            public IReadOnlyList<string> SongInfo => sinfo.AsReadOnly();
+            public IReadOnlyList<string> SongInfo => _sinfo.AsReadOnly();
 
             /// <summary>
             ///     使用整数索引从列表获取Beatmap
             /// </summary>
             /// <param name="x"></param>
             /// <returns></returns>
-            public Beatmap this[int x] => beatmaps[x];
+            public Beatmap this[int x] => _beatmaps[x];
 
             /// <summary>
             ///     将谱面列表的信息保存到文件
@@ -100,9 +100,9 @@ namespace osuTools
             {
                 var dirsplit = FileName.Split('\\');
                 var dir = FileName.Replace(dirsplit.Last(), "");
-                var info = new string[beatmaps.Count];
+                var info = new string[_beatmaps.Count];
                 if (!Directory.Exists(dir)) Directory.CreateDirectory(dir);
-                for (var i = 0; i < beatmaps.Count; i++) info[i] = $"{beatmaps[i].BeatmapID}?{beatmaps[i].FullPath}";
+                for (var i = 0; i < _beatmaps.Count; i++) info[i] = $"{_beatmaps[i].BeatmapId}?{_beatmaps[i].FullPath}";
                 File.WriteAllLines(FileName, info);
             }
 
@@ -130,7 +130,7 @@ namespace osuTools
                     c = GetAllBeatmaps(oinfo.BeatmapDirectory, BeatmapSearchOption.AllBeatmaps);
                 }
 
-                if (c.beatmaps.Count == 0)
+                if (c._beatmaps.Count == 0)
                     foreach (var beatmap in info)
                     {
                         var beatmapdir = beatmap.Split('?')[1];
@@ -142,7 +142,7 @@ namespace osuTools
 
                         var tmp = new Beatmap(beatmapdir);
                         if (!tmp.notv)
-                            c.beatmaps.Add(tmp);
+                            c._beatmaps.Add(tmp);
                     }
 
                 return c;
@@ -170,7 +170,7 @@ namespace osuTools
             {
                 var b = new BeatmapCollection();
                 var keyword = KeyWord.ToUpper();
-                foreach (var beatmap in beatmaps)
+                foreach (var beatmap in _beatmaps)
                 {
                     var allinfo = beatmap.ToString().ToUpper() + " " + beatmap.Source.ToUpper() + " " +
                                   beatmap.Tags.ToUpper() + " " + beatmap.Creator.ToUpper() + " " +
@@ -228,8 +228,8 @@ namespace osuTools
             public Beatmap Find(int BeatmapID)
             {
                 if (BeatmapID != -1)
-                    foreach (var beatmap in beatmaps)
-                        if (beatmap.BeatmapID == BeatmapID)
+                    foreach (var beatmap in _beatmaps)
+                        if (beatmap.BeatmapId == BeatmapID)
                             return beatmap;
                 return null;
             }
@@ -242,8 +242,8 @@ namespace osuTools
 
             internal void Add(Beatmap b)
             {
-                beatmaps.Add(b);
-                sinfo.Add(b.ToString());
+                _beatmaps.Add(b);
+                _sinfo.Add(b.ToString());
             }
 
             /// <summary>
@@ -253,7 +253,7 @@ namespace osuTools
             /// <returns></returns>
             public Beatmap FindByMD5(string md5)
             {
-                foreach (var beatmap in beatmaps)
+                foreach (var beatmap in _beatmaps)
                     if (beatmap.MD5 == md5)
                         return beatmap;
                 throw new BeatmapNotFoundException($"找不到MD5为{md5}的谱面。");
@@ -268,7 +268,7 @@ namespace osuTools
             public BeatmapCollection Find(OsuGameMode Mode, BeatmapFindOption option = BeatmapFindOption.Contains)
             {
                 var bc = new BeatmapCollection();
-                foreach (var b in beatmaps)
+                foreach (var b in _beatmaps)
                 {
                     if (option == BeatmapFindOption.Contains)
                         if (b.Mode == Mode)
@@ -285,8 +285,8 @@ namespace osuTools
 
             internal void Remove(Beatmap b)
             {
-                beatmaps.Remove(b);
-                sinfo.Add(b.ToString());
+                _beatmaps.Remove(b);
+                _sinfo.Add(b.ToString());
             }
 
             /// <summary>
@@ -296,7 +296,7 @@ namespace osuTools
             /// <returns></returns>
             public bool Contains(Beatmap b)
             {
-                return beatmaps.Contains(b);
+                return _beatmaps.Contains(b);
             }
 
             /// <summary>
@@ -305,7 +305,7 @@ namespace osuTools
             /// <returns></returns>
             public IEnumerator<Beatmap> GetEnumerator()
             {
-                return beatmaps.GetEnumerator();
+                return _beatmaps.GetEnumerator();
             }
 
             /// <summary>

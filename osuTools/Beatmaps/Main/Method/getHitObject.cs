@@ -7,7 +7,7 @@ namespace osuTools.Beatmaps
 {
     public partial class Beatmap
     {
-        private void getHitObjects()
+        private void GetHitObjects()
         {
             //Stopwatch t = new Stopwatch();
             // t.Start();
@@ -35,7 +35,7 @@ namespace osuTools.Beatmaps
                 }
             }
 
-            hitObjects = objects;
+            _hitObjects = objects;
             // t.Stop();
 
             //IO.CurrentIO.Write($"Read HitObjects:{objects.Count} Time:{t.Elapsed.TotalSeconds}s");

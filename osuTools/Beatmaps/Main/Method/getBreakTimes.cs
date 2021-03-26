@@ -32,7 +32,7 @@ namespace osuTools.Beatmaps
                 }
             }
 
-            breakTimes = breaktimes;
+            _breakTimes = breaktimes;
         }
     }
 }

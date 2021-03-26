@@ -232,8 +232,8 @@ namespace osuTools
             /// <returns></returns>
             public static bool operator ==(OnlineBeatmap olb, Beatmap lob)
             {
-                if (lob.BeatmapID == 0 || lob.BeatmapID == -1) throw new NotSupportedException();
-                if (olb.BeatmapID == lob.BeatmapID && lob.BeatmapID != 0 && lob.BeatmapID != -1) return true;
+                if (lob.BeatmapId == 0 || lob.BeatmapId == -1) throw new NotSupportedException();
+                if (olb.BeatmapID == lob.BeatmapId && lob.BeatmapId != 0 && lob.BeatmapId != -1) return true;
                 return false;
             }
 
@@ -245,8 +245,8 @@ namespace osuTools
             /// <returns></returns>
             public static bool operator !=(OnlineBeatmap olb, Beatmap lob)
             {
-                if (lob.BeatmapID == 0 || lob.BeatmapID == -1) throw new NotSupportedException();
-                if (olb.BeatmapID == lob.BeatmapID && lob.BeatmapID != 0 && lob.BeatmapID != -1) return false;
+                if (lob.BeatmapId == 0 || lob.BeatmapId == -1) throw new NotSupportedException();
+                if (olb.BeatmapID == lob.BeatmapId && lob.BeatmapId != 0 && lob.BeatmapId != -1) return false;
                 return true;
             }
 

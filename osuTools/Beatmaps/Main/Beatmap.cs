@@ -24,23 +24,11 @@ namespace osuTools
             public Beatmap()
             {
                 FullAudioFileName = "";
-                au = "";
-                t = "";
-                ut = "";
-                a = "";
-                ua = "";
-                c = "";
-                dif = "";
-                ver = "";
                 FileName = "";
                 FullPath = "";
                 DownloadLink = "";
                 BackgroundFileName = "";
-                mak = "";
-                sou = "";
-                tag = "";
                 MD5 = new MD5String("");
-                id = 0;
             }
             /// <summary>
             /// 谱面文件的版本
@@ -149,27 +137,14 @@ namespace osuTools
             ///     谱面集ID
             /// </summary>
             [AvailableVariable("Beatmap.BeatmapSetId", "LANG_VAR_BEATMAPSETID")]
-            public int BeatmapSetID
-            {
-                get => setid;
-                set => setid = value;
-            }
+            public int BeatmapSetId { get; internal set; }
 
-            /// <summary>
+                /// <summary>
             ///     谱面是否包含视频
             /// </summary>
             [AvailableVariable("Beatmap.HasVideo", "LANG_VAR_HASVIDEO")]
             public bool HasVideo { get; } = false;
 
-            internal void SetBeatmapID(int beatmapId)
-            {
-                id = beatmapId;
-            }
-
-            internal void SetBeatmapSetID(int beatmapsetId)
-            {
-                setid = beatmapsetId;
-            }
 
             /// <summary>
             ///     使用osu!api在线查询谱面信息
@@ -177,9 +152,7 @@ namespace osuTools
             /// <returns></returns>
             public OnlineBeatmap GetOnlineBeatmap(string apiKey)
             {
-                var q = new OnlineBeatmapQuery();
-                q.OsuApiKey = apiKey;
-                q.BeatmapID = BeatmapID;
+                var q = new OnlineBeatmapQuery {OsuApiKey = apiKey, BeatmapID = BeatmapId};
                 return q.Beatmaps[0];
             }
 
@@ -190,8 +163,8 @@ namespace osuTools
             public OsuBeatmap ToOsuBeatmap()
             {
                 var info = new OsuInfo();
-                var baseDB = new OsuBeatmapDB();
-                return baseDB.Beatmaps.FindByMD5(MD5.ToString());
+                var baseDb = new OsuBeatmapDB();
+                return baseDb.Beatmaps.FindByMD5(MD5.ToString());
             }
 
             /// <summary>

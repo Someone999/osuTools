@@ -247,7 +247,7 @@ namespace osuTools
                 query.OsuApiKey = osuApiKey;
                 var bms = query.Beatmaps;
                 b = new Beatmap(bms[0]);
-                if (b.BeatmapID == -2048)
+                if (b.BeatmapId == -2048)
                     b = null;
                 return b;
             }

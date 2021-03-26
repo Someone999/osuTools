@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using System.Globalization;
+using System.IO;
+using System.Windows.Forms;
 using osuTools.OsuDB;
 
 namespace osuTools.Beatmaps
@@ -13,32 +15,35 @@ namespace osuTools.Beatmaps
         public Beatmap(OsuBeatmap beatmap, bool getStars = true)
         {
             var info = new OsuInfo();
-            t = beatmap.Title;
-            ut = beatmap.TitleUnicode;
-            a = beatmap.Artist;
-            ua = beatmap.ArtistUnicode;
-            c = beatmap.Creator;
-            dif = beatmap.Difficulty;
-            ver = dif;
+            Title = beatmap.Title;
+            TitleUnicode = beatmap.TitleUnicode;
+            Artist = beatmap.Artist;
+            ArtistUnicode = beatmap.ArtistUnicode;
+            Creator = beatmap.Creator;
+            Difficulty = beatmap.Difficulty;
+            Version = Difficulty;
             FileName = beatmap.FileName;
-            FullPath = info.BeatmapDirectory + "\\" + beatmap.FolderName + "\\" + beatmap.FileName;
+            FullPath = Path.Combine(info.BeatmapDirectory, beatmap.FolderName, beatmap.FileName);
             DownloadLink = $"http://osu.ppy.sh/b/{beatmap.BeatmapID}";
-            sou = beatmap.Source;
-            tag = beatmap.Tags;
-            mak = "";
+            Source = beatmap.Source;
+            Tags = beatmap.Tags;
+            Maker = "";
             MD5 = new MD5String(beatmap.MD5);
-            FullAudioFileName = info.BeatmapDirectory + "\\" + beatmap.FolderName + "\\" + beatmap.AudioFileName;
-            fuvi = "";
-            od = beatmap.OD;
-            hp = beatmap.HPDrain;
-            ar = beatmap.AR;
-            cs = beatmap.CS;
-            setid = beatmap.BeatmapSetID;
-            au = beatmap.AudioFileName;
+            FullAudioFileName = Path.Combine(info.BeatmapDirectory, beatmap.FolderName, beatmap.AudioFileName);
+            FullVideoFileName = "";
+            OD = beatmap.OD;
+            HP = beatmap.HPDrain;
+            AR = beatmap.AR;
+            CS = beatmap.CS;
+            BeatmapSetId = beatmap.BeatmapSetID;
+            AudioFileName = beatmap.AudioFileName;
             Mode = beatmap.Mode;
             if (getStars)
-                double.TryParse(beatmap.Stars.ToString(), out stars);
-            else stars = 0;
+            {
+                double.TryParse(beatmap.Stars.ToString(CultureInfo.InvariantCulture), out var stars);
+                Stars = stars;
+            }
+            else Stars = 0;
             if (FullPath == "" || !File.Exists(FullPath)) return;
             var alllines = File.ReadAllLines(FullPath);
             foreach (var line in alllines)
@@ -54,20 +59,20 @@ namespace osuTools.Beatmaps
 
                 if (temparr[0].StartsWith("Video,"))
                 {
-                    vi = temparr[0].Split(',')[2].Replace("\"", "").Trim();
-                    fuvi = Path.Combine(BeatmapFolder, FullVideoFileName);
-                    if (!string.IsNullOrEmpty(vi))
+                    VideoFileName = temparr[0].Split(',')[2].Replace("\"", "").Trim();
+                    FullVideoFileName = Path.Combine(BeatmapFolder, FullVideoFileName);
+                    if (!string.IsNullOrEmpty(VideoFileName))
                         HasVideo = true;
                     else
                         HasVideo = false;
                     continue;
                 }
 
-                fuvi = FullPath.Replace(FileName, vi);
+                FullVideoFileName = FullPath.Replace(FileName, VideoFileName);
                 if (line.Contains("TimingPoints")) break;
             }
 
-            SetBeatmapID(beatmap.BeatmapID);
+            BeatmapId = beatmap.BeatmapID;
             getAddtionalInfo(alllines);
         }
     }

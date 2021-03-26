@@ -15,76 +15,80 @@ namespace osuTools.Beatmaps
             //bmap = x;
 
             var rt = new DisplayerBase();
-            t = x.Title;
-            id = x.BeatmapID;
-            ut = x.TitleUnicode;
-            a = x.Artist;
-            ua = x.ArtistUnicode;
-            c = x.Creator;
-            dif = x.Difficulty;
-            ver = x.Version;
+            Title = x.Title;
+            BeatmapId = x.BeatmapID;
+            TitleUnicode = x.TitleUnicode;
+            Artist = x.Artist;
+            ArtistUnicode = x.ArtistUnicode;
+            Creator = x.Creator;
+            Difficulty = x.Difficulty;
+            Version = x.Version;
             FileName = x.Filename;
             FullPath = x.FilenameFull;
             DownloadLink = x.DownloadLink;
             BackgroundFileName = x.BackgroundFilename;
-            id = x.BeatmapID;
-            vi = x.VideoFilename;
-            sou = "";
-            tag = "";
-            mak = "";
-            au = x.AudioFilename;
-            md5calc.ComputeHash(File.ReadAllBytes(x.FilenameFull));
-            MD5 = md5calc.GetMD5String();
-            stars = rt.BeatmapTuple.Stars;
-            b = new StringBuilder(FullPath);
-            b.Replace(FileName, VideoFileName);
-            fuvi = b.ToString();
-            b = new StringBuilder(FullPath);
-            b.Replace(FileName, BackgroundFileName);
-            FullBackgroundFileName = b.ToString();
+            BeatmapId = x.BeatmapID;
+            VideoFileName = x.VideoFilename;
+            Source = "";
+            Tags = "";
+            Maker = "";
+            AudioFileName = x.AudioFilename;
+            _md5Calc.ComputeHash(File.ReadAllBytes(x.FilenameFull));
+            MD5 = _md5Calc.GetMD5String();
+            Stars = rt.BeatmapTuple.Stars;
+            _b = new StringBuilder(FullPath);
+            _b.Replace(FileName, VideoFileName);
+            FullVideoFileName = _b.ToString();
+            _b = new StringBuilder(FullPath);
+            _b.Replace(FileName, BackgroundFileName);
+            FullBackgroundFileName = _b.ToString();
             var alllines = File.ReadAllLines(x.FilenameFull);
             foreach (var line in alllines)
             {
                 var temparr = line.Split(':');
                 if (temparr[0].Contains("CircleSize"))
                 {
-                    double.TryParse(temparr[1].Trim(), out cs);
+                    double.TryParse(temparr[1].Trim(), out var c);
+                    CS = c;
                     continue;
                 }
 
                 if (temparr[0].Contains("OverallDifficulty"))
                 {
-                    double.TryParse(temparr[1].Trim(), out od);
+                    double.TryParse(temparr[1].Trim(), out var o);
+                    OD = o;
                     continue;
                 }
 
                 if (temparr[0].Contains("ApproachRate"))
                 {
-                    double.TryParse(temparr[1].Trim(), out ar);
+                    double.TryParse(temparr[1].Trim(), out var a);
+                    AR = a;
                     continue;
                 }
 
                 if (temparr[0].Contains("HPDrainRate"))
                 {
-                    double.TryParse(temparr[1].Trim(), out hp);
+                    double.TryParse(temparr[1].Trim(), out var h);
+                    HP = h;
                     continue;
                 }
 
                 if (temparr[0].Contains("Maker:"))
                 {
-                    mak = line.Replace("Maker:", "").Trim();
+                    Maker = line.Replace("Maker:", "").Trim();
                     continue;
                 }
 
                 if (temparr[0].Contains("Source:"))
                 {
-                    sou = line.Replace("Source:", "").Trim();
+                    Source = line.Replace("Source:", "").Trim();
                     continue;
                 }
 
                 if (temparr[0].Contains("Tags:"))
                 {
-                    tag = line.Replace("Tags:", "").Trim();
+                    Tags = line.Replace("Tags:", "").Trim();
                     continue;
                 }
 
@@ -98,10 +102,10 @@ namespace osuTools.Beatmaps
 
                 if (temparr[0].StartsWith("Video,"))
                 {
-                    if (!string.IsNullOrEmpty(vi))
+                    if (!string.IsNullOrEmpty(VideoFileName))
                     {
-                        vi = temparr[0].Split(',')[2].Replace("\"", "").Trim();
-                        fuvi = Path.Combine(BeatmapFolder, VideoFileName);
+                        VideoFileName = temparr[0].Split(',')[2].Replace("\"", "").Trim();
+                        FullVideoFileName = Path.Combine(BeatmapFolder, VideoFileName);
                         HasVideo = true;
                     }
                     else
@@ -114,11 +118,11 @@ namespace osuTools.Beatmaps
 
                 if (temparr[0].Contains("Mode"))
                 {
-                    if (!ModeHasSet)
+                    if (!_modeHasSet)
                     {
-                        int.TryParse(temparr[1].Trim(), out m);
-                        Mode = (OsuGameMode) m;
-                        ModeHasSet = true;
+                        int.TryParse(temparr[1].Trim(), out _m);
+                        Mode = (OsuGameMode) _m;
+                        _modeHasSet = true;
                     }
 
                     continue;
@@ -128,7 +132,7 @@ namespace osuTools.Beatmaps
             }
 
             FullAudioFileName = x.FilenameFull.Replace(x.Filename, x.AudioFilename);
-            fuvi = x.FilenameFull.Replace(x.Filename, x.VideoFilename);
+            FullVideoFileName = x.FilenameFull.Replace(x.Filename, x.VideoFilename);
             getAddtionalInfo(alllines);
         }
     }
