@@ -24,7 +24,7 @@ namespace osuTools
             InitLisenter();
             Application.ThreadException += Application_ThreadException;
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
-            var format = NI18n.GetLanguageElement(InfoReader.syncLang, "LANG_INFO_STH_INITED");
+            var format = NI18n.GetLanguageElement("LANG_INFO_STH_INITED");
             IO.CurrentIO.Write(string.Format(format, "ORTDP"));
             ppinfo = new SyncPPInfo("rtpp", null, null, this);
             OnFail += Failed;
@@ -39,7 +39,7 @@ namespace osuTools
             bd = new OsuBeatmapDB();
             InitLisenter(p);
             Application.ThreadException += Application_ThreadException;
-            var format = NI18n.GetLanguageElement(InfoReader.syncLang, "LANG_INFO_STH_INITED");
+            var format = NI18n.GetLanguageElement("LANG_INFO_STH_INITED");
             IO.CurrentIO.Write(string.Format(format, "ORTDP"));
             ppinfo = new SyncPPInfo("rtpp", null, null, this);
             OnFail += Failed;
@@ -63,13 +63,13 @@ namespace osuTools
                     rtppi = d;
                     ppinfo = new SyncPPInfo("rtpp", arp, rtppi, this);
                     if (d is null)
-                        throw new InitializationFailedException(NI18n.GetLanguageElement(InfoReader.syncLang,
+                        throw new InitializationFailedException(NI18n.GetLanguageElement(
                             "LANG_ERR_FAIL_TO_REGISTER_NEW_DISPLAYER"));
                     return d;
                 });
             }
 
-            var format = NI18n.GetLanguageElement(InfoReader.syncLang, "LANG_INFO_STH_INITED");
+            var format = NI18n.GetLanguageElement("LANG_INFO_STH_INITED");
             IO.CurrentIO.Write(string.Format(format, "ORTDP"));
             OnFail += Failed;
             Application.ThreadException += Application_ThreadException;

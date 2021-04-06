@@ -86,11 +86,13 @@ namespace osuTools.Collections
         }
         void Extend()
         {
-            if (_len == _capacity)
+            if (_len + 1 >= _capacity)
             {
-                T[] newArr = new T[_capacity == 0 ? 4 : _capacity * 2];
+                int newCapacity = _capacity == 0 ? 4 : _capacity * 2;
+                T[] newArr = new T[newCapacity];
                 Array.Copy(_objArr,newArr,_len);
                 _objArr = newArr;
+                _capacity = newCapacity;
             }
         }
         /// <summary>

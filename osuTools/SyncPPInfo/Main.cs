@@ -59,7 +59,7 @@ namespace osuTools
                 }
 
                 PPInfomfs = MemoryMappedFile.OpenExisting(mmfName);
-                var format = NI18n.GetLanguageElement(InfoReader.syncLang, "LANG_INFO_STH_INITED");
+                var format = NI18n.GetLanguageElement("LANG_INFO_STH_INITED");
                 IO.CurrentIO.Write(string.Format(format, "SyncPPInfo"));
             }
 

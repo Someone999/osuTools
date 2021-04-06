@@ -27,16 +27,16 @@
         /// <summary>
         ///     失败时触发的事件
         /// </summary>
-        public event FailedEventHandler OnFail;
+        public event FailedEventHandler OnFail = status =>{} ;
 
         /// <summary>
         ///     开启NoFail时血量≤0时触发的事件
         /// </summary>
-        public event HP0EventHandler OnNoFail;
+        public event HP0EventHandler OnNoFail= status =>{} ;
 
         /// <summary>
         ///     当分数从非0值变成0时触发的时间
         /// </summary>
-        public event ScoreResetedEventHandler OnScoreReset;
+        public event ScoreResetedEventHandler OnScoreReset = (status, retry) => { };
     }
 }
