@@ -299,7 +299,7 @@ namespace osuTools
         /// <summary>
         ///     游戏模式
         /// </summary>
-        public GMMode GameMode { get; private set; }
+        public GmMode GameMode { get; private set; }
 
         /// <summary>
         ///     重试的次数，请先不要使用

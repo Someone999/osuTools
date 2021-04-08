@@ -62,9 +62,6 @@ namespace osuTools
                     d = new RtppdInfo();
                     rtppi = d;
                     ppinfo = new SyncPPInfo("rtpp", arp, rtppi, this);
-                    if (d is null)
-                        throw new InitializationFailedException(NI18n.GetLanguageElement(
-                            "LANG_ERR_FAIL_TO_REGISTER_NEW_DISPLAYER"));
                     return d;
                 });
             }
@@ -78,7 +75,7 @@ namespace osuTools
         private void Failed(ORTDPWrapper current)
         {
             var con =
-                $"Date:{SysTime.ToString("yyyy/MM/dd HH:mm:ss")}\n" +
+                $"Date:{SysTime:yyyy/MM/dd HH:mm:ss}\n" +
                 $"Song:{current.NowPlaying}(RetryCount:{current.RetryCount})\n" +
                 $"Stars:{current.StarsStr} " +
                 $"Mode: {current.GameMode.CurrentMode}\n" +

@@ -46,7 +46,7 @@ namespace osuTools
 
                 PPILine = strarr[0];
                 var ppitemp = PPILine.Split('/');
-                double.TryParse(ppitemp[0], out accpp);
+                double.TryParse(ppitemp[0], out _);
                 double.TryParse(ppitemp[1], out aimpp);
                 double.TryParse(ppitemp[2], out speedpp);
                 double.TryParse(ppitemp[3], out fcaim);
