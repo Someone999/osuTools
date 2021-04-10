@@ -3,47 +3,6 @@
 namespace osuTools.StoryBoard.Command
 {
     /// <summary>
-    /// 表示StoryBoard图象的位置
-    /// </summary>
-    public class StoryBoardPoint
-    {
-        /// <summary>
-        /// 使用x和y坐标来初始化一个StoryBoardPoint
-        /// </summary>
-        /// <param name="x"></param>
-        /// <param name="y"></param>
-        public StoryBoardPoint(double x, double y)
-        {
-            this.X = x;
-            this.Y = y;
-        }
-        /// <summary>
-        /// x坐标
-        /// </summary>
-        public double X { get; set; }
-        /// <summary>
-        /// y坐标
-        /// </summary>
-        public double Y { get; set; }
-    }
-
-    public class MoveTranslation : ITranslation
-    {
-        public MoveTranslation(StoryBoardPoint start, StoryBoardPoint tar, int sttm, int edtm)
-        {
-            StartPoint = start;
-            TargetPoint = tar;
-            StartTime = sttm;
-            EndTime = edtm;
-        }
-
-        public StoryBoardPoint StartPoint { get; set; }
-        public StoryBoardPoint TargetPoint { get; set; }
-        public int StartTime { get; set; }
-        public int EndTime { get; set; }
-    }
-
-    /// <summary>
     ///     表示一次移动
     /// </summary>
     public class Move : IStoryBoardSubCommand, IDurable, IHasEasing, IShortcutableCommand

@@ -17,16 +17,16 @@ namespace osuTools.PerformanceCalculator.Catch
         {
             get
             {
-                if (s.Equals("AR", StringComparison.OrdinalIgnoreCase) ||
+                if (s.Equals("ApproachRate", StringComparison.OrdinalIgnoreCase) ||
                     s.Equals("ApprochRate", StringComparison.OrdinalIgnoreCase))
                     return ApprochRate;
-                if (s.Equals("OD", StringComparison.OrdinalIgnoreCase) ||
+                if (s.Equals("OverallDifficulty", StringComparison.OrdinalIgnoreCase) ||
                     s.Equals("OverallDifficulty", StringComparison.OrdinalIgnoreCase))
                     return OverallDifficulty;
-                if (s.Equals("CS", StringComparison.OrdinalIgnoreCase) ||
+                if (s.Equals("CircleSize", StringComparison.OrdinalIgnoreCase) ||
                     s.Equals("CircleSize", StringComparison.OrdinalIgnoreCase))
                     return CircleSize;
-                if (s.Equals("HP", StringComparison.OrdinalIgnoreCase) ||
+                if (s.Equals("HPDrain", StringComparison.OrdinalIgnoreCase) ||
                     s.Equals("HPDrain", StringComparison.OrdinalIgnoreCase))
                     return HPDrain;
                 if (s.Equals("SliderMul", StringComparison.OrdinalIgnoreCase) ||
@@ -38,16 +38,16 @@ namespace osuTools.PerformanceCalculator.Catch
             }
             set
             {
-                if (s.Equals("AR", StringComparison.OrdinalIgnoreCase) ||
+                if (s.Equals("ApproachRate", StringComparison.OrdinalIgnoreCase) ||
                     s.Equals("ApprochRate", StringComparison.OrdinalIgnoreCase))
                     ApprochRate = value;
-                else if (s.Equals("OD", StringComparison.OrdinalIgnoreCase) ||
+                else if (s.Equals("OverallDifficulty", StringComparison.OrdinalIgnoreCase) ||
                     s.Equals("OverallDifficulty", StringComparison.OrdinalIgnoreCase))
                     OverallDifficulty = value;
-                else if (s.Equals("CS", StringComparison.OrdinalIgnoreCase) ||
+                else if (s.Equals("CircleSize", StringComparison.OrdinalIgnoreCase) ||
                          s.Equals("CircleSize", StringComparison.OrdinalIgnoreCase))
                     CircleSize = value;
-                else if (s.Equals("HP", StringComparison.OrdinalIgnoreCase) ||
+                else if (s.Equals("HPDrain", StringComparison.OrdinalIgnoreCase) ||
                          s.Equals("HPDrain", StringComparison.OrdinalIgnoreCase))
                     HPDrain = value;
                 else if (s.Equals("SliderMul", StringComparison.OrdinalIgnoreCase) ||

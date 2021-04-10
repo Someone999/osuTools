@@ -4,51 +4,6 @@ using osuTools.StoryBoard.Command;
 
 namespace osuTools.StoryBoard.Command
 {
-    /// <summary>
-    /// 缩放倍率
-    /// </summary>
-    public class ScaleMultiplier
-    {
-        /// <summary>
-        /// 使用整体缩放倍率初始化ScaleMultiplier
-        /// </summary>
-        /// <param name="overall">整体缩放倍率</param>
-        public ScaleMultiplier(double overall)
-        {
-            Overall = overall;
-        }
-
-        /// <summary>
-        ///     整体缩放倍率
-        /// </summary>
-        public double Overall { get; set; } = 1;
-    }
-    /// <summary>
-    /// 缩放变化
-    /// </summary>
-    public class ScaleTranslation : ITranslation
-    {
-        public ScaleTranslation(ScaleMultiplier start, ScaleMultiplier target, int starttm, int endtm)
-        {
-            StartScaleMultiplier = start;
-            TargetScaleMultiplier = target;
-            StartTime = starttm;
-            EndTime = endtm;
-        }
-        /// <summary>
-        /// 起始状态
-        /// </summary>
-        public ScaleMultiplier StartScaleMultiplier { get; set; }
-        /// <summary>
-        /// 目标状态
-        /// </summary>
-        public ScaleMultiplier TargetScaleMultiplier { get; set; }
-        /// <inheritdoc />
-        public int StartTime { get; set; }
-        /// <inheritdoc />
-        public int EndTime { get; set; }
-    }
-
     public class Scale : IStoryBoardSubCommand, IDurable, IHasEasing, IShortcutableCommand
     {
         /// <inheritdoc />

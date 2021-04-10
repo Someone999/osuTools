@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Windows.Forms;
 using osuTools.Beatmaps.HitObject;
+using osuTools.Exceptions;
 using osuTools.Online;
-using osuTools.osuToolsException;
 
 namespace osuTools.OsuDB
 {
     /// <summary>
     ///     scores.db中存储的成绩
     /// </summary>
-    public class OsuScoreInfo : SortByScore, IOsuDBData
+    public class OsuScoreInfo : SortByScore, IOsuDbData
     {
         internal List<OsuGameMod> mods = new List<OsuGameMod>();
         private readonly long pt;
@@ -191,13 +191,13 @@ namespace osuTools.OsuDB
         {
             try
             {
-                return new OsuBeatmapDB().Beatmaps.FindByMD5(BeatmapMD5);
+                return new OsuBeatmapDB().Beatmaps.FindByMd5(BeatmapMD5);
             }
             catch (BeatmapNotFoundException)
             {
                 return null;
             }
-            
+
         }
 
         private double AccCalc(OsuGameMode mode)

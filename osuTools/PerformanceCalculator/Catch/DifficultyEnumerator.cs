@@ -20,10 +20,10 @@ namespace osuTools.PerformanceCalculator.Catch
         public DifficultyEnumerator(CatchDifficultyAttribute attr)
         {
             diffs.Add(new MKeyValuePair<string, double>("SliderMul",attr.SliderMultiplier));
-            diffs.Add(new MKeyValuePair<string, double>("AR", attr.ApprochRate));
-            diffs.Add(new MKeyValuePair<string, double>("OD", attr.OverallDifficulty));
-            diffs.Add(new MKeyValuePair<string, double>("HP", attr.HPDrain));
-            diffs.Add(new MKeyValuePair<string, double>("CS", attr.CircleSize));
+            diffs.Add(new MKeyValuePair<string, double>("ApproachRate", attr.ApprochRate));
+            diffs.Add(new MKeyValuePair<string, double>("OverallDifficulty", attr.OverallDifficulty));
+            diffs.Add(new MKeyValuePair<string, double>("HPDrain", attr.HPDrain));
+            diffs.Add(new MKeyValuePair<string, double>("CircleSize", attr.CircleSize));
             diffs.Add(new MKeyValuePair<string, double>("ApprochRate", attr.ApprochRate));
             diffs.Add(new MKeyValuePair<string, double>("OverallDifficulty", attr.OverallDifficulty));
             diffs.Add(new MKeyValuePair<string, double>("CircleSize", attr.CircleSize));

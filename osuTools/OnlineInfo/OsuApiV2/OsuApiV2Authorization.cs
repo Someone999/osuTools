@@ -4,7 +4,7 @@ using System.Net;
 using System.Text;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using osuTools.ExtraMethods;
+using osuTools.Exceptions;
 
 namespace osuTools.Online.ApiV2.Authorization
 {

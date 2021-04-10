@@ -7,12 +7,12 @@ namespace osuTools.Online.ApiV1
         /// <summary>
         ///     谱面集的ID
         /// </summary>
-        public int BeatmapSetID => beatmapset_id;
+        public int BeatmapSetId => _beatmapsetId;
 
         /// <summary>
         ///     谱面ID
         /// </summary>
-        public int BeatmapID => beatmap_id;
+        public int BeatmapId => _beatmapId;
 
         /// <summary>
         ///     谱面是否计入排行
@@ -22,12 +22,12 @@ namespace osuTools.Online.ApiV1
         /// <summary>
         ///     音乐长度
         /// </summary>
-        public int TotalTime => total_length;
+        public int TotalTime => _totalLength;
 
         /// <summary>
         ///     谱面长度
         /// </summary>
-        public int DrainTime => hit_length;
+        public int DrainTime => _hitLength;
 
         /// <summary>
         ///     谱面的难度标签
@@ -37,47 +37,47 @@ namespace osuTools.Online.ApiV1
         /// <summary>
         ///     圈圈的大小
         /// </summary>
-        public double CS => diff_size;
+        public double CircleSize => _diffSize;
 
         /// <summary>
         ///     谱面的MD5
         /// </summary>
-        public string MD5 { get; private set; } = "0";
+        public string Md5 { get; private set; } = "0";
 
         /// <summary>
         ///     综合难度
         /// </summary>
-        public double OD => diff_overall;
+        public double OverallDifficulty => _diffOverall;
 
         /// <summary>
         ///     缩圈速度
         /// </summary>
-        public double AR => diff_approach;
+        public double ApproachRate => _diffApproach;
 
         /// <summary>
         ///     掉血速度、回血难度
         /// </summary>
-        public double HP => diff_drain;
+        public double HpDrain => _diffDrain;
 
         /// <summary>
         ///     谱面的圈圈数
         /// </summary>
-        public int HitCircle => count_normal;
+        public int HitCircle => _countNormal;
 
         /// <summary>
         ///     谱面的游戏模式
         /// </summary>
-        public OsuGameMode Mode => (OsuGameMode) mode;
+        public OsuGameMode Mode => (OsuGameMode) _mode;
 
         /// <summary>
         ///     谱面的转盘数
         /// </summary>
-        public int Spinner => count_spinner;
+        public int Spinner => _countSpinner;
 
         /// <summary>
         ///     谱面的滑条数
         /// </summary>
-        public int Slider => count_slider;
+        public int Slider => _countSlider;
 
         /// <summary>
         ///     谱面提交的时间
@@ -87,7 +87,7 @@ namespace osuTools.Online.ApiV1
             get
             {
                 DateTime dt;
-                DateTime.TryParse(submit_date, out dt);
+                DateTime.TryParse(_submitDate, out dt);
                 return dt;
             }
         }
@@ -100,7 +100,7 @@ namespace osuTools.Online.ApiV1
             get
             {
                 DateTime dt;
-                DateTime.TryParse(approved_date, out dt);
+                DateTime.TryParse(_approvedDate, out dt);
                 return dt;
             }
         }
@@ -113,7 +113,7 @@ namespace osuTools.Online.ApiV1
             get
             {
                 DateTime dt;
-                DateTime.TryParse(last_update, out dt);
+                DateTime.TryParse(_lastUpdate, out dt);
                 return dt;
             }
         }
@@ -136,12 +136,12 @@ namespace osuTools.Online.ApiV1
         /// <summary>
         ///     谱面的创作者的ID
         /// </summary>
-        public int CreatorID => creator_id;
+        public int CreatorId => _creatorId;
 
         /// <summary>
         ///     谱面的每分钟节拍数
         /// </summary>
-        public double BPM => bpm;
+        public double Bpm => _bpm;
 
         /// <summary>
         ///     谱面的来源
@@ -156,22 +156,22 @@ namespace osuTools.Online.ApiV1
         /// <summary>
         ///     谱面的流派
         /// </summary>
-        public Genre GenreID => (Genre) genre_id;
+        public Genre GenreId => (Genre) _genreId;
 
         /// <summary>
         ///     谱面的标签
         /// </summary>
-        public Language LanguageID => (Language) language_id;
+        public Language LanguageId => (Language) _languageId;
 
         /// <summary>
         ///     标记谱面为“喜欢”的人的数目
         /// </summary>
-        public int FavoriteCount => favourite_count;
+        public int FavoriteCount => _favouriteCount;
 
         /// <summary>
         ///     谱面的评分
         /// </summary>
-        public double Rating => rating;
+        public double Rating => _rating;
 
         /// <summary>
         ///     谱面能否下载
@@ -180,7 +180,7 @@ namespace osuTools.Online.ApiV1
         {
             get
             {
-                if (download_unavailable == 0) return true;
+                if (_downloadUnavailable == 0) return true;
                 return false;
             }
         }
@@ -192,7 +192,7 @@ namespace osuTools.Online.ApiV1
         {
             get
             {
-                if (audio_unavailable == 0) return true;
+                if (_audioUnavailable == 0) return true;
                 return false;
             }
         }
@@ -200,31 +200,31 @@ namespace osuTools.Online.ApiV1
         /// <summary>
         ///     谱面被的次数
         /// </summary>
-        public int PlayCount => playcount;
+        public int PlayCount => _playcount;
 
         /// <summary>
         ///     谱面被通关的次数
         /// </summary>
-        public int PassCount => passcount;
+        public int PassCount => _passcount;
 
         /// <summary>
         ///     谱面的总连击
         /// </summary>
-        public int MaxCombo => max_combo;
+        public int MaxCombo => _maxCombo;
 
         /// <summary>
         ///     谱面的定位难度
         /// </summary>
-        public double AimDiff => diff_aim;
+        public double AimDiff => _diffAim;
 
         /// <summary>
         ///     谱面的速度难度
         /// </summary>
-        public double SpeedDiff => diff_speed;
+        public double SpeedDiff => _diffSpeed;
 
         /// <summary>
         ///     谱面的难度星级
         /// </summary>
-        public double Stars => difficultyrating;
+        public double Stars => _difficultyrating;
     }
 }

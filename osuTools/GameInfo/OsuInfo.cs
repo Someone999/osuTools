@@ -3,8 +3,8 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
-using osuTools.KeyBindings;
-using osuTools.osuToolsException;
+using osuTools.Exceptions;
+using osuTools.GameInfo.KeyBinding;
 using osuTools.Skins;
 using Sync.Tools;
 
@@ -20,7 +20,7 @@ namespace osuTools
         private string[] lines;
         private int off = -2;
         private bool runing;
-        private Skin sk;
+        private Skins.Skin sk;
         private string ver, song, osudir, username, skin;
 
         /// <summary>
@@ -34,11 +34,11 @@ namespace osuTools
         /// <summary>
         ///     获取当前的皮肤，尚未完工。
         /// </summary>
-        public Skin CurrentSkin
+        public Skins.Skin CurrentSkin
         {
             get
             {
-                sk = new Skin(CurrentSkinDir);
+                sk = new Skins.Skin(CurrentSkinDir);
                 return sk;
             }
         }

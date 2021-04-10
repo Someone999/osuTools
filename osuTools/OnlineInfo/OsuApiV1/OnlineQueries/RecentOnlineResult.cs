@@ -13,29 +13,29 @@ namespace osuTools.Online.ApiV1
     [Serializable]
     public partial class RecentOnlineResult : SortByScore, IComparable<RecentOnlineResult>, IFormattable
     {
-        private double acc;
+        private double _acc;
 
         private int
-            beatmap_id;
+            _beatmapId;
 
-        private DateTime d;
+        private DateTime _d;
 
         private string
-            date;
+            _date;
 
         private int
-            maxcombo,
-            count50,
-            count100,
-            count300,
-            countmiss,
-            countkatu,
-            countgeki,
-            perfect,
-            user_id;
+            _maxcombo,
+            _count50,
+            _count100,
+            _count300,
+            _countmiss,
+            _countkatu,
+            _countgeki,
+            _perfect,
+            _userId;
 
-        private int mod;
-        private int score;
+        private int _mod;
+        private int _score;
 
         /// <summary>
         ///     创造一个空白的RecentOnlineResult对象
@@ -43,21 +43,21 @@ namespace osuTools.Online.ApiV1
         public RecentOnlineResult()
         {
             Perfect = false;
-            d = DateTime.MinValue;
-            beatmap_id = 0;
-            score = 0;
-            mod = 0;
-            maxcombo = 0;
-            Mods = ModList.FromInteger(mod);
-            count300 = 0;
-            count100 = 0;
-            count50 = 0;
-            countgeki = 0;
-            countkatu = 0;
-            countmiss = 0;
-            perfect = 0;
-            user_id = 0;
-            date = "0-0-0 0:0:0";
+            _d = DateTime.MinValue;
+            _beatmapId = 0;
+            _score = 0;
+            _mod = 0;
+            _maxcombo = 0;
+            Mods = ModList.FromInteger(_mod);
+            _count300 = 0;
+            _count100 = 0;
+            _count50 = 0;
+            _countgeki = 0;
+            _countkatu = 0;
+            _countmiss = 0;
+            _perfect = 0;
+            _userId = 0;
+            _date = "0-0-0 0:0:0";
             Rank = "?";
         }
 
@@ -70,28 +70,28 @@ namespace osuTools.Online.ApiV1
         {
             Mode = mode;
             var jobj = (JObject) JsonConvert.DeserializeObject(json);
-            int.TryParse(jobj["countgeki"].ToString(), out countgeki);
-            int.TryParse(jobj["countkatu"].ToString(), out countkatu);
-            int.TryParse(jobj["count300"].ToString(), out count300);
-            int.TryParse(jobj["count100"].ToString(), out count100);
-            int.TryParse(jobj["count50"].ToString(), out count50);
-            int.TryParse(jobj["countmiss"].ToString(), out countmiss);
-            int.TryParse(jobj["maxcombo"].ToString(), out maxcombo);
-            int.TryParse(jobj["score"].ToString(), out score);
-            int.TryParse(jobj["user_id"].ToString(), out user_id);
-            int.TryParse(jobj["perfect"].ToString(), out perfect);
-            int.TryParse(jobj["enabled_mods"].ToString(), out mod);
-            Mods = ModList.FromInteger(mod);
-            int.TryParse(jobj["beatmap_id"].ToString(), out beatmap_id);
-            date = jobj["date"].ToString();
+            int.TryParse(jobj["countgeki"].ToString(), out _countgeki);
+            int.TryParse(jobj["countkatu"].ToString(), out _countkatu);
+            int.TryParse(jobj["count300"].ToString(), out _count300);
+            int.TryParse(jobj["count100"].ToString(), out _count100);
+            int.TryParse(jobj["count50"].ToString(), out _count50);
+            int.TryParse(jobj["countmiss"].ToString(), out _countmiss);
+            int.TryParse(jobj["maxcombo"].ToString(), out _maxcombo);
+            int.TryParse(jobj["score"].ToString(), out _score);
+            int.TryParse(jobj["user_id"].ToString(), out _userId);
+            int.TryParse(jobj["perfect"].ToString(), out _perfect);
+            int.TryParse(jobj["enabled_mods"].ToString(), out _mod);
+            Mods = ModList.FromInteger(_mod);
+            int.TryParse(jobj["beatmap_id"].ToString(), out _beatmapId);
+            _date = jobj["date"].ToString();
             Rank = jobj["rank"].ToString();
-            DateTime.TryParse(date, out d);
+            DateTime.TryParse(_date, out _d);
             DateTime e;
-            e = TimeZone.CurrentTimeZone.ToLocalTime(d);
-            d = e;
-            if (perfect == 1)
+            e = TimeZone.CurrentTimeZone.ToLocalTime(_d);
+            _d = e;
+            if (_perfect == 1)
                 Perfect = true;
-            else if (perfect == 0) Perfect = false;
+            else if (_perfect == 0) Perfect = false;
             Accuracy = AccCalc(Mode);
         }
 
@@ -119,9 +119,9 @@ namespace osuTools.Online.ApiV1
         /// <returns></returns>
         public int CompareTo(RecentOnlineResult r)
         {
-            if (score > r.score) return -1;
-            if (score == r.score) return 0;
-            if (score < r.score) return 1;
+            if (_score > r._score) return -1;
+            if (_score == r._score) return 0;
+            if (_score < r._score) return 1;
             return 0;
         }
 
@@ -135,18 +135,18 @@ namespace osuTools.Online.ApiV1
         {
             var b = new StringBuilder(format);
             b.Replace("perfect", Perfect.ToString());
-            b.Replace("c300g", c300g.ToString());
-            b.Replace("c300", c300.ToString());
-            b.Replace("c200", c200.ToString());
-            b.Replace("c100", c100.ToString());
-            b.Replace("c50", c50.ToString());
-            b.Replace("cMiss", cMiss.ToString());
+            b.Replace("Count300g", C300G.ToString());
+            b.Replace("c300", C300.ToString());
+            b.Replace("Count200", C200.ToString());
+            b.Replace("Count100", C100.ToString());
+            b.Replace("Count50", C50.ToString());
+            b.Replace("CountMiss", CMiss.ToString());
             b.Replace("maxcombo", MaxCombo.ToString());
-            b.Replace("userid", UserID.ToString());
+            b.Replace("userid", UserId.ToString());
             b.Replace("rank", Rank);
-            b.Replace("playtime", d.ToString("yyyy/MM/dd HH:mm:ss"));
+            b.Replace("playtime", _d.ToString("yyyy/MM/dd HH:mm:ss"));
             b.Replace("score", Score.ToString());
-            b.Replace("beatmapid", BeatmapID.ToString());
+            b.Replace("beatmapid", BeatmapId.ToString());
             b.Replace("acc", Accuracy.ToString("p2"));
             return b.ToString();
         }
@@ -159,7 +159,7 @@ namespace osuTools.Online.ApiV1
         {
             var q = new OnlineBeatmapQuery();
             q.OsuApiKey = QuerierApiKey;
-            q.BeatmapID = beatmap_id;
+            q.BeatmapId = _beatmapId;
             var beatmap = q.Beatmaps[0];
             return beatmap;
         }
@@ -171,25 +171,25 @@ namespace osuTools.Online.ApiV1
         public OnlineUser GetUser()
         {
             var q = new OnlineUserQuery();
-            q.UserID = user_id;
+            q.UserId = _userId;
             q.OsuApiKey = QuerierApiKey;
             return q.UserInfo;
         }
 
         private double AccCalc(OsuGameMode mode)
         {
-            double c3g = c300g, c3 = c300, c2 = c200, c1 = c100, c5 = c50, cm = cMiss;
+            double c3G = C300G, c3 = C300, c2 = C200, c1 = C100, c5 = C50, cm = CMiss;
             double a2 = 2.0 / 3, a1 = 1.0 / 3, a5 = 1.0 / 6;
-            var mall = c3 + c3g + c2 + c1 + c5 + cm;
+            var mall = c3 + c3G + c2 + c1 + c5 + cm;
             var sall = c3 + c1 + c5 + cm;
             var call = c3 + c1 + c2 + c5 + cm;
-            var tall = c3 + c3g + c1 + c2 + cm;
+            var tall = c3 + c3G + c1 + c2 + cm;
             switch (mode)
             {
                 case OsuGameMode.Catch: return (c3 + c1 + c5) / call;
                 case OsuGameMode.Osu: return (c3 + c1 * a1 + c5 * a5) / sall;
-                case OsuGameMode.Taiko: return (c3 + c3g + (c1 + c2) * a1) / tall;
-                case OsuGameMode.Mania: return (c3 + c3g + c2 * a2 + c1 * a1 + c5 * a5) / mall;
+                case OsuGameMode.Taiko: return (c3 + c3G + (c1 + c2) * a1) / tall;
+                case OsuGameMode.Mania: return (c3 + c3G + c2 * a2 + c1 * a1 + c5 * a5) / mall;
                 default: return 0;
             }
         }

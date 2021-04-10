@@ -28,7 +28,7 @@ namespace osuTools.Beatmaps
                     if (comasp.Length > 4)
                     {
                         if (Mode == OsuGameMode.Mania)
-                            objects.Add(GameMode.FromLegacyMode(Mode).CreateHitObject(str, (int) CS));
+                            objects.Add(GameMode.FromLegacyMode(Mode).CreateHitObject(str, (int) CircleSize));
                         else
                             objects.Add(GameMode.FromLegacyMode(Mode).CreateHitObject(str));
                     }

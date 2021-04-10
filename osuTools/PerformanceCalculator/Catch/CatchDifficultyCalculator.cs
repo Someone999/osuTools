@@ -24,7 +24,7 @@ namespace osuTools.PerformanceCalculator.Catch
             double scala = 0;
             foreach (var diff in beatmap.Difficulty)
             {
-                if (diff.Key == "CS")
+                if (diff.Key == "CircleSize")
                     scala = 1.3;
                 else
                     scala = 1.4;

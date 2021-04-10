@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace osuTools.Collections
 {
-    
+
     class ObservableListEnumerator<T> : IEnumerator<T>
     {
         private readonly ObservableList<T> _innerList;

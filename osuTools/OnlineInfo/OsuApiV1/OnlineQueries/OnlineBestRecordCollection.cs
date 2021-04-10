@@ -7,7 +7,7 @@ namespace osuTools
         /// <summary>
         ///     存储最高PP榜指定数量的记录，最多100个。
         /// </summary>
-        public class OnlineBestRecordCollection : OnlineInfo<OnlineBestRecord>
+        public class OnlineBestRecordCollection : IOnlineInfo<OnlineBestRecord>
         {
             /// <summary>
             ///     存储的记录

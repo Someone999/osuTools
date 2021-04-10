@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using osuTools.Beatmaps;
-using osuTools.osuToolsException;
+using osuTools.Exceptions;
 
 namespace osuTools.OsuDB
 {
@@ -12,7 +12,7 @@ namespace osuTools.OsuDB
         /// <summary>
         ///     谱面的ID的种类
         /// </summary>
-        public enum BeatmapIDType
+        public enum BeatmapIdType
         {
             /// <summary>
             ///     谱面ID
@@ -25,24 +25,24 @@ namespace osuTools.OsuDB
             BeatmapSetId
         }
 
-        private List<OsuBeatmap> beatmaps { get; } = new List<OsuBeatmap>();
+        private readonly List<OsuBeatmap> _beatmaps = new List<OsuBeatmap>();
 
         /// <summary>
         ///     存储的<seealso cref="OsuBeatmap" />
         /// </summary>
-        public IReadOnlyList<OsuBeatmap> Beatmaps => beatmaps.AsReadOnly();
+        public IReadOnlyList<OsuBeatmap> Beatmaps => _beatmaps.AsReadOnly();
 
         /// <summary>
         ///     谱面的数量
         /// </summary>
-        public int Count => beatmaps.Count;
+        public int Count => _beatmaps.Count;
 
         /// <summary>
         ///     使用整数索引从列表中获取OsuBeatmap
         /// </summary>
         /// <param name="x"></param>
         /// <returns></returns>
-        public OsuBeatmap this[int x] => beatmaps[x];
+        public OsuBeatmap this[int x] => _beatmaps[x];
 
         /// <summary>
         ///     检测指定谱面是否在列表中
@@ -51,25 +51,25 @@ namespace osuTools.OsuDB
         /// <returns>布尔值，指示谱面是否在列表中</returns>
         public bool Contains(OsuBeatmap b)
         {
-            return beatmaps.Contains(b);
+            return _beatmaps.Contains(b);
         }
 
         internal void Add(OsuBeatmap b)
         {
-            beatmaps.Add(b);
+            _beatmaps.Add(b);
         }
 
         /// <summary>
         ///     使用关键词搜索，可指定包含或不包含
         /// </summary>
-        /// <param name="KeyWord">关键词</param>
+        /// <param name="keyWord">关键词</param>
         /// <param name="option">是否包含关键词</param>
         /// <returns>包含搜索结果的谱面集合</returns>
-        public OsuBeatmapCollection Find(string KeyWord,
+        public OsuBeatmapCollection Find(string keyWord,
             BeatmapCollection.BeatmapFindOption option = BeatmapCollection.BeatmapFindOption.Contains)
         {
             var b = new OsuBeatmapCollection();
-            var keyword = KeyWord.ToUpper();
+            var keyword = keyWord.ToUpper();
             foreach (var beatmap in Beatmaps)
             {
                 var allinfo = beatmap.ToString().ToUpper() + " " + beatmap.Source.ToUpper() + " " +
@@ -120,20 +120,20 @@ namespace osuTools.OsuDB
         /// <summary>
         ///     根据谱面的ID查找谱面
         /// </summary>
-        /// <param name="ID">BeatmapID或BeatmapSetID</param>
+        /// <param name="id">BeatmapID或BeatmapSetID</param>
         /// <param name="type"></param>
         /// <returns></returns>
-        public List<OsuBeatmap> Find(int ID, BeatmapIDType type = BeatmapIDType.BeatmapId)
+        public List<OsuBeatmap> Find(int id, BeatmapIdType type = BeatmapIdType.BeatmapId)
         {
             var lst = new List<OsuBeatmap>();
-            if (ID != -1)
-                if (type == BeatmapIDType.BeatmapId)
+            if (id != -1)
+                if (type == BeatmapIdType.BeatmapId)
                     foreach (var beatmap in Beatmaps)
-                        if (beatmap.BeatmapID == ID)
+                        if (beatmap.BeatmapId == id)
                             lst.Add(beatmap);
-            if (type == BeatmapIDType.BeatmapSetId)
+            if (type == BeatmapIdType.BeatmapSetId)
                 foreach (var beatmap in Beatmaps)
-                    if (beatmap.BeatmapSetID == ID)
+                    if (beatmap.BeatmapSetId == id)
                         lst.Add(beatmap);
             return lst;
         }
@@ -143,7 +143,7 @@ namespace osuTools.OsuDB
         /// </summary>
         /// <param name="md5"></param>
         /// <returns></returns>
-        public OsuBeatmap FindByMD5(string md5)
+        public OsuBeatmap FindByMd5(string md5)
         {
             foreach (var beatmap in Beatmaps)
                 if (beatmap.MD5 == md5)
@@ -154,21 +154,21 @@ namespace osuTools.OsuDB
         /// <summary>
         ///     使用游戏模式来搜索谱面，可指定包括或不包括
         /// </summary>
-        /// <param name="Mode"></param>
+        /// <param name="mode"></param>
         /// <param name="option"></param>
         /// <returns></returns>
-        public OsuBeatmapCollection Find(OsuGameMode Mode,
+        public OsuBeatmapCollection Find(OsuGameMode mode,
             BeatmapCollection.BeatmapFindOption option = BeatmapCollection.BeatmapFindOption.Contains)
         {
             var bc = new OsuBeatmapCollection();
-            foreach (var b in beatmaps)
+            foreach (var b in _beatmaps)
             {
                 if (option == BeatmapCollection.BeatmapFindOption.Contains)
-                    if (b.Mode == Mode)
+                    if (b.Mode == mode)
                         if (!bc.Contains(b))
                             bc.Add(b);
                 if (option == BeatmapCollection.BeatmapFindOption.NotContains)
-                    if (b.Mode != Mode)
+                    if (b.Mode != mode)
                         if (!bc.Contains(b))
                             bc.Add(b);
             }
@@ -182,11 +182,7 @@ namespace osuTools.OsuDB
         /// <returns></returns>
         public IEnumerator<OsuBeatmap> GetEnumerator()
         {
-            return beatmaps.GetEnumerator();
+            return _beatmaps.GetEnumerator();
         }
     }
-}
-
-namespace osuTools.OsuDB
-{
 }

@@ -1,6 +1,6 @@
 ﻿namespace osuTools.OsuDB
 {
-    internal interface IOsuDB
+    internal interface IOsuDb
     {
         void Read();
     }

@@ -16,7 +16,7 @@ namespace osuTools.Online.ApiV1
         /// <summary>
         ///     修改中
         /// </summary>
-        WIP,
+        Wip,
 
         /// <summary>
         ///     修改中

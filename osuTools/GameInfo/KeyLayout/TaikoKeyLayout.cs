@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
-using osuTools.ExtraMethods;
+using osuTools.Exceptions;
 
-namespace osuTools.KeyLayouts
+namespace osuTools.GameInfo.KeyLayout
 {
     /// <summary>
     ///     Taiko模式的按键

@@ -10,9 +10,9 @@ namespace osuTools.Online.ApiV1.Querier
     /// </summary>
     public class OnlineBeatmapQuery
     {
-        private int limit = 100;
-        private bool queried;
-        private OnlineBeatmapCollection rec = new OnlineBeatmapCollection();
+        private int _limit = 100;
+        private bool _queried;
+        private OnlineBeatmapCollection _rec = new OnlineBeatmapCollection();
 
         /// <summary>
         ///     查询到的谱面
@@ -21,16 +21,16 @@ namespace osuTools.Online.ApiV1.Querier
         {
             get
             {
-                if (!queried)
+                if (!_queried)
                 {
                     GetResult();
-                    queried = true;
-                    return rec;
+                    _queried = true;
+                    return _rec;
                 }
 
-                return rec;
+                return _rec;
             }
-            private set => rec = value;
+            private set => _rec = value;
         }
 
         /// <summary>
@@ -46,18 +46,18 @@ namespace osuTools.Online.ApiV1.Querier
         /// <summary>
         ///     作者的用户ID
         /// </summary>
-        public int CreatorUserID { get; set; }
+        public int CreatorUserId { get; set; }
 
         /// <summary>
         ///     查询的最大数量，默认为100
         /// </summary>
         public int Limit
         {
-            get => limit;
+            get => _limit;
             set
             {
-                if (OnlineQueryTools.InRange(0, 500, value)) limit = value;
-                else limit = 100;
+                if (OnlineQueryTools.InRange(0, 500, value)) _limit = value;
+                else _limit = 100;
             }
         }
 
@@ -69,12 +69,12 @@ namespace osuTools.Online.ApiV1.Querier
         /// <summary>
         ///     谱面ID
         /// </summary>
-        public int BeatmapID { get; set; }
+        public int BeatmapId { get; set; }
 
         /// <summary>
         ///     谱面集ID
         /// </summary>
-        public int BeatmapSetID { get; set; }
+        public int BeatmapSetId { get; set; }
 
         /// <summary>
         ///     Ranked或Loved的时间
@@ -104,24 +104,24 @@ namespace osuTools.Online.ApiV1.Querier
         {
             if (string.IsNullOrEmpty(OsuApiKey) || string.IsNullOrWhiteSpace(OsuApiKey)) throw new ArgumentException();
             var baseuri = $"https://osu.ppy.sh/api/get_beatmaps?k={OsuApiKey}";
-            string id = $"&b={BeatmapID}",
-                setid = $"&s={BeatmapSetID}",
+            string id = $"&b={BeatmapId}",
+                setid = $"&s={BeatmapSetId}",
                 incconver = $"&a={(IncludeConvertedBeatmap ? 1 : 0)}",
                 hash = $"&h={Hash}",
                 mode = $"&m={(int) Mode}",
                 lim = $"&limit={Limit}",
                 uname = $"&u={CreatorUserName}&type=string",
-                userid = $"&u={CreatorUserID}&type=id",
+                userid = $"&u={CreatorUserId}&type=id",
                 since = $"&since={RankedOrLovedSince:YYYY-MM-DD}",
                 mods = $"&mods={Mods.ToIntMod()}";
             var builder = new StringBuilder(baseuri);
-            builder.Append(string.IsNullOrEmpty(CreatorUserName) ? CreatorUserID == 0 ? "" : userid : uname);
+            builder.Append(string.IsNullOrEmpty(CreatorUserName) ? CreatorUserId == 0 ? "" : userid : uname);
             builder.Append(Limit != 0 ? lim : "");
             builder.Append(!string.IsNullOrEmpty(Hash) ? hash : "");
             builder.Append(Mode != OsuGameMode.Unkonwn ? mode : "");
             builder.Append(Mods.Count == 0 ? mods : "");
             builder.Append(RankedOrLovedSince != new DateTime() ? since : "");
-            builder.Append(BeatmapID != 0 ? id : setid);
+            builder.Append(BeatmapId != 0 ? id : setid);
             builder.Append(IncludeConvertedBeatmap ? incconver : "");
             return new Uri(builder.ToString());
         }

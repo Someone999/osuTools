@@ -24,7 +24,7 @@ namespace osuTools.PerformanceCalculator.Catch
             Beatmap = beatmap;
             Mods = mods;
             DifficultyCalculator = new CatchDifficultyCalculator(beatmap, mods);
-            
+
         }
 
         public double CalculatePerformance(double accuracy, int combo, int cMiss)
@@ -36,12 +36,12 @@ namespace osuTools.PerformanceCalculator.Catch
             pp *= lenBonus;
             pp *= Math.Pow(0.97, cMiss);
             pp *= Math.Min(Math.Pow(combo, 0.8) / Math.Pow(DifficultyCalculator.Beatmap.MaxCombo, 0.8), 1);
-            if (Beatmap.BaseBeatmap.AR > 9)
-                pp *= 1 + 0.1 * (Beatmap.BaseBeatmap.AR - 9);
-            if (Beatmap.BaseBeatmap.AR < 8)
-                pp *= 1 + 0.025 * (8 - Beatmap.BaseBeatmap.AR);
+            if (Beatmap.BaseBeatmap.ApproachRate > 9)
+                pp *= 1 + 0.1 * (Beatmap.BaseBeatmap.ApproachRate - 9);
+            if (Beatmap.BaseBeatmap.ApproachRate < 8)
+                pp *= 1 + 0.025 * (8 - Beatmap.BaseBeatmap.ApproachRate);
             if (Mods.Contains(new HiddenMod()))
-                pp *= 1.05 + 0.075 * (10 - Math.Min(10, Beatmap.BaseBeatmap.AR));
+                pp *= 1.05 + 0.075 * (10 - Math.Min(10, Beatmap.BaseBeatmap.ApproachRate));
             if (Mods.Contains(new FlashlightMod()))
                 pp *= 1.35 * lenBonus;
             pp *= Math.Pow(accuracy, 5.5);

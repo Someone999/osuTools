@@ -7,7 +7,6 @@ using System.Reflection;
 using osuTools.Beatmaps;
 using osuTools.Beatmaps.HitObject;
 using osuTools.Collections;
-using osuTools.ExtraMethods;
 
 namespace osuTools.PerformanceCalculator.Catch
 {
@@ -40,7 +39,7 @@ namespace osuTools.PerformanceCalculator.Catch
             if (BaseHitObject.HitObjectType == HitObjectTypes.Slider ||
                 BaseHitObject.HitObjectType == HitObjectTypes.JuiceStream)
             {
-               
+
                 dynamic j = null;
                 if (BaseHitObject is JuiceStream)
                     j = BaseHitObject as JuiceStream;
@@ -58,12 +57,12 @@ namespace osuTools.PerformanceCalculator.Catch
         internal void CalcSlider(bool calcPath = false)
         {
             dynamic j = null;
-            
+
             if (BaseHitObject is JuiceStream)
                 j = BaseHitObject as JuiceStream;
             else
                 j = BaseHitObject as Slider;
-            
+
             if (j.CurveType == CurveTypes.PerfectCircle && j.curvePoints.Count > 3)
                 j.CurveType = CurveTypes.Bezier;
             else if (j.curvePoints.Count == 2)
@@ -71,14 +70,14 @@ namespace osuTools.PerformanceCalculator.Catch
                 j.CurveType = CurveTypes.Linear;
                 //Console.WriteLine("Converted to Linear");
             }
-           
+
             ICurveAlgorithm curve = null;
             if (j.CurveType == CurveTypes.PerfectCircle)
             {
                 try
                 {
                     curve = new Perfect(j.curvePoints);
-                    
+
                 }
                 catch (Exception e)
                 {
@@ -89,7 +88,7 @@ namespace osuTools.PerformanceCalculator.Catch
             else if (j.CurveType == CurveTypes.Bezier)
             {
                 curve = new Bezier(j.curvePoints);
-                
+
             }
             else if (j.CurveType == CurveTypes.CentripetalCatmullRom)
             {
@@ -119,7 +118,7 @@ namespace osuTools.PerformanceCalculator.Catch
             OsuPixel point=null;
             double currentDis = TickDistance.Value;
             double addTime = Duration * (TickDistance / (j.Length * j.RepeatTime));
-            
+
             while(currentDis< j.Length - TickDistance.Value / 8)
             {
                 if (j.CurveType == CurveTypes.Linear)
@@ -132,10 +131,9 @@ namespace osuTools.PerformanceCalculator.Catch
                 }
                 Console.WriteLine($"Tick?{point.x}?{point.y}?{j.Offset + addTime * (Ticks.Count + 1)}");
                 Ticks.Add((new CatchSliderTick(point.x, point.y, j.Offset + addTime * (Ticks.Count + 1))));
-                
+
                 currentDis += TickDistance.Value;
             }
-            
 
             int repeatId = 1;
             List<CatchSliderTick> repeatBonusTick = new List<CatchSliderTick>();
@@ -150,11 +148,10 @@ namespace osuTools.PerformanceCalculator.Catch
                 //Console.WriteLine($"{Offset}?{point.x}?{point.y}");
                 Console.WriteLine($"EndTick?{point.x}?{point.y}?{BaseHitObject.Offset + timeOffset}");
                 EndTicks.Add(new CatchSliderTick(point.x, point.y, BaseHitObject.Offset + timeOffset));
-               
+
                 CloneableList<CatchSliderTick> repeatTicks=new CloneableList<CatchSliderTick>();
                 repeatTicks = (CloneableList<CatchSliderTick>)Ticks.Clone();
 
-                
                 double normalizedTimeValue = 0d;
                 if ((1 & repeatId) != 0)
                 {
@@ -173,22 +170,20 @@ namespace osuTools.PerformanceCalculator.Catch
                 repeatBonusTick.AddRange(repeatTicks);
                 repeatId++;
             }
-            
+
             Ticks.AddRange(repeatBonusTick);
-            
-            
+
             OsuPixel tmpPoint;
             double distEnd = (1 & j.RepeatTime) * j.Length;
             if (j.CurveType == CurveTypes.Linear)
                 tmpPoint = MathUtlity.PointOnLine(j.curvePoints[0], j.curvePoints[1], distEnd);
             else
                 tmpPoint = (curve as IHasPointProcessor).PointAtDistance(distEnd); 
-            
+
             var endTick = new CatchSliderTick(tmpPoint.x, tmpPoint.y, Offset + Duration);
             EndTicks.Add(endTick);
             //Ticks.ForEach(tick=>Console.WriteLine($"Tick?{tick.Offset}?{tick.x}?{tick.y}"));
             //EndTicks.ForEach(tick => Console.WriteLine($"EndTick?{tick.Offset}?{tick.x}?{tick.y}"));
-
 
         }
         public int GetCombo()
@@ -206,6 +201,6 @@ namespace osuTools.PerformanceCalculator.Catch
             }
             return val;
         }
-        
+
     }
 }

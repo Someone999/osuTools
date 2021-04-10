@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
-using osuTools.ExtraMethods;
+using osuTools.Exceptions;
 using osuTools.Online.ApiV1;
 
 namespace osuTools.Online.ApiV2.Classes

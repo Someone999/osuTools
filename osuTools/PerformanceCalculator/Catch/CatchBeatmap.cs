@@ -25,7 +25,7 @@ namespace osuTools.PerformanceCalculator.Catch
                 CatchTimePoints[type][offset] = value;
             else
                 CatchTimePoints[type].Add(offset,value);
-            
+
         }
         public List<CatchHitObject> CatchHitObjects { get; } = new List<CatchHitObject>();
         public CatchDifficultyAttribute Difficulty { get; } = new CatchDifficultyAttribute();
@@ -40,11 +40,11 @@ namespace osuTools.PerformanceCalculator.Catch
             BaseBeatmap = baseBeatmap;
             Difficulty.SliderMultiplier = baseBeatmap.SliderMultiplier;
             Difficulty.SliderTickRate = baseBeatmap.SliderTickRate;
-            Difficulty.ApprochRate = baseBeatmap.AR;
-            Difficulty.CircleSize = baseBeatmap.CS;
-            Difficulty.OverallDifficulty = baseBeatmap.OD;
-            Difficulty.HPDrain = baseBeatmap.HP;
-            if (baseBeatmap.AR == 0)
+            Difficulty.ApprochRate = baseBeatmap.ApproachRate;
+            Difficulty.CircleSize = baseBeatmap.CircleSize;
+            Difficulty.OverallDifficulty = baseBeatmap.OverallDifficulty;
+            Difficulty.HPDrain = baseBeatmap.HPDrain;
+            if (baseBeatmap.ApproachRate == 0)
                 Difficulty.ApprochRate = Difficulty.CircleSize;
             HandleTimePoints();
             HandleHitObject();
@@ -79,7 +79,7 @@ namespace osuTools.PerformanceCalculator.Catch
         Dictionary<CatchTimePointType,double> GetAllTimePoints(double time)
         {
             Dictionary<CatchTimePointType, double> dict = new Dictionary<CatchTimePointType, double>();
-               
+
             double bpmVal = GetTimePoint(time, CatchTimePointType.BPM);
             double rawBpmVal = GetTimePoint(time, CatchTimePointType.RawBPM);
             double spmVal = GetTimePoint(time, CatchTimePointType.SPM);
@@ -112,7 +112,6 @@ namespace osuTools.PerformanceCalculator.Catch
             return r;
         }
 
-        
         void HandleHitObject()
         {
             var hitObjs = BaseBeatmap.HitObjects;
@@ -135,7 +134,7 @@ namespace osuTools.PerformanceCalculator.Catch
                     if(BaseBeatmap.BeatmapVersion >= 8)
                         tickDistance /= (MathUtlity.Clamp(-1 * tmPt[CatchTimePointType.RawSPM], 10, 1000) / 100);
                     var curvePoints = new List<OsuPixel>(j.CurvePoints);
-                    
+
                     var sliderType = j.CurveType;
                     if(BaseBeatmap.BeatmapVersion <= 6 && curvePoints.Count >= 2)
                         if (sliderType == CurveTypes.Linear)
@@ -149,18 +148,17 @@ namespace osuTools.PerformanceCalculator.Catch
                             sliderType = CurveTypes.Linear;
                         }
                     }
-                    
+
                     j.curvePoints = curvePoints;
-                    
+
                     j.CurveType = sliderType;
                     if (curvePoints.Count == 0)
                         catchHitObject = new CatchHitObject(hitObject);
                     else
                     {
-                       
+
                         catchHitObject =
                             new CatchHitObject(hitObject, tmPt, Difficulty, tickDistance);
-                        
 
                     }
                 }
@@ -173,5 +171,5 @@ namespace osuTools.PerformanceCalculator.Catch
             }
         }
     }
-   
+
 }

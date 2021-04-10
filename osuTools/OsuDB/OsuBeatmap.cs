@@ -7,7 +7,7 @@ namespace osuTools.OsuDB
     /// <summary>
     ///     谱面，存储的信息多于Beatmap类
     /// </summary>
-    public class OsuBeatmap : IOsuDBData
+    public class OsuBeatmap : IOsuDbData
     {
         internal long ModifucationTime;
         internal List<OsuBeatmapTimePoint> timepoints = new List<OsuBeatmapTimePoint>();
@@ -125,22 +125,22 @@ namespace osuTools.OsuDB
         /// <summary>
         ///     缩圈速度
         /// </summary>
-        public double AR { get; internal set; }
+        public double ApproachRate { get; internal set; }
 
         /// <summary>
         ///     综合难度
         /// </summary>
-        public double OD { get; internal set; }
+        public double OverallDifficulty { get; internal set; }
 
         /// <summary>
         ///     圈圈大小
         /// </summary>
-        public double CS { get; internal set; }
+        public double CircleSize { get; internal set; }
 
         /// <summary>
         ///     掉血、回血速度
         /// </summary>
-        public double HPDrain { get; internal set; }
+        public double HpDrain { get; internal set; }
 
         /// <summary>
         ///     谱面的时间点
@@ -150,12 +150,12 @@ namespace osuTools.OsuDB
         /// <summary>
         ///     谱面ID
         /// </summary>
-        public int BeatmapID { get; internal set; }
+        public int BeatmapId { get; internal set; }
 
         /// <summary>
         ///     谱面集的ID
         /// </summary>
-        public int BeatmapSetID { get; internal set; }
+        public int BeatmapSetId { get; internal set; }
 
         /// <summary>
         ///     包含部分Mod与难度星级的字典
@@ -164,7 +164,7 @@ namespace osuTools.OsuDB
 
         /// <summary>
         /// </summary>
-        public int ThreadID { get; internal set; }
+        public int ThreadId { get; internal set; }
 
         /// <summary>
         ///     将OsuBeatmap转换成字符串形式
@@ -215,7 +215,7 @@ namespace osuTools.OsuDB
 
         public IReadOnlyList<OsuScoreInfo> GetScores()
         {
-            OsuScoreDB scoreDb = new OsuScoreDB();
+            OsuScoreDb scoreDb = new OsuScoreDb();
             List<OsuScoreInfo> info = new List<OsuScoreInfo>();
             foreach (var score in scoreDb.Scores)
             {

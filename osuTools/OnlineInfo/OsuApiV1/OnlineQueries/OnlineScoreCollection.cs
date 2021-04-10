@@ -7,10 +7,10 @@ namespace osuTools
         /// <summary>
         ///     获取一个谱面排行榜上最高100个记录。
         /// </summary>
-        public class OnlineScoreCollection : OnlineInfo<OnlineScore>
+        public class OnlineScoreCollection : IOnlineInfo<OnlineScore>
         {
-            private int enumpos = -1;
-            private int x = 0;
+            private int _enumpos = -1;
+            private int _x = 0;
 
             public OnlineScore this[int x]
             {

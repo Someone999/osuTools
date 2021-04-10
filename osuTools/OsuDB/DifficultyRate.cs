@@ -71,6 +71,7 @@ namespace osuTools.OsuDB
             }
             catch
             {
+                // ignored
             }
         }
 

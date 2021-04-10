@@ -8,8 +8,8 @@ namespace osuTools.Online.ApiV1.Querier
     /// </summary>
     public class OnlineUserQuery
     {
-        private bool queried;
-        private OnlineUser rec = new OnlineUser();
+        private bool _queried;
+        private OnlineUser _rec = new OnlineUser();
 
         /// <summary>
         ///     查询到的用户信息
@@ -18,22 +18,22 @@ namespace osuTools.Online.ApiV1.Querier
         {
             get
             {
-                if (!queried)
+                if (!_queried)
                 {
                     GetResult();
-                    queried = true;
-                    return rec;
+                    _queried = true;
+                    return _rec;
                 }
 
-                return rec;
+                return _rec;
             }
-            private set => rec = value;
+            private set => _rec = value;
         }
 
         /// <summary>
         ///     用户ID
         /// </summary>
-        public int UserID { get; set; }
+        public int UserId { get; set; }
 
         /// <summary>
         ///     用户名
@@ -62,14 +62,14 @@ namespace osuTools.Online.ApiV1.Querier
         public Uri UriGenerator()
         {
             var baseuri = $"https://osu.ppy.sh/api/get_user?k={OsuApiKey}";
-            if (UserID == 0 && string.IsNullOrEmpty(UserName))
+            if (UserId == 0 && string.IsNullOrEmpty(UserName))
                 throw new ArgumentException();
             string usern = $"&u={UserName}&type=string",
-                userid = $"&u={UserID}&type=id",
+                userid = $"&u={UserId}&type=id",
                 mode = $"&m={(int) Mode}",
                 eventdays = $"&event_days={MaxDaysLastEventBefore}";
             var b = new StringBuilder(baseuri);
-            b.Append(UserID == 0 ? usern : userid);
+            b.Append(UserId == 0 ? usern : userid);
             b.Append(mode);
             b.Append(eventdays);
             return new Uri(b.ToString());

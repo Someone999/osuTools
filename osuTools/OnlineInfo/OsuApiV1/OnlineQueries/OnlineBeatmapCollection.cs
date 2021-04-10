@@ -5,7 +5,7 @@ namespace osuTools.Online.ApiV1
     /// <summary>
     ///     在线获取的谱面的集合
     /// </summary>
-    public class OnlineBeatmapCollection : OnlineInfo<OnlineBeatmap>
+    public class OnlineBeatmapCollection : IOnlineInfo<OnlineBeatmap>
     {
         /// <summary>
         ///     指示本次查询是否失败

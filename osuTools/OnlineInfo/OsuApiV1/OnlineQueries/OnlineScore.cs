@@ -15,53 +15,53 @@ namespace osuTools.Online.ApiV1
     public partial class OnlineScore : PPSorted, IFormattable
     {
         private int
-            beatmap_id = -1,
-            maxcombo,
-            count50,
-            count100,
-            count300,
-            countmiss,
-            countkatu,
-            countgeki,
-            perfect,
-            user_id;
+            _beatmapId = -1,
+            _maxcombo,
+            _count50,
+            _count100,
+            _count300,
+            _countmiss,
+            _countkatu,
+            _countgeki,
+            _perfect,
+            _userId;
 
-        private DateTime d;
+        private DateTime _d;
 
         private string
-            date;
+            _date;
 
-        private int mod;
-        private double pp;
-        private int score, replay_available;
+        private int _mod;
+        private double _pp;
+        private int _score, _replayAvailable;
 
         private uint
-            score_id;
+            _scoreId;
 
         /// <summary>
         ///     创造一个空的OnlineScore对象
         /// </summary>
         public OnlineScore()
         {
-            replay_available = 0;
+            _replayAvailable = 0;
             Perfect = false;
-            d = DateTime.MinValue;
+            _d = DateTime.MinValue;
             ReplayAvailable = false;
-            score_id = 0;
-            score = 0;
-            pp = 0.0;
-            maxcombo = 0;
-            count300 = 0;
-            count100 = 0;
-            count50 = 0;
-            countgeki = 0;
-            countkatu = 0;
-            countmiss = 0;
-            perfect = 0;
-            user_id = 0;
-            date = "0-0-0 0:0:0";
+            _scoreId = 0;
+            _score = 0;
+            _pp = 0.0;
+            _maxcombo = 0;
+            _count300 = 0;
+            _count100 = 0;
+            _count50 = 0;
+            _countgeki = 0;
+            _countkatu = 0;
+            _countmiss = 0;
+            _perfect = 0;
+            _userId = 0;
+            _date = "0-0-0 0:0:0";
             Rank = "?";
-            Mods = ModList.FromInteger(mod);
+            Mods = ModList.FromInteger(_mod);
         }
 
         /// <summary>
@@ -74,36 +74,36 @@ namespace osuTools.Online.ApiV1
         {
             //try
             {
-                BeatmapID = beatmapId;
+                BeatmapId = beatmapId;
                 Mode = mode;
                 var jobj = JsonConvert.DeserializeObject(json);
                 var cjobj = new JObject();
                 if (jobj.GetType() == typeof(JObject)) cjobj = (JObject) jobj;
                 if (jobj.GetType() == typeof(JArray)) cjobj = (JObject) ((JArray) jobj)[0];
 
-                int.TryParse(cjobj["countgeki"].ToString(), out countgeki);
-                int.TryParse(cjobj["countkatu"].ToString(), out countkatu);
-                int.TryParse(cjobj["count300"].ToString(), out count300);
-                int.TryParse(cjobj["count100"].ToString(), out count100);
-                int.TryParse(cjobj["count50"].ToString(), out count50);
-                int.TryParse(cjobj["countmiss"].ToString(), out countmiss);
-                int.TryParse(cjobj["maxcombo"].ToString(), out maxcombo);
-                int.TryParse(cjobj["score"].ToString(), out score);
-                int.TryParse(cjobj["user_id"].ToString(), out user_id);
-                int.TryParse(cjobj["perfect"].ToString(), out perfect);
-                int.TryParse(cjobj["replay_available"].ToString(), out replay_available);
-                uint.TryParse(cjobj["score_id"].ToString(), out score_id);
-                int.TryParse(cjobj["enabled_mods"].ToString(), out mod);
-                double.TryParse(cjobj["pp"].ToString(), out pp);
-                date = cjobj["date"].ToString();
+                int.TryParse(cjobj["countgeki"].ToString(), out _countgeki);
+                int.TryParse(cjobj["countkatu"].ToString(), out _countkatu);
+                int.TryParse(cjobj["count300"].ToString(), out _count300);
+                int.TryParse(cjobj["count100"].ToString(), out _count100);
+                int.TryParse(cjobj["count50"].ToString(), out _count50);
+                int.TryParse(cjobj["countmiss"].ToString(), out _countmiss);
+                int.TryParse(cjobj["maxcombo"].ToString(), out _maxcombo);
+                int.TryParse(cjobj["score"].ToString(), out _score);
+                int.TryParse(cjobj["user_id"].ToString(), out _userId);
+                int.TryParse(cjobj["perfect"].ToString(), out _perfect);
+                int.TryParse(cjobj["replay_available"].ToString(), out _replayAvailable);
+                uint.TryParse(cjobj["score_id"].ToString(), out _scoreId);
+                int.TryParse(cjobj["enabled_mods"].ToString(), out _mod);
+                double.TryParse(cjobj["pp"].ToString(), out _pp);
+                _date = cjobj["date"].ToString();
                 Rank = cjobj["rank"].ToString();
-                Mods = ModList.FromInteger(mod);
+                Mods = ModList.FromInteger(_mod);
                 Accuracy = AccCalc(Mode);
-                DateTime.TryParse(date, out d);
-                if (perfect == 1)
+                DateTime.TryParse(_date, out _d);
+                if (_perfect == 1)
                     Perfect = true;
-                else if (perfect == 0) Perfect = false;
-                if (replay_available == 1)
+                else if (_perfect == 0) Perfect = false;
+                if (_replayAvailable == 1)
                     ReplayAvailable = true;
                 else
                     ReplayAvailable = false;
@@ -144,29 +144,29 @@ namespace osuTools.Online.ApiV1
                 var cjobj = new JObject();
                 if (jobj.GetType() == typeof(JObject)) cjobj = (JObject) jobj;
                 if (jobj.GetType() == typeof(JArray)) cjobj = (JObject) ((JArray) jobj)[0];
-                if (beatmapid > 0) beatmap_id = beatmapid;
-                int.TryParse(cjobj["countgeki"].ToString(), out countgeki);
-                int.TryParse(cjobj["countkatu"].ToString(), out countkatu);
-                int.TryParse(cjobj["count300"].ToString(), out count300);
-                int.TryParse(cjobj["count100"].ToString(), out count100);
-                int.TryParse(cjobj["count50"].ToString(), out count50);
-                int.TryParse(cjobj["countmiss"].ToString(), out countmiss);
-                int.TryParse(cjobj["maxcombo"].ToString(), out maxcombo);
-                int.TryParse(cjobj["score"].ToString(), out score);
-                int.TryParse(cjobj["user_id"].ToString(), out user_id);
-                int.TryParse(cjobj["perfect"].ToString(), out perfect);
-                int.TryParse(cjobj["replay_available"].ToString(), out replay_available);
-                uint.TryParse(cjobj["score_id"].ToString(), out score_id);
-                int.TryParse(cjobj["enabled_mods"].ToString(), out mod);
-                double.TryParse(cjobj["pp"].ToString(), out pp);
-                date = cjobj["date"].ToString();
+                if (beatmapid > 0) _beatmapId = beatmapid;
+                int.TryParse(cjobj["countgeki"].ToString(), out _countgeki);
+                int.TryParse(cjobj["countkatu"].ToString(), out _countkatu);
+                int.TryParse(cjobj["count300"].ToString(), out _count300);
+                int.TryParse(cjobj["count100"].ToString(), out _count100);
+                int.TryParse(cjobj["count50"].ToString(), out _count50);
+                int.TryParse(cjobj["countmiss"].ToString(), out _countmiss);
+                int.TryParse(cjobj["maxcombo"].ToString(), out _maxcombo);
+                int.TryParse(cjobj["score"].ToString(), out _score);
+                int.TryParse(cjobj["user_id"].ToString(), out _userId);
+                int.TryParse(cjobj["perfect"].ToString(), out _perfect);
+                int.TryParse(cjobj["replay_available"].ToString(), out _replayAvailable);
+                uint.TryParse(cjobj["score_id"].ToString(), out _scoreId);
+                int.TryParse(cjobj["enabled_mods"].ToString(), out _mod);
+                double.TryParse(cjobj["pp"].ToString(), out _pp);
+                _date = cjobj["date"].ToString();
                 Rank = cjobj["rank"].ToString();
-                Mods = ModList.FromInteger(mod);
-                DateTime.TryParse(date, out d);
-                if (perfect == 1)
+                Mods = ModList.FromInteger(_mod);
+                DateTime.TryParse(_date, out _d);
+                if (_perfect == 1)
                     Perfect = true;
-                else if (perfect == 0) Perfect = false;
-                if (replay_available == 1)
+                else if (_perfect == 0) Perfect = false;
+                if (_replayAvailable == 1)
                     ReplayAvailable = true;
                 else
                     ReplayAvailable = false;
@@ -183,7 +183,7 @@ namespace osuTools.Online.ApiV1
         /// <summary>
         ///     谱面ID
         /// </summary>
-        public int BeatmapID { get; private set; }
+        public int BeatmapId { get; private set; }
 
         /// <summary>
         ///     准度
@@ -200,17 +200,17 @@ namespace osuTools.Online.ApiV1
             var b = new StringBuilder(format);
             b.Replace("perfect", Perfect.ToString());
             b.Replace("pp", PP.ToString());
-            b.Replace("c300g", c300g.ToString());
-            b.Replace("c300", c300.ToString());
-            b.Replace("c200", c200.ToString());
-            b.Replace("c100", c100.ToString());
-            b.Replace("c50", c50.ToString());
-            b.Replace("cMiss", cMiss.ToString());
-            b.Replace("userid", UserID.ToString());
+            b.Replace("Count300g", C300G.ToString());
+            b.Replace("c300", C300.ToString());
+            b.Replace("Count200", C200.ToString());
+            b.Replace("Count100", C100.ToString());
+            b.Replace("Count50", C50.ToString());
+            b.Replace("CountMiss", CMiss.ToString());
+            b.Replace("userid", UserId.ToString());
             b.Replace("rank", Rank);
-            b.Replace("playtime", d.ToString("yyyy/MM/dd HH:mm:ss"));
+            b.Replace("playtime", _d.ToString("yyyy/MM/dd HH:mm:ss"));
             b.Replace("score", Score.ToString());
-            b.Replace("beatmapid", BeatmapID.ToString());
+            b.Replace("beatmapid", BeatmapId.ToString());
             b.Replace("maxcombo", MaxCombo.ToString());
             b.Replace("acc", Accuracy.ToString("p2"));
             b.Replace("mode", Mode.ToString());
@@ -223,13 +223,13 @@ namespace osuTools.Online.ApiV1
         /// <returns></returns>
         public override string ToString()
         {
-            return $"{UserID} {PP} {Score}";
+            return $"{UserId} {PP} {Score}";
         }
 
         private double AccCalc(OsuGameMode mode)
         {
             return GameMode.FromLegacyMode(mode).AccuracyCalc(new ScoreInfo
-                {c300g = c300g, c300 = c300, c200 = c200, c100 = c100, c50 = c50, cMiss = cMiss});
+                {c300g = C300G, c300 = C300, c200 = C200, c100 = C100, c50 = C50, cMiss = CMiss});
         }
 
         /// <summary>
@@ -240,7 +240,7 @@ namespace osuTools.Online.ApiV1
         {
             var q = new OnlineBeatmapQuery();
             q.OsuApiKey = QuerierApiKey;
-            q.BeatmapID = beatmap_id;
+            q.BeatmapId = _beatmapId;
             var beatmap = q.Beatmaps[0];
             return beatmap;
         }
@@ -252,7 +252,7 @@ namespace osuTools.Online.ApiV1
         public OnlineUser GetUser()
         {
             var q = new OnlineUserQuery();
-            q.UserID = user_id;
+            q.UserId = _userId;
             q.OsuApiKey = QuerierApiKey;
             var user = q.UserInfo;
             return user;

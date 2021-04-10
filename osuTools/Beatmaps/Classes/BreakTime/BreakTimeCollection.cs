@@ -54,6 +54,6 @@ namespace osuTools.Beatmaps
         /// <param name="endTime"></param>
         /// <returns></returns>
         public BreakTime GetBreakTimeByEndTime(long endTime) => BreakTimes.FirstOrDefault(b => b.End == endTime);
-        
+
     }
 }

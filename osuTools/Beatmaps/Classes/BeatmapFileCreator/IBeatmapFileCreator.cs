@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using osuTools.Attributes;
+using osuTools.Exceptions;
 
 namespace osuTools.Beatmaps.BeatmapFileCreator
 {

@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using osuTools.Exceptions;
 using osuTools.OsuDB;
-using osuTools.osuToolsException;
 
 namespace osuTools
 {
@@ -141,7 +141,7 @@ namespace osuTools
                         }
 
                         var tmp = new Beatmap(beatmapdir);
-                        if (!tmp.notv)
+                        if (!tmp.Notv)
                             c._beatmaps.Add(tmp);
                     }
 
@@ -156,8 +156,7 @@ namespace osuTools
             /* public BeatmapCollection FindEx(string artist = null, string title = null, string creator = null, string version = null, string tag = null, string source = null)
              {
                  BeatmapCollection result = new BeatmapCollection();
- 
- 
+
                  return result;
              }*/
             /// <summary>

@@ -7,7 +7,7 @@
     {
         internal OsuBeatmapTimePoint(double bpm, double offset, bool inherit)
         {
-            BPM = 1 / bpm * 1000 * 60;
+            Bpm = 1 / bpm * 1000 * 60;
             Offset = offset;
             Inherit = inherit;
         }
@@ -15,7 +15,7 @@
         /// <summary>
         ///     该时间点对应的BPM
         /// </summary>
-        public double BPM { get; internal set; }
+        public double Bpm { get; internal set; }
 
         /// <summary>
         ///     该时间点相对于开始的偏移量

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
-using osuTools.ExtraMethods;
+using osuTools.Exceptions;
 using osuTools.Online.ApiV1;
 
 namespace osuTools.Online.ApiV2.Classes
@@ -94,7 +94,7 @@ namespace osuTools.Online.ApiV2.Classes
         public double AR { get; internal set; } = -1;
 
         /// <summary>
-        ///     掉血和回血速度 HP Drain
+        ///     掉血和回血速度 HPDrain Drain
         /// </summary>
         public double HP { get; internal set; } = -1;
 

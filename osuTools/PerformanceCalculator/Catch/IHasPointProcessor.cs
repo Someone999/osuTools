@@ -7,6 +7,6 @@ namespace osuTools.PerformanceCalculator.Catch
     {
         OsuPixel PointAtDistance(double length);
         List<OsuPixel> Points { get; }
-       
+
     }
 }

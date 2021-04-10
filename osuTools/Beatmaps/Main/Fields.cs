@@ -19,6 +19,5 @@ namespace osuTools.Beatmaps
 
         private bool _modeHasSet;
 
-
     }
 }

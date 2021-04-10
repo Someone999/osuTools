@@ -14,7 +14,6 @@ namespace osuTools.PerformanceCalculator.Catch
         public int Order { get; }
         public double Step { get; set; }
 
-
         public Catmull(List<OsuPixel> points)
         {
             Points = points;

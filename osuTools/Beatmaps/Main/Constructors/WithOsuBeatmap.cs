@@ -24,18 +24,18 @@ namespace osuTools.Beatmaps
             Version = Difficulty;
             FileName = beatmap.FileName;
             FullPath = Path.Combine(info.BeatmapDirectory, beatmap.FolderName, beatmap.FileName);
-            DownloadLink = $"http://osu.ppy.sh/b/{beatmap.BeatmapID}";
+            DownloadLink = $"http://osu.ppy.sh/b/{beatmap.BeatmapId}";
             Source = beatmap.Source;
             Tags = beatmap.Tags;
             Maker = "";
             MD5 = new MD5String(beatmap.MD5);
             FullAudioFileName = Path.Combine(info.BeatmapDirectory, beatmap.FolderName, beatmap.AudioFileName);
             FullVideoFileName = "";
-            OD = beatmap.OD;
-            HP = beatmap.HPDrain;
-            AR = beatmap.AR;
-            CS = beatmap.CS;
-            BeatmapSetId = beatmap.BeatmapSetID;
+            OverallDifficulty = beatmap.OverallDifficulty;
+            HPDrain = beatmap.HpDrain;
+            ApproachRate = beatmap.ApproachRate;
+            CircleSize = beatmap.CircleSize;
+            BeatmapSetId = beatmap.BeatmapSetId;
             AudioFileName = beatmap.AudioFileName;
             Mode = beatmap.Mode;
             if (getStars)
@@ -72,7 +72,7 @@ namespace osuTools.Beatmaps
                 if (line.Contains("TimingPoints")) break;
             }
 
-            BeatmapId = beatmap.BeatmapID;
+            BeatmapId = beatmap.BeatmapId;
             getAddtionalInfo(alllines);
         }
     }

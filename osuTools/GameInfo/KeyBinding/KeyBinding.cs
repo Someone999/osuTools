@@ -1,18 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using osuTools.ExtraMethods;
-using osuTools.KeyLayouts;
+using osuTools.Exceptions;
+using osuTools.GameInfo.KeyLayout;
 
-namespace osuTools.KeyBindings
+namespace osuTools.GameInfo.KeyBinding
 {
     /// <summary>
     ///     存储所有的快捷键及按键信息。
     /// </summary>
     public class KeyBinding
     {
-        private readonly Dictionary<string, Keys> keyandint = new Dictionary<string, Keys>();
-        private readonly string[] lines;
+        private readonly Dictionary<string, Keys> _keyandint = new Dictionary<string, Keys>();
+        private readonly string[] _lines;
 
         /// <summary>
         ///     将字符串数组解析成键位信息
@@ -21,12 +21,12 @@ namespace osuTools.KeyBindings
         public KeyBinding(string[] data)
         {
             Init();
-            lines = data;
-            ManiaKeyLayouts = new ManiaKeyLayout(lines);
-            OsuKeyLayouts = new OsuKeyLayout(lines);
-            CatchKeyLayouts = new CatchKeyLayout(lines);
-            TaikoKeyLayouts = new TaikoKeyLayout(lines);
-            ModKeyLayouts = new ModsKeyLayout(lines);
+            _lines = data;
+            ManiaKeyLayouts = new ManiaKeyLayout(_lines);
+            OsuKeyLayouts = new OsuKeyLayout(_lines);
+            CatchKeyLayouts = new CatchKeyLayout(_lines);
+            TaikoKeyLayouts = new TaikoKeyLayout(_lines);
+            ModKeyLayouts = new ModsKeyLayout(_lines);
             Parse();
         }
 
@@ -66,17 +66,18 @@ namespace osuTools.KeyBindings
             var names = Enum.GetNames(typeof(Keys));
             try
             {
-                for (var i = 0; i < values.Length; i++) keyandint.Add(names[i], (Keys) values.GetValue(i));
+                for (var i = 0; i < values.Length; i++) _keyandint.Add(names[i], (Keys) values.GetValue(i));
             }
             catch
             {
+                // ignored
             }
         }
 
         private void Parse()
         {
             Bindings = new Dictionary<string, Keys>();
-            foreach (var data in lines)
+            foreach (var data in _lines)
             {
                 var tmp = data.Split('=');
                 if (tmp.Length > 1)
@@ -86,14 +87,14 @@ namespace osuTools.KeyBindings
                     }
                     else
                     {
-                        var Invalid = !keyandint.ContainsKey(tmp[1].Trim());
-                        var IsLayOutKey = OsuKeyLayouts.InternalName.Contains(tmp[0].Trim()) ||
+                        var invalid = !_keyandint.ContainsKey(tmp[1].Trim());
+                        var isLayOutKey = OsuKeyLayouts.InternalName.Contains(tmp[0].Trim()) ||
                                           CatchKeyLayouts.InternalName.Contains(tmp[0].Trim()) ||
                                           TaikoKeyLayouts.InternalName.Contains(tmp[0].Trim()) ||
                                           ModKeyLayouts.InternalName.Contains(tmp[0].Trim());
-                        if (Invalid || IsLayOutKey)
+                        if (invalid || isLayOutKey)
                             continue;
-                        Bindings.Add(tmp[0], keyandint.CheckIndexAndGetValue(tmp[1].Trim()));
+                        Bindings.Add(tmp[0], _keyandint.CheckIndexAndGetValue(tmp[1].Trim()));
                     }
                 }
             }

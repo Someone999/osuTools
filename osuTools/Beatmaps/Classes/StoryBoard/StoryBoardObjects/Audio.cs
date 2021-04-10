@@ -1,4 +1,4 @@
-﻿using osuTools.osuToolsException;
+﻿using osuTools.Exceptions;
 
 namespace osuTools.StoryBoard
 {

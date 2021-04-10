@@ -7,10 +7,10 @@ namespace osuTools
         /// <summary>
         ///     存储最近24小时打出所有成绩
         /// </summary>
-        public class OnlineRecentResultCollection : OnlineInfo<RecentOnlineResult>
+        public class OnlineRecentResultCollection : IOnlineInfo<RecentOnlineResult>
         {
-            private int p = -1;
-            private int x = 0;
+            private int _p = -1;
+            private int _x = 0;
 
             /// <summary>
             ///     指示本次查询是否成功

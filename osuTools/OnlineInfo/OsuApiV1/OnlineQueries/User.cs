@@ -13,30 +13,30 @@ namespace osuTools
         public partial class OnlineUser : IFormattable
         {
             private int
-                count_rank_ss,
-                count_rank_ssh,
-                count_rank_s,
-                count_rank_sh,
-                count_rank_a;
+                _countRankSs,
+                _countRankSsh,
+                _countRankS,
+                _countRankSh,
+                _countRankA;
 
-            private string join_date = "0-0-0 0:0:0";
+            private string _joinDate = "0-0-0 0:0:0";
 
             private double
-                level,
-                pp_raw,
-                accuracy;
+                _level,
+                _ppRaw,
+                _accuracy;
 
-            private OsuGameMode mode;
-            private int playcount;
-            private int pp_rank;
-            private double ranked_score, total_score;
-            private DateTime t;
+            private OsuGameMode _mode;
+            private int _playcount;
+            private int _ppRank;
+            private double _rankedScore, _totalScore;
+            private DateTime _t;
 
             private int
-                total_seconds_played,
-                pp_country_rank;
+                _totalSecondsPlayed,
+                _ppCountryRank;
 
-            private int user_id;
+            private int _userId;
 
             /// <summary>
             ///     实例化一个OnlineUser对象，内容为空
@@ -60,25 +60,25 @@ namespace osuTools
                 try
                 {
                     var jobj = jarr[0];
-                    int.TryParse(jobj["user_id"].ToString(), out user_id);
-                    int.TryParse(jobj["playcount"].ToString(), out playcount);
-                    int.TryParse(jobj["pp_rank"].ToString(), out pp_rank);
-                    int.TryParse(jobj["count_rank_ss"].ToString(), out count_rank_ss);
-                    int.TryParse(jobj["count_rank_ssh"].ToString(), out count_rank_ssh);
-                    int.TryParse(jobj["count_rank_s"].ToString(), out count_rank_s);
-                    int.TryParse(jobj["count_rank_sh"].ToString(), out count_rank_sh);
-                    int.TryParse(jobj["count_rank_a"].ToString(), out count_rank_a);
-                    int.TryParse(jobj["total_seconds_played"].ToString(), out total_seconds_played);
-                    int.TryParse(jobj["pp_country_rank"].ToString(), out pp_country_rank);
-                    double.TryParse(jobj["ranked_score"].ToString(), out ranked_score);
-                    double.TryParse(jobj["total_score"].ToString(), out total_score);
-                    double.TryParse(jobj["pp_raw"].ToString(), out pp_raw);
-                    double.TryParse(jobj["level"].ToString(), out level);
-                    double.TryParse(jobj["accuracy"].ToString(), out accuracy);
+                    int.TryParse(jobj["user_id"].ToString(), out _userId);
+                    int.TryParse(jobj["playcount"].ToString(), out _playcount);
+                    int.TryParse(jobj["pp_rank"].ToString(), out _ppRank);
+                    int.TryParse(jobj["count_rank_ss"].ToString(), out _countRankSs);
+                    int.TryParse(jobj["count_rank_ssh"].ToString(), out _countRankSsh);
+                    int.TryParse(jobj["count_rank_s"].ToString(), out _countRankS);
+                    int.TryParse(jobj["count_rank_sh"].ToString(), out _countRankSh);
+                    int.TryParse(jobj["count_rank_a"].ToString(), out _countRankA);
+                    int.TryParse(jobj["total_seconds_played"].ToString(), out _totalSecondsPlayed);
+                    int.TryParse(jobj["pp_country_rank"].ToString(), out _ppCountryRank);
+                    double.TryParse(jobj["ranked_score"].ToString(), out _rankedScore);
+                    double.TryParse(jobj["total_score"].ToString(), out _totalScore);
+                    double.TryParse(jobj["pp_raw"].ToString(), out _ppRaw);
+                    double.TryParse(jobj["level"].ToString(), out _level);
+                    double.TryParse(jobj["accuracy"].ToString(), out _accuracy);
                     UserName = jobj["username"].ToString();
-                    join_date = jobj["join_date"].ToString();
+                    _joinDate = jobj["join_date"].ToString();
                     Country = jobj["country"].ToString();
-                    DateTime.TryParse(join_date, out t);
+                    DateTime.TryParse(_joinDate, out _t);
                 }
                 catch (NullReferenceException)
                 {
@@ -101,14 +101,14 @@ namespace osuTools
             {
                 var b = new StringBuilder(format);
                 b.Replace("username", UserName);
-                b.Replace("userid", UserID.ToString());
-                b.Replace("mode", mode.ToString());
-                b.Replace("pp", PP.ToString());
+                b.Replace("userid", UserId.ToString());
+                b.Replace("mode", _mode.ToString());
+                b.Replace("pp", Pp.ToString());
                 b.Replace("globalrank", GlobalRank.ToString());
                 b.Replace("countryrank", CountryRank.ToString());
-                b.Replace("cssh", SSHCount.ToString());
-                b.Replace("csh", SHCount.ToString());
-                b.Replace("css", SSCount.ToString());
+                b.Replace("cssh", SshCount.ToString());
+                b.Replace("csh", ShCount.ToString());
+                b.Replace("css", SsCount.ToString());
                 b.Replace("cs", SCount.ToString());
                 b.Replace("ca", ACount.ToString());
                 b.Replace("acc", $"{Accuracy:f2}%");
@@ -116,7 +116,7 @@ namespace osuTools
                 b.Replace("totalscore", TotalScore.ToString());
                 b.Replace("playcount", PlayCount.ToString());
                 b.Replace("level", Level.ToString());
-                b.Replace("countrycn", GetCountryInCN(Country));
+                b.Replace("countrycn", GetCountryInCn(Country));
                 b.Replace("country", Country);
                 b.Replace("joindate", JoinDate.ToString("yyyy/MM/dd HH:mm:ss"));
                 return b.ToString();
@@ -129,12 +129,12 @@ namespace osuTools
             public override string ToString()
             {
                 string temp;
-                var j = new DateTime(DateTime.Now.Ticks - t.Ticks - DateTime.MinValue.Ticks);
+                var j = new DateTime(DateTime.Now.Ticks - _t.Ticks - DateTime.MinValue.Ticks);
                 temp =
-                    $"UserName:{UserName}(ID:{UserID})\nMode:{mode.ToString()} pp:{PP}\nGlobal Rank:{GlobalRank} Country Rank:{CountryRank}\n" +
-                    $"Silver SS:{SSHCount} SS:{SSCount} Silver S:{SHCount} S:{SCount} A:{ACount}\n" +
-                    $"Accuracy:{accuracy.ToString("f2")}% Total Score:{TotalScore} Ranked Score:{ranked_score}\n" +
-                    $"Play Count{PlayCount}({$"{PlayTime.Days}d {PlayTime.Hours}:{PlayTime.Minutes}:{PlayTime.Seconds})"} Level:{level}\n" +
+                    $"UserName:{UserName}(ID:{UserId})\nMode:{_mode.ToString()} pp:{Pp}\nGlobal Rank:{GlobalRank} Country Rank:{CountryRank}\n" +
+                    $"Silver SS:{SshCount} SS:{SsCount} Silver S:{ShCount} S:{SCount} A:{ACount}\n" +
+                    $"Accuracy:{_accuracy.ToString("f2")}% Total Score:{TotalScore} Ranked Score:{_rankedScore}\n" +
+                    $"Play Count{PlayCount}({$"{PlayTime.Days}d {PlayTime.Hours}:{PlayTime.Minutes}:{PlayTime.Seconds})"} Level:{_level}\n" +
                     $"From {Country}\nJoin at {JoinDate.ToString()}(Joined for {$"{j.Year}y{j.Month}mon{j.Day}d {j.Hour}h{j.Minute}m{j.Second}s"})\n";
                 return temp;
             }
@@ -149,7 +149,7 @@ namespace osuTools
                 return ToString(format, null);
             }
 
-            private string GetCountryInCN(string countryId)
+            private string GetCountryInCn(string countryId)
             {
                 if (countryId == "CN") return "中国";
                 if (countryId == "HK") return "香港";

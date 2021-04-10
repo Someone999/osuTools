@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
-using osuTools.ExtraMethods;
+using osuTools.Exceptions;
 
-namespace osuTools.KeyLayouts
+namespace osuTools.GameInfo.KeyLayout
 {
     /// <summary>
     ///     Mania模式的按键，1-9k，只有设置过按键的会出现在设置里，其余的按照默认值处理。

@@ -41,7 +41,7 @@ namespace osuTools
             ///     存储谱面的文件夹的全路径
             /// </summary>
             [AvailableVariable("Beatmap.BeatmapFolder", "LANG_VAR_BEATMAPFOLDER")]
-            public string BeatmapFolder => FullPath.Replace(FileName, "");
+            public string BeatmapFolder => string.IsNullOrEmpty(FullPath) ? "" : FullPath.Replace(FileName, "");
 
             /// <summary>
             ///     谱面的MD5
@@ -141,26 +141,29 @@ namespace osuTools
             /// <summary>
             ///     综合难度
             /// </summary>
-            [AvailableVariable("OD", "LANG_VAR_OD")]
-            public double OD { get; set; } = -1;
+            [AvailableVariable("Beatmap.OverallDifficulty", "LANG_VAR_OD")]
+            [Alias("Beatmap.OD")]
+            public double OverallDifficulty { get; set; } = -1;
 
             /// <summary>
             ///     掉血速度，回血难度
             /// </summary>
-            [AvailableVariable("Beatmap.HP", "LANG_VAR_HPDRAIN")]
-            public double HP { get; set; } = -1;
+            [AvailableVariable("Beatmap.HPDrain", "LANG_VAR_HPDRAIN")]
+            public double HPDrain { get; set; } = -1;
 
             /// <summary>
             ///     缩圈速度
             /// </summary>
-            [AvailableVariable("AR", "LANG_VAR_AR")]
-            public double AR { get; set; } = -1;
+            [AvailableVariable("Beatmap.ApproachRate", "LANG_VAR_AR")]
+            [Alias("Beatmap.AR")]
+            public double ApproachRate { get; set; } = -1;
 
             /// <summary>
             ///     圈圈大小
             /// </summary>
-            [AvailableVariable("CS", "LANG_VAR_CS")]
-            public double CS { get; set; } = -1;
+            [AvailableVariable("Beatmap.CircleSize", "LANG_VAR_CS")]
+            [Alias("Beatmap.CS")]
+            public double CircleSize { get; set; } = -1;
 
             /// <summary>
             ///     难度星级

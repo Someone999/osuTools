@@ -17,7 +17,7 @@ namespace osuTools
         /// <param name="breakWhenAssign">是否在初始化时中断</param>
         public ValueObserver(T val = default,bool breakWhenAssign = false)
         {
-            
+
             _val = val;
             if (breakWhenAssign)
                 Debugger.Break();
@@ -32,7 +32,7 @@ namespace osuTools
             {
                 if (_val == null)
                 {
-                    
+
                     OnChanged(_val, value);
                     _val = value;
                     if (BreakWhenChange)
@@ -40,14 +40,14 @@ namespace osuTools
                 }
                 else if (!_val.Equals(value))
                 {
-                    
+
                     _oldVal = _val;
                     OnChanged(_oldVal, value);
                     _val = value;
                     if (BreakWhenChange)
                         Debugger.Break();
                 }
-                
+
             }
         }
         /// <summary>

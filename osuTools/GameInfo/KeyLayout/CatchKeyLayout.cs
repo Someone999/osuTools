@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
-using osuTools.ExtraMethods;
+using osuTools.Exceptions;
 
-namespace osuTools.KeyLayouts
+namespace osuTools.GameInfo.KeyLayout
 {
     /// <summary>
     ///     CTB模式的按键
@@ -14,8 +14,8 @@ namespace osuTools.KeyLayouts
         internal List<string> InternalName =
             new List<string>(new[] {"keyFruitsLeft", "keyFruitsRight", "keyFruitsDash"});
 
-        private readonly Dictionary<string, Keys> keyandint = new Dictionary<string, Keys>();
-        private readonly string[] lines;
+        private readonly Dictionary<string, Keys> _keyandint = new Dictionary<string, Keys>();
+        private readonly string[] _lines;
 
         /// <summary>
         ///     将字符串解析成CTB键位
@@ -23,7 +23,7 @@ namespace osuTools.KeyLayouts
         /// <param name="data"></param>
         public CatchKeyLayout(string[] data)
         {
-            lines = data;
+            _lines = data;
             InitKeysDict();
             InitKeyLayout();
             Parse();
@@ -35,7 +35,7 @@ namespace osuTools.KeyLayouts
         /// <param name="ConfigFile"></param>
         public CatchKeyLayout(string ConfigFile)
         {
-            lines = File.ReadAllLines(ConfigFile);
+            _lines = File.ReadAllLines(ConfigFile);
             InitKeysDict();
             InitKeyLayout();
             Parse();
@@ -52,7 +52,7 @@ namespace osuTools.KeyLayouts
             var names = Enum.GetNames(typeof(Keys));
             try
             {
-                for (var i = 0; i < values.Length; i++) keyandint.Add(names[i], (Keys) values.GetValue(i));
+                for (var i = 0; i < values.Length; i++) _keyandint.Add(names[i], (Keys) values.GetValue(i));
             }
             catch
             {
@@ -69,14 +69,14 @@ namespace osuTools.KeyLayouts
 
         private void Parse()
         {
-            foreach (var data in lines)
+            foreach (var data in _lines)
             {
                 if (data.StartsWith("keyFruitsLeft"))
-                    KeyLayout["Left"] = keyandint.CheckIndexAndGetValue(data.Trim().Split('=')[1].Trim());
+                    KeyLayout["Left"] = _keyandint.CheckIndexAndGetValue(data.Trim().Split('=')[1].Trim());
                 if (data.StartsWith("keyFruitsRight"))
-                    KeyLayout["Right"] = keyandint.CheckIndexAndGetValue(data.Trim().Split('=')[1].Trim());
+                    KeyLayout["Right"] = _keyandint.CheckIndexAndGetValue(data.Trim().Split('=')[1].Trim());
                 if (data.StartsWith("keyFruitsDash"))
-                    KeyLayout["Dash"] = keyandint.CheckIndexAndGetValue(data.Trim().Split('=')[1].Trim());
+                    KeyLayout["Dash"] = _keyandint.CheckIndexAndGetValue(data.Trim().Split('=')[1].Trim());
             }
         }
     }

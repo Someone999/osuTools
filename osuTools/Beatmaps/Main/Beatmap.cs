@@ -16,8 +16,7 @@ namespace osuTools
         [Serializable]
         public partial class Beatmap
         {
-            internal bool notv = false;
-
+            internal bool Notv = false;
             /// <summary>
             ///     初始化一个空的Beatmap对象
             /// </summary>
@@ -145,14 +144,13 @@ namespace osuTools
             [AvailableVariable("Beatmap.HasVideo", "LANG_VAR_HASVIDEO")]
             public bool HasVideo { get; } = false;
 
-
             /// <summary>
             ///     使用osu!api在线查询谱面信息
             /// </summary>
             /// <returns></returns>
             public OnlineBeatmap GetOnlineBeatmap(string apiKey)
             {
-                var q = new OnlineBeatmapQuery {OsuApiKey = apiKey, BeatmapID = BeatmapId};
+                var q = new OnlineBeatmapQuery {OsuApiKey = apiKey, BeatmapId = BeatmapId};
                 return q.Beatmaps[0];
             }
 
@@ -164,7 +162,7 @@ namespace osuTools
             {
                 var info = new OsuInfo();
                 var baseDb = new OsuBeatmapDB();
-                return baseDb.Beatmaps.FindByMD5(MD5.ToString());
+                return baseDb.Beatmaps.FindByMd5(MD5.ToString());
             }
 
             /// <summary>
@@ -198,7 +196,7 @@ namespace osuTools
             {
                 if (a is null && b is null) return false;
                 if (a is null || b is null) return true;
-                
+
                 try
                 {
                     return a.MD5 != b.MD5;

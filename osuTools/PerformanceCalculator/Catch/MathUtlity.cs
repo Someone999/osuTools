@@ -56,7 +56,7 @@ namespace osuTools.PerformanceCalculator.Catch
 
                 new_distance = Math.Sqrt(x * x + y * y);
                 current_distance += new_distance;
-        
+
                 if (distance <= current_distance)
                     break;
             }
@@ -75,7 +75,6 @@ namespace osuTools.PerformanceCalculator.Catch
 
                 else
                     coord = new OsuPixel((array[i].x + cart.y), (array[i].y + cart.y));
-
 
                 return coord;
 

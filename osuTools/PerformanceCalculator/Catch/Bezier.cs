@@ -74,6 +74,6 @@ namespace osuTools.PerformanceCalculator.Catch
                 default: return MathUtlity.PointAtDistance(Points,length);
             }
         }
-        
+
     }
 }

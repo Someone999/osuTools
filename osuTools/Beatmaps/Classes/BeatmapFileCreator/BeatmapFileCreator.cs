@@ -87,7 +87,7 @@ namespace osuTools.Beatmaps.BeatmapFileCreator
                 b.HasCountdown ? 1 : 0, (int) b.SampleSet, b.StackLeniency, (int) b.Mode, b.LetterboxInBreaks ? 1 : 0,
                 b.WidescreenStoryboard ? 1 : 0, bookmks, b.DistanceSpacing, b.BeatDivisor, b.GridSize, b.TimelineZoom,
                 b.Title, b.TitleUnicode, b.Artist, b.ArtistUnicode, b.Creator, b.Version,
-                b.Source, b.Tags, b.BeatmapId, b.BeatmapSetId, b.HP, b.CS, b.OD, b.AR, b.SliderMultiplier,
+                b.Source, b.Tags, b.BeatmapId, b.BeatmapSetId, b.HPDrain, b.CircleSize, b.OverallDifficulty, b.ApproachRate, b.SliderMultiplier,
                 b.SliderTickRate, b.BackgroundFileName, b.HasVideo ? video : "", breaktimestrs, timePointsStrs, "",
                 hitObjectsStrs);
         }

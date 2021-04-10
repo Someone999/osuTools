@@ -1,8 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Text;
-using osuTools.ExtraMethods;
-using osuTools.osuToolsException;
+using osuTools.Exceptions;
 
 namespace osuTools.Beatmaps
 {
@@ -29,14 +28,14 @@ namespace osuTools.Beatmaps
 
             if (map.Length == 0)
             {
-                notv = true;
+                Notv = true;
                 throw new InvalidBeatmapFileException($"文件{dir}为空。");
             }
 
             if (!map[0].Contains("osu file format"))
             {
-                notv = true;
-                
+                Notv = true;
+
                 throw new InvalidBeatmapFileException($"文件{dir}不是谱面文件。");
             }
             else
@@ -132,21 +131,21 @@ namespace osuTools.Beatmaps
                 if (temparr[0].Contains("CircleSize"))
                 {
                     double.TryParse(temparr[1].Trim(), out var c);
-                    CS = c;
+                    CircleSize = c;
                     continue;
                 }
 
                 if (temparr[0].Contains("OverallDifficulty"))
                 {
                     double.TryParse(temparr[1].Trim(), out var o);
-                    OD = o;
+                    OverallDifficulty = o;
                     continue;
                 }
 
                 if (temparr[0].Contains("ApproachRate"))
                 {
                     double.TryParse(temparr[1].Trim(), out var a);
-                    AR = a;
+                    ApproachRate = a;
 
                     continue;
                 }
@@ -154,7 +153,7 @@ namespace osuTools.Beatmaps
                 if (temparr[0].Contains("HPDrainRate"))
                 {
                     double.TryParse(temparr[1].Trim(), out var h);
-                    HP = h;
+                    HPDrain = h;
                     continue;
                 }
 

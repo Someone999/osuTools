@@ -9,6 +9,6 @@ namespace osuTools.PerformanceCalculator.Catch
         public CloneableList<OsuPixel> Position { get; }
 
         public Linear(CloneableList<OsuPixel> points) => Position = points;
-        
+
     }
 }

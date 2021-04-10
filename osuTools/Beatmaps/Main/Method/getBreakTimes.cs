@@ -6,6 +6,12 @@ namespace osuTools.Beatmaps
     {
         private void getBreakTimes()
         {
+            if (string.IsNullOrEmpty(FullPath))
+            {
+                BreakTimes = new BreakTimeCollection();
+                return;
+            }
+
             var breaktimes = new BreakTimeCollection();
             var block = DataBlock.None;
             var map = File.ReadAllLines(FullPath);

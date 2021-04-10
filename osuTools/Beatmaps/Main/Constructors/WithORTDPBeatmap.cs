@@ -49,28 +49,28 @@ namespace osuTools.Beatmaps
                 if (temparr[0].Contains("CircleSize"))
                 {
                     double.TryParse(temparr[1].Trim(), out var c);
-                    CS = c;
+                    CircleSize = c;
                     continue;
                 }
 
                 if (temparr[0].Contains("OverallDifficulty"))
                 {
                     double.TryParse(temparr[1].Trim(), out var o);
-                    OD = o;
+                    OverallDifficulty = o;
                     continue;
                 }
 
                 if (temparr[0].Contains("ApproachRate"))
                 {
                     double.TryParse(temparr[1].Trim(), out var a);
-                    AR = a;
+                    ApproachRate = a;
                     continue;
                 }
 
                 if (temparr[0].Contains("HPDrainRate"))
                 {
                     double.TryParse(temparr[1].Trim(), out var h);
-                    HP = h;
+                    HPDrain = h;
                     continue;
                 }
 

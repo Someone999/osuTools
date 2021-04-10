@@ -10,19 +10,19 @@ namespace osuTools.Online.ApiV1.Querier
     /// </summary>
     public class OnlineScoresQuery
     {
-        private int lim = 50;
-        private bool queried;
-        private OnlineScoreCollection res = new OnlineScoreCollection();
+        private int _lim = 50;
+        private bool _queried;
+        private OnlineScoreCollection _res = new OnlineScoreCollection();
 
         /// <summary>
         ///     谱面ID
         /// </summary>
-        public int BeatmapID { get; set; }
+        public int BeatmapId { get; set; }
 
         /// <summary>
         ///     用户ID
         /// </summary>
-        public int UserID { get; set; }
+        public int UserId { get; set; }
 
         /// <summary>
         ///     用户名
@@ -51,15 +51,15 @@ namespace osuTools.Online.ApiV1.Querier
         {
             get
             {
-                if (!queried)
+                if (!_queried)
                 {
                     GetResult();
-                    queried = true;
+                    _queried = true;
                 }
 
-                return res;
+                return _res;
             }
-            private set => res = value;
+            private set => _res = value;
         }
 
         /// <summary>
@@ -67,28 +67,28 @@ namespace osuTools.Online.ApiV1.Querier
         /// </summary>
         public int Limit
         {
-            get => lim;
+            get => _lim;
             set
             {
                 if (OnlineQueryTools.InRange(0, 100, value))
-                    lim = value;
+                    _lim = value;
             }
         }
 
         private void GetResult()
         {
-            if (BeatmapID == 0)
+            if (BeatmapId == 0)
                 throw new ArgumentException("必须指定谱面ID。");
             var basestr = $"https://osu.ppy.sh/api/get_scores?k={OsuApiKey}";
             var b = new StringBuilder(basestr);
-            b.Append(UserID != 0 ? $"&u={UserID}" :
+            b.Append(UserId != 0 ? $"&u={UserId}" :
                 string.IsNullOrEmpty(UserName) || string.IsNullOrWhiteSpace(UserName) ? "" : $"&u={UserName}");
-            b.Append($"&b={BeatmapID}");
+            b.Append($"&b={BeatmapId}");
             b.Append(Mods.Count == 0 ? "" : $"&mods={Mods.ToIntMod()}");
             b.Append($"&m={(int) Mode}");
             MessageBox.Show(b.ToString());
             var q = OnlineQueryTools.GetResponse(new Uri(b.ToString()));
-            foreach (var json in q.Results) res.Scores.Add(new OnlineScore(json.ToString(), Mode, BeatmapID));
+            foreach (var json in q.Results) _res.Scores.Add(new OnlineScore(json.ToString(), Mode, BeatmapId));
         }
     }
 }

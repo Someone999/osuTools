@@ -8,9 +8,9 @@ namespace osuTools.Online.ApiV1.Querier
     /// </summary>
     public class OnlineUserBestQuery
     {
-        private int lim = 10;
-        private bool queried;
-        private OnlineBestRecordCollection res = new OnlineBestRecordCollection();
+        private int _lim = 10;
+        private bool _queried;
+        private OnlineBestRecordCollection _res = new OnlineBestRecordCollection();
 
         /// <summary>
         ///     osuApi的密钥
@@ -20,7 +20,7 @@ namespace osuTools.Online.ApiV1.Querier
         /// <summary>
         ///     用户ID
         /// </summary>
-        public int UserID { get; set; }
+        public int UserId { get; set; }
 
         /// <summary>
         ///     用户名
@@ -37,11 +37,11 @@ namespace osuTools.Online.ApiV1.Querier
         /// </summary>
         public int Limit
         {
-            get => lim;
+            get => _lim;
             set
             {
                 if (OnlineQueryTools.InRange(0, 50, value))
-                    lim = value;
+                    _lim = value;
             }
         }
 
@@ -52,28 +52,28 @@ namespace osuTools.Online.ApiV1.Querier
         {
             get
             {
-                if (!queried)
+                if (!_queried)
                 {
                     GetResult();
-                    queried = true;
+                    _queried = true;
                 }
 
-                return res;
+                return _res;
             }
-            private set => res = value;
+            private set => _res = value;
         }
 
         private void GetResult()
         {
-            if (UserID == 0)
+            if (UserId == 0)
                 if (string.IsNullOrEmpty(UserName))
                     throw new ArgumentException("必须指定用户名或用户ID。");
             var basestr = $"https://osu.ppy.sh/api/get_user_best?k={OsuApiKey}";
             var b = new StringBuilder(basestr);
-            b.Append(UserID != 0 ? $"&u={UserID}&type=id&m={(int) Mode}" : $"&u={UserName}&type=string&m={(int) Mode}");
+            b.Append(UserId != 0 ? $"&u={UserId}&type=id&m={(int) Mode}" : $"&u={UserName}&type=string&m={(int) Mode}");
             var q = OnlineQueryTools.GetResponse(new Uri(b.ToString()));
-            if (q.Results.Count == 0) res.Failed = true;
-            foreach (var json in q.Results) res.Records.Add(new OnlineBestRecord(json.ToString(), Mode));
+            if (q.Results.Count == 0) _res.Failed = true;
+            foreach (var json in q.Results) _res.Records.Add(new OnlineBestRecord(json.ToString(), Mode));
         }
     }
 }

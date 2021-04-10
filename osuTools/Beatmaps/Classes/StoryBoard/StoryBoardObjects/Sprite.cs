@@ -1,5 +1,5 @@
 ﻿using osuTools.Beatmaps.HitObject;
-using osuTools.osuToolsException;
+using osuTools.Exceptions;
 
 namespace osuTools.StoryBoard
 {

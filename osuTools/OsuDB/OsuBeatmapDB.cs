@@ -10,7 +10,7 @@ namespace osuTools.OsuDB
     /// <summary>
     ///     通过读取osu!.db获取所有的谱面以及一些游戏相关的信息。
     /// </summary>
-    public class OsuBeatmapDB : IOsuDB
+    public class OsuBeatmapDB : IOsuDb
     {
         private readonly string f;
 
@@ -39,7 +39,7 @@ namespace osuTools.OsuDB
             {
                 Console.WriteLine($"读取时发生错误，请检查文件格式是否正确: {e.Message}");
             }
-            
+
         }
         /// <summary>
         /// 从指定的文件中读取数据
@@ -189,10 +189,10 @@ namespace osuTools.OsuDB
             Beatmap.Slider = GetInt16();
             Beatmap.Spinner = GetInt16();
             Beatmap.LastModificationTime = new DateTime(GetInt64());
-            Beatmap.AR = GetSingle();
-            Beatmap.CS = GetSingle();
-            Beatmap.HPDrain = GetSingle();
-            Beatmap.OD = GetSingle();
+            Beatmap.ApproachRate = GetSingle();
+            Beatmap.CircleSize = GetSingle();
+            Beatmap.HpDrain = GetSingle();
+            Beatmap.OverallDifficulty = GetSingle();
             GetDouble();
             var pac = GetInt32();
             var intlst = new List<int>();
@@ -257,9 +257,9 @@ namespace osuTools.OsuDB
                 Beatmap.timepoints.Add(new OsuBeatmapTimePoint(BPM, Offset, Inherit));
             }
 
-            Beatmap.BeatmapID = GetInt32();
-            Beatmap.BeatmapSetID = GetInt32();
-            Beatmap.ThreadID = GetInt32();
+            Beatmap.BeatmapId = GetInt32();
+            Beatmap.BeatmapSetId = GetInt32();
+            Beatmap.ThreadId = GetInt32();
             GetByte();
             GetByte();
             GetByte();

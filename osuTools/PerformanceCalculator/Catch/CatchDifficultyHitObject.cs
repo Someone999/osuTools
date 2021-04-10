@@ -24,13 +24,13 @@ namespace osuTools.PerformanceCalculator.Catch
             PlayerWidth = playerWidth;
             HitObject = hitObject;
             ScaledPosition = HitObject.x * (Constants.NORMALIZED_HITOBJECT_RADIUS / playerWidth);
-            
+
         }
         internal void CalcStrain(CatchDifficultyHitObject lastHitObject,double timeRate)
         {
             var time = (HitObject.Offset - lastHitObject.HitObject.Offset) / timeRate;
             var decay = Math.Pow(Constants.DECAY_BASE, time / 1000d);
-            
+
             Offset = MathUtlity.Clamp(
                 lastHitObject.ScaledPosition + lastHitObject.Offset,
                 ScaledPosition - (Constants.NORMALIZED_HITOBJECT_RADIUS - _errorMargin),
@@ -39,10 +39,10 @@ namespace osuTools.PerformanceCalculator.Catch
             var addition = Math.Pow(LastMovement, 1.3) / 500;
             if (ScaledPosition < lastHitObject.ScaledPosition)
                 LastMovement *= -1;
-            
+
             var additionBonus = 0d;
             var sqrtTime = Math.Sqrt(Math.Max(time, 25));
-            
+
             if (Math.Abs(LastMovement) > 0.1)
             {
                 if (Math.Abs(lastHitObject.LastMovement) > 0.1 &&
