@@ -40,7 +40,6 @@ namespace osuTools.Beatmaps.Classes.StoryBoard.StoryBoardTools
                         _commands.Add(lastStr.ParentCommand);  // 添加到列表*/
                 }
 
-
                 /*if (!string.IsNullOrEmpty(lastStr.Command))
                 {
                     if (lastStr.Parent == null)
@@ -72,7 +71,6 @@ namespace osuTools.Beatmaps.Classes.StoryBoard.StoryBoardTools
                         continue;
                     } 
 
-                    
                 }*/
 
             }

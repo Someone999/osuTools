@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using osuTools.ExtraMethods;
+using osuTools.Exceptions;
 using osuTools.Game.Interface;
 using osuTools.Skins.Tools;
 
@@ -115,7 +115,7 @@ namespace osuTools.Beatmaps
         {
             return a.GetHashCode(a) == b.GetHashCode(b);
         }
-       
+
         /// <inheritdoc />
         public string ToOsuFormat()
         {
