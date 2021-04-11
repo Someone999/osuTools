@@ -44,9 +44,9 @@ namespace osuTools.Beatmaps.HitObject
         /// <returns></returns>
         public Point Scale()
         {
-            var Width = Screen.PrimaryScreen.Bounds.Width;
-            var Height = Screen.PrimaryScreen.Bounds.Height - 40;
-            return new Point((int) (x * (Width / 640) - x + 320), (int) (y * (Height / 480) - y + 240));
+            var width = Screen.PrimaryScreen.Bounds.Width;
+            var height = Screen.PrimaryScreen.Bounds.Height - 40;
+            return new Point((int) (x * (width / 640.0) - x + 320), (int) (y * (height / 480.0) - y + 240));
         }
 
         /// <summary>

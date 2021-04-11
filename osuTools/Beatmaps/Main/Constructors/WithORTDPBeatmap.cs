@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System.Text;
+using osuTools.Exceptions;
 using RealTimePPDisplayer.Displayer;
 
 namespace osuTools.Beatmaps
@@ -43,6 +44,22 @@ namespace osuTools.Beatmaps
             _b.Replace(FileName, BackgroundFileName);
             FullBackgroundFileName = _b.ToString();
             var alllines = File.ReadAllLines(x.FilenameFull);
+            if (!alllines[0].Contains("osu file format"))
+            {
+                Notv = true;
+
+                throw new InvalidBeatmapFileException($"文件{x.FilenameFull}不是谱面文件。");
+            }
+            else
+            {
+                StringBuilder b = new StringBuilder();
+                foreach (var c in alllines[0])
+                {
+                    if (char.IsDigit(c))
+                        b.Append(c);
+                }
+                BeatmapVersion = int.Parse(b.ToString());
+            }
             foreach (var line in alllines)
             {
                 var temparr = line.Split(':');
