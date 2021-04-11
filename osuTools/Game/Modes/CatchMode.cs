@@ -4,6 +4,8 @@ using osuTools.Beatmaps;
 using osuTools.Beatmaps.HitObject;
 using osuTools.Exceptions;
 using osuTools.Game.Mods;
+using osuTools.ORTDP;
+using osuTools.PerformanceCalculator.Catch;
 using RealTimePPDisplayer.Beatmap;
 using RealTimePPDisplayer.Calculator;
 using RealTimePPDisplayer.Displayer;
@@ -23,13 +25,13 @@ namespace osuTools.Game.Modes
         public override Mod[] AvaliableMods => Mod.CatchMods;
         ///<inheritdoc/>
         public override string Description => "接水果";
-        /*private CatchBeatmap _innerBeatmap;
-        private int _maxCombo;*/
+        private CatchBeatmap _innerBeatmap;
+        private int _maxCombo;
         ///<inheritdoc/>
         public void SetBeatmap(Beatmap b)
         {
-            /*_innerBeatmap = new CatchBeatmap(b);
-            _maxCombo = _innerBeatmap.MaxCombo;*/
+            _innerBeatmap = new CatchBeatmap(b);
+            _maxCombo = _innerBeatmap.MaxCombo;
         }
         ///<inheritdoc/>
         public double GetMaxPerformance(ORTDP.OrtdpWrapper ortdpInfo)
@@ -80,8 +82,15 @@ namespace osuTools.Game.Modes
                 };
             }
         }
+        
+        private CatchPerformanceCalculator _performanceCalculator;
 
-        //private CatchPerformanceCalculator _performanceCalculator;
+        public double TestPerformanceCalculator(OrtdpWrapper wrapper)
+        {
+            _performanceCalculator =
+                _performanceCalculator ?? new CatchPerformanceCalculator(_innerBeatmap, wrapper.Mods);
+            return _performanceCalculator.CalculatePerformance(wrapper.Accuracy, wrapper.Combo, wrapper.CountMiss);
+        }
         ///<inheritdoc/>
         public double GetPerformance(ORTDP.OrtdpWrapper ortdpInfo)
         {

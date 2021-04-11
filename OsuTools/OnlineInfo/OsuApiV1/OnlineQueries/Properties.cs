@@ -9,17 +9,17 @@ namespace osuTools
             /// <summary>
             ///     谱面ID
             /// </summary>
-            public int BeatmapID => beatmap_id;
+            public int BeatmapId => _beatmapId;
 
             /// <summary>
             ///     分数ID
             /// </summary>
-            public int ScoreID => score_id;
+            public int ScoreId => _scoreId;
 
             /// <summary>
             ///     分数
             /// </summary>
-            public int Score => score;
+            public int Score => _score;
 
             /// <summary>
             ///     经权重计算后的pp
@@ -29,47 +29,47 @@ namespace osuTools
             /// <summary>
             ///     原始pp
             /// </summary>
-            public override double PP => pp;
+            public override double PP => _pp;
 
             /// <summary>
             ///     最大连击
             /// </summary>
-            public int MaxCombo => maxcombo;
+            public int MaxCombo => _maxcombo;
 
             /// <summary>
             ///     300g或激的数量
             /// </summary>
-            public int c300g => countgeki;
+            public int Count300g => _countgeki;
 
             /// <summary>
             ///     300的数量
             /// </summary>
-            public int c300 => count300;
+            public int Count300 => _count300;
 
             /// <summary>
             ///     200或喝的数量
             /// </summary>
-            public int c200 => countkatu;
+            public int Count200 => _countkatu;
 
             /// <summary>
             ///     100的数量
             /// </summary>
-            public int c100 => count100;
+            public int Count100 => _count100;
 
             /// <summary>
             ///     50的数量
             /// </summary>
-            public int c50 => count50;
+            public int Count50 => _count50;
 
             /// <summary>
             ///     Miss的数量
             /// </summary>
-            public int cMiss => countmiss;
+            public int CountMiss => _countmiss;
 
             /// <summary>
             ///     用户ID
             /// </summary>
-            public int UserID => user_id;
+            public int UserId => _userId;
 
             /// <summary>
             ///     结算评价
@@ -84,7 +84,7 @@ namespace osuTools
             /// <summary>
             ///     游玩时间(为UTC时间)
             /// </summary>
-            public DateTime GetDate => d;
+            public DateTime GetDate => _d;
         }
 
         public partial class OnlineScore
@@ -92,54 +92,54 @@ namespace osuTools
             /// <summary>
             ///     分数ID
             /// </summary>
-            public uint ScoreID => score_id;
+            public uint ScoreId => _scoreId;
 
             /// <summary>
             ///     分数
             /// </summary>
-            public int Score => score;
+            public int Score => _score;
 
-            public override double PP => pp;
+            public override double PP => _pp;
 
             /// <summary>
             ///     最大连击
             /// </summary>
-            public int MaxCombo => maxcombo;
+            public int MaxCombo => _maxcombo;
 
             /// <summary>
             ///     300g或激的数量
             /// </summary>
-            public int c300g => countgeki;
+            public int C300G => _countgeki;
 
             /// <summary>
             ///     300的数量
             /// </summary>
-            public int c300 => count300;
+            public int C300 => _count300;
 
             /// <summary>
             ///     200或喝的数量
             /// </summary>
-            public int c200 => countkatu;
+            public int C200 => _countkatu;
 
             /// <summary>
             ///     100的数量
             /// </summary>
-            public int c100 => count100;
+            public int C100 => _count100;
 
             /// <summary>
             ///     50的数量
             /// </summary>
-            public int c50 => count50;
+            public int C50 => _count50;
 
             /// <summary>
             ///     Miss的数量
             /// </summary>
-            public int cMiss => countmiss;
+            public int CMiss => _countmiss;
 
             /// <summary>
             ///     用户ID
             /// </summary>
-            public int UserID => user_id;
+            public int UserId => _userId;
 
             /// <summary>
             ///     结算评价
@@ -154,7 +154,7 @@ namespace osuTools
             /// <summary>
             ///     游玩时间(为UTC时间)
             /// </summary>
-            public DateTime GetDate => d;
+            public DateTime GetDate => _d;
 
             /// <summary>
             ///     录像是否可用
@@ -167,47 +167,47 @@ namespace osuTools
             /// <summary>
             ///     谱面ID
             /// </summary>
-            public int BeatmapID => beatmap_id;
+            public int BeatmapId => _beatmapId;
 
             /// <summary>
             ///     最大连击
             /// </summary>
-            public int MaxCombo => maxcombo;
+            public int MaxCombo => _maxcombo;
 
             /// <summary>
             ///     300g或激的数量
             /// </summary>
-            public int c300g => countgeki;
+            public int C300G => _countgeki;
 
             /// <summary>
             ///     300的数量
             /// </summary>
-            public int c300 => count300;
+            public int C300 => _count300;
 
             /// <summary>
             ///     200或喝的数量
             /// </summary>
-            public int c200 => countkatu;
+            public int C200 => _countkatu;
 
             /// <summary>
             ///     100的数量
             /// </summary>
-            public int c100 => count100;
+            public int C100 => _count100;
 
             /// <summary>
             ///     50的数量
             /// </summary>
-            public int c50 => count50;
+            public int C50 => _count50;
 
             /// <summary>
             ///     Miss的数量
             /// </summary>
-            public int cMiss => countmiss;
+            public int CMiss => _countmiss;
 
             /// <summary>
             ///     用户ID
             /// </summary>
-            public int UserID => user_id;
+            public int UserId => _userId;
 
             /// <summary>
             ///     结算评价
@@ -222,7 +222,7 @@ namespace osuTools
             /// <summary>
             ///     游玩时间(为UTC时间)
             /// </summary>
-            public DateTime GetDate => d;
+            public DateTime GetDate => _d;
         }
     }
 }

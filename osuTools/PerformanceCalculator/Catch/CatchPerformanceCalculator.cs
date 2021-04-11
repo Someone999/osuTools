@@ -30,11 +30,15 @@ namespace osuTools.PerformanceCalculator.Catch
         public double CalculatePerformance(double accuracy, int combo, int cMiss)
         {
             double pp = Math.Pow(((5 * DifficultyCalculator.Stars / 0.0049) - 4), 2) / 100000;
-            double lenBonus = 0.95 + 0.4 * Math.Min(1, combo / 3000);
+            //Console.WriteLine(pp);
+            double lenBonus = 0.95 + 0.4 * Math.Min(1, combo / 3000d);
+            
             if (combo > 3000)
                 lenBonus += Math.Log10(combo / 3000d) * 0.5;
+            Console.WriteLine(lenBonus);
             pp *= lenBonus;
             pp *= Math.Pow(0.97, cMiss);
+            
             pp *= Math.Min(Math.Pow(combo, 0.8) / Math.Pow(DifficultyCalculator.Beatmap.MaxCombo, 0.8), 1);
             if (Beatmap.BaseBeatmap.ApproachRate > 9)
                 pp *= 1 + 0.1 * (Beatmap.BaseBeatmap.ApproachRate - 9);
