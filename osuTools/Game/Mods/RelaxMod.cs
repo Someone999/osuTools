@@ -17,7 +17,7 @@
         /// <inheritdoc />
         public Mod[] ConflictMods => new Mod[]
         {
-            new AutoPilotMod(), new AutoPlayMod(), new CinemaMod(), new SuddenDeathMod(),
+            new AutoPilotMod(), new SpunOutMod(), new AutoPlayMod(), new CinemaMod(), new SuddenDeathMod(),
             new PerfectMod(), new NoFailMod()
         };
         /// <inheritdoc />

@@ -28,8 +28,8 @@ namespace osuTools.PerformanceCalculator.Catch
 
         public OsuPixel PointAtDistance(double length)
         {
-            var radius = length / Radius;
-            return VectorUtility.Rotate(cx, cy,Points[0], radius);
+            var radins = length / Radius;
+            return VectorUtility.Rotate(cx, cy,Points[0], Radius);
         }
     }
 }

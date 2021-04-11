@@ -8,7 +8,7 @@ namespace osuTools.Collections
     {
         private readonly ObservableList<T> _innerList;
         private readonly int _len;
-        private int _pos = -1;
+        private int _pos;
 
         internal ObservableListEnumerator(ObservableList<T> observableList)
         {

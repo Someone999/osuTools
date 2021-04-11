@@ -27,7 +27,7 @@ namespace osuTools.PerformanceCalculator.Catch
 
         public CatchHitObject(IHitObject hitobject, System.Collections.Generic.Dictionary<CatchTimePointType, double> timePoint = null,CatchDifficultyAttribute difficulty=null,double tickDistance = 1)
         {
-            //TickDistance.OnChanged += (oldVal, val) => {if(val != 1) Console.WriteLine($"Value changed {oldVal}=>{val}"); };
+            TickDistance.OnChanged += (oldVal, val) => {if(val != 1) Console.WriteLine($"Value changed {oldVal}=>{val}"); };
 
             if (hitobject.SpecifiedMode != OsuGameMode.Catch && hitobject.SpecifiedMode != OsuGameMode.Osu) 
                 throw new ArgumentException("Not a catch HitObject");
@@ -115,13 +115,12 @@ namespace osuTools.PerformanceCalculator.Catch
                 else
                     throw new NotSupportedException("Slidertype not supported!");
             }
-
+            OsuPixel point=null;
             double currentDis = TickDistance.Value;
             double addTime = Duration * (TickDistance / (j.Length * j.RepeatTime));
 
-            while(currentDis< j.Length - TickDistance / 8)
+            while(currentDis< j.Length - TickDistance.Value / 8)
             {
-                OsuPixel point;
                 if (j.CurveType == CurveTypes.Linear)
                 {
                     point = MathUtlity.PointOnLine(j.curvePoints[0], j.curvePoints[1], currentDis);
@@ -130,17 +129,16 @@ namespace osuTools.PerformanceCalculator.Catch
                 {
                     point = (curve as IHasPointProcessor).PointAtDistance(currentDis);
                 }
-                //Console.WriteLine($"Tick?{point.x}?{point.y}?{j.Offset + addTime * (Ticks.Count + 1)}");
+                Console.WriteLine($"Tick?{point.x}?{point.y}?{j.Offset + addTime * (Ticks.Count + 1)}");
                 Ticks.Add((new CatchSliderTick(point.x, point.y, j.Offset + addTime * (Ticks.Count + 1))));
 
                 currentDis += TickDistance.Value;
             }
-            //Console.WriteLine(Ticks.Count.ToString());
+
             int repeatId = 1;
             List<CatchSliderTick> repeatBonusTick = new List<CatchSliderTick>();
             while (repeatId < j.RepeatTime)
             {
-                OsuPixel point;
                 double dist = (1 & repeatId) * j.Length;
                 double timeOffset = (Duration / j.RepeatTime) * repeatId;
                 if (j.CurveType == CurveTypes.Linear)
@@ -148,10 +146,11 @@ namespace osuTools.PerformanceCalculator.Catch
                 else
                     point = (curve as IHasPointProcessor).PointAtDistance(dist);
                 //Console.WriteLine($"{Offset}?{point.x}?{point.y}");
-                //Console.WriteLine($"EndTick?{point.x}?{point.y}?{BaseHitObject.Offset + timeOffset}");
+                Console.WriteLine($"EndTick?{point.x}?{point.y}?{BaseHitObject.Offset + timeOffset}");
                 EndTicks.Add(new CatchSliderTick(point.x, point.y, BaseHitObject.Offset + timeOffset));
 
-                var repeatTicks = (CloneableList<CatchSliderTick>)Ticks.Clone();
+                CloneableList<CatchSliderTick> repeatTicks=new CloneableList<CatchSliderTick>();
+                repeatTicks = (CloneableList<CatchSliderTick>)Ticks.Clone();
 
                 double normalizedTimeValue = 0d;
                 if ((1 & repeatId) != 0)

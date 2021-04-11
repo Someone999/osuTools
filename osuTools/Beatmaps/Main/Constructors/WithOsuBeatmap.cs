@@ -1,8 +1,6 @@
 ﻿using System.Globalization;
 using System.IO;
-using System.Text;
 using System.Windows.Forms;
-using osuTools.Exceptions;
 using osuTools.OsuDB;
 
 namespace osuTools.Beatmaps
@@ -48,22 +46,6 @@ namespace osuTools.Beatmaps
             else Stars = 0;
             if (FullPath == "" || !File.Exists(FullPath)) return;
             var alllines = File.ReadAllLines(FullPath);
-            if (!alllines[0].Contains("osu file format"))
-            {
-                Notv = true;
-
-                throw new InvalidBeatmapFileException($"文件{FullPath}不是谱面文件。");
-            }
-            else
-            {
-                StringBuilder b = new StringBuilder();
-                foreach (var c in alllines[0])
-                {
-                    if (char.IsDigit(c))
-                        b.Append(c);
-                }
-                BeatmapVersion = int.Parse(b.ToString());
-            }
             foreach (var line in alllines)
             {
                 var temparr = line.Split(':');

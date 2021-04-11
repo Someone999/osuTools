@@ -57,7 +57,7 @@ namespace osuTools.PerformanceCalculator.Catch
             {
                 double timefocus = t.BeatLength;
                 double offset = t.Offset;
-                if (!t.Uninherited && t.BeatLength >= 0)
+                if (!t.Uninherited && t.BeatLength < 0)
                     timefocus = -100;
                 if (timefocus < 0)
                 {
@@ -98,7 +98,7 @@ namespace osuTools.PerformanceCalculator.Catch
             {
                 foreach (var tmpt in CatchTimePoints[timePointType].Keys)
                 {
-                    if (tmpt <= time)
+                    if (tmpt < time)
                         r = CatchTimePoints[timePointType][tmpt];
                     else
                         break;

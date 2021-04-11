@@ -87,17 +87,6 @@ namespace osuTools.ORTDP
         [AvailableVariable("PreCalculatedPPStr", "LANG_PRECALC_PP")]
         public string PreCalculatedPPStr => PreCalculatedPP.ToString("f2");
 
-        [AvailableVariable("TestCatchPP", "NONE")]
-        public double TestCatchPP
-        {
-            get
-            {
-                if (CurrentMode is CatchMode c)
-                    return c.TestPerformanceCalculator(this);
-                return 0;
-            }
-        }
-
         /// <summary>
         ///     已经过了的HitObject在总HitObject中的占比的格式化后的字符串，百分数，精确到两位小数
         /// </summary>

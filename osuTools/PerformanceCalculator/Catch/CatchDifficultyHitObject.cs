@@ -72,7 +72,6 @@ namespace osuTools.PerformanceCalculator.Catch
             }
             addition *= 850.0 / Math.Max(time, 25);
             Strain = lastHitObject.Strain * decay + addition;
-            //Console.WriteLine(Strain);
         }
     }
 }

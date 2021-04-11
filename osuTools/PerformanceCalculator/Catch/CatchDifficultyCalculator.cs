@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -140,13 +139,12 @@ namespace osuTools.PerformanceCalculator.Catch
                 last = difficultyHitObject;
             }
             double difficulty = 0, weight = 1;
-            var revserSortedList = from l in highestStrain orderby (int) l descending select l;
-            foreach (var strain in revserSortedList)
+            highestStrain.Sort((x, y) => Math.Sign(y - x));
+            foreach (var strain in highestStrain)
             {
                 difficulty += weight * strain;
                 weight *= Constants.DECAY_WEIGHT;
             }
-            // Console.WriteLine(difficulty);
             return difficulty;
         }
     }
