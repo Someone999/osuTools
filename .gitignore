@@ -1,0 +1,7 @@
+!/osuTools/
+/.vs
+/packages
+/osuTools/bin/
+/osuTools/obj/
+*.zip
+unused.txt
