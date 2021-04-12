@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,9 +12,13 @@ namespace osuTools.Game.Mods
     /// <summary>
     ///     Mod列表
     /// </summary>
-    public class ModList
+    public class ModList:IEnumerable<Mod>
     {
         private List<Mod> mods = new List<Mod>();
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return mods.GetEnumerator();
+        }
 
         /// <summary>
         ///     Mod数组
