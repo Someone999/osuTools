@@ -31,6 +31,7 @@ namespace osuTools.Game.Modes
         public void SetBeatmap(Beatmap b)
         {
             _innerBeatmap = new CatchBeatmap(b);
+            _performanceCalculator = null;
             _maxCombo = _innerBeatmap.MaxCombo;
         }
         ///<inheritdoc/>
@@ -87,9 +88,10 @@ namespace osuTools.Game.Modes
 
         public double TestPerformanceCalculator(OrtdpWrapper wrapper)
         {
+            _innerBeatmap = _innerBeatmap ?? new CatchBeatmap(wrapper.Beatmap);
             _performanceCalculator =
                 _performanceCalculator ?? new CatchPerformanceCalculator(_innerBeatmap, wrapper.Mods);
-            return _performanceCalculator.CalculatePerformance(wrapper.Accuracy, wrapper.Combo, wrapper.CountMiss);
+            return _performanceCalculator.CalculatePerformance(wrapper.Accuracy, wrapper.MaxCombo, wrapper.CountMiss);
         }
         ///<inheritdoc/>
         public double GetPerformance(ORTDP.OrtdpWrapper ortdpInfo)

@@ -359,13 +359,14 @@ namespace osuTools.ORTDP
                 PreCalculatedPP = 0;
                 if (CurrentMode is IHasPerformanceCalculator m)
                 {
-                    m.SetBeatmap(Beatmap);
+                    //m.SetBeatmap(Beatmap);
                     if (Beatmap.Mode != OsuGameMode.Osu)
                     {
                         if (Game.Modes.GameMode.FromLegacyMode(Beatmap.Mode) is IHasPerformanceCalculator bm)
                         {
-                            PreCalculatedPP = bm.GetMaxPerformance(this);
                             bm.SetBeatmap(Beatmap);
+                            PreCalculatedPP = bm.GetMaxPerformance(this);
+                            
                         }
                     }
                     else

@@ -93,11 +93,17 @@ namespace osuTools.ORTDP
             get
             {
                 if (CurrentMode is CatchMode c)
-                    return c.TestPerformanceCalculator(this);
+                    return GetTestPP(c.TestPerformanceCalculator(this));
                 return 0;
             }
         }
 
+        private double tPP;
+        double GetTestPP(double pp)
+        {
+            double speed = pp - tPP;
+            return tPP = SmoothMath.SmoothDamp(tPP, pp, ref speed, 0.02, 0.33);
+        }
         /// <summary>
         ///     已经过了的HitObject在总HitObject中的占比的格式化后的字符串，百分数，精确到两位小数
         /// </summary>
