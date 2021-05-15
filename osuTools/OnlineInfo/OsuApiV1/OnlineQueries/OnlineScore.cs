@@ -4,15 +4,14 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using osuTools.Game.Modes;
 using osuTools.Game.Mods;
-using osuTools.Online.ApiV1.Querier;
 
-namespace osuTools.Online.ApiV1
+namespace osuTools.OnlineInfo.OsuApiV1.OnlineQueries
 {
     /// <summary>
     ///     一个谱面的最高100个记录之一。
     /// </summary>
     [Serializable]
-    public partial class OnlineScore : PPSorted, IFormattable
+    public partial class OnlineScore : PpSorted, IFormattable
     {
         private int
             _beatmapId = -1,
@@ -103,10 +102,7 @@ namespace osuTools.Online.ApiV1
                 if (_perfect == 1)
                     Perfect = true;
                 else if (_perfect == 0) Perfect = false;
-                if (_replayAvailable == 1)
-                    ReplayAvailable = true;
-                else
-                    ReplayAvailable = false;
+                ReplayAvailable = _replayAvailable == 1;
             }
             /* catch
                  {
@@ -166,13 +162,12 @@ namespace osuTools.Online.ApiV1
                 if (_perfect == 1)
                     Perfect = true;
                 else if (_perfect == 0) Perfect = false;
-                if (_replayAvailable == 1)
-                    ReplayAvailable = true;
-                else
-                    ReplayAvailable = false;
+                ReplayAvailable = _replayAvailable == 1;
             }
         }
-
+        /// <summary>
+        /// 查询要使用的osu!Api Key
+        /// </summary>
         public string QuerierApiKey { get; set; }
 
         /// <summary>
@@ -194,12 +189,12 @@ namespace osuTools.Online.ApiV1
         ///     游戏模式
         /// </summary>
         public OsuGameMode Mode { get; private set; }
-
+        ///<inheritdoc/>
         public string ToString(string format, IFormatProvider formatProvider)
         {
             var b = new StringBuilder(format);
             b.Replace("perfect", Perfect.ToString());
-            b.Replace("pp", PP.ToString());
+            b.Replace("pp", Pp.ToString());
             b.Replace("Count300g", C300G.ToString());
             b.Replace("c300", C300.ToString());
             b.Replace("Count200", C200.ToString());
@@ -223,13 +218,13 @@ namespace osuTools.Online.ApiV1
         /// <returns></returns>
         public override string ToString()
         {
-            return $"{UserId} {PP} {Score}";
+            return $"{UserId} {Pp} {Score}";
         }
 
         private double AccCalc(OsuGameMode mode)
         {
             return GameMode.FromLegacyMode(mode).AccuracyCalc(new ScoreInfo
-                {c300g = C300G, c300 = C300, c200 = C200, c100 = C100, c50 = C50, cMiss = CMiss});
+                {CountGeki = C300G, Count300 = C300, CountKatu = C200, Count100 = C100, Count50 = C50, CountMiss = CMiss});
         }
 
         /// <summary>
@@ -257,7 +252,11 @@ namespace osuTools.Online.ApiV1
             var user = q.UserInfo;
             return user;
         }
-
+        /// <summary>
+        /// 使用指定的格式格式化字符串
+        /// </summary>
+        /// <param name="format"></param>
+        /// <returns></returns>
         public string ToString(string format)
         {
             return ToString(format, null);

@@ -1,7 +1,11 @@
 ﻿using osuTools.Beatmaps;
+using osuTools.Game.Modes;
 
 namespace osuTools.Game.Mods
 {
+    /// <summary>
+    /// 所有难度参数都降低一点
+    /// </summary>
     public class EasyMod : Mod, ILegacyMod, IHasConflictMods
     {
         /// <inheritdoc />
@@ -24,7 +28,7 @@ namespace osuTools.Game.Mods
         public override Beatmap Apply(Beatmap beatmap)
         {
             beatmap.ApproachRate /= 2;
-            beatmap.HPDrain /= 2;
+            beatmap.HpDrain /= 2;
             beatmap.OverallDifficulty /= 2;
             if (beatmap.Mode == OsuGameMode.Osu || beatmap.Mode == OsuGameMode.Catch)
                 beatmap.CircleSize /= 2;

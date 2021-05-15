@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace osuTools.Skins.SkinObjects.Catch
+namespace osuTools.Skins.Catch
 {
     /// <summary>
     ///     水果容器元素的图片

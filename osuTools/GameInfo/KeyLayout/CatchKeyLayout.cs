@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
-using osuTools.Exceptions;
 
 namespace osuTools.GameInfo.KeyLayout
 {
@@ -32,10 +31,10 @@ namespace osuTools.GameInfo.KeyLayout
         /// <summary>
         ///     从配置文件中读取CTB键位
         /// </summary>
-        /// <param name="ConfigFile"></param>
-        public CatchKeyLayout(string ConfigFile)
+        /// <param name="configFile"></param>
+        public CatchKeyLayout(string configFile)
         {
-            _lines = File.ReadAllLines(ConfigFile);
+            _lines = File.ReadAllLines(configFile);
             InitKeysDict();
             InitKeyLayout();
             Parse();
@@ -54,17 +53,18 @@ namespace osuTools.GameInfo.KeyLayout
             {
                 for (var i = 0; i < values.Length; i++) _keyandint.Add(names[i], (Keys) values.GetValue(i));
             }
-            catch
+            catch(Exception e)
             {
+                Console.WriteLine(e);
             }
         }
 
         private void InitKeyLayout()
         {
-            KeyLayout = new Dictionary<string, Keys>();
-            KeyLayout.Add("Left", Keys.Left);
-            KeyLayout.Add("Right", Keys.Right);
-            KeyLayout.Add("Dash", Keys.LShiftKey);
+            KeyLayout = new Dictionary<string, Keys>
+            {
+                {"Left", Keys.Left}, {"Right", Keys.Right}, {"Dash", Keys.LShiftKey}
+            };
         }
 
         private void Parse()

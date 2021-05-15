@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Text;
 using Newtonsoft.Json.Linq;
+using osuTools.Game.Modes;
 using osuTools.Game.Mods;
 
-namespace osuTools.Online.ApiV1.Querier
+namespace osuTools.OnlineInfo.OsuApiV1.OnlineQueries
 {
     /// <summary>
     ///     在线查询一个或多个谱面
@@ -54,11 +55,7 @@ namespace osuTools.Online.ApiV1.Querier
         public int Limit
         {
             get => _limit;
-            set
-            {
-                if (OnlineQueryTools.InRange(0, 500, value)) _limit = value;
-                else _limit = 100;
-            }
+            set => _limit = OnlineQueryTools.InRange(0, 500, value) ? value : 100;
         }
 
         /// <summary>

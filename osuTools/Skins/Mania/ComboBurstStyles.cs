@@ -1,4 +1,4 @@
-﻿namespace osuTools.Skins.Settings.Mania
+﻿namespace osuTools.Skins.Mania
 {
     /// <summary>
     ///     达到指定连击数时，图片出现在哪一侧

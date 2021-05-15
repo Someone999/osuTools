@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using osuTools.Beatmaps.HitObject;
 
 namespace osuTools.PerformanceCalculator.Catch
@@ -18,7 +16,7 @@ namespace osuTools.PerformanceCalculator.Catch
         {
             Points = points;
             Position = new List<OsuPixel>();
-            Step = 2.5 / Constants.SLIDER_QUALITY;
+            Step = 2.5 / Constants.SliderQuality;
             Order = points.Count;
             CalcPoints();
             //Console.WriteLine("Catmull");
@@ -34,21 +32,12 @@ namespace osuTools.PerformanceCalculator.Catch
                 var t = 0d;
                 while (t < Step - 1)
                 {
-                    if (i >= 1)
-                        p1 = Points[i - 1];
-                    else
-                        p1 = Points[i];
+                    p1 = i >= 1 ? Points[i - 1] : Points[i];
                     p2 = Points[i];
 
-                    if (i + 1 < Order)
-                        p3 = Points[i + 1];
-                    else
-                        p3 = p2.Calc(1,p2.Calc(-1,p1));
+                    p3 = i + 1 < Order ? Points[i + 1] : p2.Calc(1,p2.Calc(-1,p1));
 
-                    if (i + 2 < Order)
-                        p4 = Points[i + 2];
-                    else
-                        p4 = p2.Calc(1, p3.Calc(-1, p2));
+                    p4 = i + 2 < Order ? Points[i + 2] : p2.Calc(1, p3.Calc(-1, p2));
                     var pixels = new OsuPixel[4] {p1, p2, p3, p4}.ToList();
                     var p = VectorUtility.GetPoint(pixels, t);
                     Position.Add(p);

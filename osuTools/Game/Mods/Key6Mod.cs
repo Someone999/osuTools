@@ -1,5 +1,8 @@
 ﻿namespace osuTools.Game.Mods
 {
+    /// <summary>
+    /// 转换std谱面到6k
+    /// </summary>
     public class Key6Mod : KeyMod
     {
         /// <inheritdoc />

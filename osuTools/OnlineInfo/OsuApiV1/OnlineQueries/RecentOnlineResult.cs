@@ -2,10 +2,10 @@
 using System.Text;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using osuTools.Game.Modes;
 using osuTools.Game.Mods;
-using osuTools.Online.ApiV1.Querier;
 
-namespace osuTools.Online.ApiV1
+namespace osuTools.OnlineInfo.OsuApiV1.OnlineQueries
 {
     /// <summary>
     ///     最近24小时打出的成绩
@@ -13,8 +13,6 @@ namespace osuTools.Online.ApiV1
     [Serializable]
     public partial class RecentOnlineResult : SortByScore, IComparable<RecentOnlineResult>, IFormattable
     {
-        private double _acc;
-
         private int
             _beatmapId;
 
@@ -94,7 +92,9 @@ namespace osuTools.Online.ApiV1
             else if (_perfect == 0) Perfect = false;
             Accuracy = AccCalc(Mode);
         }
-
+        /// <summary>
+        /// 查询要使用的osu!Api Key
+        /// </summary>
         public string QuerierApiKey { get; set; }
 
         /// <summary>

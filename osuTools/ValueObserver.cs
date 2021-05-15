@@ -2,6 +2,10 @@
 
 namespace osuTools
 {
+    /// <summary>
+    /// 值变化时可触发事件的包装器
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public class ValueObserver<T>
     {
         private T _val;

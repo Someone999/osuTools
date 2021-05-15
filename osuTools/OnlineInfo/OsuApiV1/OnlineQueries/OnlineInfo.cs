@@ -1,4 +1,4 @@
-﻿namespace osuTools.Online
+﻿namespace osuTools.OnlineInfo.OsuApiV1.OnlineQueries
 {
     /// <summary>
     ///     代表一个使用osu!api查询的数据的集合

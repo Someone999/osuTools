@@ -1,6 +1,6 @@
-﻿using osuTools.Skins.Colors;
+﻿using osuTools.Skins.Color;
 
-namespace osuTools.Skins.Settings.Catch
+namespace osuTools.Skins.Catch
 {
     /// <summary>
     ///     接水果的皮肤图片
@@ -18,16 +18,16 @@ namespace osuTools.Skins.Settings.Catch
         /// <summary>
         ///     快速冲刺时覆盖显示的颜色
         /// </summary>
-        public RGBColor HyperDash { get; internal set; } = new RGBColor(255, 0, 0);
+        public RgbColor HyperDash { get; internal set; } = new RgbColor(255, 0, 0);
 
         /// <summary>
         ///     需要快速冲刺才能接到下一个水果时，当前水果覆盖显示的颜色
         /// </summary>
-        public RGBColor HyperDashFruit { get; internal set; }
+        public RgbColor HyperDashFruit { get; internal set; }
 
         /// <summary>
         ///     接水果容器皮肤图片的残影的颜色
         /// </summary>
-        public RGBColor HyperDashAfterImage { get; internal set; }
+        public RgbColor HyperDashAfterImage { get; internal set; }
     }
 }

@@ -1,16 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using osuTools.Beatmaps;
+using osuTools.Game.Modes;
 
 namespace osuTools.OsuDB
 {
     /// <summary>
     ///     谱面，存储的信息多于Beatmap类
     /// </summary>
-    public class OsuBeatmap : IOsuDbData
+    public class OsuBeatmap : IOsuDbData,IBeatmap
     {
-        internal long ModifucationTime;
-        internal List<OsuBeatmapTimePoint> timepoints = new List<OsuBeatmapTimePoint>();
+        internal List<OsuBeatmapTimePoint> Timepoints = new List<OsuBeatmapTimePoint>();
 
         /// <summary>
         ///     谱面的难度星级
@@ -73,9 +74,14 @@ namespace osuTools.OsuDB
         public string Difficulty { get; internal set; }
 
         /// <summary>
+        /// 谱面的难度标签
+        /// </summary>
+        public string Version => Difficulty;
+
+        /// <summary>
         ///     谱面的MD5
         /// </summary>
-        public string MD5 { get; internal set; }
+        public string Md5 { get; internal set; }
 
         /// <summary>
         ///     谱面文件的文件名
@@ -145,7 +151,7 @@ namespace osuTools.OsuDB
         /// <summary>
         ///     谱面的时间点
         /// </summary>
-        public IReadOnlyList<OsuBeatmapTimePoint> TimePoints => timepoints.AsReadOnly();
+        public IReadOnlyList<OsuBeatmapTimePoint> TimePoints => Timepoints.AsReadOnly();
 
         /// <summary>
         ///     谱面ID
@@ -196,7 +202,7 @@ namespace osuTools.OsuDB
                 return true;
             if (a is null || b is null)
                 return false;
-            return a.MD5 == b.MD5;
+            return a.Md5 == b.Md5;
         }
 
         /// <summary>
@@ -210,20 +216,82 @@ namespace osuTools.OsuDB
                 return false;
             if (a is null || b is null) 
                 return true;
-            return a.MD5 != b.MD5;
+            return a.Md5 != b.Md5;
         }
 
+        private double _bpm;
+        /// <summary>
+        /// 谱面中出现次数最多的Bpm
+        /// </summary>
+        public double Bpm
+        {
+            get
+            {
+                if (_bpm == 0)
+                {
+                    Dictionary<double, double> bpmTime = new Dictionary<double, double>();
+                    var tmPts = TimePoints;
+                    OsuBeatmapTimePoint cur = tmPts[0];
+                    for (int i = 1; i < tmPts.Count; i++)
+                    {
+                        
+                        //cur = tmPts[i];
+                        var nxt = tmPts[i];
+                        if (nxt.Inherit)
+                        {
+                            double offset = nxt.Offset - cur.Offset;
+                            if (!bpmTime.ContainsKey(Math.Round(cur.Bpm, 2)))
+                                bpmTime.Add(Math.Round(cur.Bpm, 2), offset);
+                            else
+                                bpmTime[Math.Round(cur.Bpm, 2)] += offset;
+                            cur = nxt;
+                        }
+                    }
+
+                    var most = from bpm in bpmTime where bpm.Key > 0 orderby bpm.Value descending select bpm;
+                    _bpm = most.First().Key;
+                }
+
+                return _bpm;
+            }
+            set => _bpm = value;
+        }
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
+        public override bool Equals(object obj)
+        {
+            if (obj is OsuBeatmap b)
+                return b.Md5 == Md5;
+            return false;
+        }
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
+        public override int GetHashCode()
+        {
+            return Md5.GetHashCode();
+        }
+        /// <summary>
+        /// 在默认的成绩数据库中寻找与谱面Md5匹配的的成绩
+        /// </summary>
+        /// <returns></returns>
         public IReadOnlyList<OsuScoreInfo> GetScores()
         {
             OsuScoreDb scoreDb = new OsuScoreDb();
             List<OsuScoreInfo> info = new List<OsuScoreInfo>();
             foreach (var score in scoreDb.Scores)
             {
-                if(score.BeatmapMD5 == MD5)
+                if(score.BeatmapMD5 == Md5)
                     info.Add(score);
             }
             return info.AsReadOnly();
         }
+        /// <summary>
+        /// 在默认的成绩数据库中寻找与符合条件的成绩
+        /// </summary>
+        /// <param name="comparison"></param>
+        /// <returns></returns>
 
         public IReadOnlyList<OsuScoreInfo> GetScores(Comparison<OsuScoreInfo> comparison)
         {
@@ -231,6 +299,11 @@ namespace osuTools.OsuDB
             lst.Sort(comparison);
             return lst.AsReadOnly();
         }
+        /// <summary>
+        /// 在默认的成绩数据库中寻找与符合条件的成绩
+        /// </summary>
+        /// <param name="comparer"></param>
+        /// <returns></returns>
         public IReadOnlyList<OsuScoreInfo> GetScores(IComparer<OsuScoreInfo> comparer)
         {
             var lst = new List<OsuScoreInfo>(GetScores());

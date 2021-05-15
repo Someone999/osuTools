@@ -30,8 +30,13 @@
             double.TryParse(hp, out _hp);
             int.TryParse(offset, out _offset);
         }
-
+        /// <summary>
+        /// 血量
+        /// </summary>
         public double Hp => _hp;
+        /// <summary>
+        /// 时间
+        /// </summary>
         public int Offset => _offset;
     }
 }

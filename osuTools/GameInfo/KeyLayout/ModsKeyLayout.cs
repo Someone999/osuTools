@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
-using osuTools.Exceptions;
+using osuTools.Game.Mods;
 
 namespace osuTools.GameInfo.KeyLayout
 {
@@ -85,8 +85,9 @@ namespace osuTools.GameInfo.KeyLayout
             {
                 for (var i = 0; i < values.Length; i++) keyandint.Add(names[i], (Keys) values.GetValue(i));
             }
-            catch
+            catch(Exception e)
             {
+                Console.WriteLine(e);
             }
         }
 

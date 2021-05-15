@@ -1,5 +1,8 @@
 ﻿namespace osuTools.Game.Mods
 {
+    /// <summary>
+    /// 自动按键，只需要定位
+    /// </summary>
     public class RelaxMod : Mod, ILegacyMod, IHasConflictMods
     {
         /// <inheritdoc />

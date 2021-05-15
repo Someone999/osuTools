@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using osuTools.Game.Modes;
 
 namespace osuTools.OsuDB
 {
@@ -26,8 +27,7 @@ namespace osuTools.OsuDB
                 }
                 catch
                 {
-                    var d = new Dictionary<int, double>();
-                    d.Add(0, 0);
+                    var d = new Dictionary<int, double> {{0, 0}};
                     return d;
                 }
             }

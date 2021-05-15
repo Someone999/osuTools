@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Reflection;
 using osuTools.Beatmaps;
-using osuTools.Exceptions;
 using osuTools.Game.Modes;
 
 namespace osuTools.Game.Mods
@@ -114,43 +113,59 @@ namespace osuTools.Game.Mods
             foreach (var type in types)
                 if (type.GetInterfaces().Any(i => i == typeof(ILegacyMod)))
                 {
-                    var mod = (ILegacyMod) type.GetConstructor(new Type[0]).Invoke(new object[0]);
-                    if (legacyMod == mod.LegacyMod)
+                    var mod = (ILegacyMod) type.GetConstructor(new Type[0])?.Invoke(new object[0]);
+                    if (legacyMod == mod?.LegacyMod)
                         return (Mod) mod;
                 }
 
             return null;
         }
-
+        /// <summary>
+        /// 比较两个Mod是否相等
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
         public static bool operator ==(Mod a, Mod b)
         {
-            if ((object) a == null && (object) b != null)
-                return false;
-            if ((object) a != null && (object) b == null)
-                return false;
-            if ((object) a == null && (object) b == null)
+            if (a is null && b is null)
                 return true;
-            if (a is ILegacyMod && b is ILegacyMod)
-                return ((ILegacyMod) a).LegacyMod == ((ILegacyMod) b).LegacyMod;
+            if (a is null || b is null)
+                return false;
+            if (a is ILegacyMod aLegacyMod && b is ILegacyMod bLegacyMod)
+                return aLegacyMod.LegacyMod == bLegacyMod.LegacyMod;
             return a.Name == b.Name;
         }
-
+        /// <summary>
+        /// 比较两个Mod是否相等
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
         public static bool operator !=(Mod a, Mod b)
         {
-            if ((object) a == null && (object) b != null)
-                return true;
-            if ((object) a != null && (object) b == null)
-                return true;
-            if ((object) a == null && (object) b == null)
+            if (a is null && b is null)
                 return false;
-            if (a is ILegacyMod && b is ILegacyMod)
-                return ((ILegacyMod) a).LegacyMod != ((ILegacyMod) b).LegacyMod;
+            if (a is null || b is null)
+                return true;
+        
+            if (a is ILegacyMod aLegacyMod && b is ILegacyMod  bLegacyMod)
+                return aLegacyMod.LegacyMod !=  bLegacyMod.LegacyMod;
             return a.Name != b.Name;
         }
-
+        ///<inheritdoc/>
         public override bool Equals(object obj)
         {
-            return base.Equals(obj);
+            if (obj is Mod mod)
+                if (mod is ILegacyMod legacyMod && this is ILegacyMod tLegacyMod)
+                    return legacyMod.LegacyMod == tLegacyMod.LegacyMod;
+                else
+                {
+                    return Name == mod.Name;
+                }
+            return false;
+            
+
         }
 
         /// <summary>
@@ -159,8 +174,8 @@ namespace osuTools.Game.Mods
         /// <returns></returns>
         public override int GetHashCode()
         {
-            if (this is ILegacyMod)
-                return (int) (this as ILegacyMod).LegacyMod;
+            if (this is ILegacyMod legacyMod)
+                return (int) legacyMod.LegacyMod;
             return Name.GetHashCode();
         }
     }

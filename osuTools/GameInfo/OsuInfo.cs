@@ -4,11 +4,10 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using osuTools.Exceptions;
-using osuTools.GameInfo.KeyBinding;
 using osuTools.Skins;
 using Sync.Tools;
 
-namespace osuTools
+namespace osuTools.GameInfo
 {
     /// <summary>
     ///     表示最基本的游戏信息
@@ -16,11 +15,11 @@ namespace osuTools
     public class OsuInfo
     {
         private string cfg;
-        private KeyBinding d;
+        private KeyBinding.KeyBinding d;
         private string[] lines;
         private int off = -2;
         private bool runing;
-        private Skins.Skin sk;
+        private Skin sk;
         private string ver, song, osudir, username, skin;
 
         /// <summary>
@@ -34,11 +33,11 @@ namespace osuTools
         /// <summary>
         ///     获取当前的皮肤，尚未完工。
         /// </summary>
-        public Skins.Skin CurrentSkin
+        public Skin CurrentSkin
         {
             get
             {
-                sk = new Skins.Skin(CurrentSkinDir);
+                sk = new Skin(CurrentSkinDir);
                 return sk;
             }
         }
@@ -46,14 +45,7 @@ namespace osuTools
         /// <summary>
         ///     快捷键的获取，实验功能。
         /// </summary>
-        public KeyBinding ShortcutKeys
-        {
-            get
-            {
-                if (d == null) d = new KeyBinding(lines);
-                return d;
-            }
-        }
+        public KeyBinding.KeyBinding ShortcutKeys => d ?? (d = new KeyBinding.KeyBinding(lines));
 
         /// <summary>
         ///     osu!的窗口句柄
@@ -241,10 +233,7 @@ namespace osuTools
         private void GetSongDir()
         {
             string osudir;
-            if (CurrentOsuProcess != null)
-                osudir = OsuDirectory;
-            else
-                osudir = this.osudir;
+            osudir = CurrentOsuProcess != null ? OsuDirectory : this.osudir;
             var tmp = string.Empty;
             foreach (var data in lines)
                 if (data.Trim().StartsWith("BeatmapDirectory"))
@@ -279,10 +268,9 @@ namespace osuTools
                 var Cur = data.Trim();
                 if (Cur.StartsWith("LastVersion"))
                 {
-                    string[] tmparr = { };
                     if (Cur.Split('=')[0].Trim() == "LastVersion")
                     {
-                        tmparr = data.Split('=');
+                        var tmparr = data.Split('=');
                         ver = tmparr[1].Trim();
                         return;
                     }

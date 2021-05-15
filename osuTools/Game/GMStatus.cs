@@ -1,7 +1,7 @@
 ﻿using System;
 using OsuRTDataProvider.Listen;
 
-namespace osuTools
+namespace osuTools.Game
 {
     /// <summary>
     ///     记录游戏的状态

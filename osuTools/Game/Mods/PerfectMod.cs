@@ -1,5 +1,8 @@
 ﻿namespace osuTools.Game.Mods
 {
+    /// <summary>
+    /// 要不100%要不重试
+    /// </summary>
     public class PerfectMod : Mod, ILegacyMod, IHasConflictMods
     {
         /// <inheritdoc />

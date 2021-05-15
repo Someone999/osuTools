@@ -1,6 +1,6 @@
 ﻿using osuTools.Skins.Interfaces;
 
-namespace osuTools.Skins.SkinObjects.Generic.PlayField.Countdown
+namespace osuTools.Skins.Game.Playfield
 {
     /// <summary>
     ///     倒计时时会播放的音频与图片

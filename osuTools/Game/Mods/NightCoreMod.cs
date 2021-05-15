@@ -3,6 +3,9 @@ using osuTools.Game.Modes;
 
 namespace osuTools.Game.Mods
 {
+    /// <summary>
+    /// 加重节奏的DoubleTime
+    /// </summary>
     public class NightCoreMod : Mod, ILegacyMod, IHasConflictMods, IChangeTimeRateMod
     {
         /// <inheritdoc />

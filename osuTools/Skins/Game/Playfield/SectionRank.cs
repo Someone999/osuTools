@@ -1,8 +1,7 @@
 ﻿using osuTools.Attributes;
-using osuTools.Exceptions;
 using osuTools.Skins.Interfaces;
 
-namespace osuTools.Skins.SkinObjects.Generic.PlayField.SectionRank
+namespace osuTools.Skins.Game.Playfield
 {
     /// <summary>
     ///     BreakTime时的播放的区间通过与否的音频与图象的单个元素

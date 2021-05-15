@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace osuTools.Online.ApiV1
+namespace osuTools.OnlineInfo.OsuApiV1.OnlineQueries
 {
     partial class OnlineUser
     {

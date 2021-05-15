@@ -1,5 +1,8 @@
 ﻿namespace osuTools.Game.Mods
 {
+    /// <summary>
+    /// 转换std谱面到8k
+    /// </summary>
     public class Key8Mod : KeyMod
     {
         /// <inheritdoc />

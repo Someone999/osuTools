@@ -1,5 +1,8 @@
 ﻿namespace osuTools.Game.Mods
 {
+    /// <summary>
+    /// 适用于Mania模式，镜像翻转谱面
+    /// </summary>
     public class MirrorMod : Mod, ILegacyMod
     {
         /// <inheritdoc />

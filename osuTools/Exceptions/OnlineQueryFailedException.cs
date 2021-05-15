@@ -1,10 +1,11 @@
 ﻿using System;
+
 namespace osuTools.Exceptions
 {
     /// <summary>
     ///     osu!api查询失败时引发的异常。
     /// </summary>
-    public class OnlineQueryFailedException : osuToolsExceptionBase
+    public class OnlineQueryFailedException : OsuToolsExceptionBase
     {
         /// <summary>
         ///     使用指定的信息初始化一个OnlineQueryFailedException

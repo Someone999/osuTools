@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace osuTools.Attributes
 {
@@ -17,6 +13,10 @@ namespace osuTools.Attributes
         /// 别名
         /// </summary>
         public string Alias { get;}
+        /// <summary>
+        /// 使用别名初始化一个AliasAttribute
+        /// </summary>
+        /// <param name="alias"></param>
         public AliasAttribute(string alias)
         {
             Alias = alias;

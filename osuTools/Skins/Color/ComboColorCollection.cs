@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace osuTools.Skins.Colors
+namespace osuTools.Skins.Color
 {
     /// <summary>
     ///     连击颜色的集合

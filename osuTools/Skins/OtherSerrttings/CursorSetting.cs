@@ -1,5 +1,8 @@
-﻿namespace osuTools.Skins.Settings.Cursor
+﻿namespace osuTools.Skins.OtherSerrttings
 {
+    /// <summary>
+    /// 光标设置
+    /// </summary>
     public class CursorSetting
     {
         /// <summary>

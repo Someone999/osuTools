@@ -1,7 +1,11 @@
 ﻿using osuTools.Beatmaps;
+using osuTools.Game.Modes;
 
 namespace osuTools.Game.Mods
 {
+    /// <summary>
+    /// 渐隐
+    /// </summary>
     public class HiddenMod : Mod, ILegacyMod, IHasConflictMods
     {
         private double _scoreMultiplier = 1.06d;

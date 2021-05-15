@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
 using osuTools.Attributes;
-using osuTools.Exceptions;
-using osuTools.Skins.SkinObjects.Generic;
+using osuTools.Skins.Game;
 
-namespace osuTools.Skins.Sounds
+namespace osuTools.Skins
 {
     /// <summary>
     ///     皮肤音频的集合，处于开发阶段
@@ -14,6 +13,6 @@ namespace osuTools.Skins.Sounds
         /// <summary>
         ///     到达指定连击数时播放的声音
         /// </summary>
-        public List<GenericSkinSound> ComboBurstSounds { get; internal set; } = new List<GenericSkinSound>();
+        public List<GeneralSkinSound> ComboBurstSounds { get; internal set; } = new List<GeneralSkinSound>();
     }
 }

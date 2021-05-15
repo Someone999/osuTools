@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using osuTools.Skins.SkinObjects.Osu;
+using osuTools.Skins.Osu;
 
-namespace osuTools.Skins.SkinObjects.Taiko
+namespace osuTools.Skins.Taiko
 {
     /// <summary>
     ///     Taiko的判定图标

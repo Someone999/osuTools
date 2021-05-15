@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using osuTools.Skins.Interfaces;
 
-namespace osuTools.Skins.SkinObjects.Osu
+namespace osuTools.Skins.Osu
 {
     /// <summary>
     ///     通用的判定突变

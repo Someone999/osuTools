@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Drawing;
 using System.IO;
-using osuTools.Skins.Exceptions;
+using osuTools.Exceptions;
 using osuTools.Skins.Interfaces;
 
-namespace osuTools.Skin.Mods
+namespace osuTools.Skins.Mods
 {
     /// <summary>
     ///     Mod的图片元素

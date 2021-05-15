@@ -1,4 +1,4 @@
-﻿namespace osuTools.Skins.Settings.Mania
+﻿namespace osuTools.Skins.Mania
 {
     /// <summary>
     ///     特殊风格

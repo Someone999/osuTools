@@ -1,4 +1,4 @@
-﻿namespace osuTools.Skins.SkinObjects.Osu.Spinner
+﻿namespace osuTools.Skins.Osu
 {
     /// <summary>
     ///     转盘的皮肤图片
@@ -29,8 +29,13 @@
         ///     转盘的发光
         /// </summary>
         public OsuSkinImage SpinnerGlow { get; internal set; } = new OsuSkinImage();
-
+        /// <summary>
+        /// 尚未调查清楚
+        /// </summary>
         public OsuSkinImage SpinnerMiddle { get; internal set; } = new OsuSkinImage();
+        /// <summary>
+        /// 尚未调查清楚
+        /// </summary>
         public OsuSkinImage SpinnerMiddle2 { get; internal set; } = new OsuSkinImage();
 
         /// <summary>

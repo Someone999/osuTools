@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace osuTools.Skins.SkinObjects.Taiko
+namespace osuTools.Skins.Taiko
 {
     /// <summary>
     ///     Taiko的皮肤图片元素的集合

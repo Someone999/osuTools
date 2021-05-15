@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Drawing;
 using System.IO;
-using osuTools.Skins.Exceptions;
+using osuTools.Exceptions;
 using osuTools.Skins.Interfaces;
 
-namespace osuTools.Skins.SkinObjects.Catch
+namespace osuTools.Skins.Catch
 {
     /// <summary>
     ///     接水果皮肤图片的元素
@@ -22,11 +22,13 @@ namespace osuTools.Skins.SkinObjects.Catch
             var type = fileName.Replace(".png", "");
             FullPath = fullFileName;
         }
-
-        public string FileName { get; } = "default";
-        public string FullPath { get; } = "default";
+        ///<inheritdoc/>
+        public string FileName { get; }
+        ///<inheritdoc/>
+        public string FullPath { get; }
+        ///<inheritdoc/>
         public string SkinImageTypeName { get; } = "OsuSkinImage";
-
+        ///<inheritdoc/>
         public Image LoadImage()
         {
             if (FileName == "default" && FullPath == "default")
@@ -35,12 +37,12 @@ namespace osuTools.Skins.SkinObjects.Catch
                 return Image.FromFile(FullPath);
             throw new SkinFileNotFoundException();
         }
-
+        ///<inheritdoc/>
         public ISkinImage GetHighResolutionImage()
         {
             var tmpname = FileName.Replace(".png", "@2x.png");
             var tmppath = Path.GetDirectoryName(FullPath);
-            if (File.Exists(Path.Combine(tmppath, tmpname)))
+            if (File.Exists(Path.Combine(tmppath ?? throw new InvalidOperationException(), tmpname)))
                 return new CatchSkinImage(tmpname, Path.Combine(tmppath, tmpname));
             throw new SkinFileNotFoundException("没有找到该皮肤文件的@2x版本。");
         }

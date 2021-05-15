@@ -1,11 +1,20 @@
-﻿using System.IO;
-using osuTools.Skins.Exceptions;
+﻿using System;
+using System.IO;
+using osuTools.Exceptions;
 using osuTools.Skins.Interfaces;
 
-namespace osuTools.Skins.SkinObjects.Generic.Menu
+namespace osuTools.Skins.Game.Menu
 {
-    public class MenuButton : GenericSkinImage
+    /// <summary>
+    /// 菜单按钮的图像
+    /// </summary>
+    public class MenuButton : GeneralSkinImage
     {
+        /// <summary>
+        /// 使用指定的文件名和全路径初始化MenuButton
+        /// </summary>
+        /// <param name="fileName"></param>
+        /// <param name="fullFileName"></param>
         public MenuButton(string fileName, string fullFileName) : base(fileName, fullFileName)
         {
             FileName = fileName;
@@ -21,8 +30,8 @@ namespace osuTools.Skins.SkinObjects.Generic.Menu
         {
             var tmpname = FileName.Replace(".png", "-over.png");
             var tmppath = Path.GetDirectoryName(FullPath);
-            if (File.Exists(Path.Combine(tmppath, tmpname)))
-                return new GenericSkinImage(tmpname, Path.Combine(tmppath, tmpname));
+            if (File.Exists(Path.Combine(tmppath ?? throw new InvalidOperationException(), tmpname)))
+                return new GeneralSkinImage(tmpname, Path.Combine(tmppath, tmpname));
             throw new SkinFileNotFoundException();
         }
     }

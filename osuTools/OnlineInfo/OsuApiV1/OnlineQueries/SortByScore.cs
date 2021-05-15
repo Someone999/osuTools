@@ -1,10 +1,8 @@
 ﻿using System;
 
-namespace osuTools
+namespace osuTools.OnlineInfo.OsuApiV1.OnlineQueries
 {
-    namespace Online
-    {
-        /// <summary>
+    /// <summary>
         ///     按照分数排列的查询结果
         /// </summary>
         public abstract class SortByScore : IComparable<SortByScore>
@@ -12,7 +10,7 @@ namespace osuTools
             /// <summary>
             ///     获取分数，该方法可重写
             /// </summary>
-            public virtual int Score { get; }
+            public virtual int Score { get; } = 0;
 
             /// <summary>
             ///     比较分数的高低
@@ -23,7 +21,6 @@ namespace osuTools
             {
                 if (Score > s.Score) return -1;
                 if (Score < s.Score) return 1;
-                if (Score == s.Score) return 0;
                 return 0;
             }
 
@@ -57,6 +54,10 @@ namespace osuTools
             /// <returns></returns>
             public static bool operator ==(SortByScore a, SortByScore b)
             {
+                if (a is null && b is null)
+                    return true;
+                if (a is null || b is null)
+                    return false;
                 return a.Score == b.Score;
             }
 
@@ -68,17 +69,19 @@ namespace osuTools
             /// <returns></returns>
             public static bool operator !=(SortByScore a, SortByScore b)
             {
+                if (a is null && b is null)
+                    return false;
+                if (a is null || b is null)
+                    return true;
                 return a.Score != b.Score;
             }
 
-            /// <summary>
-            ///     确定指定的对象是否等于当前对象。
-            /// </summary>
-            /// <param name="obj"></param>
-            /// <returns></returns>
+            ///<inheritdoc/>
             public override bool Equals(object obj)
             {
-                return base.Equals(obj);
+                if (obj is SortByScore sort)
+                    return sort.Score == Score;
+                return false;
             }
 
             /// <summary>
@@ -90,5 +93,4 @@ namespace osuTools
                 return Score | (8 << 2);
             }
         }
-    }
 }

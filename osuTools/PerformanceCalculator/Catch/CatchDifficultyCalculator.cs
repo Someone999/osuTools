@@ -1,34 +1,56 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using osuTools.Beatmaps;
+using osuTools.Beatmaps.HitObject;
 using osuTools.Game.Mods;
+
 namespace osuTools.PerformanceCalculator.Catch
 {
+    /// <summary>
+    /// 计算<seealso cref="CatchBeatmap"/>的难度
+    /// </summary>
     public class CatchDifficultyCalculator
     {
+        /// <summary>
+        /// 玩家的宽度
+        /// </summary>
         public double PlayerWidth { get; }
+        /// <summary>
+        /// 所有的Tick和HitObject
+        /// </summary>
         public List<ICatchHitObject> HitObjectsWithTicks { get; } = new List<ICatchHitObject>();
+        /// <summary>
+        /// 所有计算难度后的<seealso cref="CatchDifficultyHitObject"/>
+        /// </summary>
         public List<CatchDifficultyHitObject> DifficultyHitObjects { get; } = new List<CatchDifficultyHitObject>();
+        /// <summary>
+        /// 使用的Mod
+        /// </summary>
         public ModList Mods { get; }
+        /// <summary>
+        /// 计算难度的谱面
+        /// </summary>
         public CatchBeatmap Beatmap { get; }
+        /// <summary>
+        /// Mod造成的时间倍率影响
+        /// </summary>
         public double TimeRate { get; internal set; }
+        /// <summary>
+        /// 难度星级
+        /// </summary>
         public double Stars { get; internal set; }
+        /// <summary>
+        /// 使用指定的<seealso cref="CatchBeatmap"/>和要使用的Mod初始化CatchDifficultyCalculator
+        /// </summary>
+        /// <param name="beatmap"></param>
+        /// <param name="mods"></param>
         public CatchDifficultyCalculator(CatchBeatmap beatmap, ModList mods)
         {
             Beatmap = beatmap;
             Mods = mods;
-            double scala = 0;
             foreach (var diff in beatmap.Difficulty)
             {
-                if (diff.Key == "CircleSize")
-                    scala = 1.3;
-                else
-                    scala = 1.4;
+                var scala = diff.Key == "CircleSize" ? 1.3 : 1.4;
                 diff.Value = AdjustDifficulty(diff.Value, mods, scala);
             }
             foreach (var hitObject in Beatmap.CatchHitObjects)
@@ -43,12 +65,12 @@ namespace osuTools.PerformanceCalculator.Catch
             TimeRate = Mods.TimeRate;
             PlayerWidth = 305 / 1.6 *
                               ((102.4 * (1 - 0.7 * (Beatmap.Difficulty.CircleSize - 5) / 5)) / 128) * 0.7;
-            HitObjectsWithTicks.ForEach((hitObject) => DifficultyHitObjects.Add(new CatchDifficultyHitObject(hitObject, PlayerWidth * 0.4)));
+            HitObjectsWithTicks.ForEach(hitObject => DifficultyHitObjects.Add(new CatchDifficultyHitObject(hitObject, PlayerWidth * 0.4)));
             UpdateHyperDashDistance();
             DifficultyHitObjects.Sort((x, y) =>
                 Math.Abs(x.HitObject.Offset - y.HitObject.Offset) == 0  ? 0 : x.HitObject.Offset > y.HitObject.Offset ? 1 : -1);
             CalcStrainValues();
-            Stars = Math.Pow(CalcDifficulty(), 0.5) * Constants.STAR_SCALING_FACTOR;
+            Stars = Math.Pow(CalcDifficulty(), 0.5) * Constants.StarScalingFactor;
         }
         double AdjustDifficulty(double diff,ModList mods,double scala)
         {
@@ -72,7 +94,7 @@ namespace osuTools.PerformanceCalculator.Catch
             {
                 var cur = DifficultyHitObjects[i];
                 var nxt = DifficultyHitObjects[i + 1];
-                double direction = 0;
+                double direction;
                 if (nxt.HitObject.x > cur.HitObject.x)
                     direction = 1;
                 else
@@ -114,7 +136,7 @@ namespace osuTools.PerformanceCalculator.Catch
         }
         double CalcDifficulty()
         {
-            double strainStep = Constants.STRAIN_STEP * TimeRate;
+            double strainStep = Constants.StrainStep * TimeRate;
             List<double> highestStrain = new List<double>();
             double interval = strainStep;
             double maxStrain = 0;
@@ -128,7 +150,7 @@ namespace osuTools.PerformanceCalculator.Catch
                         maxStrain = 0;
                     else
                     {
-                        double decay = Math.Pow(Constants.DECAY_BASE, (interval - last.HitObject.Offset) / 1000);
+                        double decay = Math.Pow(Constants.DecayBase, (interval - last.HitObject.Offset) / 1000);
                         maxStrain = last.Strain * decay;
                     }
                     interval += strainStep;
@@ -144,7 +166,7 @@ namespace osuTools.PerformanceCalculator.Catch
             foreach (var strain in revserSortedList)
             {
                 difficulty += weight * strain;
-                weight *= Constants.DECAY_WEIGHT;
+                weight *= Constants.DecayWeight;
             }
             return difficulty;
         }

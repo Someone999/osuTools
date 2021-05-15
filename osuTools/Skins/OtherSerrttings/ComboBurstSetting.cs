@@ -1,4 +1,4 @@
-﻿namespace osuTools.Skins.Settings.ComboBurst
+﻿namespace osuTools.Skins.OtherSerrttings
 {
     /// <summary>
     ///     达到指定连击时的皮肤设置

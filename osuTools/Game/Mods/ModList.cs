@@ -35,7 +35,7 @@ namespace osuTools.Game.Mods
             {
                 if (mods.Count == 0) return 1;
                 mods.Sort((x, y) =>
-                    x.ScoreMultiplier == y.ScoreMultiplier ? 0 : x.ScoreMultiplier > y.ScoreMultiplier ? -1 : 1);
+                    Math.Abs(x.ScoreMultiplier - y.ScoreMultiplier) < double.Epsilon ? 0 : x.ScoreMultiplier > y.ScoreMultiplier ? -1 : 1);
                 var multiplier = mods[0].ScoreMultiplier;
                 double add = 0;
                 if (mods.Count > 1)
@@ -79,7 +79,11 @@ namespace osuTools.Game.Mods
                 return 1;
             }
         }
-
+        /// <summary>
+        /// 获取或设置指定索引处的Mod
+        /// </summary>
+        /// <param name="x"></param>
+        /// <returns></returns>
         public Mod this[int x]
         {
             get => mods[x];

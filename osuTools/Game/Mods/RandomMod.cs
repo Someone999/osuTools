@@ -1,5 +1,8 @@
 ﻿namespace osuTools.Game.Mods
 {
+    /// <summary>
+    /// 适用于Mania模式，随机排布所有Note
+    /// </summary>
     public class RandomMod : Mod, ILegacyMod
     {
         /// <inheritdoc />

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace osuTools
+namespace osuTools.Game
 {
     /// <summary>
     ///     osu的游戏状态

@@ -1,4 +1,6 @@
-﻿namespace osuTools.Replays
+﻿using osuTools.Game.Modes;
+
+namespace osuTools.Replays
 {
     /// <summary>
         ///     录像文件包含的数据

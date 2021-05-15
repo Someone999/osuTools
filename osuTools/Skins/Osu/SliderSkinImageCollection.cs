@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace osuTools.Skins.SkinObjects.Osu.Slider
+namespace osuTools.Skins.Osu
 {
     /// <summary>
     ///     滑条皮肤的图片元素的集合

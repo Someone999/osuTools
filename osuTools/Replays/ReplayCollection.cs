@@ -2,6 +2,8 @@
 using System.Collections.ObjectModel;
 using System.IO;
 using osuTools.Exceptions;
+using osuTools.Game.Modes;
+using osuTools.Game.Mods;
 
 namespace osuTools.Replays
 {
@@ -31,7 +33,7 @@ namespace osuTools.Replays
         /// <summary>
         ///     存储的录像
         /// </summary>
-        public ReadOnlyCollection<osuTools.Replays.Replay> Replays => _rdata.AsReadOnly();
+        public ReadOnlyCollection<Replay> Replays => _rdata.AsReadOnly();
 
         /// <summary>
         ///     使用整数索引从列表中获取谱面
@@ -40,7 +42,7 @@ namespace osuTools.Replays
         /// <returns></returns>
         public Replay this[int x] => Replays[x];
 
-        internal void Add(osuTools.Replays.Replay data)
+        internal void Add(Replay data)
         {
             _rdata.Add(data);
         }

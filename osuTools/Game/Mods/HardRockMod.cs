@@ -3,6 +3,9 @@ using osuTools.Game.Modes;
 
 namespace osuTools.Game.Mods
 {
+    /// <summary>
+    /// 所有难度参数都提高一点，std模式会上下翻转谱面
+    /// </summary>
     public class HardRockMod : Mod, ILegacyMod, IHasConflictMods
     {
         private bool _isRanked = true;
@@ -43,7 +46,7 @@ namespace osuTools.Game.Mods
 
             beatmap.ApproachRate *= 1.4;
             beatmap.OverallDifficulty *= 1.4;
-            beatmap.HPDrain *= 1.4;
+            beatmap.HpDrain *= 1.4;
             if (beatmap.Mode == OsuGameMode.Osu || beatmap.Mode == OsuGameMode.Catch)
                 beatmap.CircleSize *= 1.3;
             return beatmap;

@@ -2,7 +2,7 @@
 using OsuRTDataProvider.Listen;
 using osuTools.Game.Modes;
 
-namespace osuTools
+namespace osuTools.Game
 {
     /// <summary>
     ///     记录游戏模式
@@ -18,7 +18,7 @@ namespace osuTools
         public GmMode(OsuPlayMode lastMode, OsuPlayMode nowMode)
         {
             //IO.CurrentIO.Write($"Get Mode {LastMode} -> {NowMode}");
-            this.LastMode = GameMode.FromLegacyMode((OsuGameMode) lastMode);
+            LastMode = GameMode.FromLegacyMode((OsuGameMode) lastMode);
             CurrentMode = GameMode.FromLegacyMode((OsuGameMode) nowMode);
             //IO.CurrentIO.Write("");
         }

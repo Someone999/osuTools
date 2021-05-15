@@ -1,10 +1,11 @@
 ﻿using System;
+
 namespace osuTools.Exceptions
 {
     /// <summary>
     ///     插件中的任何一个依赖项或插件本身初始化失败时引发的异常
     /// </summary>
-    public class InitializationFailedException : osuToolsExceptionBase
+    public class InitializationFailedException : OsuToolsExceptionBase
     {
         /// <summary>
         ///     使用指定的信息初始化一个InitializationFailedException

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace osuTools.Online.ApiV1
+namespace osuTools.OnlineInfo.OsuApiV1.OnlineQueries
 {
     /// <summary>
     ///     在线查询的谱面状态

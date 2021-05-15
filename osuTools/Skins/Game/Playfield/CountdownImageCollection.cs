@@ -1,4 +1,4 @@
-﻿namespace osuTools.Skins.SkinObjects.Generic.PlayField.Countdown
+﻿namespace osuTools.Skins.Game.Playfield
 {
     /// <summary>
     ///     倒计时

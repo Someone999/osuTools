@@ -1,5 +1,8 @@
 ﻿namespace osuTools.Game.Mods
 {
+    /// <summary>
+    /// 转换按键数量的Mod
+    /// </summary>
     public class KeyMod : Mod, ILegacyMod
     {
         /// <inheritdoc />

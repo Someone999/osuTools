@@ -1,17 +1,12 @@
 ﻿using System.Collections.Generic;
 
-namespace osuTools
+namespace osuTools.OnlineInfo.OsuApiV1.OnlineQueries
 {
-    namespace Online.ApiV1
-    {
-        /// <summary>
+    /// <summary>
         ///     存储最近24小时打出所有成绩
         /// </summary>
         public class OnlineRecentResultCollection : IOnlineInfo<RecentOnlineResult>
         {
-            private int _p = -1;
-            private int _x = 0;
-
             /// <summary>
             ///     指示本次查询是否成功
             /// </summary>
@@ -38,5 +33,4 @@ namespace osuTools
                 return RecentResults.GetEnumerator();
             }
         }
-    }
 }

@@ -3,7 +3,7 @@ using System.Drawing;
 using System.IO;
 using osuTools.Skins.Interfaces;
 
-namespace osuTools.Skins.SkinObjects.Taiko
+namespace osuTools.Skins.Taiko
 {
     /// <summary>
     ///     Taiko皮肤的图片元素
@@ -21,11 +21,11 @@ namespace osuTools.Skins.SkinObjects.Taiko
             var type = fileName.Replace(".png", "");
             FullPath = fullFileName;
         }
-
-        public string FileName { get; } = "default";
-        public string FullPath { get; } = "default";
-        public string SkinImageTypeName { get; } = "OsuSkinImage";
-
+        ///<inheritdoc/>
+        public string FileName { get; }
+        ///<inheritdoc/>
+        public string FullPath { get; }
+        ///<inheritdoc/>
         public Image LoadImage()
         {
             if (FileName == "default" && FullPath == "default")
@@ -34,7 +34,7 @@ namespace osuTools.Skins.SkinObjects.Taiko
                 return Image.FromFile(FullPath);
             throw new FileNotFoundException("找不到文件。原因可能是该皮肤使用了非标准的扩展名。");
         }
-
+        ///<inheritdoc/>
         public ISkinImage GetHighResolutionImage()
         {
             var tmpname = FileName.Replace(".png", "@2x.png");

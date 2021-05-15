@@ -1,4 +1,6 @@
-﻿namespace osuTools.Skins.SkinObjects.Generic.Rank
+﻿using osuTools.Game.Modes;
+
+namespace osuTools.Skins.Game.Rank
 {
     /// <summary>
     ///     评级的图片
@@ -16,7 +18,7 @@
         public RankingImage SSH { get; internal set; }
 
         /// <summary>
-        ///     达到S时的评价的图片。此判定的标准详见<see cref="Game.Modes.GameMode" />中的GetRanking()方法
+        ///     达到S时的评价的图片。此判定的标准详见<see cref="GameMode" />中的GetRanking()方法
         /// </summary>
         public RankingImage S { get; internal set; }
 
@@ -26,22 +28,22 @@
         public RankingImage SH { get; internal set; }
 
         /// <summary>
-        ///     达到A时的评价的图片。此判定的标准详见<see cref="Game.Modes.GameMode" />中的GetRanking()方法
+        ///     达到A时的评价的图片。此判定的标准详见<see cref="GameMode" />中的GetRanking()方法
         /// </summary>
         public RankingImage A { get; internal set; }
 
         /// <summary>
-        ///     达到B时的评价的图片。此判定的标准详见<see cref="Game.Modes.GameMode" />中的GetRanking()方法
+        ///     达到B时的评价的图片。此判定的标准详见<see cref="GameMode" />中的GetRanking()方法
         /// </summary>
         public RankingImage B { get; internal set; }
 
         /// <summary>
-        ///     达到C时的评价的图片。此判定的标准详见<see cref="Game.Modes.GameMode" />中的GetRanking()方法
+        ///     达到C时的评价的图片。此判定的标准详见<see cref="GameMode" />中的GetRanking()方法
         /// </summary>
         public RankingImage C { get; internal set; }
 
         /// <summary>
-        ///     达到D时的评价的图片。此判定的标准详见<see cref="Game.Modes.GameMode" />中的GetRanking()方法
+        ///     达到D时的评价的图片。此判定的标准详见<see cref="GameMode" />中的GetRanking()方法
         /// </summary>
         public RankingImage D { get; internal set; }
     }

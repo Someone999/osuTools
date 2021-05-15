@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
 
-namespace osuTools
+namespace osuTools.OnlineInfo.OsuApiV1.OnlineQueries
 {
-    namespace Online.ApiV1
-    {
+
         /// <summary>
         ///     存储最高PP榜指定数量的记录，最多100个。
         /// </summary>
@@ -35,5 +34,4 @@ namespace osuTools
                 return Records.GetEnumerator();
             }
         }
-    }
 }

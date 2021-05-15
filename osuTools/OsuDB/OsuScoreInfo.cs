@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Windows.Forms;
 using osuTools.Beatmaps.HitObject;
 using osuTools.Exceptions;
-using osuTools.Online;
+using osuTools.Game.Modes;
+using osuTools.Game.Mods;
+using osuTools.OnlineInfo.OsuApiV1.OnlineQueries;
 
 namespace osuTools.OsuDB
 {

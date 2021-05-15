@@ -1,24 +1,41 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using osuTools.Game.Modes;
 using osuTools.Game.Mods;
 
 namespace osuTools.PerformanceCalculator.Catch
 {
+    /// <summary>
+    /// Catch模式的pp计算器，pp算法已经过时
+    /// </summary>
+    [Obsolete("这个类使用的计算方法已经过时")]
     public class CatchPerformanceCalculator
     {
+        /// <summary>
+        /// 难度计算器
+        /// </summary>
         public CatchDifficultyCalculator DifficultyCalculator { get; internal set; }
+        /// <summary>
+        /// 计算pp的谱面
+        /// </summary>
         public CatchBeatmap Beatmap { get; internal set; }
+        /// <summary>
+        /// 使用的Mod
+        /// </summary>
         public ModList Mods { get; internal set; }
+        /// <summary>
+        /// 使用一个难度计算器初始化pp计算器
+        /// </summary>
+        /// <param name="calculator"></param>
         public CatchPerformanceCalculator(CatchDifficultyCalculator calculator)
         {
             DifficultyCalculator = calculator;
             Beatmap = calculator.Beatmap;
             Mods = calculator.Mods;
         }
+        /// <summary>
+        /// 使用要计算的谱面和要使用的Mod初始化pp计算器
+        /// </summary>
+        /// <param name="beatmap"></param>
+        /// <param name="mods"></param>
         public CatchPerformanceCalculator(CatchBeatmap beatmap, ModList mods)
         {
             Beatmap = beatmap;
@@ -26,7 +43,13 @@ namespace osuTools.PerformanceCalculator.Catch
             DifficultyCalculator = new CatchDifficultyCalculator(beatmap, mods);
 
         }
-
+        /// <summary>
+        /// 计算pp
+        /// </summary>
+        /// <param name="accuracy">准确度</param>
+        /// <param name="combo">达到过的最大连击</param>
+        /// <param name="cMiss">Miss的数量</param>
+        /// <returns></returns>
         public double CalculatePerformance(double accuracy, int combo, int cMiss)
         {
             double pp = Math.Pow(((5 * DifficultyCalculator.Stars / 0.0049) - 4), 2) / 100000;

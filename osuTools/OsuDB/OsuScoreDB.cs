@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using osuTools.Game.Modes;
+using osuTools.GameInfo;
 
 namespace osuTools.OsuDB
 {

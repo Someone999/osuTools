@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace osuTools.Online.ApiV1
+namespace osuTools.OnlineInfo.OsuApiV1.OnlineQueries
 {
     /// <summary>
     ///     在线获取的谱面的集合

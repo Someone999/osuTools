@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using osuTools.Skins.Interfaces;
 
-namespace osuTools.Skins.SkinObjects.Osu
+namespace osuTools.Skins.Osu
 {
     /// <summary>
     ///     Osu模式的判定图标

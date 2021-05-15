@@ -1,10 +1,8 @@
 ﻿using System;
 
-namespace osuTools
+namespace osuTools.OnlineInfo.OsuApiV1.OnlineQueries
 {
-    namespace Online.ApiV1
-    {
-        partial class OnlineBestRecord
+    partial class OnlineBestRecord
         {
             /// <summary>
             ///     谱面ID
@@ -29,7 +27,7 @@ namespace osuTools
             /// <summary>
             ///     原始pp
             /// </summary>
-            public override double PP => _pp;
+            public override double Pp => _pp;
 
             /// <summary>
             ///     最大连击
@@ -98,8 +96,10 @@ namespace osuTools
             ///     分数
             /// </summary>
             public int Score => _score;
-
-            public override double PP => _pp;
+            /// <summary>
+            /// pp
+            /// </summary>
+            public override double Pp => _pp;
 
             /// <summary>
             ///     最大连击
@@ -224,5 +224,4 @@ namespace osuTools
             /// </summary>
             public DateTime GetDate => _d;
         }
-    }
 }

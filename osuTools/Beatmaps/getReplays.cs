@@ -1,4 +1,5 @@
-﻿using osuTools.Replays;
+﻿using osuTools.GameInfo;
+using osuTools.Replays;
 
 namespace osuTools.Beatmaps
 {
@@ -17,7 +18,7 @@ namespace osuTools.Beatmaps
                 replyfolder = info.OsuDirectory + "\\Replays";
             var replays = ReplayCollection.GetAllReplays(replyfolder);
             foreach (var replay in replays)
-                if (replay.BeatmapMd5 == MD5.ToString())
+                if (replay.BeatmapMd5 == Md5.ToString())
                     r.Add(replay);
             return r;
         }

@@ -1,6 +1,7 @@
 ﻿using System;
 using osuTools.Beatmaps;
 using osuTools.Beatmaps.HitObject;
+using osuTools.Beatmaps.HitObject.Mania;
 using osuTools.Exceptions;
 using osuTools.Game.Mods;
 using RealTimePPDisplayer.Beatmap;
@@ -10,6 +11,9 @@ using Sync.Tools;
 
 namespace osuTools.Game.Modes
 {
+    /// <summary>
+    /// Mania模式
+    /// </summary>
     public class ManiaMode : GameMode, ILegacyMode, IHasPerformanceCalculator
     {
         private static ManiaPerformanceCalculator _calculator;
@@ -20,7 +24,7 @@ namespace osuTools.Game.Modes
         /// <inheritdoc/>
         public override string Description => "砸键盘";
         /// <inheritdoc/>
-        public double GetMaxPerformance(ORTDP.OrtdpWrapper ortdpInfo)
+        public double GetMaxPerformance(OrtdpWrapper.OrtdpWrapper ortdpInfo)
         {
             return GetPPTuple(ortdpInfo).MaxPP;
         } 
@@ -30,7 +34,7 @@ namespace osuTools.Game.Modes
         {
         }
         /// <inheritdoc/>
-        public PPTuple GetPPTuple(ORTDP.OrtdpWrapper ortdpInfo)
+        public PPTuple GetPPTuple(OrtdpWrapper.OrtdpWrapper ortdpInfo)
         {
             try
             {
@@ -91,7 +95,7 @@ namespace osuTools.Game.Modes
             }
         }
         /// <inheritdoc/>
-        public double GetPerformance(ORTDP.OrtdpWrapper ortdpInfo)
+        public double GetPerformance(OrtdpWrapper.OrtdpWrapper ortdpInfo)
         {
             return GetPPTuple(ortdpInfo).RealTimePP;
         }
@@ -100,22 +104,22 @@ namespace osuTools.Game.Modes
         /// <inheritdoc/>
         public override double AccuracyCalc(ScoreInfo scoreInfo)
         {
-            double c300g = scoreInfo.c300g;
-            double c300 = scoreInfo.c300;
-            double c200 = scoreInfo.c200;
-            double c50 = scoreInfo.c50;
-            double c100 = scoreInfo.c100;
-            double cMiss = scoreInfo.cMiss;
+            double c300g = scoreInfo.CountGeki;
+            double c300 = scoreInfo.Count300;
+            double c200 = scoreInfo.CountKatu;
+            double c50 = scoreInfo.Count50;
+            double c100 = scoreInfo.Count100;
+            double cMiss = scoreInfo.CountMiss;
             var rawValue = (c300g + c300 + c200 * (2 / 3.0) + c100 * (1 / 3.0) + c50 * (1 / 6.0)) /
                            (c300g + c300 + c100 + c200 + c50 + cMiss);
             return double.IsNaN(rawValue) ? 0 : double.IsInfinity(rawValue) ? 0 : rawValue;
         }
         /// <inheritdoc/>
-        public override double AccuracyCalc(ORTDP.OrtdpWrapper scoreInfo)
+        public override double AccuracyCalc(OrtdpWrapper.OrtdpWrapper scoreInfo)
         {
-            double c300g = scoreInfo.Count300g;
+            double c300g = scoreInfo.CountGeki;
             double c300 = scoreInfo.Count300;
-            double c200 = scoreInfo.Count200;
+            double c200 = scoreInfo.CountKatu;
             double c50 = scoreInfo.Count50;
             double c100 = scoreInfo.Count100;
             double cMiss = scoreInfo.CountMiss;
@@ -124,10 +128,10 @@ namespace osuTools.Game.Modes
             return double.IsNaN(rawValue) ? 0 : double.IsInfinity(rawValue) ? 0 : rawValue;
         }
         /// <inheritdoc/>
-        public override int GetPassedHitObjectCount(ORTDP.OrtdpWrapper info)
+        public override int GetPassedHitObjectCount(OrtdpWrapper.OrtdpWrapper info)
         {
             if (info is null) return 0;
-            return info.Count300g + info.Count300 + info.Count200 + info.Count100 + info.Count50 + info.CountMiss;
+            return info.CountGeki + info.Count300 + info.CountKatu + info.Count100 + info.Count50 + info.CountMiss;
         }
         /// <inheritdoc/>
         public override int GetBeatmapHitObjectCount(Beatmap b)
@@ -136,30 +140,30 @@ namespace osuTools.Game.Modes
             return b.HitObjects.Count;
         }
         /// <inheritdoc/>
-        public override double GetCountGekiRate(ORTDP.OrtdpWrapper info)
+        public override double GetCountGekiRate(OrtdpWrapper.OrtdpWrapper info)
         {
             if (info is null) return 0;
-            var rawValue = info.Count300g / (double) (info.Count300 + info.Count300g);
+            var rawValue = info.CountGeki / (double) (info.Count300 + info.CountGeki);
             if (double.IsNaN(rawValue) || double.IsInfinity(rawValue))
                 return 0;
             return rawValue;
         }
         /// <inheritdoc/>
-        public override double GetCount300Rate(ORTDP.OrtdpWrapper info)
+        public override double GetCount300Rate(OrtdpWrapper.OrtdpWrapper info)
         {
             if (info is null) return 0;
-            double rawValue = 0;
-            if (info.Count300g > 0 && info.Count300 == 0)
+            double rawValue;
+            if (info.CountGeki > 0 && info.Count300 == 0)
                 rawValue = GetCountGekiRate(info);
             else
-                rawValue = (info.Count300 + info.Count300g) /
-                           (double) (info.Count300g + info.Count300 + info.Count200 + info.Count100 + info.Count50 + info.CountMiss);
+                rawValue = (info.Count300 + info.CountGeki) /
+                           (double) (info.CountGeki + info.Count300 + info.CountKatu + info.Count100 + info.Count50 + info.CountMiss);
             if (double.IsNaN(rawValue) || double.IsInfinity(rawValue))
                 return 0;
             return rawValue;
         }
         /// <inheritdoc/>
-        public override GameRanking GetRanking(ORTDP.OrtdpWrapper info)
+        public override GameRanking GetRanking(OrtdpWrapper.OrtdpWrapper info)
         {
             if (info is null) return GameRanking.Unknown;
             bool isHdOrFl = false;
@@ -189,7 +193,7 @@ namespace osuTools.Game.Modes
             return hitobject;
         }
         /// <inheritdoc/>
-        public override bool IsPerfect(ORTDP.OrtdpWrapper info)
+        public override bool IsPerfect(OrtdpWrapper.OrtdpWrapper info)
         {
             if (info is null) return false;
             return info.Count100 + info.Count50 + info.CountMiss == 0;

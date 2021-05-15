@@ -1,6 +1,4 @@
-﻿using osuTools.Skins.Settings.Mania.MultipleColumnsSettings;
-
-namespace osuTools.Skins.SkinObjects.Mania
+﻿namespace osuTools.Skins.Mania
 {
     /// <summary>
     ///     Mania的皮肤图片的集合

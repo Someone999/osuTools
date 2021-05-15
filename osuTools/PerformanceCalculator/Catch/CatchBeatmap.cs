@@ -1,22 +1,31 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Windows.Forms;
 using osuTools.Beatmaps;
 using osuTools.Beatmaps.HitObject;
-using RealTimePPDisplayer.Calculator;
+using osuTools.Beatmaps.HitObject.Catch;
+using osuTools.Beatmaps.HitObject.Std;
+using osuTools.Game.Modes;
 
 namespace osuTools.PerformanceCalculator.Catch
 {
+    /// <summary>
+    /// 用于Catch模式pp计算器的谱面
+    /// </summary>
     public class CatchBeatmap
     {
+        /// <summary>
+        /// 被包装的谱面
+        /// </summary>
         public Beatmap BaseBeatmap { get; set; }
+        /// <summary>
+        /// 谱面所有的时间点
+        /// </summary>
         public Dictionary<CatchTimePointType,SortedDictionary<double,double>> CatchTimePoints { get; } = new Dictionary<CatchTimePointType, SortedDictionary<double, double>>
         {
-            {CatchTimePointType.BPM, new SortedDictionary<double, double>()},
-            {CatchTimePointType.RawBPM, new SortedDictionary<double, double>()},
-            {CatchTimePointType.SPM, new SortedDictionary<double, double>()},
-            {CatchTimePointType.RawSPM, new SortedDictionary<double, double>()}
+            {CatchTimePointType.Bpm, new SortedDictionary<double, double>()},
+            {CatchTimePointType.RawBpm, new SortedDictionary<double, double>()},
+            {CatchTimePointType.Spm, new SortedDictionary<double, double>()},
+            {CatchTimePointType.RawSpm, new SortedDictionary<double, double>()}
         };
 
         void AddOrAssign(CatchTimePointType type,double offset, double value)
@@ -27,9 +36,22 @@ namespace osuTools.PerformanceCalculator.Catch
                 CatchTimePoints[type].Add(offset,value);
 
         }
+        /// <summary>
+        /// 谱面的所有处理后的HitObject
+        /// </summary>
         public List<CatchHitObject> CatchHitObjects { get; } = new List<CatchHitObject>();
+        /// <summary>
+        /// 谱面的难度信息
+        /// </summary>
         public CatchDifficultyAttribute Difficulty { get; } = new CatchDifficultyAttribute();
+        /// <summary>
+        /// 谱面的最大连击
+        /// </summary>
         public int MaxCombo { get; private set; }
+        /// <summary>
+        /// 使用一个<seealso cref="Beatmap"/>初始化一个CatchBeatmap
+        /// </summary>
+        /// <param name="baseBeatmap">谱面</param>
 
         public CatchBeatmap(Beatmap baseBeatmap)
         {
@@ -43,7 +65,7 @@ namespace osuTools.PerformanceCalculator.Catch
             Difficulty.ApprochRate = baseBeatmap.ApproachRate;
             Difficulty.CircleSize = baseBeatmap.CircleSize;
             Difficulty.OverallDifficulty = baseBeatmap.OverallDifficulty;
-            Difficulty.HPDrain = baseBeatmap.HPDrain;
+            Difficulty.HpDrain = baseBeatmap.HpDrain;
             if (baseBeatmap.ApproachRate == 0)
                 Difficulty.ApprochRate = Difficulty.CircleSize;
             HandleTimePoints();
@@ -61,17 +83,17 @@ namespace osuTools.PerformanceCalculator.Catch
                     timefocus = -100;
                 if (timefocus < 0)
                 {
-                    AddOrAssign(CatchTimePointType.SPM,t.Offset,-100 / t.BeatLength);
-                    AddOrAssign(CatchTimePointType.RawSPM,t.Offset, t.BeatLength);
+                    AddOrAssign(CatchTimePointType.Spm,t.Offset,-100 / t.BeatLength);
+                    AddOrAssign(CatchTimePointType.RawSpm,t.Offset, t.BeatLength);
                 }
                 else
                 {
-                    if (CatchTimePoints[CatchTimePointType.BPM].Count == 0)
+                    if (CatchTimePoints[CatchTimePointType.Bpm].Count == 0)
                         offset = 0;
-                    AddOrAssign(CatchTimePointType.BPM,offset,t.BPM);
-                    AddOrAssign(CatchTimePointType.RawBPM,offset,t.BeatLength);
-                    AddOrAssign(CatchTimePointType.SPM,offset, 1);
-                    AddOrAssign(CatchTimePointType.RawSPM,offset, -100);
+                    AddOrAssign(CatchTimePointType.Bpm,offset,t.Bpm);
+                    AddOrAssign(CatchTimePointType.RawBpm,offset,t.BeatLength);
+                    AddOrAssign(CatchTimePointType.Spm,offset, 1);
+                    AddOrAssign(CatchTimePointType.RawSpm,offset, -100);
                 }
             }
         }
@@ -80,14 +102,14 @@ namespace osuTools.PerformanceCalculator.Catch
         {
             Dictionary<CatchTimePointType, double> dict = new Dictionary<CatchTimePointType, double>();
 
-            double bpmVal = GetTimePoint(time, CatchTimePointType.BPM);
-            double rawBpmVal = GetTimePoint(time, CatchTimePointType.RawBPM);
-            double spmVal = GetTimePoint(time, CatchTimePointType.SPM);
-            double rawSpmVal = GetTimePoint(time, CatchTimePointType.RawSPM);
-            dict.Add(CatchTimePointType.BPM, double.IsNaN(bpmVal) ? 100 : bpmVal);
-            dict.Add(CatchTimePointType.RawBPM, double.IsNaN(rawBpmVal) ? 600:rawBpmVal);
-            dict.Add(CatchTimePointType.SPM, double.IsNaN(spmVal) ? 1 : spmVal);
-            dict.Add(CatchTimePointType.RawSPM, double.IsNaN(rawSpmVal) ? -100 : rawSpmVal);
+            double bpmVal = GetTimePoint(time, CatchTimePointType.Bpm);
+            double rawBpmVal = GetTimePoint(time, CatchTimePointType.RawBpm);
+            double spmVal = GetTimePoint(time, CatchTimePointType.Spm);
+            double rawSpmVal = GetTimePoint(time, CatchTimePointType.RawSpm);
+            dict.Add(CatchTimePointType.Bpm, double.IsNaN(bpmVal) ? 100 : bpmVal);
+            dict.Add(CatchTimePointType.RawBpm, double.IsNaN(rawBpmVal) ? 600:rawBpmVal);
+            dict.Add(CatchTimePointType.Spm, double.IsNaN(spmVal) ? 1 : spmVal);
+            dict.Add(CatchTimePointType.RawSpm, double.IsNaN(rawSpmVal) ? -100 : rawSpmVal);
             return dict;
         }
 
@@ -117,14 +139,14 @@ namespace osuTools.PerformanceCalculator.Catch
             var hitObjs = BaseBeatmap.HitObjects;
             foreach (var hitObject in hitObjs)
             {
-                CatchHitObject catchHitObject = null;
+                CatchHitObject catchHitObject;
                 if (hitObject.HitObjectType == HitObjectTypes.Spinner || hitObject.HitObjectType==HitObjectTypes.BananaShower)
                     continue;
                 if (hitObject.HitObjectType == HitObjectTypes.Slider || hitObject.HitObjectType==HitObjectTypes.JuiceStream)
                 {
-                    dynamic j = null;
-                    if (hitObject is JuiceStream)
-                        j = hitObject as JuiceStream;
+                    dynamic j;
+                    if (hitObject is JuiceStream stream)
+                        j = stream;
                     else
                         j = hitObject as Slider;
                     double repeat = j.RepeatTime;
@@ -132,7 +154,7 @@ namespace osuTools.PerformanceCalculator.Catch
                     var tmPt = GetAllTimePoints(hitObject.Offset);
                     ValueObserver<double> tickDistance = ValueObserver<double>.FromValue((100 * BaseBeatmap.SliderMultiplier) / BaseBeatmap.SliderTickRate);
                     if(BaseBeatmap.BeatmapVersion >= 8)
-                        tickDistance /= (MathUtlity.Clamp(-1 * tmPt[CatchTimePointType.RawSPM], 10, 1000) / 100);
+                        tickDistance /= (MathUtlity.Clamp(-1 * tmPt[CatchTimePointType.RawSpm], 10, 1000) / 100);
                     var curvePoints = new List<OsuPixel>(j.CurvePoints);
 
                     var sliderType = j.CurveType;
@@ -152,15 +174,7 @@ namespace osuTools.PerformanceCalculator.Catch
                     j.curvePoints = curvePoints;
 
                     j.CurveType = sliderType;
-                    if (curvePoints.Count == 0)
-                        catchHitObject = new CatchHitObject(hitObject);
-                    else
-                    {
-
-                        catchHitObject =
-                            new CatchHitObject(hitObject, tmPt, Difficulty, tickDistance);
-
-                    }
+                    catchHitObject = curvePoints.Count == 0 ? new CatchHitObject(hitObject) : new CatchHitObject(hitObject, tmPt, Difficulty, tickDistance);
                 }
                 else
                 {

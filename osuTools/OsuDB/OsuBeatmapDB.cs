@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Security.Cryptography;
-using osuTools.Beatmaps;
+using osuTools.Game.Modes;
+using osuTools.GameInfo;
+using osuTools.MD5Tools;
 
 namespace osuTools.OsuDB
 {
@@ -174,7 +176,7 @@ namespace osuTools.OsuDB
             Beatmap.Creator = GetString();
             Beatmap.Difficulty = GetString();
             Beatmap.AudioFileName = GetString();
-            Beatmap.MD5 = GetString();
+            Beatmap.Md5 = GetString();
             Beatmap.FileName = GetString();
             try
             {
@@ -198,48 +200,40 @@ namespace osuTools.OsuDB
             var intlst = new List<int>();
             for (var i = 0; i < pac; i++)
             {
-                var intflag = 0;
-                double doubleflag = 0;
                 GetByte();
-                intflag = GetInt32();
+                var intflag = GetInt32();
                 GetByte();
-                doubleflag = GetDouble();
+                var doubleflag = GetDouble();
                 osustars.Add(intflag, doubleflag);
             }
 
             pac = GetInt32();
             for (var i = 0; i < pac; i++)
             {
-                var intflag = 0;
-                double doubleflag = 0;
                 GetByte();
-                intflag = GetInt32();
+                var intflag = GetInt32();
                 GetByte();
-                doubleflag = GetDouble();
+                var doubleflag = GetDouble();
                 taikostars.Add(intflag, doubleflag);
             }
 
             pac = GetInt32();
             for (var i = 0; i < pac; i++)
             {
-                var intflag = 0;
-                double doubleflag = 0;
                 GetByte();
-                intflag = GetInt32();
+                var intflag = GetInt32();
                 GetByte();
-                doubleflag = GetDouble();
+                var doubleflag = GetDouble();
                 ctbstars.Add(intflag, doubleflag);
             }
 
             pac = GetInt32();
             for (var i = 0; i < pac; i++)
             {
-                var intflag = 0;
-                double doubleflag = 0;
                 GetByte();
-                intflag = GetInt32();
+                var intflag = GetInt32();
                 GetByte();
-                doubleflag = GetDouble();
+                var doubleflag = GetDouble();
                 if (intlst.Contains(intflag)) throw new Exception();
                 intlst.Add(intflag);
                 maniastars.Add(intflag, doubleflag);
@@ -251,10 +245,10 @@ namespace osuTools.OsuDB
             pac = GetInt32();
             for (var i = 0; i < pac; i++)
             {
-                var BPM = GetDouble();
-                var Offset = GetDouble();
-                var Inherit = GetBoolean();
-                Beatmap.timepoints.Add(new OsuBeatmapTimePoint(BPM, Offset, Inherit));
+                var bpm = GetDouble();
+                var offset = GetDouble();
+                var inherit = GetBoolean();
+                Beatmap.Timepoints.Add(new OsuBeatmapTimePoint(bpm, offset, inherit));
             }
 
             Beatmap.BeatmapId = GetInt32();
@@ -306,8 +300,6 @@ namespace osuTools.OsuDB
                 Debug.WriteLine("Error when reading stars return beatmap with 0 star.");
                 return Beatmap;
             }
-
-            ;
             return Beatmap;
         }
 

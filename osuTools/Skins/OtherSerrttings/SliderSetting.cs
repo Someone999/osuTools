@@ -1,4 +1,4 @@
-﻿namespace osuTools.Skins.Settings.Slider
+﻿namespace osuTools.Skins.OtherSerrttings
 {
     /// <summary>
     ///     滑条的皮肤设置

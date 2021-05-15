@@ -3,6 +3,9 @@ using osuTools.Game.Modes;
 
 namespace osuTools.Game.Mods
 {
+    /// <summary>
+    /// 1.5倍速
+    /// </summary>
     public class DoubleTimeMod : Mod, ILegacyMod, IHasConflictMods, IChangeTimeRateMod
     {
         /// <inheritdoc />

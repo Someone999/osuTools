@@ -1,5 +1,8 @@
 ﻿namespace osuTools.Game.Mods
 {
+    /// <summary>
+    /// 怎样都失败不了
+    /// </summary>
     public class NoFailMod : Mod, ILegacyMod, IHasConflictMods
     {
         /// <inheritdoc />

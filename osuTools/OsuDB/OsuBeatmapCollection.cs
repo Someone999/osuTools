@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
-using osuTools.Beatmaps;
+using osuTools.Beatmaps.Beatmaps;
 using osuTools.Exceptions;
+using osuTools.Game.Modes;
 
 namespace osuTools.OsuDB
 {
@@ -146,7 +147,7 @@ namespace osuTools.OsuDB
         public OsuBeatmap FindByMd5(string md5)
         {
             foreach (var beatmap in Beatmaps)
-                if (beatmap.MD5 == md5)
+                if (beatmap.Md5 == md5)
                     return beatmap;
             throw new BeatmapNotFoundException($"找不到MD5为{md5}的谱面。");
         }

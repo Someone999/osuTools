@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
-using osuTools.Skins.SkinObjects.Osu.Slider;
-using osuTools.Skins.SkinObjects.Osu.Spinner;
 
-namespace osuTools.Skins.SkinObjects.Osu
+namespace osuTools.Skins.Osu
 {
     /// <summary>
     ///     Osu模式的图片的集合

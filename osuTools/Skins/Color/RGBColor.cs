@@ -1,14 +1,14 @@
-﻿namespace osuTools.Skins.Colors
+﻿namespace osuTools.Skins.Color
 {
     /// <summary>
     ///     RGB颜色
     /// </summary>
-    public class RGBColor
+    public class RgbColor
     {
         /// <summary>
         ///     构造一个rgb均为0的RGB颜色
         /// </summary>
-        public RGBColor()
+        public RgbColor()
         {
             R = 0;
             B = 0;
@@ -21,7 +21,7 @@
         /// <param name="r"></param>
         /// <param name="g"></param>
         /// <param name="b"></param>
-        public RGBColor(int r, int g, int b)
+        public RgbColor(int r, int g, int b)
         {
             R = r;
             G = g;
@@ -53,7 +53,7 @@
         /// </summary>
         /// <param name="s"></param>
         /// <returns></returns>
-        public static RGBColor Parse(string s)
+        public static RgbColor Parse(string s)
         {
             var spliter = (char) 0;
             foreach (var ch in s)
@@ -64,17 +64,35 @@
                 }
 
             var vals = s.Split(spliter);
-            var c = new RGBColor(int.Parse(vals[0]), int.Parse(vals[1]), int.Parse(vals[2]));
+            var c = new RgbColor(int.Parse(vals[0]), int.Parse(vals[1]), int.Parse(vals[2]));
             return c;
         }
-
-        public static bool operator ==(RGBColor a, RGBColor b)
+        /// <summary>
+        /// 判断两个RBGColor对象是否相等
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
+        public static bool operator ==(RgbColor a, RgbColor b)
         {
+            if (a is null && b is null)
+                return true;
+            if (a is null || b is null)
+                return false;
             return a.R == b.R && a.B == b.B && a.G == b.G;
         }
-
-        public static bool operator !=(RGBColor a, RGBColor b)
+        /// <summary>
+        /// 判断两个RBGColor对象是否相等
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
+        public static bool operator !=(RgbColor a, RgbColor b)
         {
+            if (a is null && b is null)
+                return false;
+            if (a is null || b is null)
+                return true;
             return a.R != b.R || a.B != b.B || a.G == b.G;
         }
 
@@ -87,9 +105,12 @@
             return R * B * G;
         }
 
+        /// <inheritdoc/>
         public override bool Equals(object obj)
         {
-            return base.Equals(obj);
+            if (obj is RgbColor color)
+                return R == color.R && B == color.B && G == color.G;
+            return false;
         }
     }
 }

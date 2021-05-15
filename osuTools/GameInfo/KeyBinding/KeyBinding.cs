@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using osuTools.Exceptions;
 using osuTools.GameInfo.KeyLayout;
 
 namespace osuTools.GameInfo.KeyBinding

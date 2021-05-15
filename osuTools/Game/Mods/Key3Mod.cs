@@ -1,5 +1,8 @@
 ﻿namespace osuTools.Game.Mods
 {
+    /// <summary>
+    /// 转换std谱面到3k
+    /// </summary>
     public class Key3Mod : KeyMod
     {
         /// <inheritdoc />

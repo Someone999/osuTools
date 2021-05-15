@@ -1,5 +1,8 @@
 ﻿namespace osuTools.Game.Mods
 {
+    /// <summary>
+    /// 没有Note的AutoPlay
+    /// </summary>
     public class CinemaMod : Mod, ILegacyMod, IHasConflictMods
     {
         /// <inheritdoc />

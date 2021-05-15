@@ -1,4 +1,4 @@
-﻿namespace osuTools.Skins.SkinObjects.Catch
+﻿namespace osuTools.Skins.Catch
 {
     /// <summary>
     ///     水果的图片

@@ -1,12 +1,12 @@
 ﻿using System;
+using System.Globalization;
 using System.Text;
 using Newtonsoft.Json.Linq;
+using osuTools.Game.Modes;
 
-namespace osuTools
+namespace osuTools.OnlineInfo.OsuApiV1.OnlineQueries
 {
-    namespace Online.ApiV1
-    {
-        /// <summary>
+    /// <summary>
         ///     在线获取用户的信息。
         /// </summary>
         [Serializable]
@@ -46,10 +46,11 @@ namespace osuTools
             }
 
             /// <summary>
-            ///     使用一个Json填充一个OnlineUser对象
+            ///     使用一个Json和游戏模式填充一个OnlineUser对象
             /// </summary>
             /// <param name="jarr">json</param>
-            public OnlineUser(JArray jarr)
+            /// <param name="mode"></param>
+            public OnlineUser(JArray jarr,OsuGameMode mode)
             {
                 if (jarr.Count == 0)
                 {
@@ -59,6 +60,7 @@ namespace osuTools
 
                 try
                 {
+                    _mode = mode;
                     var jobj = jarr[0];
                     int.TryParse(jobj["user_id"].ToString(), out _userId);
                     int.TryParse(jobj["playcount"].ToString(), out _playcount);
@@ -103,7 +105,7 @@ namespace osuTools
                 b.Replace("username", UserName);
                 b.Replace("userid", UserId.ToString());
                 b.Replace("mode", _mode.ToString());
-                b.Replace("pp", Pp.ToString());
+                b.Replace("pp", Pp.ToString(CultureInfo.InvariantCulture));
                 b.Replace("globalrank", GlobalRank.ToString());
                 b.Replace("countryrank", CountryRank.ToString());
                 b.Replace("cssh", SshCount.ToString());
@@ -112,10 +114,10 @@ namespace osuTools
                 b.Replace("cs", SCount.ToString());
                 b.Replace("ca", ACount.ToString());
                 b.Replace("acc", $"{Accuracy:f2}%");
-                b.Replace("rankedscore", RankedScore.ToString());
-                b.Replace("totalscore", TotalScore.ToString());
+                b.Replace("rankedscore", RankedScore.ToString(CultureInfo.InvariantCulture));
+                b.Replace("totalscore", TotalScore.ToString(CultureInfo.InvariantCulture));
                 b.Replace("playcount", PlayCount.ToString());
-                b.Replace("level", Level.ToString());
+                b.Replace("level", Level.ToString(CultureInfo.InvariantCulture));
                 b.Replace("countrycn", GetCountryInCn(Country));
                 b.Replace("country", Country);
                 b.Replace("joindate", JoinDate.ToString("yyyy/MM/dd HH:mm:ss"));
@@ -179,4 +181,3 @@ namespace osuTools
             }
         }
     }
-}

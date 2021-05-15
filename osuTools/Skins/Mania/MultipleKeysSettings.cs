@@ -1,25 +1,67 @@
 ﻿using System;
 
-namespace osuTools.Skins.Settings.Mania
+namespace osuTools.Skins.Mania
 {
     /// <summary>
     ///     多个键位的设置
     /// </summary>
     public class MultipleKeysSettings
     {
+        /// <summary>
+        /// 1Key的设置
+        /// </summary>
         public ManiaSkinSetting Key1 { get; internal set; } = new ManiaSkinSetting();
+        /// <summary>
+        /// 2Key的设置
+        /// </summary>
         public ManiaSkinSetting Key2 { get; internal set; } = new ManiaSkinSetting();
+        /// <summary>
+        /// 3Key的设置
+        /// </summary>
         public ManiaSkinSetting Key3 { get; internal set; } = new ManiaSkinSetting();
+        /// <summary>
+        /// 4Key的设置
+        /// </summary>
         public ManiaSkinSetting Key4 { get; internal set; } = new ManiaSkinSetting();
+        /// <summary>
+        /// 5Key的设置
+        /// </summary>
         public ManiaSkinSetting Key5 { get; internal set; } = new ManiaSkinSetting();
+        /// <summary>
+        /// 6Key的设置
+        /// </summary>
         public ManiaSkinSetting Key6 { get; internal set; } = new ManiaSkinSetting();
+        /// <summary>
+        /// 7Key的设置
+        /// </summary>
         public ManiaSkinSetting Key7 { get; internal set; } = new ManiaSkinSetting();
+        /// <summary>
+        /// 8Key的设置
+        /// </summary>
         public ManiaSkinSetting Key8 { get; internal set; } = new ManiaSkinSetting();
+        /// <summary>
+        /// 9Key的设置
+        /// </summary>
         public ManiaSkinSetting Key9 { get; internal set; } = new ManiaSkinSetting();
+        /// <summary>
+        /// 10Key的设置
+        /// </summary>
         public ManiaSkinSetting Key10 { get; internal set; } = new ManiaSkinSetting();
+        /// <summary>
+        /// 12ey的设置
+        /// </summary>
         public ManiaSkinSetting Key12 { get; internal set; } = new ManiaSkinSetting();
+        /// <summary>
+        /// 14Key的设置
+        /// </summary>
         public ManiaSkinSetting Key14 { get; internal set; } = new ManiaSkinSetting();
+        /// <summary>
+        /// 16Key的设置
+        /// </summary>
         public ManiaSkinSetting Key16 { get; internal set; } = new ManiaSkinSetting();
+        /// <summary>
+        /// 18Key的设置
+        /// </summary>
         public ManiaSkinSetting Key18 { get; internal set; } = new ManiaSkinSetting();
 
         /// <summary>

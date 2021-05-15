@@ -1,16 +1,14 @@
-﻿using osuTools.Exceptions;
-
-namespace osuTools.Skins.Colors
+﻿namespace osuTools.Skins.Color
 {
     /// <summary>
     ///     带有透明度的RGB颜色
     /// </summary>
-    public class RGBAColor : RGBColor
+    public class RgbaColor : RgbColor
     {
         /// <summary>
         ///     初始化一个rbga都为0的RGBAColor
         /// </summary>
-        public RGBAColor() : base(0, 0, 0)
+        public RgbaColor() : base(0, 0, 0)
         {
             Alpha = 0;
         }
@@ -22,7 +20,7 @@ namespace osuTools.Skins.Colors
         /// <param name="g"></param>
         /// <param name="b"></param>
         /// <param name="alpha"></param>
-        public RGBAColor(int r, int g, int b, int alpha = 255) : base(r, g, b)
+        public RgbaColor(int r, int g, int b, int alpha = 255) : base(r, g, b)
         {
             Alpha = alpha;
         }
@@ -37,10 +35,9 @@ namespace osuTools.Skins.Colors
         /// </summary>
         /// <param name="s"></param>
         /// <returns></returns>
-        public new static RGBAColor Parse(string s)
+        public new static RgbaColor Parse(string s)
         {
             var spliter = (char) 0;
-            var c = new RGBAColor(0, 0, 0);
             foreach (var ch in s)
                 if (!ch.IsDigit() && ch != ' ')
                 {
@@ -49,10 +46,9 @@ namespace osuTools.Skins.Colors
                 }
 
             var vals = s.Split(spliter);
-            if (vals.Length > 3)
-                c = new RGBAColor(int.Parse(vals[0]), int.Parse(vals[1]), int.Parse(vals[2]), int.Parse(vals[3]));
-            else
-                c = new RGBAColor(int.Parse(vals[0]), int.Parse(vals[1]), int.Parse(vals[2]));
+            var c = vals.Length > 3 ? 
+                new RgbaColor(int.Parse(vals[0]), int.Parse(vals[1]), int.Parse(vals[2]), int.Parse(vals[3])) : 
+                new RgbaColor(int.Parse(vals[0]), int.Parse(vals[1]), int.Parse(vals[2]));
             return c;
         }
     }

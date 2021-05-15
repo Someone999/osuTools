@@ -1,4 +1,4 @@
-﻿namespace osuTools.Skins.Colors.Settings
+﻿namespace osuTools.Skins.Color
 {
     /// <summary>
     ///     皮肤的颜色设置
@@ -23,17 +23,17 @@
         /// <summary>
         ///     滑条的球的颜色
         /// </summary>
-        public RGBColor SliderBall { get; internal set; } = new RGBColor(2, 170, 255);
+        public RgbColor SliderBall { get; internal set; } = new RgbColor(2, 170, 255);
 
         /// <summary>
         ///     滑条边界的颜色
         /// </summary>
-        public RGBColor SliderBorder { get; internal set; } = new RGBColor(255, 255, 255);
+        public RgbColor SliderBorder { get; internal set; } = new RgbColor(255, 255, 255);
 
         /// <summary>
         ///     滑条轨迹颜色
         /// </summary>
-        public RGBColor SliderTrackOverride { get; internal set; }
+        public RgbColor SliderTrackOverride { get; internal set; }
 
         /// <summary>
         ///     选歌界面动态文本颜色

@@ -1,13 +1,10 @@
 ﻿using System.IO;
 using System.Threading.Tasks;
-using osuTools.Skins.Colors.Settings;
-using osuTools.Skins.Settings.Catch;
-using osuTools.Skins.Settings.ComboBurst;
-using osuTools.Skins.Settings.Cursor;
-using osuTools.Skins.Settings.Fonts;
-using osuTools.Skins.Settings.Mania;
-using osuTools.Skins.Settings.Slider;
-using osuTools.Skins.Settings.Spinner;
+using osuTools.Skins.Catch;
+using osuTools.Skins.Color;
+using osuTools.Skins.Fonts;
+using osuTools.Skins.Mania;
+using osuTools.Skins.OtherSerrttings;
 
 namespace osuTools.Skins
 {
@@ -29,16 +26,16 @@ namespace osuTools.Skins
             {
                 ConfigFileDirectory = skinConfigFile;
                 _data = File.ReadAllLines(skinConfigFile);
-                files = Directory.GetFiles(ConfigFileDirectory.Replace("skin.ini", ""), "*.*",
+                _files = Directory.GetFiles(ConfigFileDirectory.Replace("skin.ini", ""), "*.*",
                     SearchOption.TopDirectoryOnly);
-                Task.Run(getInfo);
-                Task.Run(getModsImages);
-                Task.Run(getOsuSkinImage);
-                Task.Run(getCatchSkinImage);
-                Task.Run(getTaikoSkinImage);
-                Task.Run(getManiaSkinImages);
-                Task.Run(getGenericSkinImage);
-                Task.Run(getSkinSound);
+                Task.Run(GetInfo);
+                Task.Run(GetModsImages);
+                Task.Run(GetOsuSkinImage);
+                Task.Run(GetCatchSkinImage);
+                Task.Run(GetTaikoSkinImage);
+                Task.Run(GetManiaSkinImages);
+                Task.Run(GetGenericSkinImage);
+                Task.Run(GetSkinSound);
             }
             else
             {
@@ -52,11 +49,11 @@ namespace osuTools.Skins
         public Skin()
         {
             ConfigFileDirectory = null;
-            Task.Run(getModsImages);
-            Task.Run(getOsuSkinImage);
-            Task.Run(getCatchSkinImage);
-            Task.Run(getTaikoSkinImage);
-            Task.Run(getManiaSkinImages);
+            Task.Run(GetModsImages);
+            Task.Run(GetOsuSkinImage);
+            Task.Run(GetCatchSkinImage);
+            Task.Run(GetTaikoSkinImage);
+            Task.Run(GetManiaSkinImages);
         }
 
         /// <summary>

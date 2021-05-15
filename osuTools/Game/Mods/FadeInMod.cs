@@ -1,5 +1,8 @@
 ﻿namespace osuTools.Game.Mods
 {
+    /// <summary>
+    /// 上隐
+    /// </summary>
     public class FadeInMod : Mod, ILegacyMod, IHasConflictMods
     {
         /// <inheritdoc />

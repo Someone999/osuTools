@@ -1,5 +1,8 @@
 ﻿namespace osuTools.Game.Mods
 {
+    /// <summary>
+    /// 自动定位
+    /// </summary>
     public class AutoPilotMod : Mod, ILegacyMod, IHasConflictMods
     {
         /// <inheritdoc />

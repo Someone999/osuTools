@@ -1,9 +1,9 @@
-﻿namespace osuTools.Skins.Colors
+﻿namespace osuTools.Skins.Color
 {
     /// <summary>
     ///     文字的颜色
     /// </summary>
-    public class TextColor : RGBColor
+    public class TextColor : RgbColor
     {
         /// <summary>
         ///     使用rbg初始化一个颜色

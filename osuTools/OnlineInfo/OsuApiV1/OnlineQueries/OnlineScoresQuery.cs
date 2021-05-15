@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Text;
 using System.Windows.Forms;
+using osuTools.Game.Modes;
 using osuTools.Game.Mods;
 
-namespace osuTools.Online.ApiV1.Querier
+namespace osuTools.OnlineInfo.OsuApiV1.OnlineQueries
 {
     /// <summary>
     ///     在线查询一个谱面的游玩记录

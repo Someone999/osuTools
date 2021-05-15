@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Text;
+using osuTools.Game.Modes;
 
-namespace osuTools.Online.ApiV1.Querier
+namespace osuTools.OnlineInfo.OsuApiV1.OnlineQueries
 {
     /// <summary>
     ///     在线查询玩家的最佳记录

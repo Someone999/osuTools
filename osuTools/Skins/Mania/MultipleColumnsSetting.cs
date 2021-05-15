@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace osuTools.Skins.Settings.Mania.MultipleColumnsSettings
+namespace osuTools.Skins.Mania
 {
     /// <summary>
     ///     Mania皮肤各个列数的设置
@@ -9,25 +9,76 @@ namespace osuTools.Skins.Settings.Mania.MultipleColumnsSettings
     public class MultipleColumnsSetting<T> where T : new()
     {
         /// <summary>
-        /// 第一列的设置
+        /// 第1列的设置
         /// </summary>
         public T Column1 { get; internal set; } = new T();
+        /// <summary>
+        /// 第2列的设置
+        /// </summary>
         public T Column2 { get; internal set; } = new T();
+        /// <summary>
+        /// 第3列的设置
+        /// </summary>
         public T Column3 { get; internal set; } = new T();
+        /// <summary>
+        /// 第4列的设置
+        /// </summary>
         public T Column4 { get; internal set; } = new T();
+        /// <summary>
+        /// 第5列的设置
+        /// </summary>
         public T Column5 { get; internal set; } = new T();
+        /// <summary>
+        /// 第6列的设置
+        /// </summary>
         public T Column6 { get; internal set; } = new T();
+        /// <summary>
+        /// 第7列的设置
+        /// </summary>
         public T Column7 { get; internal set; } = new T();
+        /// <summary>
+        /// 第8列的设置
+        /// </summary>
         public T Column8 { get; internal set; } = new T();
+        /// <summary>
+        /// 第9列的设置
+        /// </summary>
         public T Column9 { get; internal set; } = new T();
+        /// <summary>
+        /// 第10列的设置
+        /// </summary>
         public T Column10 { get; internal set; } = new T();
+        /// <summary>
+        /// 第11列的设置
+        /// </summary>
         public T Column11 { get; internal set; } = new T();
+        /// <summary>
+        /// 第12列的设置
+        /// </summary>
         public T Column12 { get; internal set; } = new T();
+        /// <summary>
+        /// 第13列的设置
+        /// </summary>
         public T Column13 { get; internal set; } = new T();
+        /// <summary>
+        /// 第14列的设置
+        /// </summary>
         public T Column14 { get; internal set; } = new T();
+        /// <summary>
+        /// 第15列的设置
+        /// </summary>
         public T Column15 { get; internal set; } = new T();
+        /// <summary>
+        /// 第16列的设置
+        /// </summary>
         public T Column16 { get; internal set; } = new T();
+        /// <summary>
+        /// 第17列的设置
+        /// </summary>
         public T Column17 { get; internal set; } = new T();
+        /// <summary>
+        /// 第18列的设置
+        /// </summary>
         public T Column18 { get; internal set; } = new T();
 
         /// <summary>

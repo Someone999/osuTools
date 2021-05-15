@@ -11,7 +11,7 @@ namespace osuTools.Collections
     public class ObservableList<T> : IList<T>
     {
         private T[] _objArr;
-        private int _len, _capacity = 0;
+        private int _len, _capacity;
         /// <summary>
         /// 为OnAddItem提供参数
         /// </summary>

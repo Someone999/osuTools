@@ -2,6 +2,9 @@
 
 namespace osuTools.Game.Mods
 {
+    /// <summary>
+    /// 新版的计分方式
+    /// </summary>
     public class ScoreV2Mod : Mod, ILegacyMod
     {
         private bool _isRanked;

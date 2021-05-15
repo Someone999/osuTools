@@ -8,49 +8,54 @@
         /// <summary>
         ///     300g的数量
         /// </summary>
-        public int c300g { get; set; }
+        public int CountGeki { get; set; }
 
         /// <summary>
         ///     300的数量
         /// </summary>
-        public int c300 { get; set; }
+        public int Count300 { get; set; }
 
         /// <summary>
         ///     200的数量
         /// </summary>
-        public int c200 { get; set; }
+        public int CountKatu { get; set; }
 
         /// <summary>
         ///     100的数量
         /// </summary>
-        public int c100 { get; set; }
+        public int Count100 { get; set; }
 
         /// <summary>
         ///     50的数量
         /// </summary>
-        public int c50 { get; set; }
+        public int Count50 { get; set; }
 
         /// <summary>
         ///     Miss的数量
         /// </summary>
-        public int cMiss { get; set; }
-
+        public int CountMiss { get; set; }
+        /// <inheritdoc/>
         public override bool Equals(object obj)
         {
             if (obj is null) return false;
             if (obj is ScoreInfo info)
             {
-                return info.c300g == this.c300g && info.c300 == this.c300 && info.c200 == this.c200 && info.c100 == this.c100 && info.c50 == this.c50 &&
-                       info.cMiss == this.cMiss;
+                return info.CountGeki == CountGeki && info.Count300 == Count300 && info.CountKatu == CountKatu && info.Count100 == Count100 && info.Count50 == Count50 &&
+                       info.CountMiss == CountMiss;
             }
             return obj.Equals(this);
         }
-
+        /// <inheritdoc/>
         public override int GetHashCode()
         {
-            return c300g * 6 + c300 * 5 + c200 * 4 + c100 * 3 + c50 * 2 + cMiss;
+            return CountGeki * 6 + Count300 * 5 + CountKatu * 4 + Count100 * 3 + Count50 * 2 + CountMiss;
         }
-
+        /// <summary>
+        /// 判断两个ScoreInfo对象的所有值是否相等
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
         public static bool operator ==(ScoreInfo a, ScoreInfo b)
         {
             if (a is null && b is null)
@@ -59,7 +64,12 @@
                 return false;
             return a.GetHashCode() == b.GetHashCode() && a.Equals(b);
         }
-
+        /// <summary>
+        /// 判断两个ScoreInfo对象的所有值是否相等
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
         public static bool operator !=(ScoreInfo a, ScoreInfo b)
         {
 

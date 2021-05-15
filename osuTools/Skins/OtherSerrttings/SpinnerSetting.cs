@@ -1,4 +1,4 @@
-﻿namespace osuTools.Skins.Settings.Spinner
+﻿namespace osuTools.Skins.OtherSerrttings
 {
     /// <summary>
     ///     转盘的皮肤设置

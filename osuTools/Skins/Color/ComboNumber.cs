@@ -1,4 +1,4 @@
-﻿namespace osuTools.Skins.Colors
+﻿namespace osuTools.Skins.Color
 {
     /// <summary>
     ///     连击的序数

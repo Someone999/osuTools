@@ -5,16 +5,18 @@ using System.Text;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using osuTools.Beatmaps;
+using osuTools.Beatmaps.Beatmaps;
 using osuTools.Beatmaps.HitObject;
-using osuTools.Online.ApiV1.Querier;
+using osuTools.Game.Modes;
+using osuTools.Game.Mods;
 
-namespace osuTools.Online.ApiV1
+namespace osuTools.OnlineInfo.OsuApiV1.OnlineQueries
 {
     /// <summary>
     ///     最高PP榜中的记录
     /// </summary>
     [Serializable]
-    public partial class OnlineBestRecord : PPSorted, IFormattable
+    public partial class OnlineBestRecord : PpSorted, IFormattable
     {
         private BeatmapCollection _bc;
 
@@ -127,7 +129,7 @@ namespace osuTools.Online.ApiV1
         {
             var b = new StringBuilder(format);
             b.Replace("perfect", Perfect.ToString());
-            b.Replace("pp", PP.ToString(CultureInfo.CurrentCulture));
+            b.Replace("pp", Pp.ToString(CultureInfo.CurrentCulture));
             b.Replace("Count300g", Count300g.ToString());
             b.Replace("c300", Count300.ToString());
             b.Replace("Count200", Count200.ToString());
@@ -204,16 +206,15 @@ namespace osuTools.Online.ApiV1
         /// <summary>
         ///     使用osu!api获得相应谱面的信息并转换成Beatmap
         /// </summary>
-        /// <returns>返回一个<seealso cref="Beatmaps.Beatmap" />对象</returns>
+        /// <returns>返回一个<seealso cref="Beatmap" />对象</returns>
         public Beatmap GetBeatmap()
         {
-            var b = new Beatmap();
             var query = new OnlineBeatmapQuery();
             var osuApiKey = "fa2748650422c84d59e0e1d5021340b6c418f62f";
             query.BeatmapId = _beatmapId;
             query.OsuApiKey = osuApiKey;
             var bms = query.Beatmaps;
-            b = new Beatmap(bms[0]);
+            var b = new Beatmap(bms[0]);
             if (b.BeatmapId == -2048)
                 b = null;
             return b;
@@ -257,12 +258,12 @@ namespace osuTools.Online.ApiV1
             {
                 if (_bc == null)
                     return
-                        $"{_beatmapId}\nScore:{Score} PP:{PP}\nc300g:{Count300g} c300:{Count300} Count200:{Count200} Count100:{Count100} Count50:{Count50} CountMiss:{CountMiss} MaxCombo:{MaxCombo}\nPerfect:{Perfect}";
+                        $"{_beatmapId}\nScore:{Score} PP:{Pp}\nc300g:{Count300g} c300:{Count300} Count200:{Count200} Count100:{Count100} Count50:{Count50} CountMiss:{CountMiss} MaxCombo:{MaxCombo}\nPerfect:{Perfect}";
 
                 var v = FindInBeatmapCollection(_bc);
                 if (v == null) throw new NullReferenceException();
                 return
-                    $"{v}\nScore:{Score} PP:{PP}\nc300g:{Count300g} c300:{Count300} Count200:{Count200} Count100:{Count100} Count50:{Count50} CountMiss:{CountMiss} MaxCombo:{MaxCombo}\nPerfect:{Perfect}";
+                    $"{v}\nScore:{Score} PP:{Pp}\nc300g:{Count300g} c300:{Count300} Count200:{Count200} Count100:{Count100} Count50:{Count50} CountMiss:{CountMiss} MaxCombo:{MaxCombo}\nPerfect:{Perfect}";
             }
             catch
             {

@@ -1,10 +1,8 @@
 ﻿using Newtonsoft.Json.Linq;
 
-namespace osuTools
+namespace osuTools.OnlineInfo.OsuApiV1.OnlineQueries
 {
-    namespace Online.ApiV1
-    {
-        /// <summary>
+    /// <summary>
         ///     在线查询的结果
         /// </summary>
         public class QueryResult
@@ -30,5 +28,4 @@ namespace osuTools
             /// </summary>
             public JArray Results { get; }
         }
-    }
 }

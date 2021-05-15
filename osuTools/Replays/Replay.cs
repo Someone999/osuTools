@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using osuTools.Beatmaps.HitObject;
 using osuTools.Game.Modes;
+using osuTools.Game.Mods;
 using osuTools.OsuDB;
 using osuTools.Replays.AdditionalInfo;
 using osuTools.Replays.Exception;
@@ -106,21 +107,18 @@ namespace osuTools.Replays
             Accuracy = GameMode.FromLegacyMode(Mode).AccuracyCalc(
                 new ScoreInfo
                 {
-                    c300g = _c300g,
-                    c300 = c300,
-                    c200 = c200,
-                    c100 = c100,
-                    c50 = c50,
-                    cMiss = cMiss
+                    CountGeki = _c300g,
+                    Count300 = c300,
+                    CountKatu = c200,
+                    Count100 = c100,
+                    Count50 = c50,
+                    CountMiss = cMiss
                 });
             AccuracyStr = Accuracy.ToString("p");
             Score = _r.ReadInt32();
             _maxco = _r.ReadInt16();
             _per = _r.ReadByte();
-            if (_per == 1)
-                Perfect = true;
-            else
-                Perfect = false;
+            Perfect = _per == 1;
             _mods = HitObjectTools.GetGenericTypesByInt<OsuGameMod>(_r.ReadInt32());
             if (_r.ReadByte() == 0x0b)
                 lfbar = _r.ReadString();
@@ -130,30 +128,75 @@ namespace osuTools.Replays
             AdditionalData = new AdditionalRepalyData(data, datalen, lfbar);
             _r.ReadDouble();
         }
-
+        /// <summary>
+        /// 判断Replay中的所有判定信息和指定<seealso cref="OsuScoreInfo"/>中的是否相等
+        /// </summary>
+        /// <param name="replay"></param>
+        /// <param name="score"></param>
+        /// <returns></returns>
         public static bool operator ==(Replay replay, OsuScoreInfo score)
         {
+            if (score is null && replay is null)
+                return true;
+            if (score is null || replay is null)
+                return false;
             return replay.ReplayMd5 == score.ReplayMD5;
         }
-
+        /// <summary>
+        /// 判断Replay中的所有判定信息和指定<seealso cref="OsuScoreInfo"/>中的是否相等
+        /// </summary>
+        /// <param name="replay"></param>
+        /// <param name="score"></param>
+        /// <returns></returns>
         public static bool operator !=(Replay replay, OsuScoreInfo score)
         {
+            if (score is null && replay is null)
+                return false;
+            if (score is null || replay is null)
+                return true;
             return replay.ReplayMd5 != score.ReplayMD5;
         }
-
+        /// <summary>
+        /// 判断Replay中的所有判定信息和指定<seealso cref="OsuScoreInfo"/>中的是否相等
+        /// </summary>
+        /// <param name="replay"></param>
+        /// <param name="score"></param>
+        /// <returns></returns>
         public static bool operator ==(OsuScoreInfo score, Replay replay)
         {
+            if (score is null && replay is null)
+                return false;
+            if (score is null || replay is null)
+                return true;
             return replay.ReplayMd5 == score.ReplayMD5;
         }
-
+        /// <summary>
+        /// 判断Replay中的所有判定信息和指定<seealso cref="OsuScoreInfo"/>中的是否相等
+        /// </summary>
+        /// <param name="replay"></param>
+        /// <param name="score"></param>
+        /// <returns></returns>
         public static bool operator !=(OsuScoreInfo score, Replay replay)
         {
+            if (score is null && replay is null)
+                return false;
+            if (score is null || replay is null)
+                return true;
             return replay.ReplayMd5 != score.ReplayMD5;
         }
+        ///<inheritdoc/>
+        public override bool Equals(object obj)
+        {
+            if (obj is Replay r)
+                return r.ReplayMd5 == ReplayMd5;
+            return false;
+        }
+
+
 
         private double AccCalculater(OsuGameMode mode)
         {
-            double a300 = 1, a200 = 2.0 / 3, a100 = 1.0 / 3, a50 = 1.0 / 6, a150 = 1.0 / 2;
+            double a200 = 2.0 / 3, a100 = 1.0 / 3, a50 = 1.0 / 6, a150 = 1.0 / 2;
             var maniaAllHit = _c300g + _c300 + _c200 + _c100 + _c50 + cMiss;
             var osuAllHit = _c300 + _c100 + _c50 + _cmiss;
             var ctbAllHit = _c50 + _c100 + _c300 + _cmiss + _c200;
@@ -175,6 +218,11 @@ namespace osuTools.Replays
             if (Mode == OsuGameMode.Mania) return maniaValue / maniaAllHit;
             if (Mode == OsuGameMode.Unkonwn) return invalidValue;
             return invalidValue;
+        }
+        ///<inheritdoc/>
+        public override int GetHashCode()
+        {
+            return ReplayMd5.GetHashCode();
         }
     }
 }

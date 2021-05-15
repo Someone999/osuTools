@@ -6,11 +6,9 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using osuTools.Beatmaps;
 
-namespace osuTools
+namespace osuTools.OnlineInfo.OsuApiV1.OnlineQueries
 {
-    namespace Online.ApiV1
-    {
-        /// <summary>
+    /// <summary>
         ///     在线获取的谱面
         /// </summary>
         [Serializable]
@@ -87,6 +85,18 @@ namespace osuTools
             {
                 Parse(jobj);
             }
+            ///<inheritdoc/>
+            public override bool Equals(object obj)
+            {
+                if (obj is OnlineBeatmap beatmap)
+                    return beatmap.Md5 == Md5;
+                return false;
+            }
+            ///<inheritdoc/>
+            public override int GetHashCode()
+            {
+                return Md5.GetHashCode();
+            }
 
             bool IEquatable<OnlineBeatmap>.Equals(OnlineBeatmap other)
             {
@@ -141,10 +151,10 @@ namespace osuTools
             public void Serialize(string file)
             {
                 if (string.IsNullOrEmpty(file))
-                    throw new ArgumentNullException("文件名不能为空。");
+                    throw new ArgumentNullException(nameof(file),"文件名不能为空。");
                 var dir = Path.GetDirectoryName(file);
                 if (!Directory.Exists(dir))
-                    Directory.CreateDirectory(dir);
+                    Directory.CreateDirectory(dir ?? throw new InvalidOperationException());
                 File.WriteAllText(file, _jobj.ToString());
             }
 
@@ -222,7 +232,7 @@ namespace osuTools
 
             private void Parse(JObject jobj)
             {
-                this._jobj = jobj;
+                _jobj = jobj;
                 int.TryParse(jobj["beatmapset_id"].ToString(), out _beatmapsetId);
                 int.TryParse(jobj["beatmap_id"].ToString(), out _beatmapId);
                 int.TryParse(jobj["approved"].ToString(), out _approved);
@@ -260,7 +270,11 @@ namespace osuTools
                 Source = jobj["source"].ToString();
                 Approved = (BeatmapStatus) _approved;
             }
-
+            /// <summary>
+            /// 使用指定的格式格式化字符串
+            /// </summary>
+            /// <param name="format"></param>
+            /// <returns></returns>
             public string ToString(string format)
             {
                 return ToString(format, null);
@@ -277,7 +291,7 @@ namespace osuTools
             }
 
             /// <summary>
-            ///     将该OnlineBeatmap转化为<see cref="Beatmaps.Beatmap" />
+            ///     将该OnlineBeatmap转化为<see cref="Beatmap" />
             /// </summary>
             /// <returns></returns>
             public Beatmap ToBeatmap()
@@ -285,5 +299,4 @@ namespace osuTools
                 return new Beatmap(this);
             }
         }
-    }
 }

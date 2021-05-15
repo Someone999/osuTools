@@ -1,17 +1,17 @@
 ﻿using System.Collections.Generic;
 
-namespace osuTools
+namespace osuTools.OnlineInfo.OsuApiV1.OnlineQueries
 {
-    namespace Online.ApiV1
-    {
-        /// <summary>
+    /// <summary>
         ///     获取一个谱面排行榜上最高100个记录。
         /// </summary>
         public class OnlineScoreCollection : IOnlineInfo<OnlineScore>
         {
-            private int _enumpos = -1;
-            private int _x = 0;
-
+            /// <summary>
+            /// 获取指定索引处的OnlineScore
+            /// </summary>
+            /// <param name="x"></param>
+            /// <returns></returns>
             public OnlineScore this[int x]
             {
                 get => Scores[x];
@@ -26,7 +26,7 @@ namespace osuTools
             /// <summary>
             ///     查询到的最佳成绩
             /// </summary>
-            public OnlineScore BestScore { get; }
+            public OnlineScore BestScore { get; } = new OnlineScore();
 
             /// <summary>
             ///     查询到的所有成绩
@@ -42,5 +42,4 @@ namespace osuTools
                 return Scores.GetEnumerator();
             }
         }
-    }
 }

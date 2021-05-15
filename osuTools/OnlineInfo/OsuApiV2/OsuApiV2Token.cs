@@ -1,7 +1,7 @@
 ﻿using System;
 using Newtonsoft.Json.Linq;
 
-namespace osuTools
+namespace osuTools.OnlineInfo.OsuApiV2
 {
     namespace Online.ApiV2.Authorization
     {
@@ -16,8 +16,7 @@ namespace osuTools
             /// <param name="json"></param>
             public OsuApiV2Token(JObject json)
             {
-                var sec = 0;
-                int.TryParse(json["expires_in"].ToString(), out sec);
+                int.TryParse(json["expires_in"].ToString(), out var sec);
                 TokenType = json["token_type"].ToString();
                 if (sec == 0)
                     throw new ArgumentException();

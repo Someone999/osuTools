@@ -1,31 +1,62 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Reflection;
-using osuTools.Beatmaps;
 using osuTools.Beatmaps.HitObject;
+using osuTools.Beatmaps.HitObject.Catch;
+using osuTools.Beatmaps.HitObject.Std;
 using osuTools.Collections;
+using osuTools.Game.Modes;
 
 namespace osuTools.PerformanceCalculator.Catch
 {
+    /// <summary>
+    /// 用于<seealso cref="CatchBeatmap"/>pp计算的HitObject
+    /// </summary>
     public class CatchHitObject:ICatchHitObject
     {
-        public double x { get=>BaseHitObject.Position.x; }
-        public double y { get => BaseHitObject.Position.y; }
-        public double Offset { get => BaseHitObject.Offset; }
+        ///<inheritdoc/>
+        public double x => BaseHitObject.Position.x;
+        ///<inheritdoc/>
+        public double y => BaseHitObject.Position.y;
+        ///<inheritdoc/>
+        public double Offset => BaseHitObject.Offset;
+        /// <summary>
+        /// 基础HitObject
+        /// </summary>
         public IHitObject BaseHitObject { get; }
+        /// <summary>
+        /// 该CatchHitObject的Tick
+        /// </summary>
         public CloneableObservableList<CatchSliderTick> Ticks { get; } = new CloneableObservableList<CatchSliderTick>();
+        /// <summary>
+        /// 该<seealso cref="CatchHitObject"/>的EndTick
+        /// </summary>
         public CloneableObservableList<CatchSliderTick> EndTicks { get; } = new CloneableObservableList<CatchSliderTick>();
-        public CloneableObservableList<OsuPixel> Path { get; internal set; } = new CloneableObservableList<OsuPixel>();
-        public System.Collections.Generic.Dictionary<CatchTimePointType, double> TimePoint { get; } = null;
-        public CatchDifficultyAttribute Difficulty { get; } = null;
-        public ValueObserver<double> TickDistance { get; } = new ValueObserver<double>();
 
+        private CloneableObservableList<OsuPixel> Path { get;  set; } = new CloneableObservableList<OsuPixel>();
+        /// <summary>
+        /// 该<seealso cref="CatchHitObject"/>对应的时间点
+        /// </summary>
+        public Dictionary<CatchTimePointType, double> TimePoint { get; }
+        /// <summary>
+        /// 该<seealso cref="CatchHitObject"/>所在的<seealso cref="CatchBeatmap"/>的难度属性
+        /// </summary>
+        public CatchDifficultyAttribute Difficulty { get; }
+        /// <summary>
+        /// Tick间的距离
+        /// </summary>
+        public double TickDistance { get; }
+        /// <summary>
+        /// 持续时间
+        /// </summary>
         public double Duration { get; }
-
-        public CatchHitObject(IHitObject hitobject, System.Collections.Generic.Dictionary<CatchTimePointType, double> timePoint = null,CatchDifficultyAttribute difficulty=null,double tickDistance = 1)
+        /// <summary>
+        /// 使用指定的参数初始化一个CatchHitObject
+        /// </summary>
+        /// <param name="hitobject">基础HitObject</param>
+        /// <param name="timePoint">时间点</param>
+        /// <param name="difficulty">难度参数</param>
+        /// <param name="tickDistance">Tick距离</param>
+        public CatchHitObject(IHitObject hitobject, Dictionary<CatchTimePointType, double> timePoint = null,CatchDifficultyAttribute difficulty=null,double tickDistance = 1)
         {
             //TickDistance.OnChanged += (oldVal, val) => {if(val != 1) Console.WriteLine($"Value changed {oldVal}=>{val}"); };
 
@@ -33,20 +64,23 @@ namespace osuTools.PerformanceCalculator.Catch
                 throw new ArgumentException("Not a catch HitObject");
             BaseHitObject = hitobject;
             TimePoint = timePoint;
-            TickDistance.Value = tickDistance;
+            TickDistance = tickDistance;
             Difficulty = difficulty;
 
             if (BaseHitObject.HitObjectType == HitObjectTypes.Slider ||
                 BaseHitObject.HitObjectType == HitObjectTypes.JuiceStream)
             {
-
-                dynamic j = null;
-                if (BaseHitObject is JuiceStream)
-                    j = BaseHitObject as JuiceStream;
+                if (timePoint is null || difficulty is null)
+                    throw new ArgumentNullException();
+                dynamic j;
+                if (BaseHitObject is JuiceStream stream)
+                    j = stream;
                 else
                     j = BaseHitObject as Slider;
-                Duration = ((int) TimePoint[CatchTimePointType.RawBPM] *
-                            (j.Length / (difficulty.SliderMultiplier * TimePoint[CatchTimePointType.SPM])) /
+                if (j is null)
+                    throw new ArgumentException();
+                Duration = ((int) TimePoint[CatchTimePointType.RawBpm] *
+                            (j.Length / (difficulty.SliderMultiplier * TimePoint[CatchTimePointType.Spm])) /
                             100) *
                            j.RepeatTime;
 
@@ -56,14 +90,14 @@ namespace osuTools.PerformanceCalculator.Catch
         }
         internal void CalcSlider(bool calcPath = false)
         {
-            dynamic j = null;
+            dynamic j;
 
-            if (BaseHitObject is JuiceStream)
-                j = BaseHitObject as JuiceStream;
+            if (BaseHitObject is JuiceStream stream)
+                j = stream;
             else
                 j = BaseHitObject as Slider;
-
-            if (j.CurveType == CurveTypes.PerfectCircle && j.curvePoints.Count > 3)
+            if (j is null) throw new NullReferenceException("转换HitObject失败");
+            if ( j.CurveType == CurveTypes.PerfectCircle && j.curvePoints.Count > 3)
                 j.CurveType = CurveTypes.Bezier;
             else if (j.curvePoints.Count == 2)
             {
@@ -79,7 +113,7 @@ namespace osuTools.PerformanceCalculator.Catch
                     curve = new Perfect(j.curvePoints);
 
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     curve = new Bezier(j.curvePoints);
                     j.CurveType = CurveTypes.Bezier;
@@ -108,52 +142,40 @@ namespace osuTools.PerformanceCalculator.Catch
                 {
                     Path = new CloneableObservableList<OsuPixel>();
                     var l = 0;
-                    var step = 5;
                     while (l < j.Length)
-                        Path.Add((curve as Perfect).PointAtDistance(l));
+                        Path.Add((curve as Perfect)?.PointAtDistance(l));
                 }
                 else
                     throw new NotSupportedException("Slidertype not supported!");
             }
 
-            double currentDis = TickDistance.Value;
+            double currentDis = TickDistance;
             double addTime = Duration * (TickDistance / (j.Length * j.RepeatTime));
 
             while(currentDis< j.Length - TickDistance / 8)
             {
-                OsuPixel point;
-                if (j.CurveType == CurveTypes.Linear)
-                {
-                    point = MathUtlity.PointOnLine(j.curvePoints[0], j.curvePoints[1], currentDis);
-                }
-                else
-                {
-                    point = (curve as IHasPointProcessor).PointAtDistance(currentDis);
-                }
+                var point = j.CurveType == CurveTypes.Linear ? (OsuPixel) MathUtlity.PointOnLine(j.curvePoints[0], j.curvePoints[1], currentDis) : ((IHasPointProcessor)curve).PointAtDistance(currentDis);
                 //Console.WriteLine($"Tick?{point.x}?{point.y}?{j.Offset + addTime * (Ticks.Count + 1)}");
-                Ticks.Add((new CatchSliderTick(point.x, point.y, j.Offset + addTime * (Ticks.Count + 1))));
+                if (!(point is null))
+                    Ticks.Add((new CatchSliderTick(point.x, point.y, j.Offset + addTime * (Ticks.Count + 1))));
 
-                currentDis += TickDistance.Value;
+                currentDis += TickDistance;
             }
             //Console.WriteLine(Ticks.Count.ToString());
             int repeatId = 1;
             List<CatchSliderTick> repeatBonusTick = new List<CatchSliderTick>();
             while (repeatId < j.RepeatTime)
             {
-                OsuPixel point;
                 double dist = (1 & repeatId) * j.Length;
                 double timeOffset = (Duration / j.RepeatTime) * repeatId;
-                if (j.CurveType == CurveTypes.Linear)
-                    point = MathUtlity.PointOnLine(j.curvePoints[0], j.curvePoints[1], dist);
-                else
-                    point = (curve as IHasPointProcessor).PointAtDistance(dist);
+                var point = j.CurveType == CurveTypes.Linear ? (OsuPixel) MathUtlity.PointOnLine(j.curvePoints[0], j.curvePoints[1], dist) : ((IHasPointProcessor)curve).PointAtDistance(dist);
                 //Console.WriteLine($"{Offset}?{point.x}?{point.y}");
                 //Console.WriteLine($"EndTick?{point.x}?{point.y}?{BaseHitObject.Offset + timeOffset}");
                 EndTicks.Add(new CatchSliderTick(point.x, point.y, BaseHitObject.Offset + timeOffset));
 
                 var repeatTicks = (CloneableList<CatchSliderTick>)Ticks.Clone();
 
-                double normalizedTimeValue = 0d;
+                double normalizedTimeValue;
                 if ((1 & repeatId) != 0)
                 {
                     repeatTicks.Reverse();
@@ -174,12 +196,8 @@ namespace osuTools.PerformanceCalculator.Catch
 
             Ticks.AddRange(repeatBonusTick);
 
-            OsuPixel tmpPoint;
             double distEnd = (1 & j.RepeatTime) * j.Length;
-            if (j.CurveType == CurveTypes.Linear)
-                tmpPoint = MathUtlity.PointOnLine(j.curvePoints[0], j.curvePoints[1], distEnd);
-            else
-                tmpPoint = (curve as IHasPointProcessor).PointAtDistance(distEnd); 
+            var tmpPoint = j.CurveType == CurveTypes.Linear ? (OsuPixel) MathUtlity.PointOnLine(j.curvePoints[0], j.curvePoints[1], distEnd) : (curve as IHasPointProcessor).PointAtDistance(distEnd); 
 
             var endTick = new CatchSliderTick(tmpPoint.x, tmpPoint.y, Offset + Duration);
             EndTicks.Add(endTick);
@@ -187,18 +205,22 @@ namespace osuTools.PerformanceCalculator.Catch
             //EndTicks.ForEach(tick => Console.WriteLine($"EndTick?{tick.Offset}?{tick.x}?{tick.y}"));
 
         }
+        /// <summary>
+        /// 获取这个<seealso cref="CatchHitObject"/>可以增加的连击数
+        /// </summary>
+        /// <returns></returns>
         public int GetCombo()
         {
             int val = 1;
             if (BaseHitObject.HitObjectType == HitObjectTypes.JuiceStream)
             {
                 val += Ticks.Count;
-                val += (BaseHitObject as JuiceStream).RepeatTime;
+                val += ((JuiceStream) BaseHitObject).RepeatTime;
             }
             if (BaseHitObject.HitObjectType == HitObjectTypes.Slider)
             {
                 val += Ticks.Count;
-                val += (BaseHitObject as Slider).RepeatTime;
+                val += ((Slider) BaseHitObject).RepeatTime;
             }
             return val;
         }

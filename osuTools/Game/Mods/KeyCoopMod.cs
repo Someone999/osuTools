@@ -1,7 +1,11 @@
 ﻿using osuTools.Beatmaps;
+using osuTools.Game.Modes;
 
 namespace osuTools.Game.Mods
 {
+    /// <summary>
+    /// 将列分成两个部分供双人游玩
+    /// </summary>
     public class KeyCoopMod : KeyMod
     {
         /// <inheritdoc />

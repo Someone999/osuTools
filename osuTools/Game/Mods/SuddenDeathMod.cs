@@ -1,5 +1,8 @@
 ﻿namespace osuTools.Game.Mods
 {
+    /// <summary>
+    /// 掉一个就死的Mod
+    /// </summary>
     public class SuddenDeathMod : Mod, ILegacyMod, IHasConflictMods
     {
         /// <inheritdoc />

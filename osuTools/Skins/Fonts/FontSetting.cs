@@ -1,4 +1,4 @@
-﻿namespace osuTools.Skins.Settings.Fonts
+﻿namespace osuTools.Skins.Fonts
 {
     /// <summary>
     ///     字体的设置

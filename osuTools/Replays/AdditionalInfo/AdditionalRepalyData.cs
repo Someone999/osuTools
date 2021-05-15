@@ -34,6 +34,9 @@ namespace osuTools.Replays.AdditionalInfo
         ///     游玩回放的数据
         /// </summary>
         public MemoryStream LzmaStream { get; } = new MemoryStream();
+        /// <summary>
+        /// 回放的数据长度
+        /// </summary>
 
         public int ReplayDataLength { get; }
     }

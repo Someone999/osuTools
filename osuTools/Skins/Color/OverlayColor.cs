@@ -1,9 +1,9 @@
-﻿namespace osuTools.Skins.Colors
+﻿namespace osuTools.Skins.Color
 {
     /// <summary>
     ///     界面使用的颜色
     /// </summary>
-    public class OverlayColor : RGBColor
+    public class OverlayColor : RgbColor
     {
         /// <summary>
         ///     使用rgb初始化一个OverlayColor

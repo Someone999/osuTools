@@ -1,12 +1,11 @@
-﻿using osuTools.Skin.Mods;
-using osuTools.Skins.SkinObjects.Catch;
-using osuTools.Skins.SkinObjects.Collections;
-using osuTools.Skins.SkinObjects.Generic;
-using osuTools.Skins.SkinObjects.Mania;
-using osuTools.Skins.SkinObjects.Osu;
-using osuTools.Skins.SkinObjects.Taiko;
+﻿using osuTools.Skins.Catch;
+using osuTools.Skins.Game;
+using osuTools.Skins.Mania;
+using osuTools.Skins.Mods;
+using osuTools.Skins.Osu;
+using osuTools.Skins.Taiko;
 
-namespace osuTools.Skins.SkinObjects.Collections
+namespace osuTools.Skins
 {
     /// <summary>
     ///     皮肤元素的集合
@@ -50,10 +49,7 @@ namespace osuTools.Skins.SkinObjects.Collections
         /// </summary>
         public ModImageCollection ModImages { get; internal set; } = new ModImageCollection();
     }
-}
 
-namespace osuTools.Skins
-{
     public partial class Skin
     {
         /// <summary>

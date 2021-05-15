@@ -1,7 +1,13 @@
 ﻿namespace osuTools.Game.Mods
 {
+    /// <summary>
+    /// 自动转转盘
+    /// </summary>
     public class SpunOutMod : Mod, ILegacyMod, IHasConflictMods
     {
+        ///<inheritdoc/>
+        public override string Description { get; protected set; } = "可以自动转转盘的Mod";
+
         /// <inheritdoc />
         public override bool IsRankedMod => true;
         /// <inheritdoc />

@@ -3,7 +3,7 @@ using System.Net.Http;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace osuTools.Online.ApiV1
+namespace osuTools.OnlineInfo.OsuApiV1.OnlineQueries
 {
     /// <summary>
     ///     在线查询的通用工具
@@ -34,7 +34,7 @@ namespace osuTools.Online.ApiV1
             client.BaseAddress = target;
             var rslt = client.GetStringAsync(target).Result;
             var obj = JsonConvert.DeserializeObject(rslt);
-            QueryResult queryResult = null;
+            QueryResult queryResult;
             if (obj.GetType() == typeof(JArray))
             {
                 queryResult = new QueryResult((JArray) obj);

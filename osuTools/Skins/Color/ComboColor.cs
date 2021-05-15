@@ -1,9 +1,9 @@
-﻿namespace osuTools.Skins.Colors
+﻿namespace osuTools.Skins.Color
 {
     /// <summary>
     ///     连击的颜色
     /// </summary>
-    public class ComboColor : RGBColor
+    public class ComboColor : RgbColor
     {
         /// <summary>
         ///     通过rgb来创造一个连击颜色

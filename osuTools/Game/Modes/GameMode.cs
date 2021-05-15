@@ -79,7 +79,7 @@ namespace osuTools.Game.Modes
         /// </summary>
         /// <param name="scoreInfo"></param>
         /// <returns></returns>
-        public virtual double AccuracyCalc(ORTDP.OrtdpWrapper scoreInfo)
+        public virtual double AccuracyCalc(OrtdpWrapper.OrtdpWrapper scoreInfo)
         {
             return 0;
         }
@@ -93,7 +93,12 @@ namespace osuTools.Game.Modes
         {
             return 0;
         }
-
+        /// <summary>
+        /// 判断两个GameMode是否为同一模式
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
         public static bool operator ==(GameMode a, GameMode b)
         {
             if (a is null && b is null)
@@ -102,7 +107,12 @@ namespace osuTools.Game.Modes
                 return false;
             return a.Equals(a, b);
         }
-
+        /// <summary>
+        /// 判断两个GameMode是否为同一模式
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
         public static bool operator !=(GameMode a, GameMode b)
         {
             if (a is null && b is null)
@@ -111,14 +121,18 @@ namespace osuTools.Game.Modes
                 return true;
             return !a.Equals(a, b);
         }
-
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
         public override bool Equals(object obj)
         {
             if (obj is null) return false;
             if (obj is GameMode) return Equals(this, obj);
             return obj.Equals(this);
         }
-
+        ///<inheritdoc/>
         public override int GetHashCode()
         {
             return GetHashCode(this);
@@ -143,13 +157,23 @@ namespace osuTools.Game.Modes
 
             return new UnknownMode();
         }
-
+        /// <summary>
+        /// 判断GameMode和指定的OsuGameMode是否为同一模式
+        /// </summary>
+        /// <param name="mode"></param>
+        /// <param name="enumMode"></param>
+        /// <returns></returns>
         public static bool operator ==(GameMode mode, OsuGameMode enumMode)
         {
             if (mode is ILegacyMode gamemode) return gamemode.LegacyMode == enumMode;
             return false;
         }
-
+        /// <summary>
+        /// 判断GameMode和指定的OsuGameMode是否为同一模式
+        /// </summary>
+        /// <param name="mode"></param>
+        /// <param name="enumMode"></param>
+        /// <returns></returns>
         public static bool operator !=(GameMode mode, OsuGameMode enumMode)
         {
             if (mode is ILegacyMode gamemode) return gamemode.LegacyMode != enumMode;
@@ -171,7 +195,7 @@ namespace osuTools.Game.Modes
         /// </summary>
         /// <param name="info"></param>
         /// <returns></returns>
-        public virtual int GetPassedHitObjectCount(ORTDP.OrtdpWrapper info)
+        public virtual int GetPassedHitObjectCount(OrtdpWrapper.OrtdpWrapper info)
         {
             return 0;
         }
@@ -190,7 +214,7 @@ namespace osuTools.Game.Modes
         /// </summary>
         /// <param name="info"></param>
         /// <returns></returns>
-        public virtual bool IsPerfect(ORTDP.OrtdpWrapper info)
+        public virtual bool IsPerfect(OrtdpWrapper.OrtdpWrapper info)
         {
             return false;
         }
@@ -200,7 +224,7 @@ namespace osuTools.Game.Modes
         /// </summary>
         /// <param name="info"></param>
         /// <returns></returns>
-        public virtual double GetCountGekiRate(ORTDP.OrtdpWrapper info)
+        public virtual double GetCountGekiRate(OrtdpWrapper.OrtdpWrapper info)
         {
             return 0;
         }
@@ -210,7 +234,7 @@ namespace osuTools.Game.Modes
         /// </summary>
         /// <param name="info"></param>
         /// <returns></returns>
-        public virtual double GetCount300Rate(ORTDP.OrtdpWrapper info)
+        public virtual double GetCount300Rate(OrtdpWrapper.OrtdpWrapper info)
         {
             return 0;
         }
@@ -220,7 +244,7 @@ namespace osuTools.Game.Modes
         /// </summary>
         /// <param name="info"></param>
         /// <returns></returns>
-        public virtual GameRanking GetRanking(ORTDP.OrtdpWrapper info)
+        public virtual GameRanking GetRanking(OrtdpWrapper.OrtdpWrapper info)
         {
             return GameRanking.Unknown;
         }

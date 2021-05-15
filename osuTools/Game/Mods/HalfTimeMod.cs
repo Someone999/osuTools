@@ -2,7 +2,10 @@
 
 namespace osuTools.Game.Mods
 {
-    public class HalfTimeMod : Mod, ILegacyMod, IChangeTimeRateMod
+    /// <summary>
+    /// 0.75倍速
+    /// </summary>
+    public class HalfTimeMod : Mod, ILegacyMod, IChangeTimeRateMod,IHasConflictMods
     {
         /// <inheritdoc />
         public override bool IsRankedMod => true;

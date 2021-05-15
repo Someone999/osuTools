@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace osuTools.Skins.SkinObjects.Taiko
+namespace osuTools.Skins.Taiko
 {
     /// <summary>
     ///     左侧敲鼓等动作的集合

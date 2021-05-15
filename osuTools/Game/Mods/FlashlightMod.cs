@@ -3,6 +3,9 @@ using osuTools.Game.Modes;
 
 namespace osuTools.Game.Mods
 {
+    /// <summary>
+    /// 只有很小的视野，且视野在50，100连击时会再缩小一次
+    /// </summary>
     public class FlashlightMod : Mod, ILegacyMod, IHasConflictMods
     {
         private double _scoreMultiplier = 1.12d;

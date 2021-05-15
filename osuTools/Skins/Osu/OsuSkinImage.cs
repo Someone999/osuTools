@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Drawing;
 using System.IO;
-using osuTools.Skins.Exceptions;
+using osuTools.Exceptions;
 using osuTools.Skins.Interfaces;
 
-namespace osuTools.Skins.SkinObjects.Osu
+namespace osuTools.Skins.Osu
 {
     /// <summary>
     ///     Osu模式皮肤元素的图片
@@ -29,11 +29,11 @@ namespace osuTools.Skins.SkinObjects.Osu
         public OsuSkinImage()
         {
         }
-
+        ///<inheritdoc/>
         public string FileName { get; } = "default";
+        ///<inheritdoc/>
         public string FullPath { get; } = "default";
-        public string SkinImageTypeName { get; } = "OsuSkinImage";
-
+        ///<inheritdoc/>
         public ISkinImage GetHighResolutionImage()
         {
             var tmpname = FileName.Replace(".png", "@2x.png");
@@ -42,7 +42,7 @@ namespace osuTools.Skins.SkinObjects.Osu
                 return new OsuSkinImage(tmpname, Path.Combine(tmppath, tmpname));
             throw new SkinFileNotFoundException("没有找到该皮肤文件的@2x版本。");
         }
-
+        ///<inheritdoc/>
         public Image LoadImage()
         {
             if (FileName == "default" && FullPath == "default")

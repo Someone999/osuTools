@@ -1,4 +1,4 @@
-﻿namespace osuTools.Game.Interface
+﻿namespace osuTools
 {
     /// <summary>
     /// 表示这个对象是从osu文件中解析的对象

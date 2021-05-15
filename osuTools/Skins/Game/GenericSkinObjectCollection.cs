@@ -1,12 +1,11 @@
 ﻿using System.Collections.Generic;
-using osuTools.Skins.SkinObjects.Generic.Menu;
-using osuTools.Skins.SkinObjects.Generic.PauseMenu;
-using osuTools.Skins.SkinObjects.Generic.PlayField.Countdown;
-using osuTools.Skins.SkinObjects.Generic.Rank;
-using osuTools.Skins.SkinObjects.Generic.ResultPage;
-using osuTools.Skins.SkinObjects.Generic.Score;
+using osuTools.Skins.Game.Menu;
+using osuTools.Skins.Game.Overlay;
+using osuTools.Skins.Game.Playfield;
+using osuTools.Skins.Game.Rank;
+using osuTools.Skins.Game.ResultPage;
 
-namespace osuTools.Skins.SkinObjects.Generic
+namespace osuTools.Skins.Game
 {
     /// <summary>
     ///     通用皮肤元素的集合
@@ -16,17 +15,17 @@ namespace osuTools.Skins.SkinObjects.Generic
         /// <summary>
         ///     光标
         /// </summary>
-        public GenericSkinImage Cursor { get; internal set; }
+        public GeneralSkinImage Cursor { get; internal set; }
 
         /// <summary>
         ///     光标拖尾
         /// </summary>
-        public GenericSkinImage CursorTrail { get; internal set; }
+        public GeneralSkinImage CursorTrail { get; internal set; }
 
         /// <summary>
         ///     圈圈里的数字
         /// </summary>
-        public List<GenericSkinImage> HitCircleNumberImages { get; internal set; } = new List<GenericSkinImage>();
+        public List<GeneralSkinImage> HitCircleNumberImages { get; internal set; } = new List<GeneralSkinImage>();
 
         /// <summary>
         ///     分数的图片
@@ -36,22 +35,22 @@ namespace osuTools.Skins.SkinObjects.Generic
         /// <summary>
         ///     菜单的返回按钮
         /// </summary>
-        public List<GenericSkinImage> MenuBackImages { get; internal set; } = new List<GenericSkinImage>();
+        public List<GeneralSkinImage> MenuBackImages { get; internal set; } = new List<GeneralSkinImage>();
 
         /// <summary>
         ///     谱面信息标签的背景
         /// </summary>
-        public GenericSkinImage MenuButtonBackground { get; internal set; }
+        public GeneralSkinImage MenuButtonBackground { get; internal set; }
 
         /// <summary>
         ///     粉饼界面的背景
         /// </summary>
-        public GenericSkinImage MenuBackground { get; internal set; }
+        public GeneralSkinImage MenuBackground { get; internal set; }
 
         /// <summary>
         ///     粉饼界面的雪花
         /// </summary>
-        public GenericSkinImage MenuSnow { get; internal set; }
+        public GeneralSkinImage MenuSnow { get; internal set; }
 
         /// <summary>
         ///     在模式列表中，各个模式的背景图片
@@ -61,7 +60,7 @@ namespace osuTools.Skins.SkinObjects.Generic
         /// <summary>
         ///     游戏播放的跳过动画的所有图片
         /// </summary>
-        public List<GenericSkinImage> SkipImages { get; internal set; } = new List<GenericSkinImage>();
+        public List<GeneralSkinImage> SkipImages { get; internal set; } = new List<GeneralSkinImage>();
 
         /// <summary>
         ///     评级的图片
@@ -86,7 +85,7 @@ namespace osuTools.Skins.SkinObjects.Generic
         /// <summary>
         ///     星星的图片
         /// </summary>
-        public GenericSkinImage Star { get; internal set; }
+        public GeneralSkinImage Star { get; internal set; }
 
         /// <summary>
         ///     血条

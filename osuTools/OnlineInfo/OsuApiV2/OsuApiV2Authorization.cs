@@ -4,9 +4,9 @@ using System.Net;
 using System.Text;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using osuTools.Exceptions;
+using osuTools.OnlineInfo.OsuApiV2.Online.ApiV2.Authorization;
 
-namespace osuTools.Online.ApiV2.Authorization
+namespace osuTools.OnlineInfo.OsuApiV2
 {
     /// <summary>
     ///     通过指定的私钥和AppID向OsuApiV2请求Token的类
@@ -55,7 +55,7 @@ namespace osuTools.Online.ApiV2.Authorization
         /// <returns>一个<see cref="OsuApiV2Token" /></returns>
         public OsuApiV2Token GetToken()
         {
-            var recvjson = "";
+            string recvjson;
             if (string.IsNullOrEmpty(SecretKey) || AppID == 0)
                 throw new ArgumentNullException();
             Request.Accept = "application/json";

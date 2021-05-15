@@ -1,5 +1,8 @@
 ﻿namespace osuTools.Game.Mods
 {
+    /// <summary>
+    /// 转换std谱面到4k
+    /// </summary>
     public class Key4Mod : KeyMod
     {
         /// <inheritdoc />

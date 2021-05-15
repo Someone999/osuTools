@@ -1,9 +1,12 @@
 ﻿using System;
 using System.IO;
 using System.Net;
-using osuTools.Online.ApiV2.Authorization;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using osuTools.OnlineInfo.OsuApiV2.Online.ApiV2.Authorization;
+using osuTools.OnlineInfo.OsuApiV2.ResultClasses;
 
-namespace osuTools.Online.ApiV2
+namespace osuTools.OnlineInfo.OsuApiV2.Queriers
 {
     /// <summary>
     ///     用于向OsuApiV2查询谱面
@@ -18,20 +21,28 @@ namespace osuTools.Online.ApiV2
         /// <summary>
         ///     谱面ID
         /// </summary>
-        public int BeatmapID { get; set; }
-
-        private void getResult()
+        public int BeatmapId { get; set; }
+        /// <summary>
+        /// 使用存储的BeatmapId获取谱面信息
+        /// </summary>
+        /// <returns></returns>
+        public OnlineBeatmapSetV2 GetResult()
         {
             if (Token == null)
-                throw new ArgumentNullException(
+                throw new InvalidOperationException(
                     "必须指定一个Token。Token可以从Online.ApiV2.Authorization.OsuApiV2Authorization获取。");
-            var uri = $"https://osu.ppy.sh/api/v2/beatmaps/{BeatmapID}";
+            var uri = $"https://osu.ppy.sh/api/v2/beatmaps/{BeatmapId}";
             var request = WebRequest.CreateHttp(uri);
             request.Accept = "application/json";
             request.ContentType = "application/json";
             request.Headers.Add(HttpRequestHeader.Authorization, $"Bearer {Token.AccessToken}");
-            var r = new StreamReader(request.GetResponse().GetResponseStream());
+            if (request is null)
+                throw new NullReferenceException();
+            var r = new StreamReader(request.GetResponse().GetResponseStream() ?? new MemoryStream());
             var recvjson = r.ReadToEnd();
+            var jobj = (JObject) JsonConvert.DeserializeObject(recvjson);
+            return new OnlineBeatmapSetV2(jobj);
+
         }
     }
 }

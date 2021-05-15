@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using osuTools.Exceptions;
 
-namespace osuTools.Skins.Tools
+namespace osuTools.Skins
 {
     /// <summary>
     /// </summary>
@@ -32,7 +31,6 @@ namespace osuTools.Skins.Tools
             var pattern = "*.*";
             var dir = s.ConfigFileDirectory.Replace("skin.ini", "");
             var lst = Directory.GetFiles(dir, pattern, SearchOption.TopDirectoryOnly);
-            var num = 0;
             var files = new List<string>();
             foreach (var n in lst)
             {
@@ -41,7 +39,6 @@ namespace osuTools.Skins.Tools
                 {
                     if (fileName.Last().IsDigit())
                     {
-                        num = fileName.Last() - '0';
                         files.Add(n);
                     }
                 }
@@ -64,9 +61,7 @@ namespace osuTools.Skins.Tools
         /// <returns></returns>
         public static List<string> GetMultipleFileSkinObject(string[] fileList, string frontFileName)
         {
-            var pattern = "*.*";
             var lst = fileList;
-            var num = 0;
             var files = new List<string>();
             foreach (var n in lst)
             {
@@ -76,7 +71,6 @@ namespace osuTools.Skins.Tools
                 {
                     if (fileName.Last().IsDigit())
                     {
-                        num = fileName.Last() - '0';
                         files.Add(n);
                     }
                 }

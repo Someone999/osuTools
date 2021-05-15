@@ -1,8 +1,10 @@
 ﻿using System;
+using osuTools.Beatmaps;
+using osuTools.Game.Modes;
 
-namespace osuTools.Online.ApiV1
+namespace osuTools.OnlineInfo.OsuApiV1.OnlineQueries
 {
-    partial class OnlineBeatmap
+    partial class OnlineBeatmap:IBeatmap
     {
         /// <summary>
         ///     谱面集的ID
@@ -86,8 +88,7 @@ namespace osuTools.Online.ApiV1
         {
             get
             {
-                DateTime dt;
-                DateTime.TryParse(_submitDate, out dt);
+                DateTime.TryParse(_submitDate, out var dt);
                 return dt;
             }
         }
@@ -99,8 +100,7 @@ namespace osuTools.Online.ApiV1
         {
             get
             {
-                DateTime dt;
-                DateTime.TryParse(_approvedDate, out dt);
+                DateTime.TryParse(_approvedDate, out var dt);
                 return dt;
             }
         }
@@ -112,8 +112,7 @@ namespace osuTools.Online.ApiV1
         {
             get
             {
-                DateTime dt;
-                DateTime.TryParse(_lastUpdate, out dt);
+                DateTime.TryParse(_lastUpdate, out var dt);
                 return dt;
             }
         }
@@ -122,6 +121,14 @@ namespace osuTools.Online.ApiV1
         ///     艺术家
         /// </summary>
         public string Artist { get; private set; } = "";
+        /// <summary>
+        /// 艺术家名字的Unicode格式，这里只会返回Artist
+        /// </summary>
+        public string ArtistUnicode => Artist;
+        /// <summary>
+        /// 谱面标题的Unicode格式，这里只会返回Title
+        /// </summary>
+        public string TitleUnicode => Title;
 
         /// <summary>
         ///     标题
