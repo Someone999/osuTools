@@ -9,13 +9,11 @@ namespace osuTools
     /// </summary>
     public class BeatmapSongDurationSqliteDatabase
     {
-        [JsonProperty("song_durs")]
         private List<BeatmapSongDuration> Durations { get; } = new List<BeatmapSongDuration>();
 
         /// <summary>
         /// 文件路径
         /// </summary>
-        [JsonIgnore]
         public string FilePath { get; }
         /// <summary>
         /// 使用文件路径初始化<seealso cref="BeatmapSongDurationSqliteDatabase"/>
@@ -61,7 +59,7 @@ namespace osuTools
             if (!Durations.Contains(duration))
             {
                 Durations.Add(duration);
-                SQLiteConnection connection = new SQLiteConnection("Datasource = InfoReader.db");
+                SQLiteConnection connection = new SQLiteConnection($"Datasource = {FilePath}");
                 connection.Open();
                 var existedCommand = connection.CreateCommand();
                 var insertCommand = connection.CreateCommand();
@@ -88,7 +86,7 @@ namespace osuTools
                 {
                     BeatmapSongDuration b = Durations[idx];
                     b.Duration = duration.Duration;
-                    SQLiteConnection connection = new SQLiteConnection("Datasource = InfoReader.db");
+                    SQLiteConnection connection = new SQLiteConnection($"Datasource = {FilePath}");
                     var updateCommand = connection.CreateCommand();
                     updateCommand.CommandText =
                         $"update SongDuration set Duration = {duration.Duration} where \"Md5\" = '{duration.BeatmapMd5}'";
@@ -104,7 +102,7 @@ namespace osuTools
         public void Remove(BeatmapSongDuration duration)
         {
             Durations.Remove(duration);
-            SQLiteConnection connection = new SQLiteConnection("Datasource = InfoReader.db");
+            SQLiteConnection connection = new SQLiteConnection($"Datasource = {FilePath}");
             var deleteCommand = connection.CreateCommand();
             deleteCommand.CommandText = $"delete SongDuration where \"Md5\" = '{duration.BeatmapMd5}'";
         }
