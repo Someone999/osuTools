@@ -21,7 +21,7 @@ namespace osuTools.GameInfo
         private KeyBinding.KeyBinding _d;
         private string[] _lines;
         private int _off = -2;
-        private bool _runing;
+        private bool _running;
         private Skin _sk;
         private string _ver, _song, _osudir, _username, _skin;
 
@@ -174,6 +174,7 @@ namespace osuTools.GameInfo
                     if (process.ProcessName == "osu!" && process.MainWindowTitle == "osu!" && isWow64)
                     {
                         CurrentOsuProcess = process;
+                        _running = true;
                     }
                 }
 
@@ -383,7 +384,7 @@ namespace osuTools.GameInfo
         /// </summary>
         ~OsuInfo()
         {
-            if (_runing) SaveToFile();
+            if (_running) SaveToFile();
         }
     }
 }

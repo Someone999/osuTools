@@ -43,7 +43,7 @@ namespace osuTools
                     }
                 }
             }
-            catch (SQLiteException e)
+            catch (SQLiteException)
             {
             }
             finally
