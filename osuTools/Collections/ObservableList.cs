@@ -32,7 +32,7 @@ namespace osuTools.Collections
 
         public delegate void InsertItemEventHandler(T item, int index);
         /// <summary>
-        /// 
+        /// 为OnClear提供事件处理器
         /// </summary>
         public delegate void ClearItemEventHandler();
         /// <summary>

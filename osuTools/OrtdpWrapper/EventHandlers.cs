@@ -186,11 +186,12 @@ namespace osuTools.OrtdpWrapper
             GameMode = new GmMode(last, mode);
             CanFail = !Mods.Any(innerMod =>
                 innerMod is NoFailMod || innerMod is AutoPilotMod || innerMod is RelaxMod);
-            if (CurrentMode is IHasPerformanceCalculator has)
-            {
-                _performanceCalculator = has;
-                PreCalculatedPp = has.GetMaxPerformance(this);
-            }
+            if (Beatmap.Mode == OsuGameMode.Osu)
+                if (CurrentMode is IHasPerformanceCalculator has && CurrentStatus == OsuGameStatus.SelectSong)
+                {
+                    _performanceCalculator = has;
+                    PreCalculatedPp = has.GetMaxPerformance(this);
+                }
 
             if (CurrentMode is ILegacyMode legacyMode)
             {
@@ -214,7 +215,7 @@ namespace osuTools.OrtdpWrapper
             else _tmpHitObjectCount = _hitObjects.Count;
             if (DebugMode)
                 if (_tmpHitObjectCount != _hitObjects.Count)
-                    IO.CurrentIO.Write($"[osuTools] HitObject Count after applied Mods: {_tmpHitObjectCount}.");
+                    IO.CurrentIO.Write($"[osuTools] HitObject Count Changed ({_hitObjects.Count} -> {_tmpHitObjectCount}) after applied Mods.");
         }
 
         private void ListenerManagerOnStatusChanged(OsuListenerManager.OsuStatus lastStatus, OsuListenerManager.OsuStatus status)

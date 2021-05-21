@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using osuTools.Exceptions;
 using osuTools.Skins;
@@ -14,13 +15,15 @@ namespace osuTools.GameInfo
     /// </summary>
     public class OsuInfo
     {
-        private string cfg;
-        private KeyBinding.KeyBinding d;
-        private string[] lines;
-        private int off = -2;
-        private bool runing;
-        private Skin sk;
-        private string ver, song, osudir, username, skin;
+        [DllImport("kernel32")]
+        private static extern bool IsWow64Process(IntPtr hProcess, ref bool wow64Process);
+        private string _cfg;
+        private KeyBinding.KeyBinding _d;
+        private string[] _lines;
+        private int _off = -2;
+        private bool _runing;
+        private Skin _sk;
+        private string _ver, _song, _osudir, _username, _skin;
 
         /// <summary>
         ///     初始化一个OsuInfo对象
@@ -37,15 +40,15 @@ namespace osuTools.GameInfo
         {
             get
             {
-                sk = new Skin(CurrentSkinDir);
-                return sk;
+                _sk = new Skin(CurrentSkinDir);
+                return _sk;
             }
         }
 
         /// <summary>
         ///     快捷键的获取，实验功能。
         /// </summary>
-        public KeyBinding.KeyBinding ShortcutKeys => d ?? (d = new KeyBinding.KeyBinding(lines));
+        public KeyBinding.KeyBinding ShortcutKeys => _d ?? (_d = new KeyBinding.KeyBinding(_lines));
 
         /// <summary>
         ///     osu!的窗口句柄
@@ -65,7 +68,7 @@ namespace osuTools.GameInfo
         /// <summary>
         ///     osu!的PID
         /// </summary>
-        public int ProcessID => CurrentOsuProcess.Id;
+        public int ProcessId => CurrentOsuProcess.Id;
 
         /// <summary>
         ///     当前存放osu!进程信息的System.Diagnostics.Process对象
@@ -79,8 +82,8 @@ namespace osuTools.GameInfo
         {
             get
             {
-                if (CurrentOsuProcess != null) return CurrentOsuProcess.MainModule.FileName.Replace("osu!.exe", "");
-                return osudir;
+                if (CurrentOsuProcess != null) return CurrentOsuProcess.MainModule?.FileName.Replace("osu!.exe", "") ?? "";
+                return _osudir;
             }
         }
 
@@ -91,9 +94,9 @@ namespace osuTools.GameInfo
         {
             get
             {
-                if (string.IsNullOrEmpty(song))
+                if (string.IsNullOrEmpty(_song))
                     GetSongDir();
-                return song;
+                return _song;
             }
             set => SetValue("BeatmapDirectory", value);
         }
@@ -105,9 +108,9 @@ namespace osuTools.GameInfo
         {
             get
             {
-                if (string.IsNullOrEmpty(username))
+                if (string.IsNullOrEmpty(_username))
                     GetUserName();
-                return username;
+                return _username;
             }
         }
 
@@ -118,9 +121,9 @@ namespace osuTools.GameInfo
         {
             get
             {
-                if (string.IsNullOrEmpty(ver))
+                if (string.IsNullOrEmpty(_ver))
                     GetVersion();
-                return ver;
+                return _ver;
             }
         }
 
@@ -131,8 +134,8 @@ namespace osuTools.GameInfo
         {
             get
             {
-                if (off == -2) GetOffset();
-                return off;
+                if (_off == -2) GetOffset();
+                return _off;
             }
         }
 
@@ -143,35 +146,43 @@ namespace osuTools.GameInfo
         {
             get
             {
-                if (string.IsNullOrEmpty(skin)) GetCurrentSkin();
-                return Path.Combine(SkinDir, skin);
+                if (string.IsNullOrEmpty(_skin)) GetCurrentSkin();
+                return Path.Combine(SkinDir, _skin);
             }
             set
             {
                 SetValue("Skin", value);
-                skin = value;
+                _skin = value;
             }
         }
 
         /// <summary>
         ///     获取存放皮肤的文件夹的全路径
         /// </summary>
-        public string SkinDir => osudir + "skins";
+        public string SkinDir => _osudir + "skins";
 
         private void Init()
         {
             try
             {
                 var processes = Process.GetProcessesByName("osu!");
-                CurrentOsuProcess = processes.Length > 0 ? processes[0] : null;
-                if (CurrentOsuProcess == null)
+                foreach (var process in processes)
                 {
-                    ReadFromFile();
-                    lines = File.ReadAllLines(cfg);
-                    return;
+                    bool isWow64 = true;
+                    if(Environment.Is64BitOperatingSystem)
+                        IsWow64Process(process.Handle, ref isWow64);
+                    if (process.ProcessName == "osu!" && process.MainWindowTitle == "osu!" && isWow64)
+                    {
+                        CurrentOsuProcess = process;
+                    }
                 }
 
-                if (CurrentOsuProcess.Id != 0) runing = true;
+                if (CurrentOsuProcess is null)
+                {
+                    ReadFromFile();
+                    _lines = File.ReadAllLines(_cfg);
+                }
+                
                 StringBuilder osudir;
                 if (OsuDirectory != null)
                 {
@@ -180,43 +191,43 @@ namespace osuTools.GameInfo
                 else
                 {
                     ReadFromFile();
-                    osudir = new StringBuilder(this.osudir);
+                    osudir = new StringBuilder(this._osudir);
                 }
 
                 var user = new StringBuilder("osu!.");
                 user.Append(Environment.UserName + ".cfg");
                 osudir.Replace("osu!.exe", user.ToString());
-                cfg = osudir + user.ToString();
-                lines = File.ReadAllLines(cfg);
-                this.osudir = osudir.ToString();
+                _cfg = osudir + user.ToString();
+                _lines = File.ReadAllLines(_cfg);
+                _osudir = osudir.ToString();
                 SaveToFile();
             }
             catch (NullReferenceException e)
             {
                 ReadFromFile();
-                lines = File.ReadAllLines(cfg);
+                _lines = File.ReadAllLines(_cfg);
                 if (BeatmapDirectory == null)
                     throw new FailToParseException($"未能从文件读取，异常:{e.Message}");
             }
             catch (IndexOutOfRangeException e)
             {
                 ReadFromFile();
-                lines = File.ReadAllLines(cfg);
+                _lines = File.ReadAllLines(_cfg);
                 if (BeatmapDirectory == null)
                     throw new FailToParseException($"未能从文件读取，异常:{e.Message}");
             }
         }
 
-        private void SetValue(string Name, string DestVal)
+        private void SetValue(string name, string destVal)
         {
-            for (var i = 0; i < lines.Length; i++)
+            for (var i = 0; i < _lines.Length; i++)
             {
-                var data = lines[i];
-                if (data.Contains(Name))
+                var data = _lines[i];
+                if (data.Contains(name))
                 {
                     var tmp = data.Split('=');
-                    data = data.Replace(tmp[1].Trim(), DestVal);
-                    lines[i] = data;
+                    data = data.Replace(tmp[1].Trim(), destVal);
+                    _lines[i] = data;
                     //MessageBox.Show(data);
                 }
             }
@@ -232,10 +243,9 @@ namespace osuTools.GameInfo
 
         private void GetSongDir()
         {
-            string osudir;
-            osudir = CurrentOsuProcess != null ? OsuDirectory : this.osudir;
+            var osudir = CurrentOsuProcess != null ? OsuDirectory : _osudir;
             var tmp = string.Empty;
-            foreach (var data in lines)
+            foreach (var data in _lines)
                 if (data.Trim().StartsWith("BeatmapDirectory"))
                 {
                     tmp = data.Split('=')[1].Trim();
@@ -243,67 +253,66 @@ namespace osuTools.GameInfo
                 }
 
             if (string.IsNullOrWhiteSpace(tmp))
-                song = string.Empty;
+                _song = string.Empty;
             else
-                song = osudir + tmp;
+                _song = osudir + tmp;
         }
 
         private void GetUserName()
         {
-            foreach (var data in lines)
+            foreach (var data in _lines)
                 if (data.Trim().StartsWith("Username"))
                 {
-                    //MessageBox.Show(data.Split('=')[0].Trim()+"="+data.Split('=')[1].Trim());
-                    username = data.Split('=')[1].Trim();
+                    _username = data.Split('=')[1].Trim();
                     return;
                 }
 
-            username = string.Empty;
+            _username = string.Empty;
         }
 
         private void GetVersion()
         {
-            foreach (var data in lines)
+            foreach (var data in _lines)
             {
-                var Cur = data.Trim();
-                if (Cur.StartsWith("LastVersion"))
+                var cur = data.Trim();
+                if (cur.StartsWith("LastVersion"))
                 {
-                    if (Cur.Split('=')[0].Trim() == "LastVersion")
+                    if (cur.Split('=')[0].Trim() == "LastVersion")
                     {
                         var tmparr = data.Split('=');
-                        ver = tmparr[1].Trim();
+                        _ver = tmparr[1].Trim();
                         return;
                     }
 
-                    if (Cur.Split('=')[0].Trim() == "LastVersionPermissionsFailed")
+                    if (cur.Split('=')[0].Trim() == "LastVersionPermissionsFailed")
                     {
                     }
                 }
             }
 
-            ver = string.Empty;
+            _ver = string.Empty;
         }
 
         private void GetOffset()
         {
             {
-                foreach (var data in lines)
+                foreach (var data in _lines)
                     if (data.Trim().StartsWith("Offset"))
                     {
-                        off = int.Parse(data.Split('=')[1].Trim());
+                        _off = int.Parse(data.Split('=')[1].Trim());
                         break;
                     }
 
-                off = 0;
+                _off = 0;
             }
         }
 
         private void GetCurrentSkin()
         {
-            foreach (var data in lines)
+            foreach (var data in _lines)
                 if (data.StartsWith("Skin = "))
                 {
-                    skin = data.Split('=')[1].Trim();
+                    _skin = data.Split('=')[1].Trim();
                     break;
                 }
         }
@@ -313,28 +322,28 @@ namespace osuTools.GameInfo
         /// </summary>
         public void SaveToFile()
         {
-            var FileName = "OsuInfo.txt";
+            var fileName = "OsuInfo.txt";
             try
             {
-                var f = File.ReadAllLines(FileName);
+                var f = File.ReadAllLines(fileName);
                 var eqsplit = f[0].Split('=')
                     .Where(str => !string.IsNullOrEmpty(str.Trim()) && !string.IsNullOrWhiteSpace(str.Trim()))
                     .ToArray();
 
                 if (CurrentOsuProcess != null)
                 {
-                    var fileNotExist = !File.Exists(cfg);
+                    var fileNotExist = !File.Exists(_cfg);
                     var cfgFileIsInvalid = eqsplit.Length <= 1;
                     if (fileNotExist || cfgFileIsInvalid)
                     {
-                        File.WriteAllText(FileName, $"Osucfg = {cfg}");
+                        File.WriteAllText(fileName, $"Osucfg = {_cfg}");
                         IO.CurrentIO.Write("Information has been saved.");
                     }
                 }
             }
             catch
             {
-                File.WriteAllText(FileName, $"Osucfg = {cfg}");
+                File.WriteAllText(fileName, $"Osucfg = {_cfg}");
             }
         }
 
@@ -345,37 +354,28 @@ namespace osuTools.GameInfo
         {
             /*try
             {*/
-            var FileName = "OsuInfo.txt";
-            //System.Diagnostics.Debug.WriteLine($"ReadFileFrom{FileName}");
-            var strs = File.ReadAllLines(FileName);
+            var fileName = "OsuInfo.txt";
+            var strs = File.ReadAllLines(fileName);
             foreach (var i in strs)
             {
                 var tmp = i.Split('=');
                 if (tmp[0].Trim() == "Osucfg")
                 {
-                    //System.Diagnostics.Debug.WriteLine(tmp[0] + "  " + tmp[1]);
-
-                    cfg = tmp[1].Trim();
-                    if (File.Exists(cfg))
-                        osudir = cfg.Replace($"osu!.{Environment.UserName}.cfg", "");
+                    _cfg = tmp[1].Trim();
+                    if (File.Exists(_cfg))
+                        _osudir = _cfg.Replace($"osu!.{Environment.UserName}.cfg", "");
                     else throw new FileNotFoundException();
                 }
             }
-
-            /*}
-            catch(IOException ioex)
-            {
-                Debug.WriteLine(ioex.Message);
-            }*/
         }
 
         /// <summary>
         ///     将对象中存储的信息写入文件
         /// </summary>
-        /// <param name="FileName"></param>
-        public void WriteConfigToFile(string FileName)
+        /// <param name="fileName"></param>
+        public void WriteConfigToFile(string fileName)
         {
-            File.WriteAllLines(FileName, lines);
+            File.WriteAllLines(fileName, _lines);
         }
 
         /// <summary>
@@ -383,7 +383,7 @@ namespace osuTools.GameInfo
         /// </summary>
         ~OsuInfo()
         {
-            if (runing) SaveToFile();
+            if (_runing) SaveToFile();
         }
     }
 }
