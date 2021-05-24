@@ -14,7 +14,6 @@ namespace osuTools
         /// <summary>
         /// 文件路径
         /// </summary>
-        [JsonIgnore]
         public string FilePath { get; }
         /// <summary>
         /// 使用文件路径初始化<seealso cref="BeatmapSongDurationSqliteDatabase"/>

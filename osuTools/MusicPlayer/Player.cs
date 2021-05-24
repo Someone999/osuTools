@@ -211,15 +211,15 @@ namespace osuTools.MusicPlayer
         /// <summary>
         /// 初始化一个BassMusicPlayer并加载指定的文件
         /// </summary>
-        /// <param name="file"></param>
-        public BassMusicPlayer(string file)
+        /// <param name="url"></param>
+        public BassMusicPlayer(string url)
         {
             State = MediaState.Close;
             OnMediaStateChanged?.Invoke(MediaState.Unknown, MediaState.Close);
             Bass.Init(-1, 48000, 0, IntPtr.Zero);
             _updateTimer.Elapsed += _updateTimer_Elapsed;
             _updateTimer.Interval = 1;
-            Load(file);
+            Load(url);
         }
 
         private void _updateTimer_Elapsed(object sender, ElapsedEventArgs e)
@@ -235,23 +235,27 @@ namespace osuTools.MusicPlayer
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
-        /// <param name="path"></param>
-        public void Load(string path)
+        /// <param name="url"></param>
+        public void Load(string url)
         {
-            _bassHandle = Bass.SampleLoad(path,0,0,1,0);
+            Uri tmpUri = new Uri(url);
+            if (tmpUri.Scheme == "file")
+                _bassHandle = Bass.CreateStream(tmpUri.LocalPath);
+            else
+                _bassHandle = Bass.CreateStream(tmpUri.AbsoluteUri, 0, BassFlags.Default, null);
             var errCode = Bass.LastError;
             if (errCode == Errors.OK)
             {
                 Duration = TimeSpan.FromSeconds(Bass.ChannelBytes2Seconds(_bassHandle,
                     Bass.ChannelGetLength(_bassHandle)));
                 State = MediaState.Open;
-                Source = new Uri(path);
+                Source = new Uri(url);
                 Bass.ChannelGetAttribute(_bassHandle, ChannelAttribute.Frequency, out _audioFreq);
                 OnMediaOpen?.Invoke(new MediaInfo(Source.AbsolutePath));
             }
             else
             {
-                OnMediaFailed?.Invoke(MediaState.Open,new MediaInfo(path,Path.GetFileNameWithoutExtension(path),0),errCode);
+                OnMediaFailed?.Invoke(MediaState.Open,new MediaInfo(url,Path.GetFileNameWithoutExtension(url),0),errCode);
             }
         }
         /// <summary>

@@ -56,8 +56,8 @@ namespace osuTools.MusicPlayer
         /// <summary>
         /// 加载媒体
         /// </summary>
-        /// <param name="file"></param>
-        void Load(string file);
+        /// <param name="url"></param>
+        void Load(string url);
         /// <summary>
         /// 暂停
         /// </summary>
