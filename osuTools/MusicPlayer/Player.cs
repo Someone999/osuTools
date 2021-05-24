@@ -103,9 +103,9 @@ namespace osuTools.MusicPlayer
         /// <summary>
         /// 为<seealso cref="OnPositionChanged"/>事件提供处理器
         /// </summary>
-        /// <param name="oldPosion">上一个播放位置</param>
+        /// <param name="oldPosition">上一个播放位置</param>
         /// <param name="newPosition">当前位置</param>
-        public delegate void PositionChangedEventHandler(TimeSpan oldPosion, TimeSpan newPosition);
+        public delegate void PositionChangedEventHandler(TimeSpan oldPosition, TimeSpan newPosition);
         /// <summary>
         /// 为<seealso cref="OnMediaStateChanged"/>提供事件处理器
         /// </summary>
