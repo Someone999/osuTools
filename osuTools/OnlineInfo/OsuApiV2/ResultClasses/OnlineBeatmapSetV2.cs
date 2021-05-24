@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
+using osuTools.MusicPlayer;
 using osuTools.OnlineInfo.OsuApiV1.OnlineQueries;
 
 namespace osuTools.OnlineInfo.OsuApiV2.ResultClasses
@@ -272,5 +273,12 @@ namespace osuTools.OnlineInfo.OsuApiV2.ResultClasses
         {
             return $"{Artist} - {Title}";
         }
+
+        /// <summary>
+        /// 从互联网加载预览音频
+        /// </summary>
+        /// <returns></returns>
+        public BassMusicPlayer LoadPreviewAudio() =>
+            !string.IsNullOrEmpty(PreviewUrl) ? new BassMusicPlayer(PreviewUrl) : null;
     }
 }
