@@ -246,6 +246,8 @@ namespace osuTools.OsuDB
                                 bpmTime[Math.Round(cur.Bpm, 2)] += offset;
                             cur = nxt;
                         }
+                        if (i >= tmPts.Count - 1 && bpmTime.Count == 0)
+                            bpmTime.Add(Math.Round(cur.Bpm, 2), (DrainTime - TimeSpan.FromMilliseconds(cur.Offset)).TotalMilliseconds);
                     }
 
                     var most = from bpm in bpmTime where bpm.Key > 0 orderby bpm.Value descending select bpm;
