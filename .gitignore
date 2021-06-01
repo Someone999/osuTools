@@ -3,7 +3,8 @@
 /packages
 /osuTools/bin/
 /osuTools/obj/
-/osuTools/Fody*
+/osuTools/FodyWeavers.xml
+/osuTools/FodyWeavers.xsd
 /unorgnized
 /osuLazer
 *.zip
