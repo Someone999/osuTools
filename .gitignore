@@ -3,6 +3,7 @@
 /packages
 /osuTools/bin/
 /osuTools/obj/
+/backup
 /osuTools/FodyWeavers.xml
 /osuTools/FodyWeavers.xsd
 /unorgnized
