@@ -212,11 +212,11 @@ namespace osuTools.Skins
                             if (k.Last().IsDigit())
                             {
                                 currentColumn = k.Last() - '0';
-                                ManiaSettings[currentKey].NoteBodyStyle.SetForColumn(currentColumn, v.ToInt32());
+                                ManiaSettings[currentKey].NoteBodyStyle.SetForColumn(currentColumn, (HoldBodyStyle)v.ToInt32());
                             }
                             else
                             {
-                                ManiaSettings[currentKey].NoteBodyStyle.SetForAllColumns(v.ToInt32());
+                                ManiaSettings[currentKey].NoteBodyStyle.SetForAllColumns((HoldBodyStyle)v.ToInt32());
                             }
                         }
 

@@ -230,6 +230,8 @@
     <Compile Include="Beatmaps\BeatmapFileCreator\IBeatmapFileCreator.cs" />
     <Compile Include="Beatmaps\Beatmap.cs" />
     <Compile Include="Beatmaps\BeatmapCollection.cs" />
+    <Compile Include="Beatmaps\IHasPlayableAudio.cs" />
+    <Compile Include="Beatmaps\IHasPlayableVideo.cs" />
     <Compile Include="Beatmaps\WithOnlineBeatmap.cs" />
     <Compile Include="Beatmaps\WIthOnlineBeatmapV2.cs" />
     <Compile Include="Beatmaps\WithORTDPBeatmap.cs" />
@@ -593,7 +595,7 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties Reactor_Deploy="0" Reactor_Output="" Reactor_Configuration="ALL" Reactor_Project="" Reactor_Commands="" Reactor_Enabled="0" />
+      <UserProperties Reactor_Enabled="0" Reactor_Commands="" Reactor_Project="" Reactor_Configuration="ALL" Reactor_Output="" Reactor_Deploy="0" />
     </VisualStudio>
   </ProjectExtensions>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

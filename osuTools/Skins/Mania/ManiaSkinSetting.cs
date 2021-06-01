@@ -2,6 +2,21 @@
 
 namespace osuTools.Skins.Mania
 {
+    public enum HoldBodyStyle
+    {
+        /// <summary>
+        /// 延展(机器翻译)
+        /// </summary>
+        Stretch = 1,
+        /// <summary>
+        /// 从顶部层叠(机器翻译)
+        /// </summary>
+        CascadeFromTop,
+        /// <summary>
+        /// 从底部层叠(机器翻译)
+        /// </summary>
+        CascadeFromDown
+    }
     /// <summary>
     /// Mania皮肤的设置
     /// </summary>
@@ -32,15 +47,15 @@ namespace osuTools.Skins.Mania
         /// </summary>
         public double BarlineHeight { get; internal set; } = 1.2;
         /// <summary>
-        /// 不明
+        /// 击打Note时闪光的长度和宽度
         /// </summary>
         public string LightingNWidth { get; internal set; } = "";
         /// <summary>
-        /// 不明
+        /// 按住长条时闪光的长度和宽度
         /// </summary>
         public string LightingLWidth { get; internal set; } = "";
         /// <summary>
-        /// 不明
+        /// Note图像高对于宽比例
         /// </summary>
         public double? WidthForNoteHeightScale { get; internal set; } = null;
         /// <summary>
@@ -92,46 +107,46 @@ namespace osuTools.Skins.Mania
         /// </summary>
         public bool UpsideDown { get; internal set; } = false;
         /// <summary>
-        /// 尚未调查清楚
+        /// 在UpsideDown开启时反转Key图像
         /// </summary>
 
         public MultipleColumnsSetting<bool> KeyFlipWhenUpsideDown { get; internal set; } =
             new MultipleColumnsSetting<bool>();
         /// <summary>
-        /// 尚未调查清楚
+        /// 在UpsideDown开启时反转KeyDown图像
         /// </summary>
         public MultipleColumnsSetting<bool> KeyFlipWhenUpsideDownD { get; internal set; } =
             new MultipleColumnsSetting<bool>();
         /// <summary>
-        /// 尚未调查清楚
+        /// 在UpsideDown开启时反转Note图像
         /// </summary>
         public MultipleColumnsSetting<bool> NoteFlipWhenUpsideDown { get; internal set; } =
             new MultipleColumnsSetting<bool>();
         /// <summary>
-        /// 尚未调查清楚
+        /// 在UpsideDown开启时反转长条的图像
         /// </summary>
         public MultipleColumnsSetting<bool> NoteFlipWhenUpsideDownL { get; internal set; } =
             new MultipleColumnsSetting<bool>();
         /// <summary>
-        /// 尚未调查清楚
+        /// 在UpsideDown开启时反转Note的图像
         /// </summary>
         public MultipleColumnsSetting<bool> NoteFlipWhenUpsideDownH { get; internal set; } =
             new MultipleColumnsSetting<bool>();
         /// <summary>
-        /// 尚未调查清楚
+        ///在UpsideDown开启时反转长条尾部的图像
         /// </summary>
         public MultipleColumnsSetting<bool> NoteFlipWhenUpsideDownT { get; internal set; } =
             new MultipleColumnsSetting<bool>();
         /// <summary>
-        /// 尚未调查清楚
+        /// 长条的样式，未观测到三个值的不同之处
         /// </summary>
-        public MultipleColumnsSetting<int> NoteBodyStyle { get; internal set; } = new MultipleColumnsSetting<int>();
+        public MultipleColumnsSetting<HoldBodyStyle> NoteBodyStyle { get; internal set; } = new MultipleColumnsSetting<HoldBodyStyle>();
         /// <summary>
-        /// 尚未调查清楚
+        /// 列的背景颜色
         /// </summary>
         public MultipleColumnsSetting<RgbaColor> Color { get; internal set; } = new MultipleColumnsSetting<RgbaColor>();
         /// <summary>
-        /// 尚未调查清楚
+        /// 列闪光的颜色
         /// </summary>
 
         public MultipleColumnsSetting<RgbColor> ColorLight { get; internal set; } =
@@ -149,15 +164,15 @@ namespace osuTools.Skins.Mania
         /// </summary>
         public RgbColor ColorJudgementLine { get; internal set; } = new RgbColor(255, 255, 255);
         /// <summary>
-        /// 尚未调查清楚
+        /// 键位提示的颜色
         /// </summary>
         public RgbColor ColorKeyWarning { get; internal set; } = new RgbColor(0, 0, 0);
         /// <summary>
-        ///  尚未调查清楚
+        ///  计算长条连击时连击显示器的字体颜色
         /// </summary>
         public RgbaColor ColorHold { get; internal set; } = new RgbaColor(255, 191, 51);
         /// <summary>
-        /// 尚未调查清楚
+        /// 连击中断时连击显示器字体的颜色
         /// </summary>
         public RgbColor ColorBreak { get; internal set; } = new RgbColor(255, 0, 0);
         /// <summary>
