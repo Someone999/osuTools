@@ -1,0 +1,11 @@
+!/osuTools/
+/.vs
+/packages
+/osuTools/bin/
+/osuTools/obj/
+/osuTools/FodyWeavers.xml
+/osuTools/FodyWeavers.xsd
+/unorgnized
+/osuLazer
+*.zip
+unused.txt
