@@ -3,6 +3,7 @@
 /packages
 /osuTools/bin/
 /osuTools/obj/
+/osuTools/Fody*
 /unorgnized
 /osuLazer
 *.zip
