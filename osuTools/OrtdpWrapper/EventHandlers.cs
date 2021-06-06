@@ -361,7 +361,6 @@ namespace osuTools.OrtdpWrapper
                 PreCalculatedPp = 0;
                 if (CurrentMode is IHasPerformanceCalculator m)
                 {
-                    //m.SetBeatmap(Beatmap);
                     if (Beatmap.Mode != OsuGameMode.Osu)
                     {
                         if (Game.Modes.GameMode.FromLegacyMode(Beatmap.Mode) is IHasPerformanceCalculator bm)
@@ -385,11 +384,6 @@ namespace osuTools.OrtdpWrapper
                 if (osuMode || ctbMode || compatibleCtbMode)
                     DifficultyMultiplier =
                         GetDifficultyMul(Beatmap.CircleSize + Beatmap.OverallDifficulty + Beatmap.HpDrain);
-                var dictDur = DurationSqliteDatabase.GetDurationByBeatmapMd5(Beatmap?.Md5.ToString());
-                if (!(dictDur is null))
-                {
-                    _dur = TimeSpan.FromMilliseconds(dictDur.Duration);
-                }
                 if (DebugMode)
                 {
                     if (!(Beatmap is null))
