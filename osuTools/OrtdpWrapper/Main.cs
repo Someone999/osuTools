@@ -3,7 +3,7 @@ using System.IO;
 using System.Threading;
 using System.Windows.Forms;
 using InfoReaderPlugin;
-using InfoReaderPlugin.Plugin.I18n;
+using InfoReaderPlugin.I18n;
 using OsuRTDataProvider;
 using osuTools.Beatmaps;
 using osuTools.OsuDB;
