@@ -5,7 +5,7 @@ namespace osuTools.Exceptions
     /// <summary>
     ///     列表中有任意Mod与要添加的Mod不兼容时引发的异常
     /// </summary>
-    public class ConflictingModExistedException : OsuToolsExceptionBase
+    public class ConflictingModExistedException : osuToolsExceptionBase
     {
         /// <summary>
         ///     使用指定的信息初始化一个ConflictingModExistedException

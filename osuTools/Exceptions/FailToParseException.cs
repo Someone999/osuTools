@@ -5,7 +5,7 @@ namespace osuTools.Exceptions
     /// <summary>
     ///     处理osu文件时出现错误引发的异常。
     /// </summary>
-    public class FailToParseException : OsuToolsExceptionBase
+    public class FailToParseException : osuToolsExceptionBase
     {
         /// <summary>
         ///     使用指定的信息初始化一个FailToParseException

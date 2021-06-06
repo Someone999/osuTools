@@ -5,7 +5,7 @@ namespace osuTools.Exceptions
     /// <summary>
     ///     尝试向列表中添加列表中已存在的Mod时引发的异常
     /// </summary>
-    public class ModExsitedException : OsuToolsExceptionBase
+    public class ModExsitedException : osuToolsExceptionBase
     {
         /// <summary>
         ///     使用指定的信息初始化一个ModExsitedException

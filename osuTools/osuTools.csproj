@@ -224,7 +224,6 @@
     <Compile Include="Attributes\DevelopmentStage.cs" />
     <Compile Include="Attributes\UnreliableAttribute.cs" />
     <Compile Include="Attributes\WorkingInProgressAttribute.cs" />
-    <Compile Include="BeatmapSongDuration.cs" />
     <Compile Include="Beatmaps\BeatmapFileCreator\BeatmapFileCreator.cs" />
     <Compile Include="Beatmaps\BeatmapFileCreator\BeatmapWriter.cs" />
     <Compile Include="Beatmaps\BeatmapFileCreator\IBeatmapFileCreator.cs" />
@@ -253,7 +252,6 @@
     <Compile Include="Collections\CloneableObservableList.cs" />
     <Compile Include="Collections\ObservableList.cs" />
     <Compile Include="Collections\ObservableListEnumerator.cs" />
-    <Compile Include="BeatmapSongDurationSqliteDatabase.cs" />
     <Compile Include="Exceptions\BeatmapNotFoundException.cs" />
     <Compile Include="Exceptions\ConflictingModExistedException.cs" />
     <Compile Include="Exceptions\FailToParseException.cs" />
@@ -595,7 +593,7 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties Reactor_Enabled="0" Reactor_Commands="" Reactor_Project="" Reactor_Configuration="ALL" Reactor_Output="" Reactor_Deploy="0" />
+      <UserProperties Reactor_Deploy="0" Reactor_Output="" Reactor_Configuration="ALL" Reactor_Project="" Reactor_Commands="" Reactor_Enabled="0" />
     </VisualStudio>
   </ProjectExtensions>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

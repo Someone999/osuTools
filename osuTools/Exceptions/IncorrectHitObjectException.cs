@@ -6,7 +6,7 @@ namespace osuTools.Exceptions
     /// <summary>
     ///     当一个HitObject出现在了不该有此类型的HitObject的模式中时引发的异常
     /// </summary>
-    public class IncorrectHitObjectException : OsuToolsExceptionBase
+    public class IncorrectHitObjectException : osuToolsExceptionBase
     {
         /// <summary>
         ///     使用指定的信息初始化一个IncorrectHitObjectException

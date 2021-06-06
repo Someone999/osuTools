@@ -21,8 +21,8 @@
         ///     当分数从非0值变成0时触发的事件
         /// </summary>
         /// <param name="currentStatus"></param>
-        /// <param name="timesofRetry"></param>
-        public delegate void ScoreResetedEventHandler(OrtdpWrapper currentStatus, int timesofRetry);
+        /// <param name="retryTimes"></param>
+        public delegate void ScoreResetEventHandler(OrtdpWrapper currentStatus, int retryTimes);
 
         /// <summary>
         ///     失败时触发的事件
@@ -37,6 +37,6 @@
         /// <summary>
         ///     当分数从非0值变成0时触发的时间
         /// </summary>
-        public event ScoreResetedEventHandler OnScoreReset = (status, retry) => { };
+        public event ScoreResetEventHandler OnScoreReset = (status, retry) => { };
     }
 }

@@ -3,7 +3,7 @@
     /// <summary>
     ///     在指定的文件夹中找不到回放时引发的异常。
     /// </summary>
-    public class NoReplayInFolderException : OsuToolsExceptionBase
+    public class NoReplayInFolderException : osuToolsExceptionBase
     {
         /// <summary>
         ///     使用指定的信息与文件夹初始化一个NoReplayInFolderException

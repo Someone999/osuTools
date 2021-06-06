@@ -3,7 +3,7 @@
     /// <summary>
     ///     找不到与指定条件匹配的回放时引发的异常。
     /// </summary>
-    public class ReplayNotFoundException : OsuToolsExceptionBase
+    public class ReplayNotFoundException : osuToolsExceptionBase
     {
         /// <summary>
         ///     使用指定的信息初始化一个ReplayNotFoundException

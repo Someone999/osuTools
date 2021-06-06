@@ -203,7 +203,6 @@ namespace osuTools.OrtdpWrapper
 
         private void ListenerManagerOnModsChanged(ModsInfo mods)
         {
-            //MessageBox.Show(((int)mods.Mod).ToString());
             Mods.ClearMod();
             foreach (var mod in ModList.FromInteger((int) mods.Mod).Mods.Where(m => m.CheckAndSetForMode(CurrentMode)))
             {
@@ -574,7 +573,7 @@ namespace osuTools.OrtdpWrapper
             if (CurrentStatus == OsuGameStatus.Rank && LastStatus == OsuGameStatus.Playing) _tmper = 1;
             PlayTime = ms;
             _cur = TimeSpan.FromMilliseconds(ms);
-            if ((_cur - _dur).TotalSeconds > 0 &&(_cur - _dur).TotalSeconds <= 1 )
+            if (_cur > _dur)
                 _dur = _cur;
             if (ms <= 0)
             {

@@ -17,11 +17,6 @@ namespace osuTools.OrtdpWrapper
         private double _lastC300Rate;
         private double _tmp;
         /// <summary>
-        /// 谱面曲目的时长字典
-        /// </summary>
-        public BeatmapSongDurationSqliteDatabase DurationSqliteDatabase { get; } =
-            new BeatmapSongDurationSqliteDatabase(".\\InfoReader.db");
-        /// <summary>
         ///     300g或激的数量
         /// </summary>
         [AvailableVariable("Count300g", "LANG_VAR_C300G")]
@@ -683,10 +678,6 @@ namespace osuTools.OrtdpWrapper
             {
                 if (_osuBeatmap == null) return new TimeSpan();
                 if (PlayTime <= _dur.TotalMilliseconds) return _dur;
-                /*else if (time > dur.TotalMilliseconds + 500)
-                {
-                    return TimeSpan.FromMilliseconds(time);
-                }*/
                 return new TimeSpan();
             }
         }
@@ -749,13 +740,8 @@ namespace osuTools.OrtdpWrapper
         /// <summary>
         /// 玩家达到过的最大连击
         /// </summary>
-        public int AchievedMaxCombo
-        {
-            get
-            {
-                return _maxcb = Math.Max(_maxcb, Combo);
-            }
-        }
+        public int AchievedMaxCombo => _maxcb = Math.Max(_maxcb, Combo);
+
         /// <summary>
         ///     当前时间对应的TimeSpan的字符串形式
         /// </summary>
