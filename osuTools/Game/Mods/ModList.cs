@@ -272,9 +272,9 @@ namespace osuTools.Game.Mods
         public void ClearMod()
         {
             _mods.Clear();
-            CalcScoreMul();
-            IsModsRanked();
-            CalcTimeRate();
+            ScoreMultiplier = 1;
+            IsRanked = true;
+            TimeRate = 1;
         }
 
         /// <summary>

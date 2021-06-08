@@ -125,6 +125,11 @@ namespace osuTools.OrtdpWrapper
         public int Combo { get; private set; }
 
         /// <summary>
+        /// 从RealTimePPDisplayer获取的Stars
+        /// </summary>
+        [AvailableVariable("RealTimeStars","null")]
+        public double RealTimeStars => _rtppi.BeatmapTuple.Stars;
+        /// <summary>
         ///     当前的分数
         /// </summary>
         [AvailableVariable("Score", "LANG_VAR_SCORE")]
