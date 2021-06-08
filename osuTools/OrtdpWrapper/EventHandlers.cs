@@ -352,6 +352,7 @@ namespace osuTools.OrtdpWrapper
         {
             try
             {
+                _listenerManager.OnPlayingTimeChanged -= ListenerManagerOnPlayingTimeChanged;
                 OrtdpBeatmap = map;
                 Beatmap = new Beatmaps.Beatmap();
                 if (DebugMode)
@@ -417,6 +418,7 @@ namespace osuTools.OrtdpWrapper
             {
                 IO.CurrentIO.WriteColor($"[osuTools] Exception:{ex}", ConsoleColor.Red);
             }
+            _listenerManager.OnPlayingTimeChanged += ListenerManagerOnPlayingTimeChanged;
         }
 
         private void ListenerManagerOnCountGekiChanged(int hit)
@@ -441,16 +443,16 @@ namespace osuTools.OrtdpWrapper
 
         private void ListenerManagerOnCount50Changed(int hit)
         {
-            if (!string.IsNullOrEmpty(ModShortNames))
-                if (ModShortNames.Contains("PF"))
+            if (Mods.Count > 0)
+                if (Mods.HasMod(new PerfectMod()))
                     RetryCount++;
             Count50 = hit;
         }
 
         private void ListenerManagerOnCountMissChanged(int hit)
         {
-            if (!string.IsNullOrEmpty(ModShortNames))
-                if (ModShortNames.Contains("SD"))
+            if (Mods.Count > 0)
+                if (Mods.Contains(new SuddenDeathMod()))
                     OnFail(this);
             CountMiss = hit;
         }
@@ -567,7 +569,7 @@ namespace osuTools.OrtdpWrapper
             if (CurrentStatus == OsuGameStatus.Rank && LastStatus == OsuGameStatus.Playing) _tmper = 1;
             PlayTime = ms;
             _cur = TimeSpan.FromMilliseconds(ms);
-            if (_cur > _dur)
+            if (_cur > _dur && CurrentStatus == OsuGameStatus.Playing)
                 _dur = _cur;
             if (ms <= 0)
             {
@@ -618,7 +620,7 @@ namespace osuTools.OrtdpWrapper
             var noFail = !CanFail;
             var isPlaying = GameStatus.CurrentStatus == OsuGameStatus.Playing &&
                             GameStatus.LastStatus != OsuGameStatus.Playing;
-            var modsAreValid = Mods.Count != 0 && !ModShortNames.Contains("Unknown");
+            var modsAreValid = Mods.Count != 0;
             if (hp <= 0 && Score > 0 && CanFail && isPlaying && modsAreValid) OnFail(this);
             if (hp <= 0 && Score > 0 && noFail && isPlaying)
                 Task.Run(() =>

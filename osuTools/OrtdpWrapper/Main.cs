@@ -27,9 +27,6 @@ namespace osuTools.OrtdpWrapper
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
             var format = NI18n.GetLanguageElement("LANG_INFO_STH_INITED");
             IO.CurrentIO.Write(string.Format(format, "ORTDP"));
-
-            //OnFail += Failed;
-            Application.ThreadException += Application_ThreadException;
         }
 
         /// <summary>

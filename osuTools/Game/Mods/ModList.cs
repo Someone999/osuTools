@@ -31,37 +31,50 @@ namespace osuTools.Game.Mods
         [AvailableVariable("Mods.ScoreMultiplier", "LANG_VAR_MODSCOREMULTIPLIER")]
         public double ScoreMultiplier
         {
-            get
-            {
-                if (mods.Count == 0) return 1;
-                mods.Sort((x, y) =>
-                    Math.Abs(x.ScoreMultiplier - y.ScoreMultiplier) < double.Epsilon ? 0 : x.ScoreMultiplier > y.ScoreMultiplier ? -1 : 1);
-                var multiplier = mods[0].ScoreMultiplier;
-                double add = 0;
-                if (mods.Count > 1)
-                    for (var i = 1; i < mods.Count; i++)
-                    {
-                        var x = mods[i].ScoreMultiplier;
-                        if (x > 1)
-                        {
-                            if (multiplier > 1)
-                                multiplier += x - 1;
-                            else
-                                multiplier += (x - 1) / 2;
-                            if (multiplier > 1.3) add = 0.02;
-                            else if (multiplier > 1.2) add = 0.01;
-                        }
+            get;
+            private set;
+        }
 
-                        if (x < 1) multiplier *= x;
+        void CalcScoreMul()
+        {
+            if (mods.Count == 0) 
+                ScoreMultiplier = 1;
+            mods.Sort((x, y) =>
+                Math.Abs(x.ScoreMultiplier - y.ScoreMultiplier) < double.Epsilon ? 0 : x.ScoreMultiplier > y.ScoreMultiplier ? -1 : 1);
+            var multiplier = mods[0].ScoreMultiplier;
+            double add = 0;
+            if (mods.Count > 1)
+                for (var i = 1; i < mods.Count; i++)
+                {
+                    var x = mods[i].ScoreMultiplier;
+                    if (x > 1)
+                    {
+                        if (multiplier > 1)
+                            multiplier += x - 1;
+                        else
+                            multiplier += (x - 1) / 2;
+                        if (multiplier > 1.3) add = 0.02;
+                        else if (multiplier > 1.2) add = 0.01;
                     }
 
-                if (multiplier > 1.3) multiplier += 0.03;
-                else if (multiplier > 1.15) multiplier += 0.01;
-                if (multiplier >= 1.39) multiplier += 0.02;
-                if (multiplier < 1)
-                    multiplier += add;
-                multiplier = double.Parse(multiplier.ToString("f2"));
-                return multiplier;
+                    if (x < 1) multiplier *= x;
+                }
+
+            if (multiplier > 1.3) multiplier += 0.03;
+            else if (multiplier > 1.15) multiplier += 0.01;
+            if (multiplier >= 1.39) multiplier += 0.02;
+            if (multiplier < 1)
+                multiplier += add;
+            multiplier = double.Parse(multiplier.ToString("f2"));
+            ScoreMultiplier = multiplier;
+        }
+
+        void CalcTimeRate()
+        {
+            foreach (var m in mods)
+            {
+                if (m is IChangeTimeRateMod changeTimeRateMod)
+                    TimeRate *= changeTimeRateMod.TimeRate;
             }
         }
 
@@ -71,13 +84,8 @@ namespace osuTools.Game.Mods
         [AvailableVariable("Mods.TimeRate", "LANG_VAR_MOD_TIMERATE")]
         public double TimeRate
         {
-            get
-            {
-                foreach (var mod in mods)
-                    if (mod is IChangeTimeRateMod cmod)
-                        return cmod.TimeRate;
-                return 1;
-            }
+            get;
+            private set;
         }
         /// <summary>
         /// 获取或设置指定索引处的Mod
@@ -143,6 +151,8 @@ namespace osuTools.Game.Mods
                 if (mods.Contains(item, comparer))
                     throw new ModExsitedException(item);
                 mods.Add(item);
+                CalcScoreMul();
+                CalcTimeRate();
             }
         }
 
@@ -155,6 +165,8 @@ namespace osuTools.Game.Mods
             foreach (var mod in mods)
                 if (mod == item)
                     mods.Remove(mod);
+            CalcScoreMul();
+            CalcTimeRate();
         }
 
         /// <summary>
@@ -235,6 +247,8 @@ namespace osuTools.Game.Mods
         public void RemoveAt(int index)
         {
             mods.RemoveAt(index);
+            CalcScoreMul();
+            CalcTimeRate();
         }
 
         /// <summary>
@@ -243,6 +257,8 @@ namespace osuTools.Game.Mods
         public void ClearMod()
         {
             mods.Clear();
+            CalcScoreMul();
+            CalcTimeRate();
         }
 
         /// <summary>
@@ -266,7 +282,8 @@ namespace osuTools.Game.Mods
                                 mods.Add(tmpMod);
                         }
                 }
-
+            mods.CalcScoreMul();
+            mods.CalcTimeRate();
             return mods;
         }
 
@@ -277,8 +294,9 @@ namespace osuTools.Game.Mods
         /// <returns></returns>
         public static ModList FromModArray(Mod[] arr)
         {
-            var m = new ModList();
-            m.mods = new List<Mod>(arr);
+            var m = new ModList {mods = new List<Mod>(arr)};
+            m.CalcScoreMul();
+            m.CalcTimeRate();
             return m;
         }
 
