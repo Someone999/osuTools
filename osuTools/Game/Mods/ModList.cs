@@ -14,16 +14,16 @@ namespace osuTools.Game.Mods
     /// </summary>
     public class ModList:IEnumerable<Mod>
     {
-        private List<Mod> mods = new List<Mod>();
+        private List<Mod> _mods = new List<Mod>();
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return mods.GetEnumerator();
+            return _mods.GetEnumerator();
         }
 
         /// <summary>
         ///     Mod数组
         /// </summary>
-        public Mod[] Mods => mods.ToArray();
+        public Mod[] Mods => _mods.ToArray();
 
         /// <summary>
         ///     列表中所有Mod对分数的影响
@@ -37,16 +37,20 @@ namespace osuTools.Game.Mods
 
         void CalcScoreMul()
         {
-            if (mods.Count == 0) 
+            if (_mods.Count == 0)
+            {
                 ScoreMultiplier = 1;
-            mods.Sort((x, y) =>
+                return;
+            }
+
+            _mods.Sort((x, y) =>
                 Math.Abs(x.ScoreMultiplier - y.ScoreMultiplier) < double.Epsilon ? 0 : x.ScoreMultiplier > y.ScoreMultiplier ? -1 : 1);
-            var multiplier = mods[0].ScoreMultiplier;
+            var multiplier = _mods[0].ScoreMultiplier;
             double add = 0;
-            if (mods.Count > 1)
-                for (var i = 1; i < mods.Count; i++)
+            if (_mods.Count > 1)
+                for (var i = 1; i < _mods.Count; i++)
                 {
-                    var x = mods[i].ScoreMultiplier;
+                    var x = _mods[i].ScoreMultiplier;
                     if (x > 1)
                     {
                         if (multiplier > 1)
@@ -71,13 +75,17 @@ namespace osuTools.Game.Mods
 
         void CalcTimeRate()
         {
-            foreach (var m in mods)
+            foreach (var m in _mods)
             {
                 if (m is IChangeTimeRateMod changeTimeRateMod)
                     TimeRate *= changeTimeRateMod.TimeRate;
             }
         }
 
+        void IsModsRanked()
+        {
+            IsRanked = _mods.All(m => m.IsRankedMod);
+        }
         /// <summary>
         ///     列表中Mod对谱面速度的影响
         /// </summary>
@@ -94,21 +102,25 @@ namespace osuTools.Game.Mods
         /// <returns></returns>
         public Mod this[int x]
         {
-            get => mods[x];
-            set => mods[x] = value;
+            get => _mods[x];
+            set => _mods[x] = value;
         }
 
         /// <summary>
         ///     列表中Mod的数量
         /// </summary>
        [AvailableVariable("Mods.Count","LANG_VAR_MOD")]
-        public int Count => mods.Count;
+        public int Count => _mods.Count;
 
         /// <summary>
         ///     是否所有的Mod都为Ranked Mod
         /// </summary>
         [AvailableVariable("Mods.IsRanked", "LANG_VAR_MOD_ISRANKED")]
-        public bool IsRanked => mods.All(mod => mod.IsRankedMod);
+        public bool IsRanked
+        {
+            get;
+            private set;
+        }
 
         /// <summary>
         ///     列表中是否含有指定Mod
@@ -118,7 +130,7 @@ namespace osuTools.Game.Mods
         public bool HasMod(Mod mod)
         {
             var comparer = new ModEqulityComparer();
-            return mods.Contains(mod, comparer);
+            return _mods.Contains(mod, comparer);
         }
 
         /// <summary>
@@ -143,16 +155,17 @@ namespace osuTools.Game.Mods
                 if (item is IHasConflictMods spMod)
                 {
                     var conflict = spMod.ConflictMods;
-                    foreach (var m in mods)
+                    foreach (var m in _mods)
                         if (conflict.Contains(m, comparer))
                             throw new ConflictingModExistedException(item, m);
                 }
 
-                if (mods.Contains(item, comparer))
+                if (_mods.Contains(item, comparer))
                     throw new ModExsitedException(item);
-                mods.Add(item);
+                _mods.Add(item);
                 CalcScoreMul();
                 CalcTimeRate();
+                IsModsRanked();
             }
         }
 
@@ -162,11 +175,12 @@ namespace osuTools.Game.Mods
         /// <param name="item"></param>
         public void Remove(Mod item)
         {
-            foreach (var mod in mods)
+            foreach (var mod in _mods)
                 if (mod == item)
-                    mods.Remove(mod);
+                    _mods.Remove(mod);
             CalcScoreMul();
             CalcTimeRate();
+            IsModsRanked();
         }
 
         /// <summary>
@@ -176,7 +190,7 @@ namespace osuTools.Game.Mods
         public OsuGameMod[] LegacyModList()
         {
             var m = new List<OsuGameMod>();
-            foreach (var mod in mods)
+            foreach (var mod in _mods)
                 if (mod is ILegacyMod l)
                     m.Add(l.LegacyMod);
             return m.ToArray();
@@ -208,7 +222,7 @@ namespace osuTools.Game.Mods
         /// </summary>
         public void Sort()
         {
-            mods.Sort();
+            _mods.Sort();
         }
 
         /// <summary>
@@ -217,7 +231,7 @@ namespace osuTools.Game.Mods
         /// <param name="comparison"></param>
         public void Sort(Comparison<Mod> comparison)
         {
-            mods.Sort(comparison);
+            _mods.Sort(comparison);
         }
 
         /// <summary>
@@ -226,7 +240,7 @@ namespace osuTools.Game.Mods
         /// <param name="comparer"></param>
         public void Sort(IComparer<Mod> comparer)
         {
-            mods.Sort(comparer);
+            _mods.Sort(comparer);
         }
 
         /// <summary>
@@ -237,7 +251,7 @@ namespace osuTools.Game.Mods
         /// <param name="comparer"></param>
         public void Sort(int index, int count, IComparer<Mod> comparer)
         {
-            mods.Sort(index, count, comparer);
+            _mods.Sort(index, count, comparer);
         }
 
         /// <summary>
@@ -246,8 +260,9 @@ namespace osuTools.Game.Mods
         /// <param name="index"></param>
         public void RemoveAt(int index)
         {
-            mods.RemoveAt(index);
+            _mods.RemoveAt(index);
             CalcScoreMul();
+            IsModsRanked();
             CalcTimeRate();
         }
 
@@ -256,8 +271,9 @@ namespace osuTools.Game.Mods
         /// </summary>
         public void ClearMod()
         {
-            mods.Clear();
+            _mods.Clear();
             CalcScoreMul();
+            IsModsRanked();
             CalcTimeRate();
         }
 
@@ -278,7 +294,7 @@ namespace osuTools.Game.Mods
                         if (tmpMod is IHasConflictMods spMod)
                         {
                             var conflict = spMod.ConflictMods;
-                            if (!mods.mods.Any(m => conflict.Contains(m)))
+                            if (!mods._mods.Any(m => conflict.Contains(m)))
                                 mods.Add(tmpMod);
                         }
                 }
@@ -294,7 +310,7 @@ namespace osuTools.Game.Mods
         /// <returns></returns>
         public static ModList FromModArray(Mod[] arr)
         {
-            var m = new ModList {mods = new List<Mod>(arr)};
+            var m = new ModList {_mods = new List<Mod>(arr)};
             m.CalcScoreMul();
             m.CalcTimeRate();
             return m;
@@ -306,7 +322,7 @@ namespace osuTools.Game.Mods
         /// <returns></returns>
         public IEnumerator<Mod> GetEnumerator()
         {
-            return mods.GetEnumerator();
+            return _mods.GetEnumerator();
         }
 
         /// <summary>
@@ -315,12 +331,12 @@ namespace osuTools.Game.Mods
         /// <returns></returns>
         public string GetModsString()
         {
-            if (mods.Count == 0) return "None";
+            if (_mods.Count == 0) return "None";
             var builder = new StringBuilder();
-            for (var i = 0; i < mods.Count; i++)
+            for (var i = 0; i < _mods.Count; i++)
             {
-                builder.Append(mods[i].Name);
-                if (i != mods.Count - 1)
+                builder.Append(_mods[i].Name);
+                if (i != _mods.Count - 1)
                     builder.Append(",");
             }
 
@@ -333,12 +349,12 @@ namespace osuTools.Game.Mods
         /// <returns></returns>
         public string GetShortModsString()
         {
-            if (mods.Count == 0) return "None";
+            if (_mods.Count == 0) return "None";
             var builder = new StringBuilder();
-            for (var i = 0; i < mods.Count; i++)
+            for (var i = 0; i < _mods.Count; i++)
             {
-                builder.Append(mods[i].ShortName);
-                if (i != mods.Count - 1)
+                builder.Append(_mods[i].ShortName);
+                if (i != _mods.Count - 1)
                     builder.Append(",");
             }
 
@@ -352,7 +368,7 @@ namespace osuTools.Game.Mods
         /// <returns></returns>
         public Beatmap ApplyAllMods(Beatmap b)
         {
-            mods.ForEach(mod => mod.Apply(b));
+            _mods.ForEach(mod => mod.Apply(b));
             return b;
         }
 
@@ -363,7 +379,7 @@ namespace osuTools.Game.Mods
         public int ToIntMod()
         {
             var i = 0;
-            foreach (var m in mods)
+            foreach (var m in _mods)
                 if (m is ILegacyMod mod)
                     i |= (int) mod.LegacyMod;
             return i;
