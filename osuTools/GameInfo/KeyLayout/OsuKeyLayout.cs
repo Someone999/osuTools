@@ -11,8 +11,8 @@ namespace osuTools.GameInfo.KeyLayout
     public class OsuKeyLayout
     {
         internal List<string> InternalName = new List<string>(new[] {"keyOsuLeft", "keyOsuRight", "keyOsuSmoke"});
-        private readonly Dictionary<string, Keys> keyandint = new Dictionary<string, Keys>();
-        private readonly string[] lines;
+        private readonly Dictionary<string, Keys> _keyandint = new Dictionary<string, Keys>();
+        private readonly string[] _lines;
 
         /// <summary>
         ///     使用包含按键布局的字符串初始化一个OsuKeyLayout
@@ -20,7 +20,7 @@ namespace osuTools.GameInfo.KeyLayout
         /// <param name="data"></param>
         public OsuKeyLayout(string[] data)
         {
-            lines = data;
+            _lines = data;
             InitKeysDict();
             InitKeyLayout();
             Parse();
@@ -29,10 +29,10 @@ namespace osuTools.GameInfo.KeyLayout
         /// <summary>
         ///     使用配置文件初始化osu的按键布局
         /// </summary>
-        /// <param name="ConfigFile"></param>
-        public OsuKeyLayout(string ConfigFile)
+        /// <param name="configFile"></param>
+        public OsuKeyLayout(string configFile)
         {
-            lines = File.ReadAllLines(ConfigFile);
+            _lines = File.ReadAllLines(configFile);
             InitKeysDict();
             InitKeyLayout();
             Parse();
@@ -49,7 +49,7 @@ namespace osuTools.GameInfo.KeyLayout
             var names = Enum.GetNames(typeof(Keys));
             try
             {
-                for (var i = 0; i < values.Length; i++) keyandint.Add(names[i], (Keys) values.GetValue(i));
+                for (var i = 0; i < values.Length; i++) _keyandint.Add(names[i], (Keys) values.GetValue(i));
             }
             catch(Exception e)
             {
@@ -64,14 +64,14 @@ namespace osuTools.GameInfo.KeyLayout
 
         private void Parse()
         {
-            foreach (var data in lines)
+            foreach (var data in _lines)
             {
                 if (data.StartsWith("keyOsuLeft"))
-                    KeyLayout["Left"] = keyandint.CheckIndexAndGetValue(data.Trim().Split('=')[1].Trim());
+                    KeyLayout["Left"] = _keyandint.CheckIndexAndGetValue(data.Trim().Split('=')[1].Trim());
                 if (data.StartsWith("keyOsuRight"))
-                    KeyLayout["Right"] = keyandint.CheckIndexAndGetValue(data.Trim().Split('=')[1].Trim());
+                    KeyLayout["Right"] = _keyandint.CheckIndexAndGetValue(data.Trim().Split('=')[1].Trim());
                 if (data.StartsWith("keyOsuSmoke"))
-                    KeyLayout["Smoke"] = keyandint.CheckIndexAndGetValue(data.Trim().Split('=')[1].Trim());
+                    KeyLayout["Smoke"] = _keyandint.CheckIndexAndGetValue(data.Trim().Split('=')[1].Trim());
             }
         }
     }

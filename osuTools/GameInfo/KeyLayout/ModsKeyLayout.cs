@@ -17,10 +17,10 @@ namespace osuTools.GameInfo.KeyLayout
             "keyFlashlight", "keyRelax", "keyAutopilot", "keySpunOut", "keyAuto"
         });
 
-        private readonly Dictionary<string, Keys> keyandint = new Dictionary<string, Keys>();
-        private readonly string[] lines;
-        private readonly Dictionary<string, OsuGameMod> modlist = new Dictionary<string, OsuGameMod>();
-        private readonly Dictionary<OsuGameMod, Keys> mods = new Dictionary<OsuGameMod, Keys>();
+        private readonly Dictionary<string, Keys> _keyandint = new Dictionary<string, Keys>();
+        private readonly string[] _lines;
+        private readonly Dictionary<string, OsuGameMod> _modlist = new Dictionary<string, OsuGameMod>();
+        private readonly Dictionary<OsuGameMod, Keys> _mods = new Dictionary<OsuGameMod, Keys>();
 
         internal List<string> Name = new List<string>(new[]
         {
@@ -35,7 +35,7 @@ namespace osuTools.GameInfo.KeyLayout
         public ModsKeyLayout(string[] data)
         {
             InitKeys();
-            lines = data;
+            _lines = data;
             InitModList();
             GetKeys();
         }
@@ -47,7 +47,7 @@ namespace osuTools.GameInfo.KeyLayout
         public ModsKeyLayout(string configfile)
         {
             InitKeys();
-            lines = File.ReadAllLines(configfile);
+            _lines = File.ReadAllLines(configfile);
             InitModList();
             GetKeys();
         }
@@ -58,7 +58,7 @@ namespace osuTools.GameInfo.KeyLayout
             foreach (var modstr in Name)
             foreach (var mod in values)
                 if (mod.ToString() == modstr)
-                    modlist.Add(modstr, (OsuGameMod) mod);
+                    _modlist.Add(modstr, (OsuGameMod) mod);
         }
 
         /// <summary>
@@ -68,13 +68,13 @@ namespace osuTools.GameInfo.KeyLayout
         /// <returns></returns>
         public Keys GetKey(OsuGameMod mod)
         {
-            if (mod.ToString().Contains("Key")) return mods.CheckIndexAndGetValue(OsuGameMod.Relax);
-            return mods.CheckIndexAndGetValue(mod);
+            if (mod.ToString().Contains("Key")) return _mods.CheckIndexAndGetValue(OsuGameMod.Relax);
+            return _mods.CheckIndexAndGetValue(mod);
         }
 
         private string ModConvert(string mod)
         {
-            return modlist.CheckIndexAndGetValue(mod.Trim().Replace("key", "")).ToString();
+            return _modlist.CheckIndexAndGetValue(mod.Trim().Replace("key", "")).ToString();
         }
 
         private void InitKeys()
@@ -83,7 +83,7 @@ namespace osuTools.GameInfo.KeyLayout
             var names = Enum.GetNames(typeof(Keys));
             try
             {
-                for (var i = 0; i < values.Length; i++) keyandint.Add(names[i], (Keys) values.GetValue(i));
+                for (var i = 0; i < values.Length; i++) _keyandint.Add(names[i], (Keys) values.GetValue(i));
             }
             catch(Exception e)
             {
@@ -93,17 +93,17 @@ namespace osuTools.GameInfo.KeyLayout
 
         private void GetKeys()
         {
-            foreach (var data in lines)
+            foreach (var data in _lines)
             foreach (var name in InternalName)
             {
                 var tmp = data.Split('=');
                 if (tmp[0].Trim().Replace("key", "") == ModConvert(name))
                 {
                     var tmpmod = ModConvert(tmp[0].Trim());
-                    var IsValid = tmpmod != OsuGameMod.Unknown.ToString();
-                    if (IsValid)
-                        mods.Add(modlist.CheckIndexAndGetValue(tmpmod.Trim()),
-                            keyandint.CheckIndexAndGetValue(tmp[1].Trim()));
+                    var isValid = tmpmod != OsuGameMod.Unknown.ToString();
+                    if (isValid)
+                        _mods.Add(_modlist.CheckIndexAndGetValue(tmpmod.Trim()),
+                            _keyandint.CheckIndexAndGetValue(tmp[1].Trim()));
                 }
             }
         }

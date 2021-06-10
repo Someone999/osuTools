@@ -106,20 +106,8 @@ namespace osuTools.Game.Mods
         /// </summary>
         /// <param name="legacyMod"></param>
         /// <returns></returns>
-        public static Mod FromLegacyMod(OsuGameMod legacyMod)
-        {
-            var asm = Assembly.GetExecutingAssembly();
-            var types = asm.GetTypes();
-            foreach (var type in types)
-                if (type.GetInterfaces().Any(i => i == typeof(ILegacyMod)))
-                {
-                    var mod = (ILegacyMod) type.GetConstructor(new Type[0])?.Invoke(new object[0]);
-                    if (legacyMod == mod?.LegacyMod)
-                        return (Mod) mod;
-                }
+        public static Mod FromLegacyMod(OsuGameMod legacyMod) => ModList.LegacyMods[legacyMod];
 
-            return null;
-        }
         /// <summary>
         /// 比较两个Mod是否相等
         /// </summary>

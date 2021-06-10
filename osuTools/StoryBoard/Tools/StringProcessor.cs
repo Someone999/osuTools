@@ -23,8 +23,7 @@
         /// <returns>处理后的命令</returns>
         public virtual string Process()
         {
-            string x = "";
-            x += OrignalString;
+            string x = string.Copy(OrignalString);
             while (x.StartsWith(" "))
             {
                 x = x.Remove(0, 1);

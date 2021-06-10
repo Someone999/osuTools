@@ -15,7 +15,7 @@ namespace osuTools.Skins
         /// <typeparam name="T">枚举的类型</typeparam>
         /// <param name="str"></param>
         /// <returns></returns>
-        public static T StringToEnum<T>(string str)
+        public static T StringToEnum<T>(string str) where T: struct
         {
             return (T) Enum.Parse(typeof(T), str);
         }
@@ -82,7 +82,6 @@ namespace osuTools.Skins
             }
 
             if (files.Count == 0)
-                //Debug.WriteLine($"Target file \"{frontFileName}\" can not be found with pattern {pattern}. Fallback method has invoked.");
                 files.Add("default");
 
             return files;

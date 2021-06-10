@@ -11,19 +11,19 @@ namespace osuTools.GameInfo.KeyLayout
     /// </summary>
     public class ManiaKeyLayout
     {
-        private readonly Dictionary<string, Keys> keyandint = new Dictionary<string, Keys>();
-        private Dictionary<int, List<Keys>> layout;
-        private List<KeyValuePair<int, List<Keys>>> layouts;
+        private readonly Dictionary<string, Keys> _keyandint = new Dictionary<string, Keys>();
+        private Dictionary<int, List<Keys>> _layout;
+        private List<KeyValuePair<int, List<Keys>>> _layouts;
 
-        private readonly string[] lines;
+        private readonly string[] _lines;
 
         /// <summary>
         ///     从配置文件中读取Mania的键位信息
         /// </summary>
-        /// <param name="ConfigFile"></param>
-        public ManiaKeyLayout(string ConfigFile)
+        /// <param name="configFile"></param>
+        public ManiaKeyLayout(string configFile)
         {
-            lines = File.ReadAllLines(ConfigFile);
+            _lines = File.ReadAllLines(configFile);
             InitKeysDict();
             InitLayoutDict();
             InitPair();
@@ -36,7 +36,7 @@ namespace osuTools.GameInfo.KeyLayout
         /// <param name="data"></param>
         public ManiaKeyLayout(string[] data)
         {
-            lines = data;
+            _lines = data;
             InitKeysDict();
             InitLayoutDict();
             InitPair();
@@ -46,47 +46,47 @@ namespace osuTools.GameInfo.KeyLayout
         /// <summary>
         ///     1K的键位信息
         /// </summary>
-        public KeyValuePair<int, List<Keys>> Key1 => layouts[0];
+        public KeyValuePair<int, List<Keys>> Key1 => _layouts[0];
 
         /// <summary>
         ///     2K的键位信息
         /// </summary>
-        public KeyValuePair<int, List<Keys>> Key2 => layouts[1];
+        public KeyValuePair<int, List<Keys>> Key2 => _layouts[1];
 
         /// <summary>
         ///     3K的键位信息
         /// </summary>
-        public KeyValuePair<int, List<Keys>> Key3 => layouts[2];
+        public KeyValuePair<int, List<Keys>> Key3 => _layouts[2];
 
         /// <summary>
         ///     4K的键位信息
         /// </summary>
-        public KeyValuePair<int, List<Keys>> Key4 => layouts[3];
+        public KeyValuePair<int, List<Keys>> Key4 => _layouts[3];
 
         /// <summary>
         ///     5K的键位信息
         /// </summary>
-        public KeyValuePair<int, List<Keys>> Key5 => layouts[4];
+        public KeyValuePair<int, List<Keys>> Key5 => _layouts[4];
 
         /// <summary>
         ///     6K的键位信息
         /// </summary>
-        public KeyValuePair<int, List<Keys>> Key6 => layouts[5];
+        public KeyValuePair<int, List<Keys>> Key6 => _layouts[5];
 
         /// <summary>
         ///     7K的键位信息
         /// </summary>
-        public KeyValuePair<int, List<Keys>> Key7 => layouts[6];
+        public KeyValuePair<int, List<Keys>> Key7 => _layouts[6];
 
         /// <summary>
         ///     8K的键位信息
         /// </summary>
-        public KeyValuePair<int, List<Keys>> Key8 => layouts[7];
+        public KeyValuePair<int, List<Keys>> Key8 => _layouts[7];
 
         /// <summary>
         ///     9K的键位信息
         /// </summary>
-        public KeyValuePair<int, List<Keys>> Key9 => layouts[8];
+        public KeyValuePair<int, List<Keys>> Key9 => _layouts[8];
 
         private void InitKeysDict()
         {
@@ -104,7 +104,7 @@ namespace osuTools.GameInfo.KeyLayout
                         names[i] == "LeftAlt" ? "LMenu" :
                         names[i] == "RightAlt" ? "RMenu" : names[i];
 
-                    keyandint.Add(names[i], (Keys) values.GetValue(i));
+                    _keyandint.Add(names[i], (Keys) values.GetValue(i));
                 }
             }
             catch (Exception e)
@@ -115,25 +115,33 @@ namespace osuTools.GameInfo.KeyLayout
 
         private void InitPair()
         {
-            layouts = GetFromDict(layout);
+            _layouts = GetFromDict(_layout);
         }
 
         private void InitLayoutDict()
         {
-            layout = new Dictionary<int, List<Keys>>();
-            layout.Add(1, new List<Keys>(new[] {Keys.Space}));
-            layout.Add(2, new List<Keys>(new[] {Keys.F, Keys.J}));
-            layout.Add(3, new List<Keys>(new[] {Keys.F, Keys.Space, Keys.J}));
-            layout.Add(4, new List<Keys>(new[] {Keys.D, Keys.F, Keys.J, Keys.K}));
-            layout.Add(5, new List<Keys>(new[] {Keys.D, Keys.F, Keys.Space, Keys.J, Keys.K}));
-            layout.Add(6, new List<Keys>(new[] {Keys.S, Keys.D, Keys.F, Keys.J, Keys.K, Keys.L}));
-            layout.Add(7, new List<Keys>(new[] {Keys.S, Keys.D, Keys.F, Keys.Space, Keys.J, Keys.K, Keys.L}));
-            layout.Add(8,
-                new List<Keys>(
-                    new[] {Keys.LShiftKey, Keys.S, Keys.D, Keys.F, Keys.J, Keys.K, Keys.L, Keys.OemSemicolon}));
-            layout.Add(9,
-                new List<Keys>(new[]
-                    {Keys.LShiftKey, Keys.S, Keys.D, Keys.F, Keys.Space, Keys.J, Keys.K, Keys.L, Keys.OemSemicolon}));
+            _layout = new Dictionary<int, List<Keys>>
+            {
+                {1, new List<Keys>(new[] {Keys.Space})},
+                {2, new List<Keys>(new[] {Keys.F, Keys.J})},
+                {3, new List<Keys>(new[] {Keys.F, Keys.Space, Keys.J})},
+                {4, new List<Keys>(new[] {Keys.D, Keys.F, Keys.J, Keys.K})},
+                {5, new List<Keys>(new[] {Keys.D, Keys.F, Keys.Space, Keys.J, Keys.K})},
+                {6, new List<Keys>(new[] {Keys.S, Keys.D, Keys.F, Keys.J, Keys.K, Keys.L})},
+                {7, new List<Keys>(new[] {Keys.S, Keys.D, Keys.F, Keys.Space, Keys.J, Keys.K, Keys.L})},
+                {
+                    8, new List<Keys>(
+                        new[] {Keys.LShiftKey, Keys.S, Keys.D, Keys.F, Keys.J, Keys.K, Keys.L, Keys.OemSemicolon})
+                },
+                {
+                    9,
+                    new List<Keys>(new[]
+                    {
+                        Keys.LShiftKey, Keys.S, Keys.D, Keys.F, Keys.Space, Keys.J, Keys.K, Keys.L,
+                        Keys.OemSemicolon
+                    })
+                }
+            };
         }
 
         internal List<KeyValuePair<int, List<Keys>>> GetFromDict(Dictionary<int, List<Keys>> dict)
@@ -146,7 +154,7 @@ namespace osuTools.GameInfo.KeyLayout
         private void Parse()
         {
             List<Keys> tmp;
-            foreach (var data in lines)
+            foreach (var data in _lines)
             {
                 tmp = new List<Keys>();
                 var keystr = "ManiaLayouts";
@@ -165,10 +173,10 @@ namespace osuTools.GameInfo.KeyLayout
                             if (string.IsNullOrWhiteSpace(maniakey))
                                 continue;
 
-                            tmp.Add(keyandint.CheckIndexAndGetValue(tp.Trim()));
+                            tmp.Add(_keyandint.CheckIndexAndGetValue(tp.Trim()));
                         }
 
-                        layout[keycount - 1] = tmp;
+                        _layout[keycount - 1] = tmp;
                     }
                 }
 

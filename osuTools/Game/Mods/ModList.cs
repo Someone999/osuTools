@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using osuTools.Attributes;
 using osuTools.Beatmaps;
@@ -14,6 +16,40 @@ namespace osuTools.Game.Mods
     /// </summary>
     public class ModList:IEnumerable<Mod>
     {
+        private static IReadOnlyDictionary<OsuGameMod, Mod> _legacyMods;
+        /// <summary>
+        /// <seealso cref="OsuGameMod"/>与<seealso cref="Mod"/>的键值对
+        /// </summary>
+        public static IReadOnlyDictionary<OsuGameMod, Mod> LegacyMods
+        {
+            get
+            {
+                if (_legacyMods is null)
+                {
+                    Dictionary<OsuGameMod, Mod> legacyMods = new Dictionary<OsuGameMod, Mod>();
+                    Assembly asm = typeof(Mod).Assembly;
+                    var types = asm.GetTypes();
+                    foreach(var type in types)
+                    {
+                        var interfaces = type.GetInterfaces();
+                        if (interfaces.Any(i => i == typeof(ILegacyMod)))
+                        {
+                            var legacyMod = type.GetConstructor(new Type[0])?.Invoke(new object[0]) as ILegacyMod;
+                            Mod m = legacyMod as Mod;
+                            if (!(legacyMod is null))
+                                legacyMods.Add(legacyMod.LegacyMod, m ?? throw new InvalidCastException());
+                        }
+                    }
+                    _legacyMods = new ReadOnlyDictionary<OsuGameMod, Mod>(legacyMods);
+                }
+                return _legacyMods;
+            }
+        }
+
+        
+            
+        
+        
         private List<Mod> _mods = new List<Mod>();
         IEnumerator IEnumerable.GetEnumerator()
         {
@@ -206,7 +242,6 @@ namespace osuTools.Game.Mods
             var mods = new ModList();
             if (mod == -1) return mods;
             var s = new string(Convert.ToString(mod, 2).Reverse().ToArray());
-            //Sync.Tools.IO.CurrentIO.Write($"[osuTools::ModList] ModString:{s}.");
             for (var i = 0; i < s.Length; i++)
                 if (s[i] == '1')
                 {

@@ -13,8 +13,8 @@ namespace osuTools.GameInfo.KeyLayout
         internal List<string> InternalName = new List<string>(new[]
             {"keyTaikoInnerLeft", "keyTaikoInnerRight", "keyTaikoOuterLeft", "keyTaikoOuterRight"});
 
-        private readonly Dictionary<string, Keys> keyandint = new Dictionary<string, Keys>();
-        private readonly string[] lines;
+        private readonly Dictionary<string, Keys> _keyandint = new Dictionary<string, Keys>();
+        private readonly string[] _lines;
 
         /// <summary>
         ///     使用格式正确的字符数组构造一个KeyLayout
@@ -22,7 +22,7 @@ namespace osuTools.GameInfo.KeyLayout
         /// <param name="data">要使用的字符数组</param>
         public TaikoKeyLayout(string[] data)
         {
-            lines = data;
+            _lines = data;
             InitKeysDict();
             InitKeyLayout();
             Parse();
@@ -31,10 +31,10 @@ namespace osuTools.GameInfo.KeyLayout
         /// <summary>
         ///     从配置文件读取
         /// </summary>
-        /// <param name="ConfigFile">配置文件的目录</param>
-        public TaikoKeyLayout(string ConfigFile)
+        /// <param name="configFile">配置文件的目录</param>
+        public TaikoKeyLayout(string configFile)
         {
-            lines = File.ReadAllLines(ConfigFile);
+            _lines = File.ReadAllLines(configFile);
             InitKeysDict();
             InitKeyLayout();
             Parse();
@@ -51,7 +51,7 @@ namespace osuTools.GameInfo.KeyLayout
             var names = Enum.GetNames(typeof(Keys));
             try
             {
-                for (var i = 0; i < values.Length; i++) keyandint.Add(names[i], (Keys) values.GetValue(i));
+                for (var i = 0; i < values.Length; i++) _keyandint.Add(names[i], (Keys) values.GetValue(i));
             }
             catch(Exception e)
             {
@@ -70,16 +70,16 @@ namespace osuTools.GameInfo.KeyLayout
 
         private void Parse()
         {
-            foreach (var data in lines)
+            foreach (var data in _lines)
             {
                 if (data.StartsWith("keyTaikoInnerLeft"))
-                    KeyLayout["RedLeft"] = keyandint.CheckIndexAndGetValue(data.Trim().Split('=')[1].Trim());
+                    KeyLayout["RedLeft"] = _keyandint.CheckIndexAndGetValue(data.Trim().Split('=')[1].Trim());
                 if (data.StartsWith("keyTaikoInnerRight"))
-                    KeyLayout["RedRight"] = keyandint.CheckIndexAndGetValue(data.Trim().Split('=')[1].Trim());
+                    KeyLayout["RedRight"] = _keyandint.CheckIndexAndGetValue(data.Trim().Split('=')[1].Trim());
                 if (data.StartsWith("keyTaikoOuterLeft"))
-                    KeyLayout["BlueLeft"] = keyandint.CheckIndexAndGetValue(data.Trim().Split('=')[1].Trim());
+                    KeyLayout["BlueLeft"] = _keyandint.CheckIndexAndGetValue(data.Trim().Split('=')[1].Trim());
                 if (data.StartsWith("keyTaikoOuterRight"))
-                    KeyLayout["BlueRight"] = keyandint.CheckIndexAndGetValue(data.Trim().Split('=')[1].Trim());
+                    KeyLayout["BlueRight"] = _keyandint.CheckIndexAndGetValue(data.Trim().Split('=')[1].Trim());
             }
         }
 

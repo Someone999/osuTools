@@ -106,7 +106,8 @@ namespace osuTools.MD5Tools
                 try
                 {
                     var stringBuilder = new StringBuilder();
-                    foreach (var b in CurrentMD5.Hash) stringBuilder.Append(b.ToString("x2"));
+                    foreach (var b in CurrentMD5.Hash)
+                        stringBuilder.Append(b.ToString("x2"));
                     md5str = stringBuilder.ToString();
                 }
                 catch (NullReferenceException)

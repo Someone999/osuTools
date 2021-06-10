@@ -127,7 +127,7 @@ namespace osuTools.OrtdpWrapper
         /// <summary>
         /// 从RealTimePPDisplayer获取的Stars
         /// </summary>
-        [AvailableVariable("RealTimeStars","null")]
+        [AvailableVariable("RealTimeStars","LANG_VAR_RTSTARS")]
         public double RealTimeStars => _rtppi.BeatmapTuple.Stars;
         /// <summary>
         ///     当前的分数
