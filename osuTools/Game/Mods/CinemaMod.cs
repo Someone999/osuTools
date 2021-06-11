@@ -8,9 +8,9 @@
         /// <inheritdoc />
         public override bool IsRankedMod { get; protected set; } = false;
         /// <inheritdoc />
-        public override string Name { get; protected set; } = "Cinema";
+        public override string Name { get; } = "Cinema";
         /// <inheritdoc />
-        public override string ShortName { get; protected set; } = "CM";
+        public override string ShortName { get; } = "CM";
         /// <inheritdoc />
         public override double ScoreMultiplier { get; protected set; } = 1.0d;
         /// <inheritdoc />

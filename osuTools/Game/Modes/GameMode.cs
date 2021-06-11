@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reflection;
+using System.Windows.Forms;
 using osuTools.Beatmaps;
 using osuTools.Beatmaps.HitObject;
 using osuTools.Game.Mods;
@@ -13,6 +15,37 @@ namespace osuTools.Game.Modes
     /// </summary>
     public abstract class GameMode : IEqualityComparer<GameMode>
     {
+        /// <summary>
+        /// 存储<seealso cref="OsuGameMode"/>和<seealso cref="GameMode"/>的字典
+        /// </summary>
+        public static IReadOnlyDictionary<OsuGameMode, GameMode> LegacyModes
+        {
+            get
+            {
+                if(_legacyGameModes is null)
+                {
+                    Dictionary<OsuGameMode, GameMode> legacyModes = new Dictionary<OsuGameMode, GameMode>();
+                    Assembly asm = typeof(Mod).Assembly;
+                    var types = asm.GetTypes();
+                    foreach (var type in types)
+                    {
+                        var interfaces = type.GetInterfaces();
+                        if (interfaces.Any(i => i == typeof(ILegacyMode)))
+                        {
+                            var legacyMode = type.GetConstructor(new Type[0])?.Invoke(new object[0]) as ILegacyMode;
+                            GameMode m = legacyMode as GameMode;
+                            if (!(legacyMode is null))
+                                legacyModes.Add(legacyMode.LegacyMode, m ?? throw new InvalidCastException());
+                        }
+                    }
+                    _legacyGameModes = new ReadOnlyDictionary<OsuGameMode, GameMode>(legacyModes);
+                }
+                return _legacyGameModes;
+            }
+        }
+
+        private static IReadOnlyDictionary<OsuGameMode, GameMode> _legacyGameModes;
+
         /// <summary>
         ///     模式的名字
         /// </summary>
@@ -143,20 +176,8 @@ namespace osuTools.Game.Modes
         /// </summary>
         /// <param name="legacyMode"></param>
         /// <returns></returns>
-        public static GameMode FromLegacyMode(OsuGameMode legacyMode)
-        {
-            var asm = Assembly.GetExecutingAssembly();
-            var types = asm.GetTypes();
-            foreach (var type in types)
-                if (type.GetInterfaces().Any(i => i == typeof(ILegacyMode)))
-                {
-                    var mode = (ILegacyMode) type.GetConstructor(new Type[0]).Invoke(new object[0]);
-                    if (mode.LegacyMode == legacyMode)
-                        return (GameMode) mode;
-                }
+        public static GameMode FromLegacyMode(OsuGameMode legacyMode) => LegacyModes[legacyMode] ?? new UnknownMode();
 
-            return new UnknownMode();
-        }
         /// <summary>
         /// 判断GameMode和指定的OsuGameMode是否为同一模式
         /// </summary>

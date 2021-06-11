@@ -9,9 +9,9 @@
         /// <inheritdoc />
         public override bool IsRankedMod => true;
         /// <inheritdoc />
-        public override string Name { get; protected set; } = "TouchDevice";
+        public override string Name { get; } = "TouchDevice";
         /// <inheritdoc />
-        public override string ShortName { get; protected set; } = "TD";
+        public override string ShortName { get; } = "TD";
         /// <inheritdoc />
         public override double ScoreMultiplier => 1.0d;
         /// <inheritdoc />
