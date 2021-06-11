@@ -176,7 +176,12 @@ namespace osuTools.Game.Modes
         /// </summary>
         /// <param name="legacyMode"></param>
         /// <returns></returns>
-        public static GameMode FromLegacyMode(OsuGameMode legacyMode) => LegacyModes[legacyMode] ?? new UnknownMode();
+        public static GameMode FromLegacyMode(OsuGameMode legacyMode)
+        {
+            if (_legacyGameModes.ContainsKey(legacyMode))
+                return LegacyModes[legacyMode];
+            return new UnknownMode();
+        }
 
         /// <summary>
         /// 判断GameMode和指定的OsuGameMode是否为同一模式
