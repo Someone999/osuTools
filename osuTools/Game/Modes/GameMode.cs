@@ -25,7 +25,7 @@ namespace osuTools.Game.Modes
                 if(_legacyGameModes is null)
                 {
                     Dictionary<OsuGameMode, GameMode> legacyModes = new Dictionary<OsuGameMode, GameMode>();
-                    Assembly asm = typeof(Mod).Assembly;
+                    Assembly asm = typeof(GameMode).Assembly;
                     var types = asm.GetTypes();
                     foreach (var type in types)
                     {
