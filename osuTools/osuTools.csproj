@@ -270,7 +270,7 @@
     <Compile Include="GameInfo\KeyLayout\ModsKeyLayout.cs" />
     <Compile Include="GameInfo\KeyLayout\OsuKeyLayout.cs" />
     <Compile Include="GameInfo\KeyLayout\TaikoKeyLayout.cs" />
-    <Compile Include="GameInfo\OsuInfo.cs" />
+    <Compile Include="GameInfo\ObsoletedOsuInfo.cs" />
     <Compile Include="Game\GmMode.cs" />
     <Compile Include="Game\GMStatus.cs" />
     <Compile Include="Game\Modes\CatchMode.cs" />
@@ -328,6 +328,7 @@
     <Compile Include="Game\Mods\OsuGameMod.cs" />
     <Compile Include="Game\Modes\OsuGameMode.cs" />
     <Compile Include="Game\Modes\OsuGameModeTools.cs" />
+    <Compile Include="GameInfo\OsuInfo.cs" />
     <Compile Include="Game\OsuGameStatus.cs" />
     <Compile Include="Beatmaps\HitObject\Catch\BananaShower.cs" />
     <Compile Include="Beatmaps\HitObject\Catch\Fruit.cs" />
@@ -580,6 +581,7 @@
     <Compile Include="StoryBoard\Tools\StringProcessor.cs" />
     <Compile Include="Beatmaps\TimePoint\TimePoint.cs" />
     <Compile Include="Beatmaps\TimePoint\TimePointCollection.cs" />
+    <Compile Include="StringStream.cs" />
     <Compile Include="ValueObserver.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -593,7 +595,7 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties Reactor_Deploy="0" Reactor_Output="" Reactor_Configuration="ALL" Reactor_Project="" Reactor_Commands="" Reactor_Enabled="0" />
+      <UserProperties Reactor_Enabled="0" Reactor_Commands="" Reactor_Project="" Reactor_Configuration="ALL" Reactor_Output="" Reactor_Deploy="0" />
     </VisualStudio>
   </ProjectExtensions>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

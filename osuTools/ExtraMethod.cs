@@ -13,6 +13,22 @@ namespace osuTools
     /// </summary>
     public static class ExtraMethod
     {
+        static string RemoveComment(string orignal)
+        {
+            if (orignal.Contains("//"))
+            {
+                int index = 0;
+                for (int i = 0; i < orignal.Length; i++)
+                {
+                    if (orignal[i] == '/' && orignal[i + 1] == '/')
+                        index = i;
+                }
+
+                return orignal.Remove(index).Trim();
+            }
+
+            return orignal;
+        }
         /// <summary>
         ///     将Mod数组转换成ModList
         /// </summary>
@@ -29,7 +45,7 @@ namespace osuTools
         /// <returns></returns>
         public static DateTime? ToNullableDateTime(this string s)
         {
-            return DateTime.TryParse(s, out var d) ? (DateTime?) d : null;
+            return DateTime.TryParse(RemoveComment(s), out var d) ? (DateTime?) d : null;
         }
         /// <summary>
         /// 将字符串转换成DateTime
@@ -38,7 +54,7 @@ namespace osuTools
         /// <returns></returns>
         public static DateTime ToDateTime(this string s)
         {
-            return DateTime.Parse(s);
+            return DateTime.Parse(RemoveComment(s));
         }
 
         /// <summary>
@@ -57,6 +73,7 @@ namespace osuTools
         /// <returns></returns>
         public static bool ToBool(this string s)
         {
+            s = RemoveComment(s);
             return Convert.ToBoolean(s == "1" || string.Equals(s, "True", StringComparison.OrdinalIgnoreCase)
                 ? "True"
                 : "False");
@@ -64,84 +81,93 @@ namespace osuTools
         /// <summary>
         /// 将字符串转换成<see cref="Nullable{Boolean}"/>
         /// </summary>
-        /// <param name="i"></param>
+        /// <param name="s"></param>
         /// <returns></returns>
-        public static bool? ToNullableBool(this string i)
+        public static bool? ToNullableBool(this string s)
         {
-            return string.IsNullOrEmpty(i) ? null : (bool?) Convert.ToBoolean(i == "1" ? "True" : "False");
+            s = RemoveComment(s);
+            return string.IsNullOrEmpty(s) ? null : (bool?) Convert.ToBoolean(s == "1" ? "True" : "False");
         }
         /// <summary>
         /// 将字符串转换成int
         /// </summary>
-        /// <param name="i"></param>
+        /// <param name="s"></param>
         /// <returns></returns>
-        public static int ToInt32(this string i)
+        public static int ToInt32(this string s)
         {
-            return int.Parse(i);
+            s = RemoveComment(s);
+            return int.Parse(s);
         }
         /// <summary>
         ///将字符串转换成<seealso cref="Nullable{Int32}"/>
         /// </summary>
-        /// <param name="i"></param>
+        /// <param name="s"></param>
         /// <returns></returns>
-        public static int? ToNullableInt32(this string i)
+        public static int? ToNullableInt32(this string s)
         {
-            return string.IsNullOrEmpty(i) ? null : (int?) int.Parse(i);
+            s = RemoveComment(s);
+            return string.IsNullOrEmpty(s) ? null : (int?) int.Parse(s);
         }
 
         /// <summary>
         ///将字符串转换成uint
         /// </summary>
-        /// <param name="i"></param>
+        /// <param name="s"></param>
         /// <returns></returns>
-        public static uint ToUInt32(this string i)
+        public static uint ToUInt32(this string s)
         {
-            return uint.Parse(i);
+            s = RemoveComment(s);
+            return uint.Parse(s);
         }
         /// <summary>
         ///将字符串转换成<seealso cref="Nullable{UInt32}"/>
         /// </summary>
-        /// <param name="i"></param>
+        /// <param name="s"></param>
         /// <returns></returns>
-        public static uint? ToNullableUInt32(this string i)
+        public static uint? ToNullableUInt32(this string s)
         {
-            return string.IsNullOrEmpty(i) ? null : (uint?) uint.Parse(i);
+            s = RemoveComment(s);
+            return string.IsNullOrEmpty(s) ? null : (uint?) uint.Parse(s);
         }
         /// <summary>
         ///将字符串转换成double
         /// </summary>
-        /// <param name="i"></param>
+        /// <param name="s"></param>
         /// <returns></returns>
-        public static double ToDouble(this string i)
+        public static double ToDouble(this string s)
         {
-            return double.Parse(i);
+            s = RemoveComment(s);
+            return double.Parse(s);
         }
         /// <summary>
         ///将字符串转换成<seealso cref="Nullable{Double}"/>
         /// </summary>
-        /// <param name="i"></param>
+        /// <param name="s"></param>
         /// <returns></returns>
-        public static double? ToNullableDouble(this string i)
+        public static double? ToNullableDouble(this string s)
         {
-            return string.IsNullOrEmpty(i) ? null : (double?) double.Parse(i);
+            s = RemoveComment(s);
+            return string.IsNullOrEmpty(s) ? null : (double?) double.Parse(s);
         }
         /// <summary>
         /// 将使用任意分隔符隔开的3个数字转换成<seealso cref="RgbColor"/>
         /// </summary>
-        /// <param name="i"></param>
+        /// <param name="s"></param>
         /// <returns></returns>
-        public static RgbColor ToRgbColor(this string i)
+        public static RgbColor ToRgbColor(this string s)
         {
-            return RgbColor.Parse(i);
+            s = RemoveComment(s);
+            return RgbColor.Parse(s);
         }
         /// <summary>
         /// 将使用任意分隔符隔开的4个数字转换成<seealso cref="RgbColor"/>
         /// </summary>
-        /// <param name="i"></param>
+        /// <param name="s"></param>
         /// <returns></returns>
-        public static RgbaColor ToRgbaColor(this string i)
+        public static RgbaColor ToRgbaColor(this string s)
         {
-            return RgbaColor.Parse(i);
+            s = RemoveComment(s);
+            return RgbaColor.Parse(s);
         }
         /// <summary>
         /// 判断字符是不是数字

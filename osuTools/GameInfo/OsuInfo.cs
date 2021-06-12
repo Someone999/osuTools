@@ -1,390 +1,192 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
-using osuTools.Exceptions;
+using System.Threading.Tasks;
 using osuTools.Skins;
-using Sync.Tools;
+using Sync.Command;
 
 namespace osuTools.GameInfo
 {
     /// <summary>
-    ///     表示最基本的游戏信息
+    /// 包含游戏的基础信息与配置文件信息
     /// </summary>
     public class OsuInfo
     {
         [DllImport("kernel32")]
         private static extern bool IsWow64Process(IntPtr hProcess, ref bool wow64Process);
-        private string _cfg;
-        private KeyBinding.KeyBinding _d;
-        private string[] _lines;
-        private int _off = -2;
-        private bool _running;
-        private Skin _sk;
-        private string _ver, _song, _osudir, _username, _skin;
 
+        private readonly Dictionary<string, string> _dataDictionary = new Dictionary<string, string>();
         /// <summary>
-        ///     初始化一个OsuInfo对象
+        /// 当前的osu!进程
         /// </summary>
-        public OsuInfo()
+        public Process CurrentProcess { get; private set; }
+        Process FindOsuProcess()
         {
-            Init();
-        }
-
-        /// <summary>
-        ///     获取当前的皮肤，尚未完工。
-        /// </summary>
-        public Skin CurrentSkin
-        {
-            get
+            var processes = Process.GetProcessesByName("osu!");
+            foreach (var process in processes)
             {
-                _sk = new Skin(CurrentSkinDir);
-                return _sk;
+                bool isWow64 = true;
+                if (Environment.Is64BitOperatingSystem)
+                    IsWow64Process(process.Handle, ref isWow64);
+                if (process.ProcessName == "osu!" && process.MainWindowTitle == "osu!" && isWow64)
+                {
+                    CurrentProcess = process;
+                }
             }
+            return CurrentProcess;
         }
-
         /// <summary>
-        ///     快捷键的获取，实验功能。
+        /// 当前osu!的配置文件的路径
         /// </summary>
-        public KeyBinding.KeyBinding ShortcutKeys => _d ?? (_d = new KeyBinding.KeyBinding(_lines));
-
+        public string ConfigFilePath { get; private set; }
         /// <summary>
-        ///     osu!的窗口句柄
-        /// </summary>
-        public IntPtr WindowHanle => CurrentOsuProcess.MainWindowHandle;
-
-        /// <summary>
-        ///     osu!的进程句柄
-        /// </summary>
-        public IntPtr ProcessHandle => CurrentOsuProcess.Handle;
-
-        /// <summary>
-        ///     osu!当前的窗口标题
-        /// </summary>
-        public string Title => CurrentOsuProcess.MainWindowTitle;
-
-        /// <summary>
-        ///     osu!的PID
-        /// </summary>
-        public int ProcessId => CurrentOsuProcess.Id;
-
-        /// <summary>
-        ///     当前存放osu!进程信息的System.Diagnostics.Process对象
-        /// </summary>
-        public Process CurrentOsuProcess { get; private set; }
-
-        /// <summary>
-        ///     osu!所在文件夹的全路径。
+        /// osu!主程序所在目录
         /// </summary>
         public string OsuDirectory
         {
             get
             {
-                if (CurrentOsuProcess != null) return CurrentOsuProcess.MainModule?.FileName.Replace("osu!.exe", "") ?? "";
-                return _osudir;
+                string cfg = ConfigFilePath;
+                string cfgFile = Path.GetFileName(cfg);
+                return cfg.Replace(cfgFile, "");
             }
         }
-
         /// <summary>
-        ///     获取存储谱面的文件夹的名称
+        /// 谱面目录
         /// </summary>
-        public string BeatmapDirectory
-        {
-            get
-            {
-                if (string.IsNullOrEmpty(_song))
-                    GetSongDir();
-                return _song;
-            }
-            set => SetValue("BeatmapDirectory", value);
-        }
-
+        public string BeatmapDirectory => Path.Combine(OsuDirectory, _dataDictionary["BeatmapDirectory"]);
         /// <summary>
-        ///     获取osu!当前登录用户的用户名
+        /// 当前登录用户的用户名
         /// </summary>
-        public string UserName
-        {
-            get
-            {
-                if (string.IsNullOrEmpty(_username))
-                    GetUserName();
-                return _username;
-            }
-        }
+        public string LogonUserName => _dataDictionary["Username"];
 
+        private Skin _skin;
         /// <summary>
-        ///     获取当前osu!的版本
+        /// 上次启动游戏时所用的皮肤
         /// </summary>
-        public string OsuVersion
-        {
-            get
-            {
-                if (string.IsNullOrEmpty(_ver))
-                    GetVersion();
-                return _ver;
-            }
-        }
-
+        public Skin CurrentSkin => _skin ?? (_skin = new Skin(Path.Combine(OsuDirectory,"Skins",_dataDictionary["Skin"])));
         /// <summary>
-        ///     获取当前的全局偏移量
+        /// 当前版本
         /// </summary>
-        public int OverallOffset
-        {
-            get
-            {
-                if (_off == -2) GetOffset();
-                return _off;
-            }
-        }
-
+        public string Version => _dataDictionary["LastVersion"];
         /// <summary>
-        ///     获取当前皮肤的全路径
+        /// 最早的可登录版本
         /// </summary>
-        public string CurrentSkinDir
+        public string LastPermissionFailsVersion => _dataDictionary["LastVersionPermissionsFailed"];
+        Dictionary<string,string> ReadIniFile(string file)
         {
-            get
+            if (!File.Exists(file))
+                return new Dictionary<string, string>();
+            Dictionary<string, string> tmpDictionary = new Dictionary<string, string>();
+            string[] lines = File.ReadAllLines(file);
+            int commentLines = 0;
+            foreach (var line in lines)
             {
-                if (string.IsNullOrEmpty(_skin)) GetCurrentSkin();
-                return Path.Combine(SkinDir, _skin);
-            }
-            set
-            {
-                SetValue("Skin", value);
-                _skin = value;
-            }
-        }
-
-        /// <summary>
-        ///     获取存放皮肤的文件夹的全路径
-        /// </summary>
-        public string SkinDir => _osudir + "skins";
-
-        private void Init()
-        {
-            try
-            {
-                var processes = Process.GetProcessesByName("osu!");
-                foreach (var process in processes)
+                if (line.Trim().StartsWith("#"))
                 {
-                    bool isWow64 = true;
-                    if(Environment.Is64BitOperatingSystem)
-                        IsWow64Process(process.Handle, ref isWow64);
-                    if (process.ProcessName == "osu!" && process.MainWindowTitle == "osu!" && isWow64)
-                    {
-                        CurrentOsuProcess = process;
-                        _running = true;
-                    }
+                    tmpDictionary.Add($"#Comment{commentLines}", line);
+                    commentLines++;
                 }
 
-                if (CurrentOsuProcess is null)
-                {
-                    ReadFromFile();
-                    _lines = File.ReadAllLines(_cfg);
-                }
-                
-                StringBuilder osudir;
-                if (OsuDirectory != null)
-                {
-                    osudir = new StringBuilder(OsuDirectory);
-                }
-                else
-                {
-                    ReadFromFile();
-                    osudir = new StringBuilder(this._osudir);
-                }
-
-                var user = new StringBuilder("osu!.");
-                user.Append(Environment.UserName + ".cfg");
-                osudir.Replace("osu!.exe", user.ToString());
-                _cfg = osudir + user.ToString();
-                _lines = File.ReadAllLines(_cfg);
-                _osudir = osudir.ToString();
-                SaveToFile();
+                string[] pair = line.Split('=');
+                if(pair.Length < 2)
+                    continue;
+                string propertyName = pair[0].Trim(),propertyValue = pair[1].Trim();
+                tmpDictionary.Add(propertyName,propertyValue);
             }
-            catch (NullReferenceException e)
-            {
-                ReadFromFile();
-                _lines = File.ReadAllLines(_cfg);
-                if (BeatmapDirectory == null)
-                    throw new FailToParseException($"未能从文件读取，异常:{e.Message}");
-            }
-            catch (IndexOutOfRangeException e)
-            {
-                ReadFromFile();
-                _lines = File.ReadAllLines(_cfg);
-                if (BeatmapDirectory == null)
-                    throw new FailToParseException($"未能从文件读取，异常:{e.Message}");
-            }
+            return tmpDictionary;
         }
-
-        private void SetValue(string name, string destVal)
+        void SaveAsIni(string file = "OsuInfo.ini")
         {
-            for (var i = 0; i < _lines.Length; i++)
+            if(!string.IsNullOrEmpty(ConfigFilePath))
+                File.WriteAllText(file,$"ConfigFilePath = {ConfigFilePath}");
+        } 
+        void ReadFromFile(string file = "OsuInfo.ini")
+        {
+            if (!File.Exists(file))
+                return;
+            var tmp = ReadIniFile(file);
+            if(tmp.ContainsKey("ConfigFilePath"))
             {
-                var data = _lines[i];
-                if (data.Contains(name))
-                {
-                    var tmp = data.Split('=');
-                    data = data.Replace(tmp[1].Trim(), destVal);
-                    _lines[i] = data;
-                    //MessageBox.Show(data);
-                }
+                ConfigFilePath = tmp["ConfigFilePath"];
             }
         }
-
         /// <summary>
-        ///     强制关闭osu!
+        /// 初始化新的OsuInfo对象
         /// </summary>
-        public void KillGame()
+        public OsuInfo()
         {
-            CurrentOsuProcess.Kill();
-        }
-
-        private void GetSongDir()
-        {
-            var osudir = CurrentOsuProcess != null ? OsuDirectory : _osudir;
-            var tmp = string.Empty;
-            foreach (var data in _lines)
-                if (data.Trim().StartsWith("BeatmapDirectory"))
-                {
-                    tmp = data.Split('=')[1].Trim();
-                    break;
-                }
-
-            if (string.IsNullOrWhiteSpace(tmp))
-                _song = string.Empty;
-            else
-                _song = osudir + tmp;
-        }
-
-        private void GetUserName()
-        {
-            foreach (var data in _lines)
-                if (data.Trim().StartsWith("Username"))
-                {
-                    _username = data.Split('=')[1].Trim();
-                    return;
-                }
-
-            _username = string.Empty;
-        }
-
-        private void GetVersion()
-        {
-            foreach (var data in _lines)
+            if (FindOsuProcess() != null)
             {
-                var cur = data.Trim();
-                if (cur.StartsWith("LastVersion"))
-                {
-                    if (cur.Split('=')[0].Trim() == "LastVersion")
-                    {
-                        var tmparr = data.Split('=');
-                        _ver = tmparr[1].Trim();
-                        return;
-                    }
-
-                    if (cur.Split('=')[0].Trim() == "LastVersionPermissionsFailed")
-                    {
-                    }
-                }
+                string fullPath = CurrentProcess.MainModule?.FileName.Replace("osu!.exe", "");
+                ConfigFilePath = Path.Combine(fullPath ?? throw new InvalidOperationException(),
+                    $"osu!.{Environment.UserName}.cfg");
+                if (!File.Exists(ConfigFilePath))
+                    throw new FileNotFoundException();
+                SaveAsIni();
             }
-
-            _ver = string.Empty;
+            else ReadFromFile();
+            var tmp = ReadIniFile(ConfigFilePath);
+            foreach (var pair in tmp)
+                _dataDictionary.Add(pair.Key, pair.Value);
         }
-
-        private void GetOffset()
-        {
-            {
-                foreach (var data in _lines)
-                    if (data.Trim().StartsWith("Offset"))
-                    {
-                        _off = int.Parse(data.Split('=')[1].Trim());
-                        break;
-                    }
-
-                _off = 0;
-            }
-        }
-
-        private void GetCurrentSkin()
-        {
-            foreach (var data in _lines)
-                if (data.StartsWith("Skin = "))
-                {
-                    _skin = data.Split('=')[1].Trim();
-                    break;
-                }
-        }
-
         /// <summary>
-        ///     将配置文件的路径存储到文件
+        /// 返回指定属性的值
         /// </summary>
-        public void SaveToFile()
+        /// <param name="propertyName">属性名称</param>
+        /// <returns>存在返回值，不存在返回null</returns>
+        public string GetPropertyValue(string propertyName)
         {
-            var fileName = "OsuInfo.txt";
-            try
-            {
-                var f = File.ReadAllLines(fileName);
-                var eqsplit = f[0].Split('=')
-                    .Where(str => !string.IsNullOrEmpty(str.Trim()) && !string.IsNullOrWhiteSpace(str.Trim()))
-                    .ToArray();
-
-                if (CurrentOsuProcess != null)
-                {
-                    var fileNotExist = !File.Exists(_cfg);
-                    var cfgFileIsInvalid = eqsplit.Length <= 1;
-                    if (fileNotExist || cfgFileIsInvalid)
-                    {
-                        File.WriteAllText(fileName, $"Osucfg = {_cfg}");
-                        IO.CurrentIO.Write("Information has been saved.");
-                    }
-                }
-            }
-            catch
-            {
-                File.WriteAllText(fileName, $"Osucfg = {_cfg}");
-            }
+            if (propertyName.StartsWith("#"))
+                throw new ArgumentException("请使用GetComments获取所有注释。", nameof(propertyName));
+            if (_dataDictionary.ContainsKey(propertyName))
+                return _dataDictionary[propertyName];
+            return null;
         }
-
         /// <summary>
-        ///     从文件读取信息
+        /// 设置指定属性的值，如果指定的属性不存在则不会进行任何操作
         /// </summary>
-        public void ReadFromFile()
+        /// <param name="propertyName">属性名</param>
+        /// <param name="value">要设置的值</param>
+        public void SetProperty(string propertyName, string value)
         {
-            /*try
-            {*/
-            var fileName = "OsuInfo.txt";
-            var strs = File.ReadAllLines(fileName);
-            foreach (var i in strs)
+            if (propertyName.StartsWith("#"))
+                throw new ArgumentException("属性名无效", nameof(propertyName));
+            if (_dataDictionary.ContainsKey(propertyName))
+                _dataDictionary[propertyName] = value;
+        }
+        /// <summary>
+        /// 获取所有的注释
+        /// </summary>
+        /// <returns></returns>
+        public string[] GetComments()
+        {
+            List<string> comments = new List<string>();
+            foreach (var keyValuePair in _dataDictionary)
             {
-                var tmp = i.Split('=');
-                if (tmp[0].Trim() == "Osucfg")
-                {
-                    _cfg = tmp[1].Trim();
-                    if (File.Exists(_cfg))
-                        _osudir = _cfg.Replace($"osu!.{Environment.UserName}.cfg", "");
-                    else throw new FileNotFoundException();
-                }
+                if(keyValuePair.Key.StartsWith("#Comment"))
+                    comments.Add(keyValuePair.Value);
             }
+            return comments.ToArray();
         }
-
         /// <summary>
-        ///     将对象中存储的信息写入文件
+        /// 将字典里的数据按照原文件中的顺序写入流
         /// </summary>
-        /// <param name="fileName"></param>
-        public void WriteConfigToFile(string fileName)
+        /// <param name="stream">要写入的流</param>
+        public void Save(Stream stream)
         {
-            File.WriteAllLines(fileName, _lines);
-        }
-
-        /// <summary>
-        ///     如果osu!在运行，则在析构时将配置文件的路径保存至文件
-        /// </summary>
-        ~OsuInfo()
-        {
-            if (_running) SaveToFile();
+            if (stream is null)
+                throw new ArgumentNullException(nameof(stream), "Stream不能为null");
+            StringBuilder builder = new StringBuilder();
+            foreach (var data in _dataDictionary)
+                builder.AppendLine(data.Key.StartsWith("#Comment") ? data.Value : $"{data.Key} = {data.Value}");
+            byte[] dataBytes = builder.ToString().ToBytes();
+            stream.Write(dataBytes,0,dataBytes.Length);
         }
     }
 }

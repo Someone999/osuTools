@@ -28,14 +28,21 @@ namespace osuTools.Skins
                 _data = File.ReadAllLines(skinConfigFile);
                 _files = Directory.GetFiles(ConfigFileDirectory.Replace("skin.ini", ""), "*.*",
                     SearchOption.TopDirectoryOnly);
-                Task.Run(GetInfo);
-                Task.Run(GetModsImages);
-                Task.Run(GetOsuSkinImage);
-                Task.Run(GetCatchSkinImage);
-                Task.Run(GetTaikoSkinImage);
-                Task.Run(GetManiaSkinImages);
-                Task.Run(GetGenericSkinImage);
-                Task.Run(GetSkinSound);
+                GetInfo();
+                Task[] tasks =
+                {
+                    Task.Run(GetModsImages),
+                    Task.Run(GetOsuSkinImage),
+                    Task.Run(GetCatchSkinImage),
+                    Task.Run(GetTaikoSkinImage),
+                    Task.Run(GetManiaSkinImages),
+                    Task.Run(GetGenericSkinImage),
+                    Task.Run(GetSkinSound),
+                };
+                foreach (var task in tasks)
+                {
+                    task.Wait();
+                }
             }
             else
             {

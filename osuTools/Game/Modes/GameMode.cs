@@ -178,7 +178,7 @@ namespace osuTools.Game.Modes
         /// <returns></returns>
         public static GameMode FromLegacyMode(OsuGameMode legacyMode)
         {
-            if (_legacyGameModes.ContainsKey(legacyMode))
+            if (LegacyModes.ContainsKey(legacyMode))
                 return LegacyModes[legacyMode];
             return new UnknownMode();
         }
