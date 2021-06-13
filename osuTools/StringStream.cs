@@ -74,9 +74,9 @@ namespace osuTools
             _strBytes = new byte[4];
         }
         /// <summary>
-        /// 使用指定的容量和编码器初始化StringStream，编码默认为UTF8
+        /// 使用指定的初始容量和编码器初始化StringStream，编码默认为UTF8
         /// </summary>
-        /// <param name="capacity">容量</param>
+        /// <param name="capacity">初始容量</param>
         /// <param name="encoding">编码器，默认为UTF8</param>
         public StringStream(int capacity, Encoding encoding = null)
         {
@@ -119,10 +119,8 @@ namespace osuTools
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
-        public override long Seek(long offset, SeekOrigin origin)
-        {
-            throw new NotSupportedException("为了避免字符串损坏，不允许对字符串流进行Seek");
-        }
+        public override long Seek(long offset, SeekOrigin origin) => throw new NotSupportedException("为了避免字符串损坏，不允许对字符串流进行Seek");
+
         /// <summary>
         /// 将字符串写入流
         /// </summary>

@@ -93,7 +93,12 @@ namespace osuTools.GameInfo
                     commentLines++;
                 }
 
-                string[] pair = line.Split('=');
+                int index = line.IndexOf('=');
+                string[] pair =
+                {
+                    line.Substring(0,index),
+                    line.Substring(index + 1)
+                };
                 if(pair.Length < 2)
                     continue;
                 string propertyName = pair[0].Trim(),propertyValue = pair[1].Trim();
