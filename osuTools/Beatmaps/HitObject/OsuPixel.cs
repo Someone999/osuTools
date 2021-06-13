@@ -86,7 +86,7 @@ namespace osuTools.Beatmaps.HitObject
         {
             var ax = x + value * b.x;
             var ay = y + value * b.y;
-            return new OsuPixel(x, y);
+            return new OsuPixel(ax, ay);
         }
        /// <summary>
        /// <inheritdoc/>
