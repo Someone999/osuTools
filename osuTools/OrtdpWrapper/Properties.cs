@@ -19,8 +19,9 @@ namespace osuTools.OrtdpWrapper
         /// <summary>
         ///     300g或激的数量
         /// </summary>
-        [AvailableVariable("Count300g", "LANG_VAR_C300G")]
+        [AvailableVariable("CountGeki", "LANG_VAR_C300G")]
         [Alias("c300g")]
+        [Alias("Count300g")]
         public int CountGeki { get; private set; }
 
         /// <summary>
@@ -33,8 +34,9 @@ namespace osuTools.OrtdpWrapper
         /// <summary>
         ///     200或喝的数量
         /// </summary>
-        [AvailableVariable("Count200", "LANG_VAR_C200")]
+        [AvailableVariable("CountKatu", "LANG_VAR_C200")]
         [Alias("c200")]
+        [Alias("Count200")]
         public int CountKatu { get; private set; }
 
         /// <summary>
@@ -89,7 +91,7 @@ namespace osuTools.OrtdpWrapper
         /// 测试用Catch pp
         /// </summary>
 
-        [AvailableVariable("TestCatchPP", "NONE")]
+        //[AvailableVariable("TestCatchPP", "NONE")]
         public double TestCatchPp
         {
             get

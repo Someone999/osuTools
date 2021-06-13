@@ -56,11 +56,18 @@ namespace osuTools.Skins
         public Skin()
         {
             ConfigFileDirectory = null;
-            Task.Run(GetModsImages);
-            Task.Run(GetOsuSkinImage);
-            Task.Run(GetCatchSkinImage);
-            Task.Run(GetTaikoSkinImage);
-            Task.Run(GetManiaSkinImages);
+            Task[] tasks =
+            {
+                Task.Run(GetModsImages),
+                Task.Run(GetOsuSkinImage),
+                Task.Run(GetCatchSkinImage),
+                Task.Run(GetTaikoSkinImage),
+                Task.Run(GetManiaSkinImages)
+            };
+            foreach (var task in tasks)
+            {
+                task.Wait();
+            }
         }
 
         /// <summary>

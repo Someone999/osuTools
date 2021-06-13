@@ -48,8 +48,6 @@ namespace osuTools.OrtdpWrapper
 
         [NonSerialized] private OsuRTDataProviderPlugin _p;
 
-        //[NonSerialized] private SyncPPInfo _ppinfo;
-
         [NonSerialized] private RtppdInfo _rtppi;
 
         private double _tmper;

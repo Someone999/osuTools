@@ -32,11 +32,11 @@ namespace osuTools.OrtdpWrapper
         /// <summary>
         ///     使用<see cref="OsuRTDataProvider.OsuRTDataProviderPlugin" />辅助构建ORTDP类
         /// </summary>
-        public OrtdpWrapper(OsuRTDataProviderPlugin p)
+        public OrtdpWrapper(OsuRTDataProviderPlugin ortdp)
         {
             _beatmapDb = new OsuBeatmapDB();
             Beatmap = new Beatmap();
-            InitLisenter(p);
+            InitLisenter(ortdp);
             Application.ThreadException += Application_ThreadException;
             var format = NI18n.GetLanguageElement("LANG_INFO_STH_INITED");
             IO.CurrentIO.Write(string.Format(format, "ORTDP"));
@@ -46,15 +46,15 @@ namespace osuTools.OrtdpWrapper
         ///     使用<see cref="OsuRTDataProvider.OsuRTDataProviderPlugin" />及
         ///     <see cref="RealTimePPDisplayer.RealTimePPDisplayerPlugin" />辅助构建ORTDP类
         /// </summary>
-        public OrtdpWrapper(OsuRTDataProviderPlugin p, RealTimePPDisplayerPlugin rp, RtppdInfo d)
+        public OrtdpWrapper(OsuRTDataProviderPlugin ortdp, RealTimePPDisplayerPlugin rtppd, RtppdInfo d)
         {
             _beatmapDb = new OsuBeatmapDB();
             Beatmap = new Beatmap();
 
-            _arp = rp ?? new RealTimePPDisplayerPlugin();
+            _arp = rtppd ?? new RealTimePPDisplayerPlugin();
             _rtppi = d ?? new RtppdInfo();
-            _arp.RegisterDisplayer("osuToolsDisplayer", id => _rtppi = new RtppdInfo());
-            InitLisenter(p);
+            _arp.RegisterDisplayer("osuToolsDisplayer", id => _rtppi = _rtppi ?? new RtppdInfo());
+            InitLisenter(ortdp);
             var format = NI18n.GetLanguageElement("LANG_INFO_STH_INITED");
             IO.CurrentIO.Write(string.Format(format, "ORTDP"));
             Application.ThreadException += Application_ThreadException;

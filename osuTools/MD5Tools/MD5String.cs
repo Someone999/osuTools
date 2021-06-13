@@ -114,8 +114,6 @@ namespace osuTools.MD5Tools
                 {
                     md5str = string.Empty;
                 }
-
-                
             }
         }
 
