@@ -18,7 +18,6 @@ namespace osuTools.Skins.Taiko
         public TaikoSkinImage(string fileName, string fullFileName)
         {
             FileName = fileName;
-            var type = fileName.Replace(".png", "");
             FullPath = fullFileName;
         }
         ///<inheritdoc/>
@@ -39,7 +38,7 @@ namespace osuTools.Skins.Taiko
         {
             var tmpname = FileName.Replace(".png", "@2x.png");
             var tmppath = Path.GetDirectoryName(FullPath);
-            if (File.Exists(Path.Combine(tmppath, tmpname)))
+            if (File.Exists(Path.Combine(tmppath??throw new InvalidOperationException(), tmpname)))
                 return new TaikoSkinImage(tmpname, Path.Combine(tmppath, tmpname));
             throw new FileNotFoundException("没有找到该皮肤文件的@2x版本。");
         }

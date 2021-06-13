@@ -18,7 +18,6 @@ namespace osuTools.Skins.Game.Menu
         public MenuButton(string fileName, string fullFileName) : base(fileName, fullFileName)
         {
             FileName = fileName;
-            var type = fileName.Replace(".png", "");
             FullPath = fullFileName;
         }
 

@@ -10,7 +10,7 @@
         /// </summary>
         /// <param name="normalSet"></param>
         /// <param name="additionSet"></param>
-        public EdgeSound(SampleSets normalSet, SampleSets additionSet)
+        public EdgeSound(SampleSets normalSet = SampleSets.Default, SampleSets additionSet = SampleSets.Default)
         {
             NormalSet = normalSet;
             AdditionSet = additionSet;
@@ -19,12 +19,12 @@
         /// <summary>
         ///     普通预设音效
         /// </summary>
-        public SampleSets NormalSet { get; set; } = SampleSets.Default;
+        public SampleSets NormalSet { get; set; }
 
         /// <summary>
         ///     附加预设音效
         /// </summary>
-        public SampleSets AdditionSet { get; set; } = SampleSets.Default;
+        public SampleSets AdditionSet { get; set; } 
 
         /// <summary>
         ///     将EdgeSound转化为字符串后转化为osu文件格式的字符串

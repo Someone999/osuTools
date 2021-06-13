@@ -52,7 +52,7 @@ namespace osuTools.OrtdpWrapper
             Beatmap = new Beatmap();
 
             _arp = rp ?? new RealTimePPDisplayerPlugin();
-            _rtppi = new RtppdInfo();
+            _rtppi = d ?? new RtppdInfo();
             _arp.RegisterDisplayer("osuToolsDisplayer", id => _rtppi = new RtppdInfo());
             InitLisenter(p);
             var format = NI18n.GetLanguageElement("LANG_INFO_STH_INITED");

@@ -14,8 +14,7 @@ namespace osuTools.OsuDB
     /// </summary>
     public class OsuScoreInfo : SortByScore, IOsuDbData
     {
-        internal List<OsuGameMod> mods = new List<OsuGameMod>();
-        private readonly long pt;
+        internal List<OsuGameMod> IternalMods = new List<OsuGameMod>();
 
         /// <summary>
         ///     使用特定的数据来构造一个ScoreDBData对象
@@ -25,11 +24,11 @@ namespace osuTools.OsuDB
         /// <param name="bmd5">谱面的MD5</param>
         /// <param name="name">玩家名</param>
         /// <param name="rmd5">回放的MD5</param>
-        /// <param name="c300">300的数量</param>
-        /// <param name="c100">100的数量</param>
-        /// <param name="c50">50的数量</param>
-        /// <param name="c300g">激或彩300的数量</param>
-        /// <param name="c200">喝或200的数量</param>
+        /// <param name="count300">300的数量</param>
+        /// <param name="count100">100的数量</param>
+        /// <param name="count50">50的数量</param>
+        /// <param name="countGeki">激或彩300的数量</param>
+        /// <param name="count200">喝或200的数量</param>
         /// <param name="cmiss">Miss的数量</param>
         /// <param name="score">分数</param>
         /// <param name="maxcombo">最大连击</param>
@@ -39,32 +38,30 @@ namespace osuTools.OsuDB
         /// <param name="playtime">游玩的时间，以Tick为单位</param>
         /// <param name="verify">一个值必须为-1的整数</param>
         /// <param name="scoreid">ScoreID</param>
-        /// <param name="acc">准确度</param>
-        public OsuScoreInfo(OsuGameMode mode, int ver, string bmd5, string name, string rmd5, short c300, short c100,
-            short c50, short c300g, short c200, short cmiss, int score, short maxcombo, bool per, int mods,
-            string empty, long playtime, int verify, long scoreid, double acc)
+        public OsuScoreInfo(OsuGameMode mode, int ver, string bmd5, string name, string rmd5, short count300, short count100,
+            short count50, short countGeki, short count200, short cmiss, int score, short maxcombo, bool per, int mods,
+            string empty, long playtime, int verify, long scoreid)
         {
             Mode = mode;
             //System.Windows.Forms.MessageBox.Show(Mode.ToString());
             GameVersion = ver;
-            BeatmapMD5 = bmd5;
-            ReplayMD5 = rmd5;
+            BeatmapMd5 = bmd5;
+            ReplayMd5 = rmd5;
             PlayerName = name;
-            this.c300g = c300g;
-            this.c300 = c300;
-            this.c200 = c200;
-            this.c100 = c100;
-            this.c50 = c50;
-            cMiss = cmiss;
+            CountGeki = countGeki;
+            Count300 = count300;
+            Count200 = count200;
+            Count100 = count100;
+            Count50 = count50;
+            CountMiss = cmiss;
             Score = score;
             MaxCombo = maxcombo;
             Perfect = per;
-            this.mods = HitObjectTools.GetGenericTypesByInt<OsuGameMod>(mods);
-            pt = playtime;
-            PlayTime = new DateTime(pt);
+            IternalMods = HitObjectTools.GetGenericTypesByInt<OsuGameMod>(mods);
+            PlayTime = new DateTime(playtime);
             if (verify != -1) throw new FailToParseException("验证失败");
             ScoreID = scoreid;
-            Debug.Assert(c300 + c100 + c50 + cMiss != 0);
+            Debug.Assert(count300 + count100 + count50 + CountMiss != 0);
             Accuracy = AccCalc(mode);
             //System.Windows.Forms.MessageBox.Show(Score.ToString());
         }
@@ -82,7 +79,7 @@ namespace osuTools.OsuDB
         /// <summary>
         ///     谱面的MD5
         /// </summary>
-        public string BeatmapMD5 { get; }
+        public string BeatmapMd5 { get; }
 
         /// <summary>
         ///     玩家名
@@ -92,37 +89,37 @@ namespace osuTools.OsuDB
         /// <summary>
         ///     回放的MD5
         /// </summary>
-        public string ReplayMD5 { get; }
+        public string ReplayMd5 { get; }
 
         /// <summary>
         ///     激或彩300的数量
         /// </summary>
-        public short c300g { get; }
+        public short CountGeki { get; }
 
         /// <summary>
         ///     300的数量
         /// </summary>
-        public short c300 { get; }
+        public short Count300 { get; }
 
         /// <summary>
         ///     喝或200的数量
         /// </summary>
-        public short c200 { get; }
+        public short Count200 { get; }
 
         /// <summary>
         ///     100的数量
         /// </summary>
-        public short c100 { get; }
+        public short Count100 { get; }
 
         /// <summary>
         ///     50的数量
         /// </summary>
-        public short c50 { get; }
+        public short Count50 { get; }
 
         /// <summary>
         ///     Miss的数量
         /// </summary>
-        public short cMiss { get; }
+        public short CountMiss { get; }
 
         /// <summary>
         ///     分数
@@ -142,7 +139,7 @@ namespace osuTools.OsuDB
         /// <summary>
         ///     本次游戏使用的Mod
         /// </summary>
-        public IReadOnlyList<OsuGameMod> Mods => mods.AsReadOnly();
+        public IReadOnlyList<OsuGameMod> Mods => IternalMods.AsReadOnly();
 
         /// <summary>
         ///     游玩时间
@@ -168,10 +165,10 @@ namespace osuTools.OsuDB
         {
             if (obj is OsuScoreInfo info)
             {
-                return info.ReplayMD5 == ReplayMD5 && info.BeatmapMD5 == BeatmapMD5;
+                return info.ReplayMd5 == ReplayMd5 && info.BeatmapMd5 == BeatmapMd5;
             }
 
-            return obj.Equals(this);
+            return false;
         }
 
         /// <summary>
@@ -180,7 +177,7 @@ namespace osuTools.OsuDB
         /// <returns></returns>
         public override int GetHashCode()
         {
-            return ReplayMD5.GetHashCode();
+            return ReplayMd5.GetHashCode();
         }
         /// <summary>
         /// 获取MD5与成绩BeatmapMD5相同的谱面
@@ -192,7 +189,7 @@ namespace osuTools.OsuDB
         {
             try
             {
-                return new OsuBeatmapDB().Beatmaps.FindByMd5(BeatmapMD5);
+                return new OsuBeatmapDB().Beatmaps.FindByMd5(BeatmapMd5);
             }
             catch (BeatmapNotFoundException)
             {
@@ -206,12 +203,12 @@ namespace osuTools.OsuDB
             switch (mode)
             {
                 case OsuGameMode.Osu:
-                    return (c300 + c100 * (1.0 / 3.0) + c50 * (1.0 / 6)) / (c300 + c100 + c50 + cMiss);
-                case OsuGameMode.Taiko: return (c300 + c100 * 0.5) / (c300 + c100 + cMiss);
-                case OsuGameMode.Catch: return (double) (c300 + c100 + c50) / (c300 + c100 + c50 + c200 + cMiss);
+                    return (Count300 + Count100 * (1.0 / 3.0) + Count50 * (1.0 / 6)) / (Count300 + Count100 + Count50 + CountMiss);
+                case OsuGameMode.Taiko: return (Count300 + Count100 * 0.5) / (Count300 + Count100 + CountMiss);
+                case OsuGameMode.Catch: return (double) (Count300 + Count100 + Count50) / (Count300 + Count100 + Count50 + Count200 + CountMiss);
                 case OsuGameMode.Mania:
-                    return (c300g + c300 + c200 * (2 / 3.0) + c100 * (1 / 3.0) + c50 * 1 / 6.0) /
-                           (c300g + c300 + c200 + c100 + c50 + cMiss);
+                    return (CountGeki + Count300 + Count200 * (2 / 3.0) + Count100 * (1 / 3.0) + Count50 * 1 / 6.0) /
+                           (CountGeki + Count300 + Count200 + Count100 + Count50 + CountMiss);
                 default: return -1;
             }
         }

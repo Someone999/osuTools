@@ -19,15 +19,12 @@ namespace osuTools.Skins.Catch
         public CatchSkinImage(string fileName, string fullFileName)
         {
             FileName = fileName;
-            var type = fileName.Replace(".png", "");
             FullPath = fullFileName;
         }
         ///<inheritdoc/>
         public string FileName { get; }
         ///<inheritdoc/>
         public string FullPath { get; }
-        ///<inheritdoc/>
-        public string SkinImageTypeName { get; } = "OsuSkinImage";
         ///<inheritdoc/>
         public Image LoadImage()
         {

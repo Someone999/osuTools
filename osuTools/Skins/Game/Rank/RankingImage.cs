@@ -19,7 +19,6 @@ namespace osuTools.Skins.Game.Rank
         public RankingImage(string fileName, string fullFileName)
         {
             FileName = fileName + ".png";
-            var type = fileName.Replace(".png", "");
             FullPath = fullFileName;
         }
         ///<inheritdoc/>
@@ -40,7 +39,7 @@ namespace osuTools.Skins.Game.Rank
         {
             var tmpname = FileName.Replace(".png", "@2x.png");
             var tmppath = Path.GetDirectoryName(FullPath);
-            if (File.Exists(Path.Combine(tmppath, tmpname)))
+            if (File.Exists(Path.Combine(tmppath ?? throw new InvalidOperationException(), tmpname)))
                 return new GeneralSkinImage(tmpname, Path.Combine(tmppath, tmpname));
             throw new SkinFileNotFoundException("没有找到这个Rank图片的@2x版本。");
         }
@@ -52,7 +51,7 @@ namespace osuTools.Skins.Game.Rank
         {
             var tmpname = FileName.Replace(".png", "-small.png");
             var tmppath = Path.GetDirectoryName(FullPath);
-            if (File.Exists(Path.Combine(tmppath, tmpname)))
+            if (File.Exists(Path.Combine(tmppath ?? throw new InvalidOperationException(), tmpname)))
                 return new GeneralSkinImage(tmpname, Path.Combine(tmppath, tmpname));
             throw new SkinFileNotFoundException("没有找到这个Rank图片的小图标。");
         }

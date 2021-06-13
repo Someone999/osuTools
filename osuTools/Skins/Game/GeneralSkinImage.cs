@@ -19,15 +19,12 @@ namespace osuTools.Skins.Game
         public GeneralSkinImage(string fileName, string fullFileName)
         {
             FileName = fileName;
-            var type = fileName.Replace(".png", "");
             FullPath = fullFileName;
         }
         ///<inheritdoc/>
         public string FileName { get; protected set; }
         ///<inheritdoc/>
         public string FullPath { get; protected set; }
-        ///<inheritdoc/>
-        public string SkinImageTypeName { get; protected set; } = "MenuSkinImage";
         ///<inheritdoc/>
         public Image LoadImage()
         {
@@ -42,7 +39,7 @@ namespace osuTools.Skins.Game
         {
             var tmpname = FileName.Replace(".png", "@2x.png");
             var tmppath = Path.GetDirectoryName(FullPath);
-            if (File.Exists(Path.Combine(tmppath, tmpname)))
+            if (File.Exists(Path.Combine(tmppath ?? throw new InvalidOperationException(), tmpname)))
                 return new GeneralSkinImage(tmpname, Path.Combine(tmppath, tmpname));
             throw new SkinFileNotFoundException("没有找到该皮肤文件的@2x版本。");
         }

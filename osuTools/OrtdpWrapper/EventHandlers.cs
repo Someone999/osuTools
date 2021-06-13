@@ -150,7 +150,6 @@ namespace osuTools.OrtdpWrapper
             PlayerName = player.Trim();
         }
 
-        private IHasPerformanceCalculator _performanceCalculator;
         private void InitLisenter(OsuRTDataProviderPlugin pl)
         {
             GameMode = new GmMode(OsuPlayMode.Unknown, OsuPlayMode.Unknown);
@@ -188,7 +187,6 @@ namespace osuTools.OrtdpWrapper
             if (Beatmap.Mode == OsuGameMode.Osu)
                 if (CurrentMode is IHasPerformanceCalculator has && CurrentStatus == OsuGameStatus.SelectSong)
                 {
-                    _performanceCalculator = has;
                     PreCalculatedPp = has.GetMaxPerformance(this);
                 }
 
@@ -400,7 +398,7 @@ namespace osuTools.OrtdpWrapper
                         builder.AppendLine($"Mode:{Beatmap.Mode}");
                         builder.AppendLine($"BreakTime: {btm.Count}");
                         builder.AppendLine(
-                            $"TimePoints: {tm.Count} Inherited TimePoint Count: {inh.Count()} UnInherited TimePoint Count: {uinh.Count()}");
+                            $"TimePoints: {tm.Count} Inherited TimePoint Count: {inh.Length} UnInherited TimePoint Count: {uinh.Length}");
                         builder.AppendLine($"[Beatmap BreakTime Detector] BreakTime:{_breaktimes.Count}");
                         builder.AppendLine(
                             $"[Beatmap Uninherited TimePoint Detector] Uninherited TimePoint:{_timepoints.Count}");

@@ -61,11 +61,10 @@ namespace osuTools.GameInfo.KeyLayout
 
         private void InitKeyLayout()
         {
-            KeyLayout = new Dictionary<string, Keys>();
-            KeyLayout.Add("RedLeft", Keys.X);
-            KeyLayout.Add("RedRight", Keys.C);
-            KeyLayout.Add("BlueLeft", Keys.Z);
-            KeyLayout.Add("BlueRight", Keys.V);
+            KeyLayout = new Dictionary<string, Keys>
+            {
+                {"RedLeft", Keys.X}, {"RedRight", Keys.C}, {"BlueLeft", Keys.Z}, {"BlueRight", Keys.V}
+            };
         }
 
         private void Parse()

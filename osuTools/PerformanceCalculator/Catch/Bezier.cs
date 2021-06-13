@@ -30,22 +30,22 @@ namespace osuTools.PerformanceCalculator.Catch
                 if (i == Points.Count - 1)
                 {
                     subPoint.Add(Points[i]);
-                    bezier(subPoint);
+                    CalcBezier(subPoint);
                     subPoint.Clear();
                 }
 
                 else if (subPoint.Count > 1 && Points[i] == subPoint[subPoint.Count - 1])
                 {
-                    bezier(subPoint);
+                    CalcBezier(subPoint);
                     subPoint.Clear();
                 }
                 subPoint.Add(Points[i]);
             }
         }
 
-        void bezier(List<OsuPixel> points)
+        void CalcBezier(List<OsuPixel> points)
         {
-            var order = points.Count();
+            var order = points.Count;
             var step = 0.25 / Constants.SliderQuality / order;
             double i = 0;
             int n = order - 1;

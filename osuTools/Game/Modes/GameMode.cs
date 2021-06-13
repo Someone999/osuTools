@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reflection;
-using System.Windows.Forms;
 using osuTools.Beatmaps;
 using osuTools.Beatmaps.HitObject;
 using osuTools.Game.Mods;
@@ -69,8 +68,12 @@ namespace osuTools.Game.Modes
         /// <returns></returns>
         public bool Equals(GameMode a, GameMode b)
         {
-            if (a is ILegacyMode && b is ILegacyMode)
-                return ((ILegacyMode) a).LegacyMode == ((ILegacyMode) b).LegacyMode;
+            if (a is null && b is null)
+                return true;
+            if (a is null || b is null)
+                return false;
+            if (a is ILegacyMode mode && b is ILegacyMode legacyMode)
+                return mode.LegacyMode == legacyMode.LegacyMode;
             return a.ModeName == b.ModeName;
         }
 
@@ -81,8 +84,8 @@ namespace osuTools.Game.Modes
         /// <returns></returns>
         public int GetHashCode(GameMode a)
         {
-            if (a is ILegacyMode)
-                return (int) (a as ILegacyMode).LegacyMode;
+            if (a is ILegacyMode mode)
+                return (int) mode.LegacyMode;
             return a.ModeName.GetHashCode();
         }
 

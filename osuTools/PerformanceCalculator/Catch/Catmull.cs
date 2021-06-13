@@ -28,17 +28,16 @@ namespace osuTools.PerformanceCalculator.Catch
                 throw new InvalidOperationException("Catmull was calculated twice!");
             for (int i = 0; i < Order - 1; i++)
             {
-                OsuPixel p1, p2, p3, p4;
                 var t = 0d;
                 while (t < Step - 1)
                 {
-                    p1 = i >= 1 ? Points[i - 1] : Points[i];
-                    p2 = Points[i];
+                    var p1 = i >= 1 ? Points[i - 1] : Points[i];
+                    var p2 = Points[i];
 
-                    p3 = i + 1 < Order ? Points[i + 1] : p2.Calc(1,p2.Calc(-1,p1));
+                    var p3 = i + 1 < Order ? Points[i + 1] : p2.Calc(1,p2.Calc(-1,p1));
 
-                    p4 = i + 2 < Order ? Points[i + 2] : p2.Calc(1, p3.Calc(-1, p2));
-                    var pixels = new OsuPixel[4] {p1, p2, p3, p4}.ToList();
+                    var p4 = i + 2 < Order ? Points[i + 2] : p2.Calc(1, p3.Calc(-1, p2));
+                    var pixels = new[] {p1, p2, p3, p4}.ToList();
                     var p = VectorUtility.GetPoint(pixels, t);
                     Position.Add(p);
                     t += Step;

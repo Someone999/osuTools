@@ -7,10 +7,8 @@ namespace osuTools.Beatmaps.HitObject.Std
     /// <summary>
     ///     表示一个转盘
     /// </summary>
-    public class Spinner : IHitObject, INoteGrouped, IHasEndHitObject
+    public class Spinner : INoteGrouped, IHasEndHitObject
     {
-        private string type;
-
         /// <summary>
         ///     Spinner的结束时间
         /// </summary>
@@ -55,9 +53,8 @@ namespace osuTools.Beatmaps.HitObject.Std
             var info = data.Split(',');
             var val = double.Parse(info[2]);
             Offset = double.IsNaN(val) || double.IsInfinity(val) ? 0 : (int) val;
-            this.type = info[3];
-            var type = int.Parse(info[3]);
-            var types = HitObjectTools.GetGenericTypesByInt<HitObjectTypes>(type);
+            var innerType = int.Parse(info[3]);
+            var types = HitObjectTools.GetGenericTypesByInt<HitObjectTypes>(innerType);
             if (!types.Contains(HitObjectTypes.Spinner))
             {
                 throw new ArgumentException("该行的数据不适用。");

@@ -19,7 +19,7 @@ namespace osuTools.OnlineInfo.OsuApiV2.ResultClasses
         /// <param name="beatmapSet"></param>
         public OnlineBeatmapV2(JObject json,OnlineBeatmapSetV2 beatmapSet = null)
         {
-            var suc = json.TryGetValue("beatmaps", out var jtoken);
+            var suc = json.TryGetValue("beatmaps", out _);
             if (suc)
                 throw new ArgumentException("不应用BeatmapSet的返回json实例化Beatmap。");
             Stars = json["difficulty_rating"].ToObject<double>();

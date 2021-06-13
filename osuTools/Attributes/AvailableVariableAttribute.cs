@@ -26,6 +26,6 @@ namespace osuTools.Attributes
         /// <summary>
         ///     描述
         /// </summary>
-        public string LanguageElementName { get; internal set; } = "";
+        public string LanguageElementName { get; internal set; }
     }
 }

@@ -49,8 +49,8 @@ namespace osuTools.Beatmaps
         {
             var listT = new List<T>();
             foreach (var hitObject in HitObjects)
-                if (hitObject is T)
-                    listT.Add((T) hitObject);
+                if (hitObject is T obj)
+                    listT.Add(obj);
             return listT;
         }
     }

@@ -41,7 +41,7 @@ namespace osuTools.Game.Modes
         {
             try
             {
-                _calculator = _calculator == null ? new TaikoPerformanceCalculator() : _calculator;
+                _calculator = _calculator ?? new TaikoPerformanceCalculator();
                 _calculator.Beatmap = new BeatmapReader(ortdpInfo.OrtdpBeatmap, (int) ortdpInfo.Beatmap.Mode);
                 if (ortdpInfo.DebugMode)
                     IO.CurrentIO.Write(

@@ -239,10 +239,7 @@ namespace osuTools.MusicPlayer
         public void Load(string url)
         {
             Uri tmpUri = new Uri(url);
-            if (tmpUri.Scheme == "file")
-                _bassHandle = Bass.CreateStream(tmpUri.LocalPath);
-            else
-                _bassHandle = Bass.CreateStream(tmpUri.AbsoluteUri, 0, BassFlags.Default, null);
+            _bassHandle = tmpUri.Scheme == "file" ? Bass.CreateStream(tmpUri.LocalPath) : Bass.CreateStream(tmpUri.AbsoluteUri, 0, BassFlags.Default, null);
             var errCode = Bass.LastError;
             if (errCode == Errors.OK)
             {

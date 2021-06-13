@@ -18,6 +18,8 @@ namespace osuTools.StoryBoard.Commands
         {
             StartOpacity = start;
             TargetOpacity = target;
+            StartTime = startTime;
+            EndTime = endTime;
         }
 
         /// <summary>

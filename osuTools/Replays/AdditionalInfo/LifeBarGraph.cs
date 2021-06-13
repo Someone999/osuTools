@@ -7,7 +7,6 @@
     {
         private readonly double _hp = -1;
         private readonly int _offset = -1;
-        private readonly string _orgstr;
 
         /// <summary>
         ///     构造一个空的LifeBarGraph对象
@@ -22,8 +21,7 @@
         /// <param name="pair"></param>
         public LifeBarGraph(string pair)
         {
-            _orgstr = pair;
-            var data = _orgstr.Split(',');
+            var data = pair.Split(',');
             if (data.Length < 2) return;
             var hp = data[0];
             var offset = data[1];

@@ -130,14 +130,12 @@ namespace osuTools.OnlineInfo.OsuApiV1.OnlineQueries
             /// <returns></returns>
             public override string ToString()
             {
-                string temp;
                 var j = new DateTime(DateTime.Now.Ticks - _t.Ticks - DateTime.MinValue.Ticks);
-                temp =
-                    $"UserName:{UserName}(ID:{UserId})\nMode:{_mode.ToString()} pp:{Pp}\nGlobal Rank:{GlobalRank} Country Rank:{CountryRank}\n" +
-                    $"Silver SS:{SshCount} SS:{SsCount} Silver S:{ShCount} S:{SCount} A:{ACount}\n" +
-                    $"Accuracy:{_accuracy.ToString("f2")}% Total Score:{TotalScore} Ranked Score:{_rankedScore}\n" +
-                    $"Play Count{PlayCount}({$"{PlayTime.Days}d {PlayTime.Hours}:{PlayTime.Minutes}:{PlayTime.Seconds})"} Level:{_level}\n" +
-                    $"From {Country}\nJoin at {JoinDate.ToString()}(Joined for {$"{j.Year}y{j.Month}mon{j.Day}d {j.Hour}h{j.Minute}m{j.Second}s"})\n";
+                var temp = $"UserName:{UserName}(ID:{UserId})\nMode:{_mode.ToString()} pp:{Pp}\nGlobal Rank:{GlobalRank} Country Rank:{CountryRank}\n" +
+                           $"Silver SS:{SshCount} SS:{SsCount} Silver S:{ShCount} S:{SCount} A:{ACount}\n" +
+                           $"Accuracy:{_accuracy:f2}% Total Score:{TotalScore} Ranked Score:{_rankedScore}\n" +
+                           $"Play Count{PlayCount}({PlayTime.Days}d {PlayTime.Hours}:{PlayTime.Minutes}:{PlayTime.Seconds}) Level:{_level}\n" +
+                           $"From {Country}\nJoin at {JoinDate}(Joined for {j.Year}y{j.Month}mon{j.Day}d {j.Hour}h{j.Minute}m{j.Second}s)\n";
                 return temp;
             }
 

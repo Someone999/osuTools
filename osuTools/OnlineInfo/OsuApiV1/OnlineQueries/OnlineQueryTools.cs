@@ -30,8 +30,7 @@ namespace osuTools.OnlineInfo.OsuApiV1.OnlineQueries
         /// <returns>类型为<see cref="QueryResult" />的查询结果</returns>
         public static QueryResult GetResponse(Uri target)
         {
-            var client = new HttpClient();
-            client.BaseAddress = target;
+            var client = new HttpClient {BaseAddress = target};
             var rslt = client.GetStringAsync(target).Result;
             var obj = JsonConvert.DeserializeObject(rslt);
             QueryResult queryResult;

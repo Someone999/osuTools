@@ -71,7 +71,7 @@ namespace osuTools.OnlineInfo.OsuApiV2
 
             using (var response = Request.GetResponse())
             {
-                var r = new StreamReader(response.GetResponseStream());
+                var r = new StreamReader(response.GetResponseStream() ?? throw new WebException());
                 recvjson = r.ReadToEnd();
             }
 

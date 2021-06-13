@@ -28,12 +28,12 @@ namespace osuTools.Beatmaps.HitObject
             foreach (var hitobject in b)
             {
                 hitobject.Offset += breakTimeInMs + beatmapoffset;
-                if (hitobject is ManiaHold)
-                    (hitobject as ManiaHold).EndTime += beatmapoffset + breakTimeInMs;
-                if (hitobject is Spinner)
-                    (hitobject as Spinner).EndTime += beatmapoffset + breakTimeInMs;
-                if (hitobject is BananaShower)
-                    (hitobject as BananaShower).EndTime += beatmapoffset + breakTimeInMs;
+                if (hitobject is ManiaHold hold)
+                    hold.EndTime += beatmapoffset + breakTimeInMs;
+                if (hitobject is Spinner spinner)
+                    spinner.EndTime += beatmapoffset + breakTimeInMs;
+                if (hitobject is BananaShower shower)
+                    shower.EndTime += beatmapoffset + breakTimeInMs;
                 c.Add(hitobject);
             }
 

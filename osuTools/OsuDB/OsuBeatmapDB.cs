@@ -168,33 +168,35 @@ namespace osuTools.OsuDB
             var taikostars = new Dictionary<int, double>();
             var ctbstars = new Dictionary<int, double>();
             var maniastars = new Dictionary<int, double>();
-            var Beatmap = new OsuBeatmap();
-            Beatmap.Artist = GetString();
-            Beatmap.ArtistUnicode = GetString();
-            Beatmap.Title = GetString();
-            Beatmap.TitleUnicode = GetString();
-            Beatmap.Creator = GetString();
-            Beatmap.Difficulty = GetString();
-            Beatmap.AudioFileName = GetString();
-            Beatmap.Md5 = GetString();
-            Beatmap.FileName = GetString();
+            var beatmap = new OsuBeatmap
+            {
+                Artist = GetString(),
+                ArtistUnicode = GetString(),
+                Title = GetString(),
+                TitleUnicode = GetString(),
+                Creator = GetString(),
+                Difficulty = GetString(),
+                AudioFileName = GetString(),
+                Md5 = GetString(),
+                FileName = GetString()
+            };
             try
             {
-                Beatmap.BeatmapStatus = (OsuBeatmapStatus) Enum.Parse(typeof(OsuBeatmapStatus), GetByte().ToString());
+                beatmap.BeatmapStatus = (OsuBeatmapStatus) Enum.Parse(typeof(OsuBeatmapStatus), GetByte().ToString());
             }
             catch
             {
-                Beatmap.BeatmapStatus = OsuBeatmapStatus.Unknown;
+                beatmap.BeatmapStatus = OsuBeatmapStatus.Unknown;
             }
 
-            Beatmap.HitCircle = GetInt16();
-            Beatmap.Slider = GetInt16();
-            Beatmap.Spinner = GetInt16();
-            Beatmap.LastModificationTime = new DateTime(GetInt64());
-            Beatmap.ApproachRate = GetSingle();
-            Beatmap.CircleSize = GetSingle();
-            Beatmap.HpDrain = GetSingle();
-            Beatmap.OverallDifficulty = GetSingle();
+            beatmap.HitCircle = GetInt16();
+            beatmap.Slider = GetInt16();
+            beatmap.Spinner = GetInt16();
+            beatmap.LastModificationTime = new DateTime(GetInt64());
+            beatmap.ApproachRate = GetSingle();
+            beatmap.CircleSize = GetSingle();
+            beatmap.HpDrain = GetSingle();
+            beatmap.OverallDifficulty = GetSingle();
             GetDouble();
             var pac = GetInt32();
             var intlst = new List<int>();
@@ -239,28 +241,28 @@ namespace osuTools.OsuDB
                 maniastars.Add(intflag, doubleflag);
             }
 
-            Beatmap.DrainTime = TimeSpan.FromSeconds(GetInt32());
-            Beatmap.TotalTime = TimeSpan.FromMilliseconds(GetInt32());
-            Beatmap.PreviewPoint = TimeSpan.FromMilliseconds(GetInt32());
+            beatmap.DrainTime = TimeSpan.FromSeconds(GetInt32());
+            beatmap.TotalTime = TimeSpan.FromMilliseconds(GetInt32());
+            beatmap.PreviewPoint = TimeSpan.FromMilliseconds(GetInt32());
             pac = GetInt32();
             for (var i = 0; i < pac; i++)
             {
                 var bpm = GetDouble();
                 var offset = GetDouble();
                 var inherit = GetBoolean();
-                Beatmap.Timepoints.Add(new OsuBeatmapTimePoint(bpm, offset, inherit));
+                beatmap.Timepoints.Add(new OsuBeatmapTimePoint(bpm, offset, inherit));
             }
 
-            Beatmap.BeatmapId = GetInt32();
-            Beatmap.BeatmapSetId = GetInt32();
-            Beatmap.ThreadId = GetInt32();
+            beatmap.BeatmapId = GetInt32();
+            beatmap.BeatmapSetId = GetInt32();
+            beatmap.ThreadId = GetInt32();
             GetByte();
             GetByte();
             GetByte();
             GetByte();
             GetInt16();
             GetSingle();
-            Beatmap.Mode = (OsuGameMode) GetByte();
+            beatmap.Mode = (OsuGameMode) GetByte();
             if (osustars.Count == 0)
                 osustars.Add(0, 0);
             if (taikostars.Count == 0)
@@ -269,19 +271,19 @@ namespace osuTools.OsuDB
                 ctbstars.Add(0, 0);
             if (maniastars.Count == 0)
                 maniastars.Add(0, 0);
-            Beatmap.ModStarPair.SetModeDict(OsuGameMode.Osu, osustars);
-            Beatmap.ModStarPair.SetModeDict(OsuGameMode.Taiko, taikostars);
-            Beatmap.ModStarPair.SetModeDict(OsuGameMode.Catch, ctbstars);
-            Beatmap.ModStarPair.SetModeDict(OsuGameMode.Mania, maniastars);
+            beatmap.ModStarPair.SetModeDict(OsuGameMode.Osu, osustars);
+            beatmap.ModStarPair.SetModeDict(OsuGameMode.Taiko, taikostars);
+            beatmap.ModStarPair.SetModeDict(OsuGameMode.Catch, ctbstars);
+            beatmap.ModStarPair.SetModeDict(OsuGameMode.Mania, maniastars);
 
-            Beatmap.Source = GetString();
-            Beatmap.Tags = GetString();
+            beatmap.Source = GetString();
+            beatmap.Tags = GetString();
             GetInt16();
             GetString();
             GetBoolean();
             GetInt64();
             GetBoolean();
-            Beatmap.FolderName = GetString();
+            beatmap.FolderName = GetString();
             GetInt64();
             GetBoolean();
             GetBoolean();
@@ -292,15 +294,15 @@ namespace osuTools.OsuDB
             GetByte();
             try
             {
-                Beatmap.Stars = Beatmap.ModStarPair[Beatmap.Mode][0];
+                beatmap.Stars = beatmap.ModStarPair[beatmap.Mode][0];
             }
             catch
             {
-                Beatmap.Stars = 0;
+                beatmap.Stars = 0;
                 Debug.WriteLine("Error when reading stars return beatmap with 0 star.");
-                return Beatmap;
+                return beatmap;
             }
-            return Beatmap;
+            return beatmap;
         }
 
         private void GetAllBeatmaps()

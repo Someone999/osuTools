@@ -237,7 +237,7 @@ namespace osuTools.Beatmaps
 
             private int sortfun(Beatmap a, Beatmap b)
             {
-                var ret = string.Compare(a.Title, b.Title, true);
+                var ret = String.Compare(a.Title, b.Title, StringComparison.OrdinalIgnoreCase);
                 return ret > 0 ? 1 : ret == 0 ? 0 : -1;
             }
 
@@ -345,7 +345,7 @@ namespace osuTools.Beatmaps
                         {
                             var em = Directory.GetFiles(dir + '\\', "*.osu", SearchOption.AllDirectories);
                             {
-                                if (em.Count() == 0)
+                                if (em.Length == 0)
                                 {
                                     //throw new osuToolsException.NoBeatmapInFolder("指定的文件夹里不包含谱面。", dir);
                                 }

@@ -19,7 +19,6 @@ namespace osuTools.Skins.Osu
         public OsuSkinImage(string fileName, string fullFileName)
         {
             FileName = fileName;
-            var type = fileName.Replace(".png", "");
             FullPath = fullFileName;
         }
 
@@ -38,7 +37,7 @@ namespace osuTools.Skins.Osu
         {
             var tmpname = FileName.Replace(".png", "@2x.png");
             var tmppath = Path.GetDirectoryName(FullPath);
-            if (File.Exists(Path.Combine(tmppath, tmpname)))
+            if (File.Exists(Path.Combine(tmppath??throw new InvalidOperationException(), tmpname)))
                 return new OsuSkinImage(tmpname, Path.Combine(tmppath, tmpname));
             throw new SkinFileNotFoundException("没有找到该皮肤文件的@2x版本。");
         }

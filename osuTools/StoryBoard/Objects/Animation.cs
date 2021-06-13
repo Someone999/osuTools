@@ -11,9 +11,9 @@ namespace osuTools.StoryBoard.Objects
     /// </summary>
     public class Animation : IStoryBoardAnimation
     {
-        /// <inheritdoc />
+        /// <inheritdoc cref="StoryBoardOrigin"/>
         public StoryBoardOrigin Origin { get; set; }
-        /// <inheritdoc />
+        /// <inheritdoc cref="StoryBoardLayer"/>
         public StoryBoardLayer Layer { get; set; }
         /// <inheritdoc />
         public OsuPixel Position { get; set; }
@@ -39,7 +39,6 @@ namespace osuTools.StoryBoard.Objects
             if (!dataline.StartsWith("Animation,")) throw new FailToParseException("该行的数据不适用。");
 
             var data = dataline.Split(',');
-            var sprite = data[0];
             var suc = int.TryParse(data[1], out var layer);
             if (!suc)
             {

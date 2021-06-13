@@ -107,7 +107,7 @@ namespace osuTools.OnlineInfo.OsuApiV1.OnlineQueries
         /// <summary>
         ///     使用了的Mod
         /// </summary>
-        public List<OsuGameMod> Mods { get; } = new List<OsuGameMod>();
+        public List<OsuGameMod> Mods { get; }
 
         /// <summary>
         ///     准度
@@ -243,8 +243,7 @@ namespace osuTools.OnlineInfo.OsuApiV1.OnlineQueries
         /// <returns>查找到的谱面</returns>
         public Beatmap FindInBeatmapCollection(BeatmapCollection bc)
         {
-            if (bc is null) throw new NullReferenceException();
-            _bc = bc;
+            _bc = bc ?? throw new NullReferenceException();
             return bc.Find(_beatmapId);
         }
 

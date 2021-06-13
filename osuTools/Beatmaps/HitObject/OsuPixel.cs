@@ -72,9 +72,9 @@ namespace osuTools.Beatmaps.HitObject
         /// <returns></returns>
         public double Distance(OsuPixel a)
         {
-            var x = this.x - a.x;
-            var y = this.y - a.y;
-            return Math.Sqrt(x * x + y * y);
+            var innerX = x - a.x;
+            var innerY = y - a.y;
+            return Math.Sqrt(innerX * innerX + innerY * innerY);
         }
         /// <summary>
         /// 计算点积
@@ -86,7 +86,7 @@ namespace osuTools.Beatmaps.HitObject
         {
             var ax = x + value * b.x;
             var ay = y + value * b.y;
-            return new OsuPixel(x, y);
+            return new OsuPixel(ax, ay);
         }
        /// <summary>
        /// <inheritdoc/>

@@ -284,7 +284,7 @@ namespace osuTools.OsuDB
             List<OsuScoreInfo> info = new List<OsuScoreInfo>();
             foreach (var score in scoreDb.Scores)
             {
-                if(score.BeatmapMD5 == Md5)
+                if(score.BeatmapMd5 == Md5)
                     info.Add(score);
             }
             return info.AsReadOnly();

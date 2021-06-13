@@ -149,7 +149,7 @@ namespace osuTools.PerformanceCalculator.Catch
                         j = stream;
                     else
                         j = hitObject as Slider;
-                    double repeat = j.RepeatTime;
+                    double repeat = j?.RepeatTime ?? throw new InvalidOperationException();
                     double pLen = j.Length;
                     var tmPt = GetAllTimePoints(hitObject.Offset);
                     ValueObserver<double> tickDistance = ValueObserver<double>.FromValue((100 * BaseBeatmap.SliderMultiplier) / BaseBeatmap.SliderTickRate);

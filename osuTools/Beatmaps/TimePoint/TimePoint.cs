@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using osuTools.Beatmaps.HitObject.Sounds;
 using osuTools.Skins;
 
@@ -34,14 +35,14 @@ namespace osuTools.Beatmaps.TimePoint
             }
 
             _effect = int.Parse(data[7]);
-            Bpm = double.Parse((1 / BeatLength * 1000 * 60).ToString());
+            Bpm = double.Parse((1 / BeatLength * 1000 * 60).ToString(CultureInfo.InvariantCulture));
             Bitprocesser(_effect);
         }
 
         /// <summary>
         ///     该时间点相对于歌曲开始的时间
         /// </summary>
-        public double Offset { get; set; } = -1;
+        public double Offset { get; set; }
 
         /// <summary>
         ///     如果该时间点不是继承的，则为BPM，如果是继承的则为0
@@ -51,32 +52,32 @@ namespace osuTools.Beatmaps.TimePoint
         /// <summary>
         ///     一个节拍所用的时间，以毫秒为单位
         /// </summary>
-        public double BeatLength { get; } = -1;
+        public double BeatLength { get; }
 
         /// <summary>
         ///     一次测量的节拍数
         /// </summary>
-        public double Meter { get; } = -1;
+        public double Meter { get; }
 
         /// <summary>
         ///     指定的音效的类型
         /// </summary>
-        public SampleSets SampleSet { get; } = SampleSets.Default;
+        public SampleSets SampleSet { get; }
 
         /// <summary>
         ///     音效的编号
         /// </summary>
-        public int SampleIndex { get; } = -1;
+        public int SampleIndex { get; }
 
         /// <summary>
         ///     指定音效的音量
         /// </summary>
-        public double Volume { get; } = -1;
+        public double Volume { get; }
 
         /// <summary>
         ///     时间点是否为继承
         /// </summary>
-        public bool Uninherited { get; } = true;
+        public bool Uninherited { get; }
 
         /// <summary>
         ///     是否开始一个KiaiTime
@@ -111,6 +112,8 @@ namespace osuTools.Beatmaps.TimePoint
         /// <returns></returns>
         public bool Equals(TimePoint a, TimePoint b)
         {
+            if (a is null && b is null) return true;
+            if (a is null || b is null) return false;
             return a.GetHashCode(a) == b.GetHashCode(b);
         }
 

@@ -22,7 +22,6 @@ namespace osuTools.Beatmaps
                 throw new FileNotFoundException("指定的谱面文件不存在。");
             }
 
-            var i = 0;
             FileName = Path.GetFileName(dir);
             FullPath = dir;
             var map = File.ReadAllLines(dir);
@@ -50,7 +49,6 @@ namespace osuTools.Beatmaps
 
             foreach (var str in map)
             {
-                i++;
                 var temparr = str.Split(':');
                 if (temparr[0].Contains("AudioFile"))
                 {

@@ -2,6 +2,9 @@
 
 namespace osuTools.Skins.Mania
 {
+    /// <summary>
+    /// Mania长条的样式，目前未发现用途
+    /// </summary>
     public enum HoldBodyStyle
     {
         /// <summary>

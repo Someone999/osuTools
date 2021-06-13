@@ -154,7 +154,8 @@ namespace osuTools.PerformanceCalculator.Catch
 
             while(currentDis< j.Length - TickDistance / 8)
             {
-                var point = j.CurveType == CurveTypes.Linear ? (OsuPixel) MathUtlity.PointOnLine(j.curvePoints[0], j.curvePoints[1], currentDis) : ((IHasPointProcessor)curve).PointAtDistance(currentDis);
+                var point = j.CurveType == CurveTypes.Linear ? (OsuPixel) MathUtlity.PointOnLine(j.curvePoints[0], j.curvePoints[1], currentDis) :
+                    ((IHasPointProcessor)curve)?.PointAtDistance(currentDis)??throw new InvalidOperationException();
                 //Console.WriteLine($"Tick?{point.x}?{point.y}?{j.Offset + addTime * (Ticks.Count + 1)}");
                 if (!(point is null))
                     Ticks.Add((new CatchSliderTick(point.x, point.y, j.Offset + addTime * (Ticks.Count + 1))));
@@ -168,7 +169,8 @@ namespace osuTools.PerformanceCalculator.Catch
             {
                 double dist = (1 & repeatId) * j.Length;
                 double timeOffset = (Duration / j.RepeatTime) * repeatId;
-                var point = j.CurveType == CurveTypes.Linear ? (OsuPixel) MathUtlity.PointOnLine(j.curvePoints[0], j.curvePoints[1], dist) : ((IHasPointProcessor)curve).PointAtDistance(dist);
+                var point = j.CurveType == CurveTypes.Linear ? (OsuPixel) MathUtlity.PointOnLine(j.curvePoints[0], j.curvePoints[1], dist) :
+                    ((IHasPointProcessor)curve)?.PointAtDistance(dist)??throw new InvalidOperationException();
                 //Console.WriteLine($"{Offset}?{point.x}?{point.y}");
                 //Console.WriteLine($"EndTick?{point.x}?{point.y}?{BaseHitObject.Offset + timeOffset}");
                 EndTicks.Add(new CatchSliderTick(point.x, point.y, BaseHitObject.Offset + timeOffset));
@@ -197,7 +199,8 @@ namespace osuTools.PerformanceCalculator.Catch
             Ticks.AddRange(repeatBonusTick);
 
             double distEnd = (1 & j.RepeatTime) * j.Length;
-            var tmpPoint = j.CurveType == CurveTypes.Linear ? (OsuPixel) MathUtlity.PointOnLine(j.curvePoints[0], j.curvePoints[1], distEnd) : (curve as IHasPointProcessor).PointAtDistance(distEnd); 
+            var tmpPoint = j.CurveType == CurveTypes.Linear ? (OsuPixel) MathUtlity.PointOnLine(j.curvePoints[0], j.curvePoints[1], distEnd) : 
+                ((IHasPointProcessor) curve)?.PointAtDistance(distEnd) ?? throw new InvalidOperationException(); 
 
             var endTick = new CatchSliderTick(tmpPoint.x, tmpPoint.y, Offset + Duration);
             EndTicks.Add(endTick);

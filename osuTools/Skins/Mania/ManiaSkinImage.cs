@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 using System.IO;
 using osuTools.Exceptions;
 using osuTools.Skins.Interfaces;
@@ -26,7 +27,7 @@ namespace osuTools.Skins.Mania
             var ini = parentSkin.ConfigFileDirectory;
             FileName = fileName;
             var tmppath = Path.GetDirectoryName(ini);
-            FullPath = Path.Combine(tmppath, fileName);
+            FullPath = Path.Combine(tmppath??throw new InvalidOperationException(), fileName);
         }
         /// <summary>
         /// 使用父皮肤skin.ini的路径和文件名初始化一个ManiaSkinImage
@@ -56,7 +57,7 @@ namespace osuTools.Skins.Mania
         {
             var tmpname = FileName.Replace(".png", "@2x.png");
             var tmppath = Path.GetDirectoryName(FullPath);
-            if (File.Exists(Path.Combine(tmppath, tmpname)))
+            if (File.Exists(Path.Combine(tmppath ?? throw new InvalidOperationException(), tmpname)))
                 return new ManiaSkinImage(tmppath, tmpname);
             throw new SkinFileNotFoundException("没有找到该皮肤文件的@2x版本。");
         }

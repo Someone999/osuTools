@@ -9,7 +9,6 @@ namespace osuTools.Replays.AdditionalInfo
     public class AdditionalRepalyData
     {
         private readonly LifeBarGraphCollection _l;
-        private byte[] _lzmAstream;
 
         /// <summary>
         ///     使用回放数据，数据长度和表示生命值图像的字符串构造一个AdditionalRepalyData对象
@@ -19,7 +18,6 @@ namespace osuTools.Replays.AdditionalInfo
         /// <param name="lifebargraphstr"></param>
         public AdditionalRepalyData(byte[] data, int len, string lifebargraphstr)
         {
-            _lzmAstream = data;
             LzmaStream.Write(data, 0, len);
             ReplayDataLength = len;
             _l = new LifeBarGraphCollection(lifebargraphstr);

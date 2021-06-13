@@ -84,8 +84,7 @@ namespace osuTools.OnlineInfo.OsuApiV1.OnlineQueries
             _date = jobj["date"].ToString();
             Rank = jobj["rank"].ToString();
             DateTime.TryParse(_date, out _d);
-            DateTime e;
-            e = TimeZone.CurrentTimeZone.ToLocalTime(_d);
+            var e = TimeZone.CurrentTimeZone.ToLocalTime(_d);
             _d = e;
             if (_perfect == 1)
                 Perfect = true;
@@ -100,7 +99,7 @@ namespace osuTools.OnlineInfo.OsuApiV1.OnlineQueries
         /// <summary>
         ///     本次游戏使用的Mods
         /// </summary>
-        public ModList Mods { get; } = new ModList();
+        public ModList Mods { get; }
 
         /// <summary>
         ///     游戏模式
@@ -157,9 +156,7 @@ namespace osuTools.OnlineInfo.OsuApiV1.OnlineQueries
         /// <returns></returns>
         public OnlineBeatmap GetOnlineBeatmap()
         {
-            var q = new OnlineBeatmapQuery();
-            q.OsuApiKey = QuerierApiKey;
-            q.BeatmapId = _beatmapId;
+            var q = new OnlineBeatmapQuery {OsuApiKey = QuerierApiKey, BeatmapId = _beatmapId};
             var beatmap = q.Beatmaps[0];
             return beatmap;
         }
@@ -170,9 +167,7 @@ namespace osuTools.OnlineInfo.OsuApiV1.OnlineQueries
         /// <returns></returns>
         public OnlineUser GetUser()
         {
-            var q = new OnlineUserQuery();
-            q.UserId = _userId;
-            q.OsuApiKey = QuerierApiKey;
+            var q = new OnlineUserQuery {UserId = _userId, OsuApiKey = QuerierApiKey};
             return q.UserInfo;
         }
 

@@ -73,8 +73,7 @@ namespace osuTools.Beatmaps
                         foreach (var offset in offsets)
                             try
                             {
-                                int innerOffset;
-                                innerOffset = int.Parse(offset);
+                                var innerOffset = int.Parse(offset);
                                 Bookmarks.Add(innerOffset);
                             }
                             catch (Exception ex)

@@ -10,27 +10,27 @@ namespace osuTools.Replays
             /// <summary>
             ///     300g或激的数量
             /// </summary>
-            public int c300G => _c300g;
+            public int CountGeki => _countGeki;
 
             /// <summary>
             ///     300的数量
             /// </summary>
-            public int c300 => _c300;
+            public int Count300 => _count300;
 
             /// <summary>
             ///     200或喝的数量
             /// </summary>
-            public int c200 => _c200;
+            public int CountKatu => _countKatu;
 
             /// <summary>
             ///     100的数量
             /// </summary>
-            public int c100 => _c100;
+            public int Count100 => _count100;
 
             /// <summary>
             ///     50的数量
             /// </summary>
-            public int c50 => _c50;
+            public int Count50 => _count50;
 
             /// <summary>
             ///     最大连击
@@ -40,7 +40,7 @@ namespace osuTools.Replays
             /// <summary>
             ///     Miss的数量
             /// </summary>
-            public int cMiss => _cmiss;
+            public int cMiss => _countMiss;
 
             /// <summary>
             ///     分数

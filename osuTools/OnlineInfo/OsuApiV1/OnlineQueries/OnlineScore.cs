@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Text;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -173,7 +174,7 @@ namespace osuTools.OnlineInfo.OsuApiV1.OnlineQueries
         /// <summary>
         ///     本次游玩中使用的Mods
         /// </summary>
-        public ModList Mods { get; } = new ModList();
+        public ModList Mods { get; }
 
         /// <summary>
         ///     谱面ID
@@ -194,7 +195,7 @@ namespace osuTools.OnlineInfo.OsuApiV1.OnlineQueries
         {
             var b = new StringBuilder(format);
             b.Replace("perfect", Perfect.ToString());
-            b.Replace("pp", Pp.ToString());
+            b.Replace("pp", Pp.ToString(CultureInfo.InvariantCulture));
             b.Replace("Count300g", C300G.ToString());
             b.Replace("c300", C300.ToString());
             b.Replace("Count200", C200.ToString());
@@ -233,9 +234,7 @@ namespace osuTools.OnlineInfo.OsuApiV1.OnlineQueries
         /// <returns></returns>
         public OnlineBeatmap GetOnlineBeatmap()
         {
-            var q = new OnlineBeatmapQuery();
-            q.OsuApiKey = QuerierApiKey;
-            q.BeatmapId = _beatmapId;
+            var q = new OnlineBeatmapQuery {OsuApiKey = QuerierApiKey, BeatmapId = _beatmapId};
             var beatmap = q.Beatmaps[0];
             return beatmap;
         }
@@ -246,9 +245,7 @@ namespace osuTools.OnlineInfo.OsuApiV1.OnlineQueries
         /// <returns></returns>
         public OnlineUser GetUser()
         {
-            var q = new OnlineUserQuery();
-            q.UserId = _userId;
-            q.OsuApiKey = QuerierApiKey;
+            var q = new OnlineUserQuery {UserId = _userId, OsuApiKey = QuerierApiKey};
             var user = q.UserInfo;
             return user;
         }

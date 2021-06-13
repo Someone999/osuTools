@@ -9,7 +9,6 @@ namespace osuTools.Skins
         {
             #region ManiaHitBurstImages
 
-            var dir = Path.GetDirectoryName(ConfigFileDirectory);
             var lst = SkinTools.GetMultipleFileSkinObject(_files, "mania-hit300g");
             if (lst.Count > 0)
                 foreach (var file in lst)

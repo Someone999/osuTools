@@ -37,7 +37,7 @@ namespace osuTools.Game.Mods
             }
 
             if (mode == OsuGameMode.Catch) _scoreMultiplier = 1.06d;
-            return base.CheckAndSetForMode(mode) && true;
+            return base.CheckAndSetForMode(mode);
         }
         /// <inheritdoc />
         public override Beatmap Apply(Beatmap beatmap)

@@ -104,7 +104,7 @@ namespace osuTools.GameInfo.KeyLayout
                         names[i] == "LeftAlt" ? "LMenu" :
                         names[i] == "RightAlt" ? "RMenu" : names[i];
 
-                    _keyandint.Add(names[i], (Keys) values.GetValue(i));
+                    _keyandint.Add(tmp, (Keys) values.GetValue(i));
                 }
             }
             catch (Exception e)
@@ -153,10 +153,9 @@ namespace osuTools.GameInfo.KeyLayout
 
         private void Parse()
         {
-            List<Keys> tmp;
             foreach (var data in _lines)
             {
-                tmp = new List<Keys>();
+                var tmp = new List<Keys>();
                 var keystr = "ManiaLayouts";
 
                 if (data.Trim().StartsWith(keystr))

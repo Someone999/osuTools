@@ -19,6 +19,8 @@ namespace osuTools.StoryBoard.Commands
         {
             StartColor = start;
             TargetColor = target;
+            StartTime = startTime;
+            EndTime = endTime;
         }
         /// <summary>
         /// 初始颜色

@@ -7,7 +7,7 @@ namespace osuTools.StoryBoard.Commands
     /// <summary>
     /// 触发器
     /// </summary>
-    public class Trigger : ITriggerCommand, IDurable
+    public class Trigger : ITriggerCommand
     {
         /// <inheritdoc />
         public StoryBoardEvent Command { get; } = StoryBoardEvent.Trigger;

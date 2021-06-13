@@ -134,8 +134,12 @@ namespace osuTools.OnlineInfo.OsuApiV1.OnlineQueries
             }
 
             if (q.Results != null)
-                foreach (JObject result in q.Results)
+                foreach (var jToken in q.Results)
+                {
+                    var result = (JObject) jToken;
                     c.Beatmaps.Add(new OnlineBeatmap(result));
+                }
+
             Beatmaps = c;
         }
     }

@@ -33,10 +33,7 @@ namespace osuTools.Beatmaps
                 {
                     var comasp = str.Split(',');
                     if (comasp.Length > 7) timePoints.TimePoints.Add(new TimePoint.TimePoint(str));
-                    continue;
                 }
-
-                if (nstr != "TimingPoints") continue;
             }
 
             _tps = timePoints;

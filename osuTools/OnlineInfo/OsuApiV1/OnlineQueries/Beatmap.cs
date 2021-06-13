@@ -175,6 +175,8 @@ namespace osuTools.OnlineInfo.OsuApiV1.OnlineQueries
             /// <returns></returns>
             public static bool operator ==(OnlineBeatmap olb, Beatmap lob)
             {
+                if (olb is null && lob is null) return true;
+                if (olb is null || lob is null) return false;
                 if (lob.BeatmapId == 0 || lob.BeatmapId == -1) throw new NotSupportedException();
                 if (olb.BeatmapId == lob.BeatmapId && lob.BeatmapId != 0 && lob.BeatmapId != -1) return true;
                 return false;
@@ -188,7 +190,9 @@ namespace osuTools.OnlineInfo.OsuApiV1.OnlineQueries
             /// <returns></returns>
             public static bool operator !=(OnlineBeatmap olb, Beatmap lob)
             {
-                if (lob.BeatmapId == 0 || lob.BeatmapId == -1) throw new NotSupportedException();
+                if (olb is null && lob is null) return false;
+                if (olb is null || lob is null) return true;
+            if (lob.BeatmapId == 0 || lob.BeatmapId == -1) throw new NotSupportedException();
                 if (olb.BeatmapId == lob.BeatmapId && lob.BeatmapId != 0 && lob.BeatmapId != -1) return false;
                 return true;
             }
@@ -201,6 +205,8 @@ namespace osuTools.OnlineInfo.OsuApiV1.OnlineQueries
             /// <returns></returns>
             public static bool operator ==(OnlineBeatmap olb, OsuRTDataProvider.BeatmapInfo.Beatmap lob)
             {
+                if (olb is null && lob is null) return true;
+                if (olb is null || lob is null) return false;
                 if (lob.BeatmapID == 0 || lob.BeatmapID == -1) throw new NotSupportedException();
                 if (olb.BeatmapId == lob.BeatmapID && lob.BeatmapID != 0 && lob.BeatmapID != -1) return true;
                 return false;
@@ -214,6 +220,8 @@ namespace osuTools.OnlineInfo.OsuApiV1.OnlineQueries
             /// <returns></returns>
             public static bool operator !=(OnlineBeatmap olb, OsuRTDataProvider.BeatmapInfo.Beatmap lob)
             {
+                if (olb is null && lob is null) return false;
+                if (olb is null || lob is null) return true;
                 if (lob.BeatmapID == 0 || lob.BeatmapID == -1) throw new NotSupportedException();
                 if (olb.BeatmapId == lob.BeatmapID && lob.BeatmapID != 0 && lob.BeatmapID != -1) return false;
                 return true;
