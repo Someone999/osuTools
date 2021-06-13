@@ -91,9 +91,12 @@ namespace osuTools.GameInfo
                 {
                     tmpDictionary.Add($"#Comment{commentLines}", line);
                     commentLines++;
+                    continue;
                 }
 
                 int index = line.IndexOf('=');
+                if(index == -1)
+                    continue;
                 string[] pair =
                 {
                     line.Substring(0,index),
