@@ -8,14 +8,15 @@ namespace osuTools.MusicPlayer
     public class PlayerException:Exception
     {
         /// <inheritdoc/>
+        /// <param name="msg">异常信息</param>
         public PlayerException(string msg) : base(msg)
         {
         }
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
-        /// <param name="msg"></param>
-        /// <param name="innerException"></param>
+        /// <param name="msg">异常信息</param>
+        /// <param name="innerException">导致当前异常的异常</param>
         public PlayerException(string msg,Exception innerException) : base(msg,innerException)
         {
         }

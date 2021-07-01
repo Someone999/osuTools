@@ -298,26 +298,7 @@ namespace osuTools.OrtdpWrapper
         ///     当前开启Mod对分数倍率的影响
         /// </summary>
         [AvailableVariable("ModScoreMultiplier", "LANG_VAR_MODSCOREMULTIPLIER")]
-        public double ModScoreMultiplier
-        {
-            get
-            {
-                if (CurrentMode == OsuGameMode.Mania) //如果是Mania模式
-                {
-                    //将原Mod列表中的降低难度筛选出来
-                    var collection = Mods.Mods.Where(mod => mod.Type == ModType.DifficultyReduction);
-                    //并添加到新的Mod列表里
-                    var lst = ModList.FromModArray(collection.ToArray());
-                    //计算降低难度的Mod的分数倍率
-                    return lst.ScoreMultiplier;
-                    //在Mania下，只计算降低难度的Mod的分数倍率
-                }
-
-                //其余模式都会计算所有Mod的分数倍率
-                return Mods.ScoreMultiplier;
-            }
-        }
-
+        public double ModScoreMultiplier => Mods.ScoreMultiplier;
         /// <summary>
         ///     血量降到0以下时会触发Fail
         /// </summary>
@@ -350,14 +331,7 @@ namespace osuTools.OrtdpWrapper
         /// </summary>
         [AvailableVariable("CountGekiRateStr", "LANG_VAR_C300GRATE_STR")]
         [Alias("c300gRateStr")]
-        public string CountGekiRateStr
-        {
-            get
-            {
-                if (CountGeki + Count300 == 0) return "0%";
-                return CountGekiRate.ToString("p");
-            }
-        }
+        public string CountGekiRateStr => CountGekiRate.ToString("p");
 
         /// <summary>
         ///     300在300,200,100,50,Miss中占的百分比的字符串形式，保留两位小数
@@ -410,16 +384,9 @@ namespace osuTools.OrtdpWrapper
         ///     当前的结算等级
         /// </summary>
         [AvailableVariable("CurrentRank", "LANG_VAR_CURRENTRANKING")]
-        public string CurrentRank
-        {
-            get
-            {
-                // System.Windows.Forms.MessageBox.Show(OsuListenerManager.OsuStatus.CurrentStatus.Contains("Playing").ToString());
-                if (GameStatus.CurrentStatus == OsuGameStatus.Playing) 
-                    return CurrentMode.GetRanking(this).ToString();
-                return "???";
-            }
-        }
+        public string CurrentRank =>
+            // System.Windows.Forms.MessageBox.Show(OsuListenerManager.OsuStatus.CurrentStatus.Contains("Playing").ToString());
+            GameStatus.CurrentStatus == OsuGameStatus.Playing ? CurrentMode.GetRanking(this).ToString() : "???";
 
         /// <summary>
         ///     触发改变前的模式
@@ -734,14 +701,7 @@ namespace osuTools.OrtdpWrapper
         ///     是否达到Perfect判定
         /// </summary>
         [AvailableVariable("Perfect", "LANG_VAR_ISPERFECT")]
-        public bool Perfect
-        {
-            get
-            {
-                if (Math.Abs(Accuracy - 1f) <= 0) return true;
-                return CurrentMode.IsPerfect(this);
-            }
-        }
+        public bool Perfect => Math.Abs(Accuracy - 1f) <= double.Epsilon || CurrentMode.IsPerfect(this);
 
         private int _maxcb;
         /// <summary>
@@ -785,23 +745,25 @@ namespace osuTools.OrtdpWrapper
             var speed = acc - _lastAcc;
             if (acc == 0) _lastAcc = 0;
             if (Math.Abs(acc - _lastAcc) < double.Epsilon) return acc;
-            return _lastAcc = SmoothMath.SmoothDamp(_lastAcc, acc, ref speed, 0.33, 0.2);
+            return _lastAcc = SmoothMath.SmoothDamp(_lastAcc, acc, ref speed, 0.33, 0.25);
         }
 
         private double CalcC300Rate()
         {
             var currentC300Rate = CurrentMode.GetCount300Rate(this);
             var speed = currentC300Rate - _lastC300Rate;
+            if (currentC300Rate == 0) _lastC300Rate = 0;
             if (Math.Abs(currentC300Rate - _lastC300Rate) < double.Epsilon) return currentC300Rate;
-            return _lastC300Rate = SmoothMath.SmoothDamp(_lastC300Rate, currentC300Rate, ref speed, 0.1, 0.1);
+            return _lastC300Rate = SmoothMath.SmoothDamp(_lastC300Rate, currentC300Rate, ref speed, 0.3, 0.1);
         }
 
         private double CalcC300GRate()
         {
             var currentC300GRate = CurrentMode.GetCountGekiRate(this);
             var speed = currentC300GRate - _lastC300GRate;
+            if (currentC300GRate == 0) _lastC300GRate = 0;
             if (Math.Abs(currentC300GRate - _lastC300GRate) < double.Epsilon) return currentC300GRate;
-            return _lastC300GRate = SmoothMath.SmoothDamp(_lastC300GRate, currentC300GRate, ref speed, 0.1, 0.1);
+            return _lastC300GRate = SmoothMath.SmoothDamp(_lastC300GRate, currentC300GRate, ref speed, 0.3, 0.2);
         }
 
         private double CalcTimePercent()

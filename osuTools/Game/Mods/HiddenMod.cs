@@ -29,6 +29,15 @@ namespace osuTools.Game.Mods
         public Mod[] ConflictMods => new Mod[] {new FadeInMod()};
         /// <inheritdoc />
         public OsuGameMod LegacyMod => OsuGameMod.Hidden;
+
+        /// <inheritdoc />
+        public override bool CheckAndSetForMode(GameMode mode)
+        {
+            if (mode == OsuGameMode.Mania)
+                _scoreMultiplier = 1;
+            return true;
+        }
+
         /// <inheritdoc />
         public override Beatmap Apply(Beatmap beatmap)
         {

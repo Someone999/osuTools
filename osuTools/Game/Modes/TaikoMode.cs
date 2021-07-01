@@ -121,13 +121,13 @@ namespace osuTools.Game.Modes
         /// <inheritdoc/>
         public override double GetCountGekiRate(OrtdpWrapper.OrtdpWrapper info)
         {
-            if (info is null) return 0;
+            if (info is null) return 0d;
             return GetCount300Rate(info);
         }
         ///<inheritdoc/>
         public override double GetCount300Rate(OrtdpWrapper.OrtdpWrapper info)
         {
-            if (info is null) return 0;
+            if (info is null) return 0d;
             return (double) info.Count300 / (info.Count300 + info.Count100 + info.CountMiss);
         }
         ///<inheritdoc/>

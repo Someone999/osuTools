@@ -188,7 +188,7 @@ namespace osuTools.Game.Modes
         {
             var rawValue = info.CountGeki / (double) (info.CountGeki + info.CountKatu);
             if (double.IsNaN(rawValue) || double.IsInfinity(rawValue))
-                return 0;
+                return 0d;
             return rawValue;
         }
         /// <inheritdoc/>
@@ -196,7 +196,7 @@ namespace osuTools.Game.Modes
         {
             var rawValue = info.Count300 / (double) (info.Count300 + info.Count100 + info.Count50 + info.CountMiss);
             if (double.IsNaN(rawValue) || double.IsInfinity(rawValue))
-                return 0;
+                return 0d;
             return rawValue;
         }
     }

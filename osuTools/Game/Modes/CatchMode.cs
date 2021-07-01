@@ -156,13 +156,13 @@ namespace osuTools.Game.Modes
         ///<inheritdoc/>
         public override double GetCount300Rate(OrtdpWrapper.OrtdpWrapper info)
         {
-            if (info is null) return 0;
+            if (info is null) return 0d;
             return AccuracyCalc(info);
         }
         ///<inheritdoc/>
         public override double GetCountGekiRate(OrtdpWrapper.OrtdpWrapper info)
         {
-            if (info is null) return 0;
+            if (info is null) return 0d;
             return AccuracyCalc(info);
         }
         ///<inheritdoc/>

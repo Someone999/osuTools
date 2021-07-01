@@ -6,6 +6,7 @@ using System.Text;
 using osuTools.Attributes;
 using osuTools.Beatmaps;
 using osuTools.Exceptions;
+using osuTools.Game.Modes;
 
 namespace osuTools.Game.Mods
 {
@@ -14,11 +15,6 @@ namespace osuTools.Game.Mods
     /// </summary>
     public class ModList:IEnumerable<Mod>
     {
-        
-        
-            
-        
-        
         private List<Mod> _mods = new List<Mod>();
         IEnumerator IEnumerable.GetEnumerator()
         {
@@ -80,6 +76,7 @@ namespace osuTools.Game.Mods
 
         void CalcTimeRate()
         {
+            TimeRate = 1;
             foreach (var m in _mods)
             {
                 if (m is IChangeTimeRateMod changeTimeRateMod)
@@ -91,6 +88,7 @@ namespace osuTools.Game.Mods
         {
             IsRanked = _mods.All(m => m.IsRankedMod);
         }
+
         /// <summary>
         ///     列表中Mod对谱面速度的影响
         /// </summary>
@@ -99,7 +97,7 @@ namespace osuTools.Game.Mods
         {
             get;
             private set;
-        }
+        } = 1;
         /// <summary>
         /// 获取或设置指定索引处的Mod
         /// </summary>
@@ -137,6 +135,22 @@ namespace osuTools.Game.Mods
             var comparer = new ModEqulityComparer();
             return _mods.Contains(mod, comparer);
         }
+        /// <summary>
+        ///     列表中是否含有指定Mod
+        /// </summary>
+        /// <param name="mod"></param>
+        /// <returns></returns>
+        public bool HasMod(OsuGameMod mod)
+        {
+            foreach (var mod1 in _mods)
+            {
+                if(mod1 is ILegacyMod legacyMod)
+                    if (legacyMod.LegacyMod == mod)
+                        return true;
+            }
+
+            return false;
+        }
 
         /// <summary>
         ///     列表中是否含有指定Mod
@@ -149,10 +163,21 @@ namespace osuTools.Game.Mods
         }
 
         /// <summary>
+        ///     列表中是否含有指定Mod
+        /// </summary>
+        /// <param name="mod"></param>
+        /// <returns></returns>
+        public bool Contains(OsuGameMod mod)
+        {
+            return HasMod(mod);
+        }
+
+        /// <summary>
         ///     添加Mod到列表
         /// </summary>
         /// <param name="item"></param>
-        public void Add(Mod item)
+        /// <param name="mode"></param>
+        public void Add(Mod item,OsuGameMode? mode = null)
         {
             var comparer = new ModEqulityComparer();
             if (item != null)
@@ -167,6 +192,8 @@ namespace osuTools.Game.Mods
 
                 if (_mods.Contains(item, comparer))
                     throw new ModExsitedException(item);
+                if (mode.HasValue)
+                    item.CheckAndSetForMode(GameMode.FromLegacyMode(mode.Value));
                 _mods.Add(item);
                 CalcScoreMul();
                 CalcTimeRate();
@@ -205,8 +232,9 @@ namespace osuTools.Game.Mods
         ///     将包含Mod的整数分解成Mod并返回添加后的列表
         /// </summary>
         /// <param name="mod"></param>
+        ///<param name="mode"></param>
         /// <returns></returns>
-        public static ModList FromInteger(int mod)
+        public static ModList FromInteger(int mod,OsuGameMode? mode = null)
         {
             var mods = new ModList();
             if (mod == -1) return mods;
@@ -215,7 +243,10 @@ namespace osuTools.Game.Mods
                 if (s[i] == '1')
                 {
                     var tmpMod = Mod.FromLegacyMod((OsuGameMod) (1 << i));
-                    if (tmpMod != null) mods.Add(tmpMod);
+                    if (mode.HasValue)
+                        tmpMod.CheckAndSetForMode(GameMode.FromLegacyMode(mode.Value));
+                    if (tmpMod != null) 
+                        mods.Add(tmpMod);
                 }
 
             return mods;
@@ -285,15 +316,18 @@ namespace osuTools.Game.Mods
         ///     将<see cref="OsuGameMod" />分解成多个Mod并返回添加后的列表
         /// </summary>
         /// <param name="mod"></param>
+        /// <param name="mode"></param>
         /// <returns></returns>
-        public static ModList FromLegacyMods(OsuGameMod mod)
+        public static ModList FromLegacyMods(OsuGameMod mod,OsuGameMode? mode = null)
         {
             var mods = new ModList();
             var s = Convert.ToString((int) mod, 2);
             for (var i = 0; i < s.Length; i++)
                 if (s[i] == '1')
                 {
-                    var tmpMod = Mod.FromLegacyMod((OsuGameMod) (2 << i));
+                    var tmpMod = Mod.FromLegacyMod((OsuGameMod) (1 << i));//之前是(2 << i)
+                    if (mode.HasValue)
+                        tmpMod.CheckAndSetForMode(GameMode.FromLegacyMode(mode.Value));
                     if (tmpMod != null)
                         if (tmpMod is IHasConflictMods spMod)
                         {
@@ -311,10 +345,15 @@ namespace osuTools.Game.Mods
         ///     将Mod数组转换成ModList
         /// </summary>
         /// <param name="arr"></param>
+        /// <param name="mode"></param>
         /// <returns></returns>
-        public static ModList FromModArray(Mod[] arr)
+        public static ModList FromModArray(Mod[] arr,OsuGameMode? mode = null)
         {
-            var m = new ModList {_mods = new List<Mod>(arr)};
+            var m = new ModList();
+            foreach (var mod in arr)
+            {
+                m.Add(mod,mode);
+            }
             m.CalcScoreMul();
             m.CalcTimeRate();
             return m;

@@ -142,16 +142,16 @@ namespace osuTools.Game.Modes
         /// <inheritdoc/>
         public override double GetCountGekiRate(OrtdpWrapper.OrtdpWrapper info)
         {
-            if (info is null) return 0;
+            if (info is null) return 0d;
             var rawValue = info.CountGeki / (double) (info.Count300 + info.CountGeki);
             if (double.IsNaN(rawValue) || double.IsInfinity(rawValue))
-                return 0;
+                return 0d;
             return rawValue;
         }
         /// <inheritdoc/>
         public override double GetCount300Rate(OrtdpWrapper.OrtdpWrapper info)
         {
-            if (info is null) return 0;
+            if (info is null) return 0d;
             double rawValue;
             if (info.CountGeki > 0 && info.Count300 == 0)
                 rawValue = GetCountGekiRate(info);
@@ -159,7 +159,7 @@ namespace osuTools.Game.Modes
                 rawValue = (info.Count300 + info.CountGeki) /
                            (double) (info.CountGeki + info.Count300 + info.CountKatu + info.Count100 + info.Count50 + info.CountMiss);
             if (double.IsNaN(rawValue) || double.IsInfinity(rawValue))
-                return 0;
+                return 0d;
             return rawValue;
         }
         /// <inheritdoc/>

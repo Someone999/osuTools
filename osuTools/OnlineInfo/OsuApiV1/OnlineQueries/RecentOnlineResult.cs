@@ -134,12 +134,12 @@ namespace osuTools.OnlineInfo.OsuApiV1.OnlineQueries
         {
             var b = new StringBuilder(format);
             b.Replace("perfect", Perfect.ToString());
-            b.Replace("Count300g", C300G.ToString());
-            b.Replace("c300", C300.ToString());
-            b.Replace("Count200", C200.ToString());
-            b.Replace("Count100", C100.ToString());
-            b.Replace("Count50", C50.ToString());
-            b.Replace("CountMiss", CMiss.ToString());
+            b.Replace("Count300g", CountGeki.ToString());
+            b.Replace("c300", Count300.ToString());
+            b.Replace("Count200", CountKatu.ToString());
+            b.Replace("Count100", Count100.ToString());
+            b.Replace("Count50", Count50.ToString());
+            b.Replace("CountMiss", CountMiss.ToString());
             b.Replace("maxcombo", MaxCombo.ToString());
             b.Replace("userid", UserId.ToString());
             b.Replace("rank", Rank);
@@ -173,7 +173,7 @@ namespace osuTools.OnlineInfo.OsuApiV1.OnlineQueries
 
         private double AccCalc(OsuGameMode mode)
         {
-            double c3G = C300G, c3 = C300, c2 = C200, c1 = C100, c5 = C50, cm = CMiss;
+            double c3G = CountGeki, c3 = Count300, c2 = CountKatu, c1 = Count100, c5 = Count50, cm = CountMiss;
             double a2 = 2.0 / 3, a1 = 1.0 / 3, a5 = 1.0 / 6;
             var mall = c3 + c3G + c2 + c1 + c5 + cm;
             var sall = c3 + c1 + c5 + cm;

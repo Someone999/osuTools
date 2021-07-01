@@ -43,11 +43,11 @@ namespace osuTools.GameInfo.KeyLayout
         /// <summary>
         ///     从配置文件读取并构建Mods和Keys的键值对
         /// </summary>
-        /// <param name="configfile"></param>
-        public ModsKeyLayout(string configfile)
+        /// <param name="configFile"></param>
+        public ModsKeyLayout(string configFile)
         {
             InitKeys();
-            _lines = File.ReadAllLines(configfile);
+            _lines = File.ReadAllLines(configFile);
             InitModList();
             GetKeys();
         }

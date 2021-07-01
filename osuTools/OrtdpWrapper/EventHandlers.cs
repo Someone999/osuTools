@@ -203,7 +203,10 @@ namespace osuTools.OrtdpWrapper
             Mods.ClearMod();
             foreach (var mod in ModList.FromInteger((int) mods.Mod).Mods.Where(m => m.CheckAndSetForMode(CurrentMode)))
             {
-                Mods.Add(mod);
+                OsuGameMode? mode = null;
+                if (CurrentMode is ILegacyMode legacyMode)
+                    mode = legacyMode.LegacyMode;
+                Mods.Add(mod,mode);
             }
             if (CurrentMode == OsuGameMode.Mania && Mods.Any(mod => mod is ScoreV2Mod))
                 _tmpHitObjectCount = _hitObjects.Count +
@@ -249,6 +252,9 @@ namespace osuTools.OrtdpWrapper
             _cBtime = 0;
             _cTmpoint = 0;
             _maxcb = 0;
+            _lastAcc = 0;
+            _lastC300GRate = 0;
+            _lastC300Rate = 0;
         }
 
         private void ReadFromOrtdp(Beatmap beatmap)
@@ -604,6 +610,7 @@ namespace osuTools.OrtdpWrapper
                             IO.CurrentIO.WriteColor($"[osuTools] Retry at {PlayTime}ms", ConsoleColor.Yellow);
                         RetryCount++;
                         PlayTime = 0;
+                        Setzero();
                         OnScoreReset(this, RetryCount);
                     }
             }

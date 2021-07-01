@@ -16,7 +16,6 @@ namespace osuTools.Replays
         private readonly FileInfo _info;
         private readonly bool _infonovalue;
         private byte _mode, _per;
-        private List<OsuGameMod> _mods = new List<OsuGameMod>();
         private readonly BinaryReader _r;
 
         /// <summary>
@@ -59,7 +58,7 @@ namespace osuTools.Replays
         /// <summary>
         ///     录像对应的游玩记录使用Mods
         /// </summary>
-        public IReadOnlyList<OsuGameMod> Mods => _mods.AsReadOnly();
+        public ModList Mods { get; private set; } = new ModList();
 
         /// <summary>
         ///     附加的录像数据
@@ -117,7 +116,7 @@ namespace osuTools.Replays
             _maxco = _r.ReadInt16();
             _per = _r.ReadByte();
             Perfect = _per == 1;
-            _mods = HitObjectTools.GetGenericTypesByInt<OsuGameMod>(_r.ReadInt32());
+            Mods = ModList.FromInteger(_r.ReadInt32(),Mode);
             if (_r.ReadByte() == 0x0b)
                 lfbar = _r.ReadString();
             PlayTime = new DateTime(_r.ReadInt64());

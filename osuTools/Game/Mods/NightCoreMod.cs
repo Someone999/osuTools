@@ -15,7 +15,8 @@ namespace osuTools.Game.Mods
         /// <inheritdoc />
         public override string ShortName => "NC";
         /// <inheritdoc />
-        public override double ScoreMultiplier => 1.12d;
+        public override double ScoreMultiplier => _scoreMultiplier;
+        private double _scoreMultiplier = 1.12;
         /// <inheritdoc />
         public override ModType Type => ModType.DifficultyIncrease;
         /// <inheritdoc />
@@ -29,8 +30,8 @@ namespace osuTools.Game.Mods
         /// <inheritdoc />
         public override bool CheckAndSetForMode(GameMode mode)
         {
-            if (mode == OsuGameMode.Catch) ScoreMultiplier = 1.06d;
-            if (mode == OsuGameMode.Mania) ScoreMultiplier = 1d;
+            if (mode == OsuGameMode.Catch) _scoreMultiplier = 1.06d;
+            if (mode == OsuGameMode.Mania) _scoreMultiplier = 1d;
             return base.CheckAndSetForMode(mode);
         }
         /// <inheritdoc />

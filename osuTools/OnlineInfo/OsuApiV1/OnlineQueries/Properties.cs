@@ -109,32 +109,32 @@ namespace osuTools.OnlineInfo.OsuApiV1.OnlineQueries
             /// <summary>
             ///     300g或激的数量
             /// </summary>
-            public int C300G => _countgeki;
+            public int CountGeki => _countgeki;
 
             /// <summary>
             ///     300的数量
             /// </summary>
-            public int C300 => _count300;
+            public int Count300 => _count300;
 
             /// <summary>
             ///     200或喝的数量
             /// </summary>
-            public int C200 => _countkatu;
+            public int CountKatu => _countkatu;
 
             /// <summary>
             ///     100的数量
             /// </summary>
-            public int C100 => _count100;
+            public int Count100 => _count100;
 
             /// <summary>
             ///     50的数量
             /// </summary>
-            public int C50 => _count50;
+            public int Count50 => _count50;
 
             /// <summary>
             ///     Miss的数量
             /// </summary>
-            public int CMiss => _countmiss;
+            public int CountMiss => _countmiss;
 
             /// <summary>
             ///     用户ID
@@ -154,7 +154,7 @@ namespace osuTools.OnlineInfo.OsuApiV1.OnlineQueries
             /// <summary>
             ///     游玩时间(为UTC时间)
             /// </summary>
-            public DateTime GetDate => _d;
+            public DateTime ScoreDate => _d;
 
             /// <summary>
             ///     录像是否可用
@@ -177,32 +177,32 @@ namespace osuTools.OnlineInfo.OsuApiV1.OnlineQueries
             /// <summary>
             ///     300g或激的数量
             /// </summary>
-            public int C300G => _countgeki;
+            public int CountGeki => _countgeki;
 
             /// <summary>
             ///     300的数量
             /// </summary>
-            public int C300 => _count300;
+            public int Count300 => _count300;
 
             /// <summary>
             ///     200或喝的数量
             /// </summary>
-            public int C200 => _countkatu;
+            public int CountKatu => _countkatu;
 
             /// <summary>
             ///     100的数量
             /// </summary>
-            public int C100 => _count100;
+            public int Count100 => _count100;
 
             /// <summary>
             ///     50的数量
             /// </summary>
-            public int C50 => _count50;
+            public int Count50 => _count50;
 
             /// <summary>
             ///     Miss的数量
             /// </summary>
-            public int CMiss => _countmiss;
+            public int CountMiss => _countmiss;
 
             /// <summary>
             ///     用户ID
@@ -222,6 +222,6 @@ namespace osuTools.OnlineInfo.OsuApiV1.OnlineQueries
             /// <summary>
             ///     游玩时间(为UTC时间)
             /// </summary>
-            public DateTime GetDate => _d;
+            public DateTime ScoreDate => _d;
         }
 }

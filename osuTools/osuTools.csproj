@@ -443,9 +443,7 @@
     <Compile Include="Replays\AdditionalInfo\AdditionalRepalyData.cs" />
     <Compile Include="Replays\AdditionalInfo\LifeBarGraph.cs" />
     <Compile Include="Replays\AdditionalInfo\LifeBarGraphCollection.cs" />
-    <Compile Include="Replays\ex.cs" />
     <Compile Include="Replays\Exception\FileInfoHasNoValue.cs" />
-    <Compile Include="Replays\Main.cs" />
     <Compile Include="Replays\Peoperties.cs" />
     <Compile Include="Replays\Replay.cs" />
     <Compile Include="Replays\ReplayCollection.cs" />
@@ -595,7 +593,7 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties Reactor_Deploy="0" Reactor_Output="" Reactor_Configuration="ALL" Reactor_Project="" Reactor_Commands="" Reactor_Enabled="0" />
+      <UserProperties Reactor_Enabled="0" Reactor_Commands="" Reactor_Project="" Reactor_Configuration="ALL" Reactor_Output="" Reactor_Deploy="0" />
     </VisualStudio>
   </ProjectExtensions>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

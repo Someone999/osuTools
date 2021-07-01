@@ -128,7 +128,7 @@ namespace osuTools.Game.Mods
         /// <returns></returns>
         public virtual bool CheckAndSetForMode(GameMode mode)
         {
-            if (mode.AvaliableMods.ToModList().HasMod(this))
+            if (mode.AvaliableMods.Contains(this))
                 return true;
             return false;
         }
