@@ -134,10 +134,13 @@ namespace osuTools.Game.Modes
             return info.CountGeki + info.Count300 + info.CountKatu + info.Count100 + info.Count50 + info.CountMiss;
         }
         /// <inheritdoc/>
-        public override int GetBeatmapHitObjectCount(Beatmap b)
+        public override int GetBeatmapHitObjectCount(Beatmap b,ModList mods)
         {
             if (b is null) return 0;
-            return b.HitObjects.Count;
+            int hitObjCount = b.HitObjects.Count;
+            if (mods.Contains(typeof(ScoreV2Mod)))
+                hitObjCount += b.GetHitObjects<ManiaHold>().Count;
+            return hitObjCount;
         }
         /// <inheritdoc/>
         public override double GetCountGekiRate(OrtdpWrapper.OrtdpWrapper info)
@@ -162,13 +165,14 @@ namespace osuTools.Game.Modes
                 return 0d;
             return rawValue;
         }
+
         /// <inheritdoc/>
         public override GameRanking GetRanking(OrtdpWrapper.OrtdpWrapper info)
         {
             if (info is null) return GameRanking.Unknown;
             bool isHdOrFl = false;
-            if (!string.IsNullOrEmpty(info.ModShortNames))
-                isHdOrFl = info.ModShortNames.Contains("HD") || info.ModShortNames.Contains("FL");
+            if (info.Mods.Count > 0)
+                isHdOrFl = info.Mods.Contains(typeof(HiddenMod)) || info.Mods.Contains(typeof(FlashlightMod));
             return AccuracyCalc(info) * 100 >= 100 ? isHdOrFl ? GameRanking.SSH : GameRanking.SS :
                 AccuracyCalc(info) * 100 > 95 ? isHdOrFl ? GameRanking.SH : GameRanking.S :
                 AccuracyCalc(info) * 100 > 90 ? GameRanking.A :

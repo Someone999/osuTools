@@ -1,4 +1,5 @@
-﻿using osuTools.StoryBoard.Commands;
+﻿using System.Net;
+using osuTools.StoryBoard.Commands;
 using osuTools.StoryBoard.Commands.Interface;
 
 namespace osuTools.StoryBoard.Tools
@@ -16,10 +17,12 @@ namespace osuTools.StoryBoard.Tools
         {
             return commandStr.StartsWith("[") || commandStr.StartsWith("//");
         }
-        public StoryBoardCommandString(StoryBoardCommandString last, string commandStr, int level)
+        public StoryBoardCommandString(StoryBoardCommandString last, string commandStr, int level,out bool failed)
         {
+            failed = false;
             if (!IsInvalid(commandStr))
             {
+                
                 Level = level;
                 if (last == null)
                     Parent = null;
@@ -50,6 +53,9 @@ namespace osuTools.StoryBoard.Tools
                 else
                     CurrentCommand = new StoryBoardMainCommand();
                 CurrentCommand.Parse(commandStr);
+                if (CurrentCommand is StoryBoardMainCommand mainCommand)
+                    if (mainCommand.Resource is null)
+                        failed = true;
                 if (Parent != null)
                 {
                     if (ParentCommand is null)
@@ -72,6 +78,7 @@ namespace osuTools.StoryBoard.Tools
             }
             else
             {
+                failed = true;
                 Command = null;
             }
         }

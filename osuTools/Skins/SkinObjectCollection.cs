@@ -15,8 +15,8 @@ namespace osuTools.Skins
         /// <summary>
         ///     通用皮肤元素
         /// </summary>
-        public GenericSkinObjectCollection GenericSkinObjects { get; internal set; } =
-            new GenericSkinObjectCollection();
+        public GeneralSkinObjectCollection GeneralSkinObjects { get; internal set; } =
+            new GeneralSkinObjectCollection();
 
         /// <summary>
         ///     Osu模式的皮肤元素

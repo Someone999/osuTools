@@ -15,11 +15,8 @@ namespace osuTools.Game.Mods
     /// </summary>
     public class ModList:IEnumerable<Mod>
     {
-        private List<Mod> _mods = new List<Mod>();
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return _mods.GetEnumerator();
-        }
+        private readonly List<Mod> _mods = new List<Mod>();
+        IEnumerator IEnumerable.GetEnumerator() => _mods.GetEnumerator();
 
         /// <summary>
         ///     Mod数组
@@ -130,11 +127,8 @@ namespace osuTools.Game.Mods
         /// </summary>
         /// <param name="mod"></param>
         /// <returns></returns>
-        public bool HasMod(Mod mod)
-        {
-            var comparer = new ModEqulityComparer();
-            return _mods.Contains(mod, comparer);
-        }
+        public bool HasMod(Type mod) => _mods.Any((m) => m.GetType() == mod);
+
         /// <summary>
         ///     列表中是否含有指定Mod
         /// </summary>
@@ -157,7 +151,7 @@ namespace osuTools.Game.Mods
         /// </summary>
         /// <param name="mod"></param>
         /// <returns></returns>
-        public bool Contains(Mod mod)
+        public bool Contains(Type mod)
         {
             return HasMod(mod);
         }
@@ -195,9 +189,7 @@ namespace osuTools.Game.Mods
                 if (mode.HasValue)
                     item.CheckAndSetForMode(GameMode.FromLegacyMode(mode.Value));
                 _mods.Add(item);
-                CalcScoreMul();
-                CalcTimeRate();
-                IsModsRanked();
+               RecalculateProperties();
             }
         }
 
@@ -210,9 +202,7 @@ namespace osuTools.Game.Mods
             foreach (var mod in _mods)
                 if (mod == item)
                     _mods.Remove(mod);
-            CalcScoreMul();
-            CalcTimeRate();
-            IsModsRanked();
+            RecalculateProperties();
         }
 
         /// <summary>
@@ -248,7 +238,6 @@ namespace osuTools.Game.Mods
                     if (tmpMod != null) 
                         mods.Add(tmpMod);
                 }
-
             return mods;
         }
 
@@ -296,9 +285,7 @@ namespace osuTools.Game.Mods
         public void RemoveAt(int index)
         {
             _mods.RemoveAt(index);
-            CalcScoreMul();
-            IsModsRanked();
-            CalcTimeRate();
+            RecalculateProperties();
         }
 
         /// <summary>
@@ -310,6 +297,7 @@ namespace osuTools.Game.Mods
             ScoreMultiplier = 1;
             IsRanked = true;
             TimeRate = 1;
+            AllowsFail = true;
         }
 
         /// <summary>
@@ -325,7 +313,7 @@ namespace osuTools.Game.Mods
             for (var i = 0; i < s.Length; i++)
                 if (s[i] == '1')
                 {
-                    var tmpMod = Mod.FromLegacyMod((OsuGameMod) (1 << i));//之前是(2 << i)
+                    var tmpMod = Mod.FromLegacyMod((OsuGameMod) (1 << i));
                     if (mode.HasValue)
                         tmpMod.CheckAndSetForMode(GameMode.FromLegacyMode(mode.Value));
                     if (tmpMod != null)
@@ -336,8 +324,6 @@ namespace osuTools.Game.Mods
                                 mods.Add(tmpMod);
                         }
                 }
-            mods.CalcScoreMul();
-            mods.CalcTimeRate();
             return mods;
         }
 
@@ -354,9 +340,14 @@ namespace osuTools.Game.Mods
             {
                 m.Add(mod,mode);
             }
-            m.CalcScoreMul();
-            m.CalcTimeRate();
+            m.RecalculateProperties();
             return m;
+        }
+        void RecalculateProperties()
+        {
+            CalcScoreMul();
+            CalcTimeRate();
+            GetAllowsFail();
         }
 
         /// <summary>
@@ -427,5 +418,10 @@ namespace osuTools.Game.Mods
                     i |= (int) mod.LegacyMod;
             return i;
         }
+        /// <summary>
+        /// 在当前的Mod下是否会失败
+        /// </summary>
+        public bool AllowsFail { get; private set; }
+        void GetAllowsFail() => AllowsFail = _mods.Aggregate(true, (current, mod) => current && mod.AllowsFail());
     }
 }

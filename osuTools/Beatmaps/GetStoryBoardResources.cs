@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using osuTools.StoryBoard.Commands.Interface;
 using osuTools.StoryBoard.Interfaces;
 using osuTools.StoryBoard.Objects;
@@ -39,8 +40,14 @@ namespace osuTools.Beatmaps
         {
             if (!(_sbResources is null))
                 return _sbResources;
-            var dirs = Directory.GetFiles($"{FullPath.Replace(FileName, "")}\\", "*.osb", SearchOption.AllDirectories);
-            var map = File.ReadAllLines(dirs.Length > 0 ? dirs[0] : FullPath);
+            if (string.IsNullOrEmpty(FullPath))
+                return new List<IStoryBoardResource>();
+            string fileName = FileName.Substring(0, FileName.Length - 4);
+            var dirs = Directory.GetFiles($"{FullPath.Replace(FileName, "")}\\", $"{fileName + ".osb"}", SearchOption.AllDirectories);
+            List<string> map = new List<string>();
+            if(dirs.Length > 0)
+                map.AddRange(File.ReadAllLines(dirs.Length > 0 ? dirs[0] : FullPath));
+            map.AddRange(File.ReadAllLines(FullPath));
             var resources = new List<IStoryBoardResource>();
             foreach (var line in map)
             {
@@ -82,12 +89,22 @@ namespace osuTools.Beatmaps
         }
         List<IStoryBoardCommand> GetStoryBoardCommands()
         {
+            var commandList = new List<IStoryBoardCommand>();
+            if (string.IsNullOrEmpty(FullPath))
+                return new List<IStoryBoardCommand>();
             if (!(_sbCommands is null))
                 return _sbCommands;
-            var dirs = Directory.GetFiles($"{FullPath.Replace(FileName, "")}\\", "*.osb", SearchOption.AllDirectories);
-            var dir = dirs.Length > 0 ? dirs[0] : FullPath;
-            StoryBoardCommandParser parser = new StoryBoardCommandParser(dir);
-            return _sbCommands = new List<IStoryBoardCommand>(parser.Parse());
+            string fileName = FileName.Substring(0, FileName.Length - 4);
+            var dirs = Directory.GetFiles($"{FullPath.Replace(FileName, "")}\\", $"{fileName + ".osb"}", SearchOption.AllDirectories);
+            
+            StoryBoardCommandParser parser = new StoryBoardCommandParser(FullPath);
+            if (dirs.Length == 1)
+            {
+                StoryBoardCommandParser beatmapStoryBoardCommandParser = new StoryBoardCommandParser(dirs[0]);
+                commandList.AddRange(beatmapStoryBoardCommandParser.Parse());
+            }
+            commandList.AddRange(parser.Parse());
+            return _sbCommands = commandList;
         }
     }
 }

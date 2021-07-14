@@ -27,6 +27,7 @@
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x86</PlatformTarget>
     <DocumentationFile>bin\Debug\osuTools.xml</DocumentationFile>
+    <RegisterForComInterop>false</RegisterForComInterop>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -235,7 +236,7 @@
     <Compile Include="Beatmaps\WIthOnlineBeatmapV2.cs" />
     <Compile Include="Beatmaps\WithORTDPBeatmap.cs" />
     <Compile Include="Beatmaps\WithOsuBeatmap.cs" />
-    <Compile Include="Beatmaps\WithString.cs" />
+    <Compile Include="Beatmaps\WithBeatmapFile.cs" />
     <Compile Include="Beatmaps\DataBlock.cs" />
     <Compile Include="Beatmaps\Fields.cs" />
     <Compile Include="Beatmaps\GetReplays.cs" />
@@ -366,6 +367,7 @@
     <Compile Include="MD5Tools\MD5String.cs" />
     <Compile Include="MusicPlayer\IBassPlayer.cs" />
     <Compile Include="MusicPlayer\MediaInfo.cs" />
+    <Compile Include="MusicPlayer\MediaState.cs" />
     <Compile Include="MusicPlayer\Player.cs" />
     <Compile Include="MusicPlayer\PlayerException.cs" />
     <Compile Include="OnlineInfo\OsuApiV1\OnlineQueries\Beatmap.cs" />
@@ -443,7 +445,6 @@
     <Compile Include="Replays\AdditionalInfo\AdditionalRepalyData.cs" />
     <Compile Include="Replays\AdditionalInfo\LifeBarGraph.cs" />
     <Compile Include="Replays\AdditionalInfo\LifeBarGraphCollection.cs" />
-    <Compile Include="Replays\Exception\FileInfoHasNoValue.cs" />
     <Compile Include="Replays\Peoperties.cs" />
     <Compile Include="Replays\Replay.cs" />
     <Compile Include="Replays\ReplayCollection.cs" />
@@ -462,7 +463,7 @@
     <Compile Include="Skins\Color\TextColor.cs" />
     <Compile Include="Skins\Fonts\FontSetting.cs" />
     <Compile Include="Skins\Game\GeneralSkinImage.cs" />
-    <Compile Include="Skins\Game\GenericSkinObjectCollection.cs" />
+    <Compile Include="Skins\Game\GeneralSkinObjectCollection.cs" />
     <Compile Include="Skins\Game\GeneralSkinSound.cs" />
     <Compile Include="Skins\Game\Menu\MenuButton.cs" />
     <Compile Include="Skins\Game\Menu\MenuButtonImageCollection.cs" />
@@ -587,13 +588,11 @@
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Skins\SkinParser\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties Reactor_Enabled="0" Reactor_Commands="" Reactor_Project="" Reactor_Configuration="ALL" Reactor_Output="" Reactor_Deploy="0" />
+      <UserProperties Reactor_Deploy="0" Reactor_Output="" Reactor_Configuration="ALL" Reactor_Project="" Reactor_Commands="" Reactor_Enabled="0" />
     </VisualStudio>
   </ProjectExtensions>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

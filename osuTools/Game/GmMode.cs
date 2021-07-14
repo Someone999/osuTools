@@ -17,20 +17,18 @@ namespace osuTools.Game
         /// <param name="nowMode"></param>
         public GmMode(OsuPlayMode lastMode, OsuPlayMode nowMode)
         {
-            //IO.CurrentIO.Write($"Get Mode {LastMode} -> {NowMode}");
             LastMode = GameMode.FromLegacyMode((OsuGameMode) lastMode);
             CurrentMode = GameMode.FromLegacyMode((OsuGameMode) nowMode);
-            //IO.CurrentIO.Write("");
         }
 
         /// <summary>
         ///     上一次的游戏模式
         /// </summary>
-        public GameMode LastMode { get; }
+        public GameMode LastMode { get; internal set; }
 
         /// <summary>
         ///     当前游戏模式
         /// </summary>
-        public GameMode CurrentMode { get; }
+        public GameMode CurrentMode { get; internal set; }
     }
 }

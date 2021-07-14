@@ -1,4 +1,7 @@
-﻿namespace osuTools.Game.Mods
+﻿using osuTools.Beatmaps;
+using osuTools.Game.Modes;
+
+namespace osuTools.Game.Mods
 {
     /// <summary>
     /// 自动按键，只需要定位
@@ -23,6 +26,8 @@
             new AutoPilotMod(), new AutoPlayMod(), new CinemaMod(), new SuddenDeathMod(),
             new PerfectMod(), new NoFailMod()
         };
+        /// <inheritdoc />
+        public override bool AllowsFail() => false;
         /// <inheritdoc />
         public OsuGameMod LegacyMod => OsuGameMod.Relax;
     }

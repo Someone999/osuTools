@@ -1,10 +1,15 @@
-﻿namespace osuTools.Game.Mods
+﻿using osuTools.Beatmaps;
+using osuTools.Game.Modes;
+
+namespace osuTools.Game.Mods
 {
     /// <summary>
     /// 怎样都失败不了
     /// </summary>
     public class NoFailMod : Mod, ILegacyMod, IHasConflictMods
     {
+        /// <inheritdoc />
+        public override bool AllowsFail() => false;
         /// <inheritdoc />
         public override bool IsRankedMod => true;
         /// <inheritdoc />

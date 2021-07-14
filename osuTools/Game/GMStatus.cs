@@ -12,22 +12,22 @@ namespace osuTools.Game
         /// <summary>
         ///     使用两个<see cref="OsuRTDataProvider.Listen.OsuListenerManager.OsuStatus" />构造一个GMStatus
         /// </summary>
-        /// <param name="Last"></param>
-        /// <param name="Now"></param>
-        public GMStatus(OsuListenerManager.OsuStatus Last, OsuListenerManager.OsuStatus Now)
+        /// <param name="last"></param>
+        /// <param name="now"></param>
+        public GMStatus(OsuListenerManager.OsuStatus last, OsuListenerManager.OsuStatus now)
         {
-            LastStatus = (OsuGameStatus) Last;
-            CurrentStatus = (OsuGameStatus) Now;
+            LastStatus = (OsuGameStatus) last;
+            CurrentStatus = (OsuGameStatus) now;
         }
 
         /// <summary>
         ///     上一次的状态
         /// </summary>
-        public OsuGameStatus LastStatus { get; }
+        public OsuGameStatus LastStatus { get; internal set; }
 
         /// <summary>
         ///     当前状态
         /// </summary>
-        public OsuGameStatus CurrentStatus { get; }
+        public OsuGameStatus CurrentStatus { get; internal set; }
     }
 }

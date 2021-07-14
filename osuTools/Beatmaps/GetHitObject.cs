@@ -13,6 +13,8 @@ namespace osuTools.Beatmaps
             // t.Start();
             var block = DataBlock.None;
             var objects = new HitObjectCollection();
+            if (string.IsNullOrEmpty(FullPath))
+                _hitObjects = objects;
             var map = File.ReadAllLines(FullPath);
             foreach (var str in map)
             {

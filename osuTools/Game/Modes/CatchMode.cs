@@ -134,7 +134,7 @@ namespace osuTools.Game.Modes
             return double.IsNaN(rawValue) ? 0 : double.IsInfinity(rawValue) ? 0 : rawValue;
         }
         ///<inheritdoc/>
-        public override int GetBeatmapHitObjectCount(Beatmap b)
+        public override int GetBeatmapHitObjectCount(Beatmap b, ModList mods)
         {
             if (b == null) return 0;
             var hitObjects = b.HitObjects;
@@ -186,8 +186,8 @@ namespace osuTools.Game.Modes
         {
             if (info is null) return GameRanking.Unknown;
             var isHdOrFl = false;
-            if (!string.IsNullOrEmpty(info.ModShortNames))
-                isHdOrFl = info.ModShortNames.Contains("HD") || info.ModShortNames.Contains("FL");
+            if (info.Mods.Count > 0)
+                isHdOrFl = info.Mods.Contains(typeof(HiddenMod)) || info.Mods.Contains(typeof(FlashlightMod));
             if (Math.Abs(AccuracyCalc(info) * 100 - 100) == 0)
             {
 
@@ -223,5 +223,13 @@ namespace osuTools.Game.Modes
 
             return GameRanking.Unknown;
         }
+       
+        /// <inheritdoc/>
+        public override int GetBeatmapMaxCombo(OrtdpWrapper.OrtdpWrapper info) =>
+            _performanceCalculator.Beatmap.MaxCombo;
+        ///<inheritdoc/>
+        public override double GetHitObjectPercent(OrtdpWrapper.OrtdpWrapper info) =>
+            GetPassedHitObjectCount(info) / (double) GetBeatmapMaxCombo(info);
+
     }
 }

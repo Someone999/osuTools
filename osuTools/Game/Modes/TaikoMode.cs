@@ -111,7 +111,7 @@ namespace osuTools.Game.Modes
             return info.CountMiss <= 0;
         }
         ///<inheritdoc/>
-        public override int GetBeatmapHitObjectCount(Beatmap b)
+        public override int GetBeatmapHitObjectCount(Beatmap b,ModList mods)
         {
             if (b is null) return 0;
             var hitObjects = b.HitObjects;
@@ -135,12 +135,12 @@ namespace osuTools.Game.Modes
         {
             if (info is null) return GameRanking.Unknown;
             var noMiss = info.CountMiss == 0;
-            double All = info.Count300 + info.Count100 + info.Count50 + info.CountMiss;
-            var c100Rate = info.Count100 / All;
+            double all = info.Count300 + info.Count100 + info.Count50 + info.CountMiss;
+            var c100Rate = info.Count100 / all;
             var isHdOrFl = false;
-            if (!string.IsNullOrEmpty(info.ModShortNames))
-                isHdOrFl = info.ModShortNames.Contains("HD") || info.ModShortNames.Contains("FL");
-            if (Math.Abs(AccuracyCalc(info) * 100 - 100) < double.Epsilon && info.Count300 == (int)All)
+            if (info.Mods.Count > 0)
+                isHdOrFl = info.Mods.Contains(typeof(HiddenMod)) || info.Mods.Contains(typeof(FlashlightMod));
+            if (Math.Abs(AccuracyCalc(info) * 100 - 100) < double.Epsilon && info.Count300 == (int)all)
             {
                 if (isHdOrFl) return GameRanking.SSH;
                 return GameRanking.SS;

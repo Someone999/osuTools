@@ -213,8 +213,9 @@ namespace osuTools.Game.Modes
         ///     获取谱面的HitObject数量
         /// </summary>
         /// <param name="b"></param>
+        /// <param name="mods"></param>
         /// <returns></returns>
-        public virtual int GetBeatmapHitObjectCount(Beatmap b)
+        public virtual int GetBeatmapHitObjectCount(Beatmap b,ModList mods)
         {
             return 0;
         }
@@ -277,5 +278,18 @@ namespace osuTools.Game.Modes
         {
             return GameRanking.Unknown;
         }
+        /// <summary>
+        /// 获取当前谱面的最大连击
+        /// </summary>
+        /// <param name="info"></param>
+        /// <returns></returns>
+        public virtual int GetBeatmapMaxCombo(OrtdpWrapper.OrtdpWrapper info) => info.Beatmap.HitObjects.Count;
+        /// <summary>
+        /// 获取游戏中出现过的HitObject在总HitObject中的占比
+        /// </summary>
+        /// <param name="info"></param>
+        /// <returns></returns>
+        public virtual double GetHitObjectPercent(OrtdpWrapper.OrtdpWrapper info) =>
+            GetPassedHitObjectCount(info) / (double)GetBeatmapHitObjectCount(info.Beatmap, info.Mods);
     }
 }

@@ -3,6 +3,7 @@ using System.Globalization;
 using System.Text;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using osuTools.Game;
 using osuTools.Game.Modes;
 using osuTools.Game.Mods;
 

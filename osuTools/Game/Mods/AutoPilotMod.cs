@@ -1,10 +1,15 @@
-﻿namespace osuTools.Game.Mods
+﻿using osuTools.Beatmaps;
+using osuTools.Game.Modes;
+
+namespace osuTools.Game.Mods
 {
     /// <summary>
     /// 自动定位
     /// </summary>
     public class AutoPilotMod : Mod, ILegacyMod, IHasConflictMods
     {
+        /// <inheritdoc />
+        public override bool AllowsFail() => false;
         /// <inheritdoc />
         public override bool IsRankedMod => false;
         /// <inheritdoc />

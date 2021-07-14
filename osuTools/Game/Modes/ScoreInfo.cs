@@ -1,4 +1,6 @@
-﻿namespace osuTools.Game.Modes
+﻿using osuTools.Game.Mods;
+
+namespace osuTools.Game
 {
     /// <summary>
     ///     分数的组成
@@ -19,6 +21,10 @@
         ///     200的数量
         /// </summary>
         public int CountKatu { get; set; }
+        /// <summary>
+        /// 开启的Mod
+        /// </summary>
+        public ModList Mods { get; set; }
 
         /// <summary>
         ///     100的数量
@@ -34,7 +40,15 @@
         ///     Miss的数量
         /// </summary>
         public int CountMiss { get; set; }
-        /// <inheritdoc/>
+        /// <summary>
+        /// 玩家达到的最大连击
+        /// </summary>
+        public int PlayerMaxCombo { get; set; }
+        /// <summary>
+        /// 最大连击
+        /// </summary>
+        public int MaxCombo { get; set; }
+        ///<inheritdoc/>
         public override bool Equals(object obj)
         {
             if (obj is null) return false;
@@ -45,13 +59,13 @@
             }
             return obj.Equals(this);
         }
-        /// <inheritdoc/>
+        ///<inheritdoc/>
         public override int GetHashCode()
         {
             return CountGeki * 6 + Count300 * 5 + CountKatu * 4 + Count100 * 3 + Count50 * 2 + CountMiss;
         }
         /// <summary>
-        /// 判断两个ScoreInfo对象的所有值是否相等
+        /// 判断两个ScoreInfo是否相等
         /// </summary>
         /// <param name="a"></param>
         /// <param name="b"></param>
@@ -65,7 +79,7 @@
             return a.GetHashCode() == b.GetHashCode() && a.Equals(b);
         }
         /// <summary>
-        /// 判断两个ScoreInfo对象的所有值是否相等
+        /// 判断两个ScoreInfo是否相等
         /// </summary>
         /// <param name="a"></param>
         /// <param name="b"></param>

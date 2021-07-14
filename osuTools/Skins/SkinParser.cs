@@ -15,7 +15,7 @@ namespace osuTools.Skins
 
             var lst = SkinTools.GetMultipleFileSkinObject(_files, "menu-background");
             if (lst.Count > 0)
-                SkinObjects.GenericSkinObjects.MenuBackground = new GeneralSkinImage(Path.GetFileName(lst[0]), lst[0]);
+                SkinObjects.GeneralSkinObjects.MenuBackground = new GeneralSkinImage(Path.GetFileName(lst[0]), lst[0]);
 
             #endregion
 
@@ -23,10 +23,10 @@ namespace osuTools.Skins
 
             lst = SkinTools.GetMultipleFileSkinObject(_files, "cursor");
             if (lst.Count > 0)
-                SkinObjects.GenericSkinObjects.Cursor = new GeneralSkinImage(Path.GetFileName(lst[0]), lst[0]);
+                SkinObjects.GeneralSkinObjects.Cursor = new GeneralSkinImage(Path.GetFileName(lst[0]), lst[0]);
             lst = SkinTools.GetMultipleFileSkinObject(_files, "cursortrail");
             if (lst.Count > 0)
-                SkinObjects.GenericSkinObjects.CursorTrail = new GeneralSkinImage(Path.GetFileName(lst[0]), lst[0]);
+                SkinObjects.GeneralSkinObjects.CursorTrail = new GeneralSkinImage(Path.GetFileName(lst[0]), lst[0]);
 
             #endregion
 
@@ -35,7 +35,7 @@ namespace osuTools.Skins
             lst = SkinTools.GetMultipleFileSkinObject(_files, "default-");
             if (lst.Count > 0)
                 foreach (var file in lst)
-                    SkinObjects.GenericSkinObjects.HitCircleNumberImages.Add(
+                    SkinObjects.GeneralSkinObjects.HitCircleNumberImages.Add(
                         new GeneralSkinImage(Path.GetFileName(file), file));
 
             #endregion
@@ -44,27 +44,27 @@ namespace osuTools.Skins
 
             lst = SkinTools.GetMultipleFileSkinObject(_files, "Score-dot");
             if (lst.Count > 0)
-                SkinObjects.GenericSkinObjects.ScoreImages.Dot = new GeneralSkinImage(Path.GetFileName(lst[0]), lst[0]);
+                SkinObjects.GeneralSkinObjects.ScoreImages.Dot = new GeneralSkinImage(Path.GetFileName(lst[0]), lst[0]);
             lst = SkinTools.GetMultipleFileSkinObject(_files, "Score-comma");
             if (lst.Count > 0)
-                SkinObjects.GenericSkinObjects.ScoreImages.Coma =
+                SkinObjects.GeneralSkinObjects.ScoreImages.Coma =
                     new GeneralSkinImage(Path.GetFileName(lst[0]), lst[0]);
             lst = SkinTools.GetMultipleFileSkinObject(_files, "Score-percent");
             if (lst.Count > 0)
-                SkinObjects.GenericSkinObjects.ScoreImages.Percent =
+                SkinObjects.GeneralSkinObjects.ScoreImages.Percent =
                     new GeneralSkinImage(Path.GetFileName(lst[0]), lst[0]);
             lst = SkinTools.GetMultipleFileSkinObject(_files, "score-x");
             if (lst.Count > 0)
-                SkinObjects.GenericSkinObjects.ScoreImages.x = new GeneralSkinImage(Path.GetFileName(lst[0]), lst[0]);
+                SkinObjects.GeneralSkinObjects.ScoreImages.x = new GeneralSkinImage(Path.GetFileName(lst[0]), lst[0]);
             lst = SkinTools.GetMultipleFileSkinObject(_files, "default-");
             if (lst.Count > 0)
                 foreach (var file in lst)
-                    SkinObjects.GenericSkinObjects.HitCircleNumberImages.Add(
+                    SkinObjects.GeneralSkinObjects.HitCircleNumberImages.Add(
                         new GeneralSkinImage(Path.GetFileName(file), file));
             lst = SkinTools.GetMultipleFileSkinObject(_files, "Score-");
             if (lst.Count > 0)
                 foreach (var file in lst)
-                    SkinObjects.GenericSkinObjects.ScoreImages.ScoreNumbers.Add(
+                    SkinObjects.GeneralSkinObjects.ScoreImages.ScoreNumbers.Add(
                         new GeneralSkinImage(Path.GetFileName(file), file));
 
             #endregion
@@ -74,7 +74,7 @@ namespace osuTools.Skins
             lst = SkinTools.GetMultipleFileSkinObject(_files, "menu-back-");
             if (lst.Count > 0)
                 foreach (var file in lst)
-                    SkinObjects.GenericSkinObjects.MenuBackImages.Add(
+                    SkinObjects.GeneralSkinObjects.MenuBackImages.Add(
                         new GeneralSkinImage(Path.GetFileName(file), file));
 
             #endregion
@@ -83,7 +83,7 @@ namespace osuTools.Skins
 
             lst = SkinTools.GetMultipleFileSkinObject(_files, "menu-button-background");
             if (lst.Count > 0)
-                SkinObjects.GenericSkinObjects.MenuButtonBackground =
+                SkinObjects.GeneralSkinObjects.MenuButtonBackground =
                     new GeneralSkinImage(Path.GetFileName(lst[0]), lst[0]);
 
             #endregion
@@ -92,7 +92,7 @@ namespace osuTools.Skins
 
             lst = SkinTools.GetMultipleFileSkinObject(_files, "menu-snow");
             if (lst.Count > 0)
-                SkinObjects.GenericSkinObjects.MenuSnow = new GeneralSkinImage(Path.GetFileName(lst[0]), lst[0]);
+                SkinObjects.GeneralSkinObjects.MenuSnow = new GeneralSkinImage(Path.GetFileName(lst[0]), lst[0]);
 
             #endregion
 
@@ -100,7 +100,7 @@ namespace osuTools.Skins
 
             lst = SkinTools.GetMultipleFileSkinObject(_files, "star");
             if (lst.Count > 0)
-                SkinObjects.GenericSkinObjects.Star = new GeneralSkinImage(Path.GetFileName(lst[0]), lst[0]);
+                SkinObjects.GeneralSkinObjects.Star = new GeneralSkinImage(Path.GetFileName(lst[0]), lst[0]);
 
             #endregion
 
@@ -108,19 +108,19 @@ namespace osuTools.Skins
 
             lst = SkinTools.GetMultipleFileSkinObject(_files, "mode-osu-med");
             if (lst.Count > 0)
-                SkinObjects.GenericSkinObjects.ModeListImages.Osu =
+                SkinObjects.GeneralSkinObjects.ModeListImages.Osu =
                     new GeneralSkinImage(Path.GetFileName(lst[0]), lst[0]);
             lst = SkinTools.GetMultipleFileSkinObject(_files, "mode-taiko-med");
             if (lst.Count > 0)
-                SkinObjects.GenericSkinObjects.ModeListImages.Taiko =
+                SkinObjects.GeneralSkinObjects.ModeListImages.Taiko =
                     new GeneralSkinImage(Path.GetFileName(lst[0]), lst[0]);
             lst = SkinTools.GetMultipleFileSkinObject(_files, "mode-fruits-med");
             if (lst.Count > 0)
-                SkinObjects.GenericSkinObjects.ModeListImages.Catch =
+                SkinObjects.GeneralSkinObjects.ModeListImages.Catch =
                     new GeneralSkinImage(Path.GetFileName(lst[0]), lst[0]);
             lst = SkinTools.GetMultipleFileSkinObject(_files, "mode-mania-med");
             if (lst.Count > 0)
-                SkinObjects.GenericSkinObjects.ModeListImages.Mania =
+                SkinObjects.GeneralSkinObjects.ModeListImages.Mania =
                     new GeneralSkinImage(Path.GetFileName(lst[0]), lst[0]);
 
             #endregion
@@ -130,7 +130,7 @@ namespace osuTools.Skins
             lst = SkinTools.GetMultipleFileSkinObject(_files, "play-skip-");
             if (lst.Count > 0)
                 foreach (var file in lst)
-                    SkinObjects.GenericSkinObjects.SkipImages.Add(new GeneralSkinImage(Path.GetFileName(file), file));
+                    SkinObjects.GeneralSkinObjects.SkipImages.Add(new GeneralSkinImage(Path.GetFileName(file), file));
 
             #endregion
 
@@ -138,28 +138,28 @@ namespace osuTools.Skins
 
             lst = SkinTools.GetMultipleFileSkinObject(_files, "ranking-X");
             if (lst.Count > 0)
-                SkinObjects.GenericSkinObjects.RankingImages.SS = new RankingImage(Path.GetFileName(lst[0]), lst[0]);
+                SkinObjects.GeneralSkinObjects.RankingImages.SS = new RankingImage(Path.GetFileName(lst[0]), lst[0]);
             lst = SkinTools.GetMultipleFileSkinObject(_files, "ranking-XH");
             if (lst.Count > 0)
-                SkinObjects.GenericSkinObjects.RankingImages.SSH = new RankingImage(Path.GetFileName(lst[0]), lst[0]);
+                SkinObjects.GeneralSkinObjects.RankingImages.SSH = new RankingImage(Path.GetFileName(lst[0]), lst[0]);
             lst = SkinTools.GetMultipleFileSkinObject(_files, "ranking-S");
             if (lst.Count > 0)
-                SkinObjects.GenericSkinObjects.RankingImages.S = new RankingImage(Path.GetFileName(lst[0]), lst[0]);
+                SkinObjects.GeneralSkinObjects.RankingImages.S = new RankingImage(Path.GetFileName(lst[0]), lst[0]);
             lst = SkinTools.GetMultipleFileSkinObject(_files, "ranking-SH");
             if (lst.Count > 0)
-                SkinObjects.GenericSkinObjects.RankingImages.SH = new RankingImage(Path.GetFileName(lst[0]), lst[0]);
+                SkinObjects.GeneralSkinObjects.RankingImages.SH = new RankingImage(Path.GetFileName(lst[0]), lst[0]);
             lst = SkinTools.GetMultipleFileSkinObject(_files, "ranking-A");
             if (lst.Count > 0)
-                SkinObjects.GenericSkinObjects.RankingImages.A = new RankingImage(Path.GetFileName(lst[0]), lst[0]);
+                SkinObjects.GeneralSkinObjects.RankingImages.A = new RankingImage(Path.GetFileName(lst[0]), lst[0]);
             lst = SkinTools.GetMultipleFileSkinObject(_files, "ranking-B");
             if (lst.Count > 0)
-                SkinObjects.GenericSkinObjects.RankingImages.B = new RankingImage(Path.GetFileName(lst[0]), lst[0]);
+                SkinObjects.GeneralSkinObjects.RankingImages.B = new RankingImage(Path.GetFileName(lst[0]), lst[0]);
             lst = SkinTools.GetMultipleFileSkinObject(_files, "ranking-C");
             if (lst.Count > 0)
-                SkinObjects.GenericSkinObjects.RankingImages.C = new RankingImage(Path.GetFileName(lst[0]), lst[0]);
+                SkinObjects.GeneralSkinObjects.RankingImages.C = new RankingImage(Path.GetFileName(lst[0]), lst[0]);
             lst = SkinTools.GetMultipleFileSkinObject(_files, "ranking-D");
             if (lst.Count > 0)
-                SkinObjects.GenericSkinObjects.RankingImages.D = new RankingImage(Path.GetFileName(lst[0]), lst[0]);
+                SkinObjects.GeneralSkinObjects.RankingImages.D = new RankingImage(Path.GetFileName(lst[0]), lst[0]);
 
             #endregion
 
@@ -167,39 +167,39 @@ namespace osuTools.Skins
 
             lst = SkinTools.GetMultipleFileSkinObject(_files, "ranking-accuracy");
             if (lst.Count > 0)
-                SkinObjects.GenericSkinObjects.ResultPageImages.Accuracy =
+                SkinObjects.GeneralSkinObjects.ResultPageImages.Accuracy =
                     new GeneralSkinImage(Path.GetFileName(lst[0]), lst[0]);
             lst = SkinTools.GetMultipleFileSkinObject(_files, "ranking-panel");
             if (lst.Count > 0)
-                SkinObjects.GenericSkinObjects.ResultPageImages.Panel =
+                SkinObjects.GeneralSkinObjects.ResultPageImages.Panel =
                     new GeneralSkinImage(Path.GetFileName(lst[0]), lst[0]);
             lst = SkinTools.GetMultipleFileSkinObject(_files, "ranking-graph");
             if (lst.Count > 0)
-                SkinObjects.GenericSkinObjects.ResultPageImages.TimePerformanceBox =
+                SkinObjects.GeneralSkinObjects.ResultPageImages.TimePerformanceBox =
                     new GeneralSkinImage(Path.GetFileName(lst[0]), lst[0]);
             lst = SkinTools.GetMultipleFileSkinObject(_files, "ranking-perfect");
             if (lst.Count > 0)
-                SkinObjects.GenericSkinObjects.ResultPageImages.Perfect =
+                SkinObjects.GeneralSkinObjects.ResultPageImages.Perfect =
                     new GeneralSkinImage(Path.GetFileName(lst[0]), lst[0]);
             lst = SkinTools.GetMultipleFileSkinObject(_files, "ranking-maxcombo");
             if (lst.Count > 0)
-                SkinObjects.GenericSkinObjects.ResultPageImages.MaxCombo =
+                SkinObjects.GeneralSkinObjects.ResultPageImages.MaxCombo =
                     new GeneralSkinImage(Path.GetFileName(lst[0]), lst[0]);
             lst = SkinTools.GetMultipleFileSkinObject(_files, "ranking-title");
             if (lst.Count > 0)
-                SkinObjects.GenericSkinObjects.ResultPageImages.Title =
+                SkinObjects.GeneralSkinObjects.ResultPageImages.Title =
                     new GeneralSkinImage(Path.GetFileName(lst[0]), lst[0]);
             lst = SkinTools.GetMultipleFileSkinObject(_files, "pause-retry");
             if (lst.Count > 0)
-                SkinObjects.GenericSkinObjects.ResultPageImages.Retry =
+                SkinObjects.GeneralSkinObjects.ResultPageImages.Retry =
                     new GeneralSkinImage(Path.GetFileName(lst[0]), lst[0]);
             lst = SkinTools.GetMultipleFileSkinObject(_files, "pause-replay");
             if (lst.Count > 0)
-                SkinObjects.GenericSkinObjects.ResultPageImages.Replay =
+                SkinObjects.GeneralSkinObjects.ResultPageImages.Replay =
                     new GeneralSkinImage(Path.GetFileName(lst[0]), lst[0]);
             lst = SkinTools.GetMultipleFileSkinObject(_files, "ranking-retry");
             if (lst.Count > 0)
-                SkinObjects.GenericSkinObjects.ResultPageImages.Retry =
+                SkinObjects.GeneralSkinObjects.ResultPageImages.Retry =
                     new GeneralSkinImage(Path.GetFileName(lst[0]), lst[0]);
 
             #endregion
@@ -208,15 +208,15 @@ namespace osuTools.Skins
 
             lst = SkinTools.GetMultipleFileSkinObject(_files, "pause-retry");
             if (lst.Count > 0)
-                SkinObjects.GenericSkinObjects.PauseMenuImages.Retry =
+                SkinObjects.GeneralSkinObjects.PauseMenuImages.Retry =
                     new GeneralSkinImage(Path.GetFileName(lst[0]), lst[0]);
             lst = SkinTools.GetMultipleFileSkinObject(_files, "pause-back");
             if (lst.Count > 0)
-                SkinObjects.GenericSkinObjects.PauseMenuImages.Back =
+                SkinObjects.GeneralSkinObjects.PauseMenuImages.Back =
                     new GeneralSkinImage(Path.GetFileName(lst[0]), lst[0]);
             lst = SkinTools.GetMultipleFileSkinObject(_files, "pause-continue");
             if (lst.Count > 0)
-                SkinObjects.GenericSkinObjects.PauseMenuImages.Continue =
+                SkinObjects.GeneralSkinObjects.PauseMenuImages.Continue =
                     new GeneralSkinImage(Path.GetFileName(lst[0]), lst[0]);
 
             #endregion
@@ -225,43 +225,43 @@ namespace osuTools.Skins
 
             lst = SkinTools.GetMultipleFileSkinObject(_files, "ready");
             if (lst.Count > 0)
-                SkinObjects.GenericSkinObjects.Countdown.Ready.Image =
+                SkinObjects.GeneralSkinObjects.Countdown.Ready.Image =
                     new GeneralSkinImage(Path.GetFileName(lst[0]), lst[0]);
             lst = SkinTools.GetMultipleFileSkinObject(_files, "count1");
             if (lst.Count > 0)
-                SkinObjects.GenericSkinObjects.Countdown.One.Image =
+                SkinObjects.GeneralSkinObjects.Countdown.One.Image =
                     new GeneralSkinImage(Path.GetFileName(lst[0]), lst[0]);
             lst = SkinTools.GetMultipleFileSkinObject(_files, "count2");
             if (lst.Count > 0)
-                SkinObjects.GenericSkinObjects.Countdown.Two.Image =
+                SkinObjects.GeneralSkinObjects.Countdown.Two.Image =
                     new GeneralSkinImage(Path.GetFileName(lst[0]), lst[0]);
             lst = SkinTools.GetMultipleFileSkinObject(_files, "count3");
             if (lst.Count > 0)
-                SkinObjects.GenericSkinObjects.Countdown.Three.Image =
+                SkinObjects.GeneralSkinObjects.Countdown.Three.Image =
                     new GeneralSkinImage(Path.GetFileName(lst[0]), lst[0]);
             lst = SkinTools.GetMultipleFileSkinObject(_files, "go");
             if (lst.Count > 0)
-                SkinObjects.GenericSkinObjects.Countdown.Go.Image =
+                SkinObjects.GeneralSkinObjects.Countdown.Go.Image =
                     new GeneralSkinImage(Path.GetFileName(lst[0]), lst[0]);
             lst = SkinTools.GetMultipleFileSkinObject(_files, "readys");
             if (lst.Count > 0)
-                SkinObjects.GenericSkinObjects.Countdown.Ready.Sound =
+                SkinObjects.GeneralSkinObjects.Countdown.Ready.Sound =
                     new GeneralSkinSound(Path.GetFileName(lst[0]), lst[0]);
             lst = SkinTools.GetMultipleFileSkinObject(_files, "count1s");
             if (lst.Count > 0)
-                SkinObjects.GenericSkinObjects.Countdown.One.Sound =
+                SkinObjects.GeneralSkinObjects.Countdown.One.Sound =
                     new GeneralSkinSound(Path.GetFileName(lst[0]), lst[0]);
             lst = SkinTools.GetMultipleFileSkinObject(_files, "count2s");
             if (lst.Count > 0)
-                SkinObjects.GenericSkinObjects.Countdown.Two.Sound =
+                SkinObjects.GeneralSkinObjects.Countdown.Two.Sound =
                     new GeneralSkinSound(Path.GetFileName(lst[0]), lst[0]);
             lst = SkinTools.GetMultipleFileSkinObject(_files, "count3s");
             if (lst.Count > 0)
-                SkinObjects.GenericSkinObjects.Countdown.Three.Sound =
+                SkinObjects.GeneralSkinObjects.Countdown.Three.Sound =
                     new GeneralSkinSound(Path.GetFileName(lst[0]), lst[0]);
             lst = SkinTools.GetMultipleFileSkinObject(_files, "gos");
             if (lst.Count > 0)
-                SkinObjects.GenericSkinObjects.Countdown.Go.Sound =
+                SkinObjects.GeneralSkinObjects.Countdown.Go.Sound =
                     new GeneralSkinSound(Path.GetFileName(lst[0]), lst[0]);
 
             #endregion
@@ -270,28 +270,28 @@ namespace osuTools.Skins
 
             lst = SkinTools.GetMultipleFileSkinObject(_files, "scorebar-bg");
             if (lst.Count > 0)
-                SkinObjects.GenericSkinObjects.ScoreBarSkinImages.ScoreBarBackgorund =
+                SkinObjects.GeneralSkinObjects.ScoreBarSkinImages.ScoreBarBackgorund =
                     new GeneralSkinImage(Path.GetFileName(lst[0]), lst[0]);
             lst = SkinTools.GetMultipleFileSkinObject(_files, "ready");
             if (lst.Count > 0)
                 foreach (var file in lst)
-                    SkinObjects.GenericSkinObjects.ScoreBarSkinImages.ScoreBarColour.Add(
+                    SkinObjects.GeneralSkinObjects.ScoreBarSkinImages.ScoreBarColour.Add(
                         new GeneralSkinImage(Path.GetFileName(file), file));
             lst = SkinTools.GetMultipleFileSkinObject(_files, "scorebar-ki");
             if (lst.Count > 0)
-                SkinObjects.GenericSkinObjects.ScoreBarSkinImages.ScoreBarKi =
+                SkinObjects.GeneralSkinObjects.ScoreBarSkinImages.ScoreBarKi =
                     new GeneralSkinImage(Path.GetFileName(lst[0]), lst[0]);
             lst = SkinTools.GetMultipleFileSkinObject(_files, "scorebar-kidanger");
             if (lst.Count > 0)
-                SkinObjects.GenericSkinObjects.ScoreBarSkinImages.ScoreBarKiDanger =
+                SkinObjects.GeneralSkinObjects.ScoreBarSkinImages.ScoreBarKiDanger =
                     new GeneralSkinImage(Path.GetFileName(lst[0]), lst[0]);
             lst = SkinTools.GetMultipleFileSkinObject(_files, "scorebar-kidanger2");
             if (lst.Count > 0)
-                SkinObjects.GenericSkinObjects.ScoreBarSkinImages.ScoreBarKiCritical =
+                SkinObjects.GeneralSkinObjects.ScoreBarSkinImages.ScoreBarKiCritical =
                     new GeneralSkinImage(Path.GetFileName(lst[0]), lst[0]);
             lst = SkinTools.GetMultipleFileSkinObject(_files, "scorebar-marker");
             if (lst.Count > 0)
-                SkinObjects.GenericSkinObjects.ScoreBarSkinImages.ScoreBarMarker =
+                SkinObjects.GeneralSkinObjects.ScoreBarSkinImages.ScoreBarMarker =
                     new GeneralSkinImage(Path.GetFileName(lst[0]), lst[0]);
 
             #endregion

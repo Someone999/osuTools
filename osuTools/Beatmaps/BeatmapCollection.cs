@@ -77,7 +77,7 @@ namespace osuTools.Beatmaps
             {
                 get
                 {
-                    _beatmaps.Sort(sortfun);
+                    _beatmaps.Sort(SortFunc);
                     return _beatmaps;
                 }
             }
@@ -97,35 +97,35 @@ namespace osuTools.Beatmaps
             /// <summary>
             ///     将谱面列表的信息保存到文件
             /// </summary>
-            /// <param name="FileName"></param>
-            public void Save(string FileName = ".\\beatmaplist\\list.txt")
+            /// <param name="fileName"></param>
+            public void Save(string fileName = ".\\beatmaplist\\list.txt")
             {
-                var dirsplit = FileName.Split('\\');
-                var dir = FileName.Replace(dirsplit.Last(), "");
+                var dirsplit = fileName.Split('\\');
+                var dir = fileName.Replace(dirsplit.Last(), "");
                 var info = new string[_beatmaps.Count];
                 if (!Directory.Exists(dir)) Directory.CreateDirectory(dir);
                 for (var i = 0; i < _beatmaps.Count; i++) info[i] = $"{_beatmaps[i].BeatmapId}?{_beatmaps[i].FullPath}";
-                File.WriteAllLines(FileName, info);
+                File.WriteAllLines(fileName, info);
             }
 
             /// <summary>
             ///     从文件读取信息
             /// </summary>
-            /// <param name="FileName"></param>
+            /// <param name="fileName"></param>
             /// <returns></returns>
-            public static BeatmapCollection ReadFromFile(string FileName = ".\\beatmaplist\\list.txt")
+            public static BeatmapCollection ReadFromFile(string fileName = ".\\beatmaplist\\list.txt")
             {
                 var oinfo = new OsuInfo();
                 var c = new BeatmapCollection();
-                if (!File.Exists(FileName))
+                if (!File.Exists(fileName))
                 {
-                    var names = FileName.Split('\\');
+                    var names = fileName.Split('\\');
                     var name = names[names.Length - 1];
-                    Directory.CreateDirectory(FileName.Replace(name, ""));
-                    File.Create(FileName).Close();
+                    Directory.CreateDirectory(fileName.Replace(name, ""));
+                    File.Create(fileName).Close();
                 }
 
-                var info = File.ReadAllLines(FileName);
+                var info = File.ReadAllLines(fileName);
                 if (info.Length < 1)
                 {
                     MessageBox.Show("文件中不包含任何谱面信息，将重新搜索。");
@@ -164,13 +164,13 @@ namespace osuTools.Beatmaps
             /// <summary>
             ///     使用关键词搜索谱面，可指定包括与不包括
             /// </summary>
-            /// <param name="KeyWord"></param>
+            /// <param name="keyWord"></param>
             /// <param name="option"></param>
             /// <returns></returns>
-            public BeatmapCollection Find(string KeyWord, BeatmapFindOption option = BeatmapFindOption.Contains)
+            public BeatmapCollection Find(string keyWord, BeatmapFindOption option = BeatmapFindOption.Contains)
             {
                 var b = new BeatmapCollection();
-                var keyword = KeyWord.ToUpper();
+                var keyword = keyWord.ToUpper();
                 foreach (var beatmap in _beatmaps)
                 {
                     var allinfo = beatmap.ToString().ToUpper() + " " + beatmap.Source.ToUpper() + " " +
@@ -224,18 +224,18 @@ namespace osuTools.Beatmaps
             /// <summary>
             ///     使用BeatmapID搜索谱面
             /// </summary>
-            /// <param name="BeatmapID"></param>
+            /// <param name="beatmapId"></param>
             /// <returns></returns>
-            public Beatmap Find(int BeatmapID)
+            public Beatmap Find(int beatmapId)
             {
-                if (BeatmapID != -1)
+                if (beatmapId != -1)
                     foreach (var beatmap in _beatmaps)
-                        if (beatmap.BeatmapId == BeatmapID)
+                        if (beatmap.BeatmapId == beatmapId)
                             return beatmap;
                 return null;
             }
 
-            private int sortfun(Beatmap a, Beatmap b)
+            private int SortFunc(Beatmap a, Beatmap b)
             {
                 var ret = String.Compare(a.Title, b.Title, StringComparison.OrdinalIgnoreCase);
                 return ret > 0 ? 1 : ret == 0 ? 0 : -1;
@@ -252,7 +252,7 @@ namespace osuTools.Beatmaps
             /// </summary>
             /// <param name="md5"></param>
             /// <returns></returns>
-            public Beatmap FindByMD5(string md5)
+            public Beatmap FindByMd5(string md5)
             {
                 foreach (var beatmap in _beatmaps)
                     if (beatmap.Md5 == md5)
@@ -263,20 +263,20 @@ namespace osuTools.Beatmaps
             /// <summary>
             ///     使用指定的模式搜索谱面，可指定包含与不包含
             /// </summary>
-            /// <param name="Mode"></param>
+            /// <param name="mode"></param>
             /// <param name="option"></param>
             /// <returns></returns>
-            public BeatmapCollection Find(OsuGameMode Mode, BeatmapFindOption option = BeatmapFindOption.Contains)
+            public BeatmapCollection Find(OsuGameMode mode, BeatmapFindOption option = BeatmapFindOption.Contains)
             {
                 var bc = new BeatmapCollection();
                 foreach (var b in _beatmaps)
                 {
                     if (option == BeatmapFindOption.Contains)
-                        if (b.Mode == Mode)
+                        if (b.Mode == mode)
                             if (!bc.Contains(b))
                                 bc.Add(b);
                     if (option == BeatmapFindOption.NotContains)
-                        if (b.Mode != Mode)
+                        if (b.Mode != mode)
                             if (!bc.Contains(b))
                                 bc.Add(b);
                 }
@@ -314,11 +314,11 @@ namespace osuTools.Beatmaps
             /// </summary>
             /// <param name="beatmapdir"></param>
             /// <param name="option"></param>
-            /// <param name="SaveResultToFile"></param>
-            /// <param name="Dir"></param>
+            /// <param name="saveResultToFile"></param>
+            /// <param name="saveFilePath"></param>
             /// <returns></returns>
             public static BeatmapCollection GetAllBeatmaps(string beatmapdir, BeatmapSearchOption option,
-                bool SaveResultToFile = true, string Dir = ".\\beatmaplist\\list.txt")
+                bool saveResultToFile = true, string saveFilePath = ".\\beatmaplist\\list.txt")
             {
                 var bc = new BeatmapCollection();
                 if (Directory.Exists(beatmapdir))
@@ -332,8 +332,8 @@ namespace osuTools.Beatmaps
                             bc.Add(b);
                         }
 
-                        if (SaveResultToFile)
-                            bc.Save(Dir);
+                        if (saveResultToFile)
+                            bc.Save(saveFilePath);
                         return bc;
                     }
 
@@ -360,10 +360,9 @@ namespace osuTools.Beatmaps
                         throw new DirectoryNotFoundException();
                     }
 
-                    if (bc.Beatmaps.Count == 0)
-                        throw new NoBeatmapInFolderException("未能在指定的文件夹及其子文件夹中找到任何谱面。", beatmapdir);
-                    if (SaveResultToFile)
-                        bc.Save(Dir);
+                    if (bc.Beatmaps.Count == 0) return bc;
+                    if (saveResultToFile)
+                        bc.Save(saveFilePath);
                     return bc;
                 }
 

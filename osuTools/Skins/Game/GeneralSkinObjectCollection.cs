@@ -10,7 +10,7 @@ namespace osuTools.Skins.Game
     /// <summary>
     ///     通用皮肤元素的集合
     /// </summary>
-    public class GenericSkinObjectCollection
+    public class GeneralSkinObjectCollection
     {
         /// <summary>
         ///     光标

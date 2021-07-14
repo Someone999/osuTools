@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.IO;
 using osuTools.Beatmaps.HitObject;
+using osuTools.Exceptions;
+using osuTools.Game;
 using osuTools.Game.Modes;
 using osuTools.Game.Mods;
 using osuTools.OsuDB;
 using osuTools.Replays.AdditionalInfo;
-using osuTools.Replays.Exception;
 
 namespace osuTools.Replays
 {
@@ -78,7 +79,7 @@ namespace osuTools.Replays
             get
             {
                 if (_infonovalue)
-                    throw new FileInfoHasNoValue("当前的构造函数没有为FileInfo赋值");
+                    throw new InvalidOperationException("当前的构造函数没有为FileInfo赋值");
                 return _info;
             }
         }

@@ -80,7 +80,11 @@ namespace osuTools.Game.Mods
             new FadeInMod(),
             new KeyMod(), new RandomMod(), new MirrorMod()
         }.Concat(GenericAvailableMods).ToArray();
-
+        /// <summary>
+        /// 开启了这个Mod后是否会失败
+        /// </summary>
+        /// <returns></returns>
+        public virtual bool AllowsFail() => true;
         /// <summary>
         ///     Mod的名字
         /// </summary>

@@ -34,7 +34,6 @@ namespace osuTools.OrtdpWrapper
         private MD5String _md5Str = new MD5String(), _md5Str1 = new MD5String();
         private bool _noFailTriggered;
         private TimePointCollection _timepoints = new TimePointCollection();
-        private int _tmpHitObjectCount;
         private double _tmpTime;
 
         /// <summary>
@@ -182,8 +181,8 @@ namespace osuTools.OrtdpWrapper
 
         private void ListenerManagerOnPlayModeChanged(OsuPlayMode last, OsuPlayMode mode)
         {
-            GameMode = new GmMode(last, mode);
-            
+            GameMode.CurrentMode = Game.Modes.GameMode.FromLegacyMode((OsuGameMode)mode);
+            GameMode.LastMode = Game.Modes.GameMode.FromLegacyMode((OsuGameMode)last);
             if (Beatmap.Mode == OsuGameMode.Osu)
                 if (CurrentMode is IHasPerformanceCalculator has && CurrentStatus == OsuGameStatus.SelectSong)
                 {
@@ -208,20 +207,14 @@ namespace osuTools.OrtdpWrapper
                     mode = legacyMode.LegacyMode;
                 Mods.Add(mod,mode);
             }
-            if (CurrentMode == OsuGameMode.Mania && Mods.Any(mod => mod is ScoreV2Mod))
-                _tmpHitObjectCount = _hitObjects.Count +
-                                     _hitObjects.Count(h => h.HitObjectType == HitObjectTypes.ManiaHold);
-            else _tmpHitObjectCount = _hitObjects.Count;
-            if (DebugMode)
-                if (_tmpHitObjectCount != _hitObjects.Count)
-                    IO.CurrentIO.Write($"[osuTools] HitObject Count Changed ({_hitObjects.Count} -> {_tmpHitObjectCount}) after applied Mods.");
-            CanFail = !Mods.Any(innerMod =>
-                innerMod is NoFailMod || innerMod is AutoPilotMod || innerMod is RelaxMod);
+            
+            CanFail = Mods.AllowsFail;
         }
 
         private void ListenerManagerOnStatusChanged(OsuListenerManager.OsuStatus lastStatus, OsuListenerManager.OsuStatus status)
         {
-            GameStatus = new GMStatus(lastStatus, status);
+            GameStatus.CurrentStatus = (OsuGameStatus) status;
+            GameStatus.LastStatus = (OsuGameStatus)lastStatus;
             if (status == OsuListenerManager.OsuStatus.SelectSong || status == OsuListenerManager.OsuStatus.Rank)
                 RetryCount = 0;
             while (status != OsuListenerManager.OsuStatus.Rank && status != OsuListenerManager.OsuStatus.Playing)
@@ -449,7 +442,7 @@ namespace osuTools.OrtdpWrapper
         private void ListenerManagerOnCount50Changed(int hit)
         {
             if (Mods.Count > 0)
-                if (Mods.HasMod(new PerfectMod()))
+                if (Mods.HasMod(typeof(PerfectMod)))
                     RetryCount++;
             Count50 = hit;
         }
@@ -488,8 +481,7 @@ namespace osuTools.OrtdpWrapper
                 }
             }
         }
-
-        void ProcessBreakTime(int ms)
+        void ProcessBreakTime(double ms)
         {
             try
             {
@@ -525,7 +517,7 @@ namespace osuTools.OrtdpWrapper
                             }
                         }
 
-                        if (curBreaktime.InBreakTime(ms))
+                        if (curBreaktime.InBreakTime((long)ms))
                         {
                             RemainingBreakTime = TimeSpan.FromMilliseconds(curBreaktime.End - ms);
                             TimeToNextBreakTime = TimeSpan.Zero;
@@ -558,7 +550,7 @@ namespace osuTools.OrtdpWrapper
                     
                     ProcessTimePoint(ms);
                     if (_breaktimes.Count > 0)
-                       ProcessBreakTime(ms);
+                        ProcessBreakTime(ms);
                     else
                         RemainingBreakTime = TimeToNextBreakTime = TimeSpan.Zero;
                 }

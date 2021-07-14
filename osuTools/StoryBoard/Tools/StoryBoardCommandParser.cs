@@ -39,12 +39,13 @@ namespace osuTools.StoryBoard.Tools
             {
                 StringProcessor = new StringProcessor(line);
                 StringProcessor.Process();
+                bool failed;
                 lastStr = StringProcessor.SpaceNum == 0
-                    ? new StoryBoardCommandString(null, StringProcessor.ProcessedString, StringProcessor.SpaceNum)
-                    : new StoryBoardCommandString(lastStr, StringProcessor.ProcessedString, StringProcessor.SpaceNum);
+                    ? new StoryBoardCommandString(null, StringProcessor.ProcessedString, StringProcessor.SpaceNum,out failed)
+                    : new StoryBoardCommandString(lastStr, StringProcessor.ProcessedString, StringProcessor.SpaceNum,out failed);
                 if (!string.IsNullOrEmpty(lastStr.Command))
                 {
-                    if (lastStr.CurrentCommand is IStoryBoardMainCommand && !_commands.Contains(lastStr.CurrentCommand))
+                    if (lastStr.CurrentCommand is IStoryBoardMainCommand && !_commands.Contains(lastStr.CurrentCommand) && !failed)
                         _commands.Add(lastStr.CurrentCommand);
                 }
             }

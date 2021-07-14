@@ -65,14 +65,14 @@ namespace osuTools.PerformanceCalculator.Catch
                 pp *= 1 + 0.1 * (Beatmap.BaseBeatmap.ApproachRate - 9);
             if (Beatmap.BaseBeatmap.ApproachRate < 8)
                 pp *= 1 + 0.025 * (8 - Beatmap.BaseBeatmap.ApproachRate);
-            if (Mods.Contains(new HiddenMod()))
+            if (Mods.Contains(typeof(HiddenMod)))
                 pp *= 1.05 + 0.075 * (10 - Math.Min(10, Beatmap.BaseBeatmap.ApproachRate));
-            if (Mods.Contains(new FlashlightMod()))
+            if (Mods.Contains(typeof (FlashlightMod)))
                 pp *= 1.35 * lenBonus;
             pp *= Math.Pow(accuracy, 5.5);
-            if (Mods.Contains(new NoFailMod()))
+            if (Mods.Contains(typeof (NoFailMod)))
                 pp *= 0.9;
-            if (Mods.Contains(new SpunOutMod()))
+            if (Mods.Contains(typeof(SpunOutMod)))
                 pp *= 0.95;
             return pp;
         }

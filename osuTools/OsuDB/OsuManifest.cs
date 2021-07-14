@@ -40,7 +40,7 @@ namespace osuTools.OsuDB
             /// <summary>
             ///     官方
             /// </summary>
-            peppy = 16,
+            Peppy = 16,
 
             /// <summary>
             ///     世界杯解说人员
@@ -79,7 +79,7 @@ namespace osuTools.OsuDB
         public int NumberOfBeatmap { get; internal set; }
 
         /// <summary>
-        ///     当前登录用户所拥有的权限/
+        ///     当前登录用户所拥有的权限
         /// </summary>
         public UserPermission Permission { get; internal set; }
     }

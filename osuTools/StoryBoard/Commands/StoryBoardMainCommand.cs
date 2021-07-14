@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using osuTools.StoryBoard.Commands.Interface;
 using osuTools.StoryBoard.Enums;
 using osuTools.StoryBoard.Interfaces;
@@ -21,7 +22,9 @@ namespace osuTools.StoryBoard.Commands
 
         public void Parse(string line)
         {
-            var ls = line.Split(',');
+            var ls = line.Split(new[]{','},StringSplitOptions.RemoveEmptyEntries);
+            if (ls.Length == 0)
+                return;
             if (line[0] != ' ')
             {
                 if (ls[0] == "Sprite")
@@ -30,6 +33,8 @@ namespace osuTools.StoryBoard.Commands
                     Resource = new Audio();
                 if (ls[0] == "Animation")
                     Resource = new Animation();
+                if (Resource is null)
+                    return;
                 Resource.Parse(line);
                 ResourceType = Resource.ResourceType;
             }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Linq;
 using osuTools.Attributes;
 using osuTools.Beatmaps;
@@ -141,7 +142,7 @@ namespace osuTools.OrtdpWrapper
         ///     游戏进行的时间，以毫秒为单位
         /// </summary>
         [AvailableVariable("PlayTime", "LANG_VAR_PLAYTIME")]
-        public int PlayTime { get; private set; }
+        public double PlayTime { get; private set; }
 
         /// <summary>
         ///     当前剩余的血量，满值为200
@@ -607,7 +608,7 @@ namespace osuTools.OrtdpWrapper
         /// </summary>
         [AvailableVariable("HitObjectCount", "LANG_VAR_CHITOBJECT")]
         [Alias("cHitObject")]
-        public int HitObjectCount => GameMode.CurrentMode.GetBeatmapHitObjectCount(Beatmap);
+        public int HitObjectCount => GameMode.CurrentMode.GetBeatmapHitObjectCount(Beatmap, Mods);
 
         /// <summary>
         ///     综合难度
@@ -696,6 +697,12 @@ namespace osuTools.OrtdpWrapper
         /// 测试用pp
         /// </summary>
         public double TempPp { get; private set; }
+        /// <summary>
+        /// 谱面的最大连击
+        /// </summary>
+        [AvailableVariable("BeatmapMaxCombo","null")]
+        public int BeatmapMaxCombo => CurrentMode.GetBeatmapMaxCombo(this);
+       
 
         /// <summary>
         ///     是否达到Perfect判定
@@ -723,8 +730,7 @@ namespace osuTools.OrtdpWrapper
 
         private double CalcHitObjectPercent()
         {
-            double cur = PassedHitObjectCount;
-            TestTargetHitObjPercent = cur / _tmpHitObjectCount;
+            TestTargetHitObjPercent = CurrentMode.GetHitObjectPercent( this);
             var speed = TestTargetHitObjPercent - _tmp;
             if (_tmp < TestTargetHitObjPercent)
             {
@@ -745,7 +751,7 @@ namespace osuTools.OrtdpWrapper
             var speed = acc - _lastAcc;
             if (acc == 0) _lastAcc = 0;
             if (Math.Abs(acc - _lastAcc) < double.Epsilon) return acc;
-            return _lastAcc = SmoothMath.SmoothDamp(_lastAcc, acc, ref speed, 0.33, 0.25);
+            return _lastAcc = SmoothMath.SmoothDamp(_lastAcc, acc, ref speed, 0.33, 0.3);
         }
 
         private double CalcC300Rate()
@@ -754,7 +760,7 @@ namespace osuTools.OrtdpWrapper
             var speed = currentC300Rate - _lastC300Rate;
             if (currentC300Rate == 0) _lastC300Rate = 0;
             if (Math.Abs(currentC300Rate - _lastC300Rate) < double.Epsilon) return currentC300Rate;
-            return _lastC300Rate = SmoothMath.SmoothDamp(_lastC300Rate, currentC300Rate, ref speed, 0.3, 0.1);
+            return _lastC300Rate = SmoothMath.SmoothDamp(_lastC300Rate, currentC300Rate, ref speed, 0.3, 0.25);
         }
 
         private double CalcC300GRate()
@@ -763,7 +769,7 @@ namespace osuTools.OrtdpWrapper
             var speed = currentC300GRate - _lastC300GRate;
             if (currentC300GRate == 0) _lastC300GRate = 0;
             if (Math.Abs(currentC300GRate - _lastC300GRate) < double.Epsilon) return currentC300GRate;
-            return _lastC300GRate = SmoothMath.SmoothDamp(_lastC300GRate, currentC300GRate, ref speed, 0.3, 0.2);
+            return _lastC300GRate = SmoothMath.SmoothDamp(_lastC300GRate, currentC300GRate, ref speed, 0.3, 0.3);
         }
 
         private double CalcTimePercent()
@@ -774,5 +780,6 @@ namespace osuTools.OrtdpWrapper
             if (_tmpTime < rslt) _tmpTime = SmoothMath.SmoothDamp(_tmpTime, rslt, ref speed, 0.33, 0.03);
             return _tmpTime;
         }
+
     }
 }
