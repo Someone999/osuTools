@@ -81,10 +81,7 @@ namespace osuTools.Game.Mods
             }
         }
 
-        void IsModsRanked()
-        {
-            IsRanked = _mods.All(m => m.IsRankedMod);
-        }
+        void IsModsRanked() => IsRanked = _mods.All(m => m.IsRankedMod);
 
         /// <summary>
         ///     列表中Mod对谱面速度的影响
@@ -348,6 +345,7 @@ namespace osuTools.Game.Mods
             CalcScoreMul();
             CalcTimeRate();
             GetAllowsFail();
+            IsModsRanked();
         }
 
         /// <summary>
