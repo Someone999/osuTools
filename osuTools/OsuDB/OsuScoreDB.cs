@@ -95,14 +95,14 @@ namespace osuTools.OsuDB
                     var maxcombo = GetShort();
                     var per = GetBool();
                     var mods = GetInt32();
-                    var emp = GetEmptyString();
+                    GetEmptyString();
                     var timestamp = GetInt64();
                     var veri = GetInt32();
                     var onlineid = GetInt64();
                     if (c300 + c100 + c50 + cmiss != 0)
                     {
                         var newscore = new OsuScoreInfo(mode, ver, beatmapmd5, playername, replaymd5, c300, c100, c50,
-                            c300G, c200, cmiss, score, maxcombo, per, mods, emp, timestamp, veri, onlineid);
+                            c300G, c200, cmiss, score, maxcombo, per, mods, "", timestamp, veri, onlineid);
                         if (_score.Count > 0)
                         {
                             if (newscore.PlayTime != _score.Last().PlayTime)

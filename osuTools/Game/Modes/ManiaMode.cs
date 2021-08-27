@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using osuTools.Beatmaps;
 using osuTools.Beatmaps.HitObject;
 using osuTools.Beatmaps.HitObject.Mania;
@@ -184,11 +185,11 @@ namespace osuTools.Game.Modes
         public override IHitObject CreateHitObject(string data, int maniaColumn)
         {
             var d = data.Split(',');
-            var types = HitObjectTools.GetGenericTypesByInt<HitObjectTypes>(int.Parse(d[3]));
+            var types = HitObjectTools.GetGenericTypesByInt<HitObjectTypes>(int.Parse(d[3]),out var maybeType);
             IHitObject hitobject = null;
-            if (types.Contains(HitObjectTypes.HitCircle))
+            if (maybeType == HitObjectTypes.HitCircle || types.Contains(HitObjectTypes.HitCircle))
                 hitobject = new ManiaHit();
-            if (types.Contains(HitObjectTypes.ManiaHold))
+            if (maybeType == HitObjectTypes.ManiaHold || types.Contains(HitObjectTypes.ManiaHold))
                 hitobject = new ManiaHold();
             if (hitobject == null)
                 throw new IncorrectHitObjectException(this, types[0]);

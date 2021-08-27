@@ -1,4 +1,6 @@
-﻿using osuTools.Game.Mods;
+﻿using System.Collections.Generic;
+using osuTools.Beatmaps.HitObject;
+using osuTools.Game.Mods;
 
 namespace osuTools.Game.Modes
 {
@@ -11,6 +13,7 @@ namespace osuTools.Game.Modes
         /// <inheritdoc/>
         /// </summary>
         public override Mod[] AvaliableMods => new Mod[0];
+
         /// <summary>
         /// <inheritdoc/>
         /// </summary>

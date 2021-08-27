@@ -14,7 +14,7 @@ namespace osuTools.OsuDB
     /// </summary>
     public class OsuScoreInfo : SortByScore, IOsuDbData
     {
-        internal List<OsuGameMod> IternalMods = new List<OsuGameMod>();
+        internal List<OsuGameMod> IternalMods;
 
         /// <summary>
         ///     使用特定的数据来构造一个ScoreDBData对象
@@ -37,10 +37,10 @@ namespace osuTools.OsuDB
         /// <param name="empty">一个必须为空的字符串</param>
         /// <param name="playtime">游玩的时间，以Tick为单位</param>
         /// <param name="verify">一个值必须为-1的整数</param>
-        /// <param name="scoreid">ScoreID</param>
+        /// <param name="scoreId">ScoreId</param>
         public OsuScoreInfo(OsuGameMode mode, int ver, string bmd5, string name, string rmd5, short count300, short count100,
             short count50, short countGeki, short count200, short cmiss, int score, short maxcombo, bool per, int mods,
-            string empty, long playtime, int verify, long scoreid)
+            string empty, long playtime, int verify, long scoreId)
         {
             Mode = mode;
             //System.Windows.Forms.MessageBox.Show(Mode.ToString());
@@ -59,8 +59,9 @@ namespace osuTools.OsuDB
             Perfect = per;
             IternalMods = HitObjectTools.GetGenericTypesByInt<OsuGameMod>(mods);
             PlayTime = new DateTime(playtime);
-            if (verify != -1) throw new FailToParseException("验证失败");
-            ScoreID = scoreid;
+            if (verify != -1 || !string.IsNullOrEmpty(empty)) throw new FailToParseException("验证失败");
+            ScoreId = scoreId;
+            
             Debug.Assert(count300 + count100 + count50 + CountMiss != 0);
             Accuracy = AccCalc(mode);
             //System.Windows.Forms.MessageBox.Show(Score.ToString());
@@ -149,7 +150,7 @@ namespace osuTools.OsuDB
         /// <summary>
         ///     分数ID
         /// </summary>
-        public long ScoreID { get; }
+        public long ScoreId { get; }
 
         /// <summary>
         ///     准确度

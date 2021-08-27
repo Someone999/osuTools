@@ -15,12 +15,12 @@ namespace osuTools.Replays.AdditionalInfo
         /// </summary>
         /// <param name="data"></param>
         /// <param name="len"></param>
-        /// <param name="lifebargraphstr"></param>
-        public AdditionalRepalyData(byte[] data, int len, string lifebargraphstr)
+        /// <param name="lifebarGraphStr"></param>
+        public AdditionalRepalyData(byte[] data, int len, string lifebarGraphStr)
         {
             LzmaStream.Write(data, 0, len);
             ReplayDataLength = len;
-            _l = new LifeBarGraphCollection(lifebargraphstr);
+            _l = new LifeBarGraphCollection(lifebarGraphStr);
         }
 
         /// <summary>

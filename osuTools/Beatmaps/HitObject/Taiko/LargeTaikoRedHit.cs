@@ -13,7 +13,7 @@ namespace osuTools.Beatmaps.HitObject.Taiko
         /// <summary>
         ///     该打击物件的类型
         /// </summary>
-        public HitObjectTypes HitObjectType { get; } = HitObjectTypes.LargeTaikoRedHit;
+        public HitObjectTypes HitObjectType => HitObjectTypes.LargeTaikoRedHit;
 
         /// <summary>
         ///     该打击物件相对于开始的偏移

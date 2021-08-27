@@ -48,7 +48,7 @@ namespace osuTools.Beatmaps
             var alllines = File.ReadAllLines(x.FilenameFull);
             if (!alllines[0].Contains("osu file format"))
             {
-                Notv = true;
+                NotValid = true;
 
                 throw new InvalidBeatmapFileException($"文件{x.FilenameFull}不是谱面文件。");
             }

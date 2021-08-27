@@ -14,7 +14,7 @@ namespace osuTools.Beatmaps.HitObject.Catch
         /// <summary>
         ///     打击物件的类型
         /// </summary>
-        public HitObjectTypes HitObjectType { get; } = HitObjectTypes.Fruit;
+        public HitObjectTypes HitObjectType => HitObjectTypes.Fruit;
 
         /// <summary>
         ///     相对于开始的偏移

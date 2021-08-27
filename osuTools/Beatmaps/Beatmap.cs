@@ -20,7 +20,7 @@ namespace osuTools.Beatmaps
     [Serializable]
     public partial class Beatmap : IBeatmap,IHasPlayableAudio
     {
-        internal bool Notv = false;
+        internal bool NotValid = false;
 
         /// <summary>
         ///     初始化一个空的Beatmap对象
@@ -210,7 +210,6 @@ namespace osuTools.Beatmaps
         /// <returns></returns>
         public OsuBeatmap ToOsuBeatmap()
         {
-            var info = new OsuInfo();
             var baseDb = new OsuBeatmapDB();
             return baseDb.Beatmaps.FindByMd5(Md5.ToString());
         }

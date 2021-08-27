@@ -12,7 +12,7 @@ namespace osuTools.Beatmaps.HitObject.Catch
     /// </summary>
     public class JuiceStream : IHitObject, INoteGrouped
     {
-        private string curvetype;
+        private string _curvetype;
 
         /// <summary>
         ///     接住头部时播放的音效
@@ -90,7 +90,7 @@ namespace osuTools.Beatmaps.HitObject.Catch
             Position = new OsuPixel(int.Parse(info[0]), int.Parse(info[1]));
             Offset = int.Parse(info[2]);
             var type = int.Parse(info[3]);
-            var types = HitObjectTools.GetGenericTypesByInt<HitObjectTypes>(type);
+            var types = HitObjectTools.GetGenericTypesByInt<HitObjectTypes>(type,out _);
             if (!types.Contains(HitObjectTypes.Slider))
             {
                 throw new ArgumentException("该行的数据不适用。");
@@ -98,11 +98,11 @@ namespace osuTools.Beatmaps.HitObject.Catch
 
             if (types.Contains(HitObjectTypes.NewCombo))
                 IsNewGroup = true;
-            HitSound = HitObjectTools.GetGenericTypesByInt<HitSounds>(int.Parse(info[4]))[0];
+            HitSound = HitObjectTools.GetGenericTypesByInt<HitSounds>(int.Parse(info[4]),out _)[0];
             var sliderinfo = info[5];
             var typeAndPoint = sliderinfo.Split('|');
-            curvetype = typeAndPoint[0];
-            CurveType = Slider.GetCurveTypeByString(curvetype);
+            _curvetype = typeAndPoint[0];
+            CurveType = Slider.GetCurveTypeByString(_curvetype);
             for (var i = 1; i < typeAndPoint.Length; i++)
             {
                 var point = typeAndPoint[i].Split(':');
@@ -164,7 +164,7 @@ namespace osuTools.Beatmaps.HitObject.Catch
         /// <returns></returns>
         public string ToOsuFormat()
         {
-            var b = new StringBuilder($"{Position.x},192,{Offset},{2},{curvetype}");
+            var b = new StringBuilder($"{Position.x},192,{Offset},{2},{_curvetype}");
             for (var i = 0; i < curvePoints.Count; i++)
             {
                 if (curvePoints.Count == 1)

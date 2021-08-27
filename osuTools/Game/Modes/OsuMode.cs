@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using osuTools.Beatmaps;
 using osuTools.Beatmaps.HitObject;
 using osuTools.Beatmaps.HitObject.Std;
@@ -103,15 +104,15 @@ namespace osuTools.Game.Modes
         {
             IHitObject hitobject = null;
             var d = data.Split(',');
-            var types = HitObjectTools.GetGenericTypesByInt<HitObjectTypes>(int.Parse(d[3]));
-            if (types.Contains(HitObjectTypes.HitCircle))
+            var types = HitObjectTools.GetGenericTypesByInt<HitObjectTypes>(int.Parse(d[3]),out var maybeType);
+            if (maybeType == HitObjectTypes.HitCircle || types.Contains(HitObjectTypes.HitCircle))
                 hitobject = new HitCircle();
-            if (types.Contains(HitObjectTypes.Slider))
+            if (maybeType == HitObjectTypes.Slider || types.Contains(HitObjectTypes.Slider))
                 hitobject = new Slider();
-            if (types.Contains(HitObjectTypes.Spinner))
+            if (maybeType == HitObjectTypes.Spinner || types.Contains(HitObjectTypes.Spinner))
                 hitobject = new Spinner();
-            var type = types[0];
-            if (hitobject == null) throw new IncorrectHitObjectException(this, type);
+            var type = maybeType;
+            if (hitobject == null) throw new IncorrectHitObjectException(this, type ?? types[0]);
             hitobject.Parse(data);
             return hitobject;
         }

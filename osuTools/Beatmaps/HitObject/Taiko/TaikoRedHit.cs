@@ -13,7 +13,7 @@ namespace osuTools.Beatmaps.HitObject.Taiko
         /// <summary>
         ///     Note的类型
         /// </summary>
-        public HitObjectTypes HitObjectType { get; } = HitObjectTypes.TaikoRedHit;
+        public HitObjectTypes HitObjectType => HitObjectTypes.TaikoRedHit;
 
         /// <summary>
         ///     该Note相对于歌曲开始的时间点

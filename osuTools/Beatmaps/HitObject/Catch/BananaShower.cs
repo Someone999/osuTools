@@ -16,7 +16,7 @@ namespace osuTools.Beatmaps.HitObject.Catch
         public int EndTime { get; internal set; }
 
         /// <inheritdoc />
-        public HitObjectTypes HitObjectType { get; } = HitObjectTypes.BananaShower;
+        public HitObjectTypes HitObjectType => HitObjectTypes.BananaShower;
 
         /// <inheritdoc />
         public int Offset { get; set; } = -1;

@@ -9,12 +9,12 @@ namespace osuTools.Beatmaps.HitObject.Std
     /// </summary>
     public class HitCircle : IHitObject, INoteGrouped
     {
-        private int type;
+        private int _type;
 
         /// <summary>
         ///     打击物件的类型
         /// </summary>
-        public HitObjectTypes HitObjectType { get; } = HitObjectTypes.HitCircle;
+        public HitObjectTypes HitObjectType => HitObjectTypes.HitCircle;
 
         /// <summary>
         ///     打击物件相对于开始时的偏移
@@ -51,8 +51,8 @@ namespace osuTools.Beatmaps.HitObject.Std
             Position = new OsuPixel(int.Parse(info[0]), int.Parse(info[1]));
             var val = double.Parse(info[2]);
             Offset = double.IsNaN(val) || double.IsInfinity(val) ? 0 : (int) val;
-            type = int.Parse(info[3]);
-            var types = HitObjectTools.GetGenericTypesByInt<HitObjectTypes>(type);
+            _type = int.Parse(info[3]);
+            var types = HitObjectTools.GetGenericTypesByInt<HitObjectTypes>(_type);
             if (!types.Contains(HitObjectTypes.HitCircle))
             {
                 throw new ArgumentException("该行的数据不适用。");

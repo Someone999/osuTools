@@ -386,7 +386,7 @@ namespace osuTools.OrtdpWrapper
         /// </summary>
         [AvailableVariable("CurrentRank", "LANG_VAR_CURRENTRANKING")]
         public string CurrentRank =>
-            // System.Windows.Forms.MessageBox.Show(OsuListenerManager.OsuStatus.CurrentStatus.Contains("Playing").ToString());
+
             GameStatus.CurrentStatus == OsuGameStatus.Playing ? CurrentMode.GetRanking(this).ToString() : "???";
 
         /// <summary>

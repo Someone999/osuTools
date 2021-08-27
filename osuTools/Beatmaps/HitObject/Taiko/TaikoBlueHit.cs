@@ -13,7 +13,7 @@ namespace osuTools.Beatmaps.HitObject.Taiko
         /// <summary>
         ///     Note的类型
         /// </summary>
-        public HitObjectTypes HitObjectType { get; } = HitObjectTypes.TaikoBlueHit;
+        public HitObjectTypes HitObjectType => HitObjectTypes.TaikoBlueHit;
 
         /// <summary>
         ///     Note相对于开始的位置

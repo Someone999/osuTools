@@ -28,13 +28,13 @@ namespace osuTools.Beatmaps
 
             if (map.Length == 0)
             {
-                Notv = true;
+                NotValid = true;
                 throw new InvalidBeatmapFileException($"文件{dir}为空。");
             }
 
             if (!map[0].Contains("osu file format"))
             {
-                Notv = true;
+                NotValid = true;
 
                 throw new InvalidBeatmapFileException($"文件{dir}不是谱面文件。");
             }

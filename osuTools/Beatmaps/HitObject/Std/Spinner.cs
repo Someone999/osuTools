@@ -17,7 +17,7 @@ namespace osuTools.Beatmaps.HitObject.Std
         /// <summary>
         ///     Note的类型
         /// </summary>
-        public HitObjectTypes HitObjectType { get; } = HitObjectTypes.Spinner;
+        public HitObjectTypes HitObjectType => HitObjectTypes.Spinner;
 
         /// <summary>
         ///     Note相对于开始的位置

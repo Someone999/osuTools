@@ -143,7 +143,7 @@ namespace osuTools.Beatmaps
                         }
 
                         var tmp = new Beatmap(beatmapdir);
-                        if (!tmp.Notv)
+                        if (!tmp.NotValid)
                             c._beatmaps.Add(tmp);
                     }
 

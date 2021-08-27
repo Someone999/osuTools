@@ -43,7 +43,7 @@
         /// <summary>
         ///     Taiko连打
         /// </summary>
-        DrumRoll = 3,
+        DrumRoll,
 
         /// <summary>
         ///     Mania长条

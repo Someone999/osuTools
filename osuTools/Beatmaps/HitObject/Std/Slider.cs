@@ -11,8 +11,8 @@ namespace osuTools.Beatmaps.HitObject.Std
     /// </summary>
     public class Slider : IHitObject, INoteGrouped
     {
-        private string curvetype;
-        private int type;
+        private string _curvetype;
+        private int _type;
 
         /// <summary>
         ///     点到滑条开始的位置播放的音效以及自定义的数据
@@ -52,7 +52,7 @@ namespace osuTools.Beatmaps.HitObject.Std
         public double Length { get; set; }
         /// <inheritdoc />
 
-        public HitObjectTypes HitObjectType { get; } = HitObjectTypes.Slider;
+        public HitObjectTypes HitObjectType => HitObjectTypes.Slider;
 
         /// <summary>
         ///     该Slider相对于曲目开始的时间
@@ -89,8 +89,8 @@ namespace osuTools.Beatmaps.HitObject.Std
             Position = new OsuPixel(int.Parse(info[0]), int.Parse(info[1]));
             var val = double.Parse(info[2]);
             Offset = double.IsNaN(val) || double.IsInfinity(val) ? 0 : (int) val;
-            type = int.Parse(info[3]);
-            var types = HitObjectTools.GetGenericTypesByInt<HitObjectTypes>(type);
+            _type = int.Parse(info[3]);
+            var types = HitObjectTools.GetGenericTypesByInt<HitObjectTypes>(_type);
             if (!types.Contains(HitObjectTypes.Slider))
             {
                 throw new ArgumentException("该行的数据不适用。");
@@ -101,8 +101,8 @@ namespace osuTools.Beatmaps.HitObject.Std
             HitSound = HitObjectTools.GetGenericTypesByInt<HitSounds>(int.Parse(info[4]))[0];
             var sliderinfo = info[5];
             var typeAndPoint = sliderinfo.Split('|');
-            curvetype = typeAndPoint[0];
-            CurveType = GetCurveTypeByString(curvetype);
+            _curvetype = typeAndPoint[0];
+            CurveType = GetCurveTypeByString(_curvetype);
             for (var i = 1; i < typeAndPoint.Length; i++) //这个for循环解析这个滑条的所有的定位点
             {
                 var point = typeAndPoint[i].Split(':');
@@ -165,7 +165,7 @@ namespace osuTools.Beatmaps.HitObject.Std
         public string ToOsuFormat()
         {
             var b = new StringBuilder(
-                $"{Position.x},{Position.y},{Offset},{1 << (int) HitObjectType},{1 << (int) HitSound},{curvetype}");
+                $"{Position.x},{Position.y},{Offset},{1 << (int) HitObjectType},{1 << (int) HitSound},{_curvetype}");
             for (var i = 0; i < curvePoints.Count; i++)
             {
                 if (curvePoints.Count == 1)

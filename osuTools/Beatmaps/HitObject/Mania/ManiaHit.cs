@@ -14,7 +14,7 @@ namespace osuTools.Beatmaps.HitObject.Mania
         /// <summary>
         ///     该打击物件的类型
         /// </summary>
-        public HitObjectTypes HitObjectType { get; } = HitObjectTypes.ManiaHit;
+        public HitObjectTypes HitObjectType => HitObjectTypes.ManiaHit;
 
         /// <summary>
         ///     该打击物件相对于开始的偏移

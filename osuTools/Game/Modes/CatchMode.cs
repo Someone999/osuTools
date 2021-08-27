@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using osuTools.Beatmaps;
 using osuTools.Beatmaps.HitObject;
@@ -170,12 +171,12 @@ namespace osuTools.Game.Modes
         {
             IHitObject hitobject = null;
             var d = data.Split(',');
-            var types = HitObjectTools.GetGenericTypesByInt<HitObjectTypes>(int.Parse(d[3]));
-            if (types.Contains(HitObjectTypes.HitCircle))
+            var types = HitObjectTools.GetGenericTypesByInt<HitObjectTypes>(int.Parse(d[3]),out var maybeType);
+            if (maybeType == HitObjectTypes.HitCircle || types.Contains(HitObjectTypes.HitCircle))
                 hitobject = new Fruit();
-            if (types.Contains(HitObjectTypes.Slider))
+            if (maybeType == HitObjectTypes.Slider || types.Contains(HitObjectTypes.Slider))
                 hitobject = new JuiceStream();
-            if (types.Contains(HitObjectTypes.Spinner))
+            if (maybeType == HitObjectTypes.Spinner || types.Contains(HitObjectTypes.Spinner))
                 hitobject = new BananaShower();
             if (hitobject == null) throw new IncorrectHitObjectException(this, types[0]);
             hitobject.Parse(data);
@@ -231,5 +232,6 @@ namespace osuTools.Game.Modes
         public override double GetHitObjectPercent(OrtdpWrapper.OrtdpWrapper info) =>
             GetPassedHitObjectCount(info) / (double) GetBeatmapMaxCombo(info);
 
+        
     }
 }
