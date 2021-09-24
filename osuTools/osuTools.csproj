@@ -28,6 +28,7 @@
     <PlatformTarget>x86</PlatformTarget>
     <DocumentationFile>bin\Debug\osuTools.xml</DocumentationFile>
     <RegisterForComInterop>false</RegisterForComInterop>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -219,7 +220,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Attributes\AliasAttribute.cs" />
     <Compile Include="Attributes\AvailableVariableAttribute.cs" />
     <Compile Include="Attributes\BugPresentedAttribute.cs" />
     <Compile Include="Attributes\DevelopmentStage.cs" />
@@ -230,6 +230,9 @@
     <Compile Include="Beatmaps\BeatmapFileCreator\IBeatmapFileCreator.cs" />
     <Compile Include="Beatmaps\Beatmap.cs" />
     <Compile Include="Beatmaps\BeatmapCollection.cs" />
+    <Compile Include="Beatmaps\HitObject\Tools\HitObjectTypesConverter.cs" />
+    <Compile Include="Beatmaps\HitObject\Tools\HitSoundsConverter.cs" />
+    <Compile Include="Beatmaps\HitObject\Tools\OsuGameModConverter.cs" />
     <Compile Include="Beatmaps\IHasPlayableAudio.cs" />
     <Compile Include="Beatmaps\IHasPlayableVideo.cs" />
     <Compile Include="Beatmaps\WithOnlineBeatmap.cs" />
@@ -251,6 +254,7 @@
     <Compile Include="Beatmaps\BreakTime\BreakTimeCollection.cs" />
     <Compile Include="Collections\CloneableList.cs" />
     <Compile Include="Collections\CloneableObservableList.cs" />
+    <Compile Include="Collections\ConcurrentList.cs" />
     <Compile Include="Collections\ObservableList.cs" />
     <Compile Include="Collections\ObservableListEnumerator.cs" />
     <Compile Include="Exceptions\BeatmapNotFoundException.cs" />
@@ -262,9 +266,12 @@
     <Compile Include="Exceptions\ModExsitedException.cs" />
     <Compile Include="Exceptions\NoBeatmapInFolderException.cs" />
     <Compile Include="Exceptions\NoReplayInFolderException.cs" />
+    <Compile Include="Exceptions\ObjectWaitException.cs" />
     <Compile Include="Exceptions\OnlineQueryFailedException.cs" />
     <Compile Include="Exceptions\osuToolsExceptionBase.cs" />
     <Compile Include="Exceptions\ReplayNotFoundException.cs" />
+    <Compile Include="GameInfo\ProcessAccess.cs" />
+    <Compile Include="GameInfo\ProcessDetector.cs" />
     <Compile Include="GameInfo\KeyBinding\KeyBinding.cs" />
     <Compile Include="GameInfo\KeyLayout\CatchKeyLayout.cs" />
     <Compile Include="GameInfo\KeyLayout\ManiaKeyLayout.cs" />
@@ -338,7 +345,7 @@
     <Compile Include="Beatmaps\HitObject\Taiko\DrumRollTypes.cs" />
     <Compile Include="Beatmaps\HitObject\ExtraMethod.cs" />
     <Compile Include="Beatmaps\HitObject\HitObjectCollection.cs" />
-    <Compile Include="Beatmaps\HitObject\HitObjectTools.cs" />
+    <Compile Include="Beatmaps\HitObject\Tools\IntToEnumListConverter.cs" />
     <Compile Include="Beatmaps\HitObject\HitObjectTypes.cs" />
     <Compile Include="Beatmaps\HitObject\Sounds\HitSounds.cs" />
     <Compile Include="Beatmaps\HitObject\IHasEndHitObject.cs" />
@@ -592,7 +599,7 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties Reactor_Deploy="0" Reactor_Output="" Reactor_Configuration="ALL" Reactor_Project="" Reactor_Commands="" Reactor_Enabled="0" />
+      <UserProperties Reactor_Enabled="0" Reactor_Commands="" Reactor_Project="" Reactor_Configuration="ALL" Reactor_Output="" Reactor_Deploy="0" />
     </VisualStudio>
   </ProjectExtensions>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

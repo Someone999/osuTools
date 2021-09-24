@@ -4,6 +4,7 @@ using System.Linq;
 using osuTools.Beatmaps;
 using osuTools.Beatmaps.HitObject;
 using osuTools.Beatmaps.HitObject.Catch;
+using osuTools.Beatmaps.HitObject.Tools;
 using osuTools.Exceptions;
 using osuTools.Game.Mods;
 using osuTools.PerformanceCalculator.Catch;
@@ -171,7 +172,7 @@ namespace osuTools.Game.Modes
         {
             IHitObject hitobject = null;
             var d = data.Split(',');
-            var types = HitObjectTools.GetGenericTypesByInt<HitObjectTypes>(int.Parse(d[3]),out var maybeType);
+            var types = new HitObjectTypesConverter().Convert(int.Parse(d[3]),out var maybeType);
             if (maybeType == HitObjectTypes.HitCircle || types.Contains(HitObjectTypes.HitCircle))
                 hitobject = new Fruit();
             if (maybeType == HitObjectTypes.Slider || types.Contains(HitObjectTypes.Slider))

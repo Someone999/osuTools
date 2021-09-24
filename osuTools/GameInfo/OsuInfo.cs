@@ -29,7 +29,7 @@ namespace osuTools.GameInfo
                 bool isWow64 = true;
                 if (Environment.Is64BitOperatingSystem)
                     IsWow64Process(process.Handle, ref isWow64);
-                if (process.ProcessName == "osu!" && process.MainWindowTitle == "osu!" && isWow64)
+                if (process.ProcessName == "osu!" && isWow64)
                 {
                     CurrentProcess = process;
                 }

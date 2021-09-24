@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using osuTools.Beatmaps.HitObject.Sounds;
 using osuTools.Beatmaps.HitObject.Std;
+using osuTools.Beatmaps.HitObject.Tools;
 using osuTools.Game.Modes;
 
 namespace osuTools.Beatmaps.HitObject.Taiko
@@ -92,32 +93,32 @@ namespace osuTools.Beatmaps.HitObject.Taiko
             var val = double.Parse(info[2]);
             Offset = double.IsNaN(val) || double.IsInfinity(val) ? 0 : (int) val;
             _type = int.Parse(info[3]);
-            if (!HitObjectTools.GetGenericTypesByInt<HitObjectTypes>(_type).Contains(HitObjectTypes.Spinner) &&
-                !HitObjectTools.GetGenericTypesByInt<HitObjectTypes>(_type).Contains(HitObjectTypes.Slider))
+            var types = new HitObjectTypesConverter().Convert(_type, out var maybeBestVal);
+            if (maybeBestVal != HitObjectTypes.Slider || maybeBestVal != HitObjectTypes.Spinner)
                 throw new ArgumentException("该行的数据不适用。");
 
-            if (HitObjectTools.GetGenericTypesByInt<HitObjectTypes>(_type).Contains(HitObjectTypes.Spinner))
+            if (maybeBestVal == HitObjectTypes.Spinner)
             {
                 DrumRollType = DrumRollTypes.Spinner;
-                if (!HitObjectTools.GetGenericTypesByInt<HitObjectTypes>(_type).Contains(HitObjectTypes.Spinner))
+                if (!types.Contains(HitObjectTypes.Spinner))
                     throw new ArgumentException("该行的数据不适用。");
 
-                HitSound = HitObjectTools.GetGenericTypesByInt<HitSounds>(int.Parse(info[4]))[0];
+                HitSound = new HitSoundsConverter().Convert(int.Parse(info[4]),out _)[0];
                 var eval = double.Parse(info[5]);
                 EndTime = double.IsNaN(eval) || double.IsInfinity(eval) ? 0 : (int) eval;
                 if (info.Length > 6)
                     HitSample = new HitSample(info[6]);
             }
 
-            if (HitObjectTools.GetGenericTypesByInt<HitObjectTypes>(_type).Contains(HitObjectTypes.Slider))
+            if (maybeBestVal == HitObjectTypes.Slider)
             {
                 DrumRollType = DrumRollTypes.Slider;
-                if (!HitObjectTools.GetGenericTypesByInt<HitObjectTypes>(_type).Contains(HitObjectTypes.Slider))
+                if (!types.Contains(HitObjectTypes.Slider))
                 {
                     throw new ArgumentException("该行的数据不适用。");
                 }
 
-                HitSound = HitObjectTools.GetGenericTypesByInt<HitSounds>(int.Parse(info[4]))[0];
+                HitSound = new HitSoundsConverter().Convert(int.Parse(info[4]),out _)[0];
                 var sliderinfo = info[5];
                 var typeAndPoint = sliderinfo.Split('|');
                 _curvetype = typeAndPoint[0];
@@ -142,7 +143,7 @@ namespace osuTools.Beatmaps.HitObject.Taiko
                     var hitSounds = new List<HitSounds>();
                     var hitSoundstrs = info[8].Split('|');
                     foreach (var str in hitSoundstrs)
-                        hitSounds.Add(HitObjectTools.GetGenericTypesByInt<HitSounds>(int.Parse(str))[0]);
+                        hitSounds.Add(new HitSoundsConverter().Convert(int.Parse(str),out _)[0]);
                     if (hitSoundstrs.Length > 0)
                         StartingHitSound = new SliderHitSound(hitSounds[0]);
                     if (hitSoundstrs.Length > 1)

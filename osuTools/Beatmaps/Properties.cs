@@ -141,28 +141,26 @@ namespace osuTools.Beatmaps
             /// <summary>
             ///     综合难度
             /// </summary>
-            [AvailableVariable("Beatmap.OverallDifficulty", "LANG_VAR_OD")]
-            [Alias("Beatmap.OD")]
+            [AvailableVariable("Beatmap.OverallDifficulty", "LANG_VAR_OD",new []{"Beatmap.OD"})]
             public double OverallDifficulty { get; set; } = -1;
 
             /// <summary>
             ///     掉血速度，回血难度
             /// </summary>
-            [AvailableVariable("Beatmap.HPDrain", "LANG_VAR_HPDRAIN")]
+            [AvailableVariable("Beatmap.HPDrain", "LANG_VAR_HPDRAIN",new[] {"Beatmap.HP"})]
             public double HpDrain { get; set; } = -1;
 
             /// <summary>
             ///     缩圈速度
             /// </summary>
-            [AvailableVariable("Beatmap.ApproachRate", "LANG_VAR_AR")]
-            [Alias("Beatmap.AR")]
+            [AvailableVariable("Beatmap.ApproachRate", "LANG_VAR_AR",new[] {"Beatmap.AR" })]
+            
             public double ApproachRate { get; set; } = -1;
 
             /// <summary>
             ///     圈圈大小
             /// </summary>
-            [AvailableVariable("Beatmap.CircleSize", "LANG_VAR_CS")]
-            [Alias("Beatmap.CS")]
+            [AvailableVariable("Beatmap.CircleSize", "LANG_VAR_CS",new [] {"Beatmap.CS"})]
             public double CircleSize { get; set; } = -1;
 
             /// <summary>

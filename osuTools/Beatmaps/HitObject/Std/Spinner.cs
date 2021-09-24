@@ -1,5 +1,6 @@
 ﻿using System;
 using osuTools.Beatmaps.HitObject.Sounds;
+using osuTools.Beatmaps.HitObject.Tools;
 using osuTools.Game.Modes;
 
 namespace osuTools.Beatmaps.HitObject.Std
@@ -54,15 +55,15 @@ namespace osuTools.Beatmaps.HitObject.Std
             var val = double.Parse(info[2]);
             Offset = double.IsNaN(val) || double.IsInfinity(val) ? 0 : (int) val;
             var innerType = int.Parse(info[3]);
-            var types = HitObjectTools.GetGenericTypesByInt<HitObjectTypes>(innerType);
-            if (!types.Contains(HitObjectTypes.Spinner))
+            var types = new HitObjectTypesConverter().Convert(innerType,out var maybeBestVal);
+            if (maybeBestVal != HitObjectTypes.Spinner)
             {
                 throw new ArgumentException("该行的数据不适用。");
             }
 
             if (types.Contains(HitObjectTypes.NewCombo))
                 IsNewGroup = true;
-            HitSound = HitObjectTools.GetGenericTypesByInt<HitSounds>(int.Parse(info[4]))[0];
+            HitSound = new HitSoundsConverter().Convert(int.Parse(info[4]),out _)[0];
             var eval = double.Parse(info[5]);
             EndTime = double.IsNaN(eval) || double.IsInfinity(eval) ? 0 : (int) eval;
             if (info.Length > 6)

@@ -1,8 +1,11 @@
-﻿namespace osuTools.Game.Mods
+﻿using System;
+
+namespace osuTools.Game.Mods
 {
     /// <summary>
     ///     游戏中的Mod
     /// </summary>
+    [Flags]
     public enum OsuGameMod
     {
         /// <summary>

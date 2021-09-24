@@ -7,6 +7,7 @@ using osuTools.Beatmaps;
 using osuTools.Beatmaps.HitObject;
 using osuTools.Beatmaps.HitObject.Sounds;
 using osuTools.Beatmaps.HitObject.Taiko;
+using osuTools.Beatmaps.HitObject.Tools;
 using osuTools.Exceptions;
 using osuTools.Game.Mods;
 using RealTimePPDisplayer.Beatmap;
@@ -177,11 +178,11 @@ namespace osuTools.Game.Modes
         {
             IHitObject hitobject = null;
             var d = data.Split(',');
-            var types = HitObjectTools.GetGenericTypesByInt<HitObjectTypes>(int.Parse(d[3]));
-            var hitSounds = HitObjectTools.GetGenericTypesByInt<HitSounds>(int.Parse(d[4]));
+            var types = new HitObjectTypesConverter().Convert(int.Parse(d[3]),out var maybeBestVal);
+            var hitSounds = new HitSoundsConverter().Convert(int.Parse(d[4]),out _);
             if (types.Contains(HitObjectTypes.Slider) || types.Contains(HitObjectTypes.Spinner))
                 hitobject = new DrumRoll();
-            if (types.Contains(HitObjectTypes.HitCircle))
+            if (maybeBestVal == HitObjectTypes.HitCircle)
             {
                 if (hitSounds.Contains(HitSounds.Finish))
                     hitobject = new LargeTaikoRedHit();

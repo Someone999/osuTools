@@ -43,7 +43,7 @@ namespace osuTools.Beatmaps
         /// <summary>
         ///     谱面的游戏模式
         /// </summary>
-        [AvailableVariable("Beatmap.Mode", "LANG_VAR_BEATMAPMODE")]
+        [AvailableVariable("Beatmap.Mode", "LANG_VAR_BEATMAPMODE",null)]
         public OsuGameMode Mode { get; set; }
 
         private double _bpm;
@@ -92,19 +92,19 @@ namespace osuTools.Beatmaps
         /// <summary>
         ///     谱面有无倒计时
         /// </summary>
-        [AvailableVariable("Beatmap.HasCountdown", "LANG_VAR_HASCOUNTDOWN")]
+        [AvailableVariable("Beatmap.HasCountdown", "LANG_VAR_HASCOUNTDOWN",null)]
         public bool HasCountdown { get; internal set; } = false;
 
         /// <summary>
         ///     谱面音频的前导时间
         /// </summary>
-        [AvailableVariable("Beatmap.AudioLeadIn", "LANG_VAR_AUDIOLEADIN")]
+        [AvailableVariable("Beatmap.AudioLeadIn", "LANG_VAR_AUDIOLEADIN",null)]
         public double AudioLeadIn { get; set; } = 0;
 
         /// <summary>
         ///     谱面的预览时间点
         /// </summary>
-        [AvailableVariable("Beatmap.PreviewTime", "LANG_VAR_PREVIEWTIME")]
+        [AvailableVariable("Beatmap.PreviewTime", "LANG_VAR_PREVIEWTIME",null)]
         public double PreviewTime { get; set; } = -1;
 
         /// <summary>

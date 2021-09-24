@@ -1,4 +1,5 @@
 ﻿using osuTools.Beatmaps.HitObject.Sounds;
+using osuTools.Beatmaps.HitObject.Tools;
 using osuTools.Game.Modes;
 
 namespace osuTools.Beatmaps.HitObject.Taiko
@@ -51,9 +52,11 @@ namespace osuTools.Beatmaps.HitObject.Taiko
             var val = double.Parse(info[2]);
             Offset = double.IsNaN(val) || double.IsInfinity(val) ? 0 : (int) val;
             type = int.Parse(info[3]);
-            if (HitObjectTools.GetGenericTypesByInt<HitObjectTypes>(type).Contains(HitObjectTypes.HitCircle))
-                if (info.Length > 5)
-                    HitSample = new HitSample(info[5]);
+            var types = new HitObjectTypesConverter().Convert(type,out var maybeBestVal);
+            if (maybeBestVal != HitObjectTypes.HitCircle) 
+                return;
+            if (info.Length > 5)
+                HitSample = new HitSample(info[5]);
         }
 
         /// <summary>

@@ -10,7 +10,7 @@ namespace osuTools.Collections
     /// <typeparam name="T">元素类型</typeparam>
     public class ObservableList<T> : IList<T>
     {
-        private T[] _objArr;
+        private T[] _arr;
         private int _len, _capacity;
         /// <summary>
         /// 为OnAddItem提供参数
@@ -84,14 +84,16 @@ namespace osuTools.Collections
                 throw new IndexOutOfRangeException("Index的值超出范围。");
             return index;
         }
-        void Extend()
+        void EnsureCapacity(int size, bool forced)
         {
-            if (_len + 1 >= _capacity)
+            int extentTo = forced ? size : size + _len;
+            if (forced || size + _len > _capacity)
             {
-                int newCapacity = _capacity == 0 ? 4 : _capacity * 2;
-                T[] newArr = new T[newCapacity];
-                Array.Copy(_objArr,newArr,_len);
-                _objArr = newArr;
+                int newCapacity;
+                T[] oldArr = _arr;
+                T[] newArr = new T[newCapacity = forced ? size : _capacity == 0 ? 4 : _capacity * 2];
+                Array.Copy(oldArr, newArr, _len);
+                _arr = newArr;
                 _capacity = newCapacity;
             }
         }
@@ -100,7 +102,7 @@ namespace osuTools.Collections
         /// </summary>
         public ObservableList()
         {
-            _objArr = new T[0];
+            _arr = new T[0];
         }
        /// <summary>
        /// 使用另一个集合的元素填充列表
@@ -110,8 +112,8 @@ namespace osuTools.Collections
         ///<inheritdoc/>
         public void Add(T item)
         {
-            Extend();
-            _objArr[_len++] = item;
+            EnsureCapacity(_len + 1, false);
+            _arr[_len++] = item;
             OnAdd(item);
         }
         ///<inheritdoc/>
@@ -125,20 +127,20 @@ namespace osuTools.Collections
             {
                 if (item == null)
                 {
-                    if (_objArr[i] == null)
+                    if (_arr[i] == null)
                     {
-                        _objArr[i] = default;
-                        Array.Copy(_objArr, i + 1, _objArr, i, _len - i - 1);
-                        _objArr[--_len] = default;
+                        _arr[i] = default;
+                        Array.Copy(_arr, i + 1, _arr, i, _len - i - 1);
+                        _arr[--_len] = default;
                         suc = true;
                     }
                 }
-                else if(_objArr[i].GetHashCode() == itemHash)
-                    if (_objArr[i].Equals(item))
+                else if(_arr[i].GetHashCode() == itemHash)
+                    if (_arr[i].Equals(item))
                     {
-                        _objArr[i] = default;
-                        Array.Copy(_objArr, i + 1, _objArr, i, _len - i - 1);
-                        _objArr[--_len] = default;
+                        _arr[i] = default;
+                        Array.Copy(_arr, i + 1, _arr, i, _len - i - 1);
+                        _arr[--_len] = default;
                         suc = true;
                     }
             }
@@ -153,11 +155,11 @@ namespace osuTools.Collections
             {
                 if (item == null)
                 {
-                    if (_objArr[i] == null)
+                    if (_arr[i] == null)
                         return i;
                 }
-                else if (_objArr[i].GetHashCode() == item.GetHashCode())
-                    if (_objArr[i].Equals(item))
+                else if (_arr[i].GetHashCode() == item.GetHashCode())
+                    if (_arr[i].Equals(item))
                         return i;
             }
             return -1;
@@ -166,28 +168,29 @@ namespace osuTools.Collections
         public void RemoveAt(int index)
         {
             index = IndexProcessor(_len,index);
-            OnRemove(_objArr[index],true);
-            _objArr[index] = default;
-            Array.Copy(_objArr, index + 1, _objArr, index, _len - index - 1);
-            _objArr[--_len] = default;
+            OnRemove(_arr[index],true);
+            _arr[index] = default;
+            Array.Copy(_arr, index + 1, _arr, index, _len - index - 1);
+            _arr[--_len] = default;
         }
         ///<inheritdoc/>
         public void Insert(int index,T item)
         {
 
             index = IndexProcessor(_len, index);
-            T[] before = new T[index], after = new T[_len - index];
-            T[] summary = new T[_len + 1];
-            int pos = 0;
-            Array.Copy(_objArr, before, index);
-            Array.Copy(_objArr, index, after, 0, _len - index);
-            Array.Copy(before, 0, summary, pos, index);
-            pos += index;
-            Array.Copy(new [] {item},0, summary,pos, 1);
-            pos++;
-            Array.Copy(after,0, summary,pos, _len - index);
-            _objArr = summary;
-            OnInsert(item, index);
+            int insertIndex = index;
+            if (insertIndex != _arr.Length - 1)
+            {
+                EnsureCapacity(_len + 2, false);
+                Array.Copy(_arr, insertIndex, _arr, insertIndex + 1, _len - insertIndex);
+                _arr[insertIndex] = item;
+                _len++;
+            }
+            else
+            {
+                Add(item);
+            }
+            OnInsert?.Invoke(item, index);
             _len++;
         }
         ///<inheritdoc/>
@@ -198,19 +201,19 @@ namespace osuTools.Collections
             {
 
                 index = IndexProcessor(_len, index);
-                return _objArr[index];
+                return _arr[index];
             }
             set
             {
                 index = IndexProcessor(_len, index);
-                _objArr[index] = value;
+                _arr[index] = value;
             }
         }
         ///<inheritdoc/>
 
         public void Clear()
         {
-            Array.Clear(_objArr, 0, _len);
+            Array.Clear(_arr, 0, _len);
             OnClear();
             _len = 0;
         }
@@ -221,11 +224,11 @@ namespace osuTools.Collections
             {
                 if (item == null)
                 {
-                    if (_objArr[i] == null)
+                    if (_arr[i] == null)
                         return true;
                 }
-                else if (_objArr[i].GetHashCode() == item.GetHashCode())
-                    if (_objArr[i].Equals(item))
+                else if (_arr[i].GetHashCode() == item.GetHashCode())
+                    if (_arr[i].Equals(item))
                         return true;
             }
             return false;
@@ -233,7 +236,7 @@ namespace osuTools.Collections
         ///<inheritdoc/>
         public void CopyTo(T[] arr, int index)
         {
-            Array.Copy(_objArr,arr,_len);
+            Array.Copy(_arr,arr,_len);
         }
         ///<inheritdoc/>
         public int Count => _len;

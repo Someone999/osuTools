@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using osuTools.Beatmaps.HitObject;
+using osuTools.Beatmaps.HitObject.Tools;
 using osuTools.Exceptions;
 using osuTools.Game.Modes;
 using osuTools.Game.Mods;
@@ -14,6 +15,7 @@ namespace osuTools.OsuDB
     /// </summary>
     public class OsuScoreInfo : SortByScore, IOsuDbData
     {
+        private static OsuBeatmapDB _currentDb = new OsuBeatmapDB();
         internal List<OsuGameMod> IternalMods;
 
         /// <summary>
@@ -57,16 +59,14 @@ namespace osuTools.OsuDB
             Score = score;
             MaxCombo = maxcombo;
             Perfect = per;
-            IternalMods = HitObjectTools.GetGenericTypesByInt<OsuGameMod>(mods);
+            IternalMods = new OsuGameModConverter().Convert(mods, out _);
             PlayTime = new DateTime(playtime);
-            if (verify != -1 || !string.IsNullOrEmpty(empty)) throw new FailToParseException("验证失败");
+            if (verify != -1 || !string.IsNullOrEmpty(empty)) 
+                throw new FailToParseException("验证失败");
             ScoreId = scoreId;
-            
             Debug.Assert(count300 + count100 + count50 + CountMiss != 0);
             Accuracy = AccCalc(mode);
-            //System.Windows.Forms.MessageBox.Show(Score.ToString());
         }
-
         /// <summary>
         ///     游戏版本
         /// </summary>
@@ -190,7 +190,7 @@ namespace osuTools.OsuDB
         {
             try
             {
-                return new OsuBeatmapDB().Beatmaps.FindByMd5(BeatmapMd5);
+                return _currentDb?.Beatmaps?.FindByMd5(BeatmapMd5);
             }
             catch (BeatmapNotFoundException)
             {

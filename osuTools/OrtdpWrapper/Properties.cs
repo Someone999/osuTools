@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
-using System.Linq;
 using osuTools.Attributes;
 using osuTools.Beatmaps;
 using osuTools.Game;
@@ -20,53 +18,43 @@ namespace osuTools.OrtdpWrapper
         /// <summary>
         ///     300g或激的数量
         /// </summary>
-        [AvailableVariable("CountGeki", "LANG_VAR_C300G")]
-        [Alias("c300g")]
-        [Alias("Count300g")]
+        [AvailableVariable("CountGeki", "LANG_VAR_C300G",new []{"c300g","Count300g"})]
         public int CountGeki { get; private set; }
 
         /// <summary>
         ///     300的数量
         /// </summary>
-        [AvailableVariable("Count300", "LANG_VAR_C300")]
-        [Alias("c300")]
+        [AvailableVariable("Count300", "LANG_VAR_C300",new []{"c300"})]
         public int Count300 { get; private set; }
 
         /// <summary>
         ///     200或喝的数量
         /// </summary>
-        [AvailableVariable("CountKatu", "LANG_VAR_C200")]
-        [Alias("c200")]
-        [Alias("Count200")]
+        [AvailableVariable("CountKatu", "LANG_VAR_C200",new []{"c200","Count200"})]
         public int CountKatu { get; private set; }
 
         /// <summary>
         ///     100的数量
         /// </summary>
-        [AvailableVariable("Count100", "LANG_VAR_C100")]
-        [Alias("c100")]
+        [AvailableVariable("Count100", "LANG_VAR_C100",new []{"c100"})]
         public int Count100 { get; private set; }
 
         /// <summary>
         ///     50的数量
         /// </summary>
-        [AvailableVariable("Count50", "LANG_VAR_C50")]
-        [Alias("c50")]
+        [AvailableVariable("Count50", "LANG_VAR_C50",new []{"c50"})]
         public int Count50 { get; private set; }
 
         /// <summary>
         ///     Miss的数量
         /// </summary>
-        [AvailableVariable("CountMiss", "LANG_VAR_CMISS")]
-        [Alias("cMiss")]
+        [AvailableVariable("CountMiss", "LANG_VAR_CMISS",new []{"cMiss"})]
         public int CountMiss { get; private set; }
 
         /// <summary>
         ///     从游戏开始到当前已经出现过了的HitObject的数量
         /// </summary>
-        [AvailableVariable("PassedHitObjectCount", "LANG_VAR_CPASSEDHITOBJECT")]
-        [Alias("cPassedHitObject")]
-        [Alias("cPastHitObject")]
+        [AvailableVariable("PassedHitObjectCount", "LANG_VAR_CPASSEDHITOBJECT",new []{ "cPassedHitObject" , "cPastHitObject" })]
         public int PassedHitObjectCount => CurrentMode.GetPassedHitObjectCount(this);
 
         /// <summary>
@@ -148,7 +136,6 @@ namespace osuTools.OrtdpWrapper
         ///     当前剩余的血量，满值为200
         /// </summary>
         [AvailableVariable("HP", "LANG_VAR_HP")]
-        [Alias("Hp")]
         public double Hp { get; private set; }
 
         /// <summary>
@@ -330,15 +317,13 @@ namespace osuTools.OrtdpWrapper
         /// <summary>
         ///     300gRate的字符串形式。
         /// </summary>
-        [AvailableVariable("CountGekiRateStr", "LANG_VAR_C300GRATE_STR")]
-        [Alias("c300gRateStr")]
+        [AvailableVariable("CountGekiRateStr", "LANG_VAR_C300GRATE_STR",new []{"c300gRateStr"})]
         public string CountGekiRateStr => CountGekiRate.ToString("p");
 
         /// <summary>
         ///     300在300,200,100,50,Miss中占的百分比的字符串形式，保留两位小数
         /// </summary>
-        [AvailableVariable("Count300RateStr", "LANG_VAR_C300RATE_STR")]
-        [Alias("c300Rate")]
+        [AvailableVariable("Count300RateStr", "LANG_VAR_C300RATE_STR",new []{"c300RateStr"})]
         public string Count300RateStr
         {
             get
@@ -352,7 +337,7 @@ namespace osuTools.OrtdpWrapper
         /// <summary>
         ///     300在有效Note数量中所占的比例
         /// </summary>
-        [AvailableVariable("c300Rate", "LANG_VAR_C300RATE")]
+        [AvailableVariable("Count300Rate", "LANG_VAR_C300RATE",new []{"c300Rate"})]
         public double Count300Rate => CalcC300Rate();
 
         /// <summary>
@@ -363,9 +348,7 @@ namespace osuTools.OrtdpWrapper
         /// <summary>
         ///     Mania中表示c300g在所有300中所占的比例，std及ctb中表示激在激、喝之和中所占的比例
         /// </summary>
-        [AvailableVariable("c300gRate", "LANG_VAR_C300GRATE")]
-        [Alias("Count300gRate")]
-        [Alias("cGekiRate")]
+        [AvailableVariable("CountGekiRate", "LANG_VAR_C300GRATE",new []{ "Count300gRate", "cGekiRate" ,"c300gRate"})]
         public double CountGekiRate => CalcC300GRate();
 
         /// <summary>
@@ -594,7 +577,6 @@ namespace osuTools.OrtdpWrapper
         ///     谱面ID
         /// </summary>
         [AvailableVariable("BeatmapId", "LANG_VAR_BEATMAPID")]
-        [Alias("BeatmapID")]
         public int BeatmapId => Beatmap == null ? -1 : Beatmap.BeatmapId;
 
         /// <summary>
@@ -606,35 +588,31 @@ namespace osuTools.OrtdpWrapper
         /// <summary>
         ///     此谱面打击物件的数量
         /// </summary>
-        [AvailableVariable("HitObjectCount", "LANG_VAR_CHITOBJECT")]
-        [Alias("cHitObject")]
+        [AvailableVariable("HitObjectCount", "LANG_VAR_CHITOBJECT",new []{ "cHitObject" })]
         public int HitObjectCount => GameMode.CurrentMode.GetBeatmapHitObjectCount(Beatmap, Mods);
 
         /// <summary>
         ///     综合难度
         /// </summary>
-        [AvailableVariable("OverallDifficulty", "LANG_VAR_OD")]
-        [Alias("OD")]
+        [AvailableVariable("OverallDifficulty", "LANG_VAR_OD",new []{"OD"})]
         public double OverallDifficulty => Beatmap == null ? -1 : Beatmap.OverallDifficulty;
 
         /// <summary>
         ///     掉血速度和回血难度
         /// </summary>
-        [AvailableVariable("HPDrain", "LANG_VAR_HPDRAIN")]
+        [AvailableVariable("HPDrain", "LANG_VAR_HPDRAIN",new []{"HP"})]
         public double HpDrain => Beatmap == null ? -1 : Beatmap.HpDrain;
 
         /// <summary>
         ///     缩圈速度
         /// </summary>
-        [AvailableVariable("ApproachRate", "LANG_VAR_AR")]
-        [Alias("AR")]
+        [AvailableVariable("ApproachRate", "LANG_VAR_AR",new []{"AR"})]
         public double ApproachRate => Beatmap == null ? -1 : Beatmap.ApproachRate;
 
         /// <summary>
         ///     圈圈大小或Mania的键位数
         /// </summary>
-        [AvailableVariable("CircleSize", "LANG_VAR_CS")]
-        [Alias("CS")]
+        [AvailableVariable("CircleSize", "LANG_VAR_CS",new []{"CS"})]
         public double CircleSize => Beatmap == null ? -1 : Beatmap.CircleSize;
 
         /// <summary>
@@ -679,7 +657,6 @@ namespace osuTools.OrtdpWrapper
         ///     当前pp在总pp中占的百分比
         /// </summary>
         [AvailableVariable("PpPercent", "LANG_VAR_PPPERCENT_STR")]
-        [Alias("PPpercent")]
         public string PpPercent => (CurrentPp / MaxPp).ToString("p");
 
         /// <summary>

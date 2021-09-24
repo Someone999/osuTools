@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using osuTools.Beatmaps.HitObject.Sounds;
+using osuTools.Beatmaps.HitObject.Tools;
 using osuTools.Game.Modes;
 
 namespace osuTools.Beatmaps.HitObject.Std
@@ -90,15 +91,15 @@ namespace osuTools.Beatmaps.HitObject.Std
             var val = double.Parse(info[2]);
             Offset = double.IsNaN(val) || double.IsInfinity(val) ? 0 : (int) val;
             _type = int.Parse(info[3]);
-            var types = HitObjectTools.GetGenericTypesByInt<HitObjectTypes>(_type);
-            if (!types.Contains(HitObjectTypes.Slider))
+            var types = new HitObjectTypesConverter().Convert(_type,out var maybeBestVal);
+            if (maybeBestVal != HitObjectTypes.Slider)
             {
                 throw new ArgumentException("该行的数据不适用。");
             }
 
             if (types.Contains(HitObjectTypes.NewCombo))
                 IsNewGroup = true;
-            HitSound = HitObjectTools.GetGenericTypesByInt<HitSounds>(int.Parse(info[4]))[0];
+            HitSound = new HitSoundsConverter().Convert(int.Parse(info[4]),out _)[0];
             var sliderinfo = info[5];
             var typeAndPoint = sliderinfo.Split('|');
             _curvetype = typeAndPoint[0];
@@ -123,7 +124,7 @@ namespace osuTools.Beatmaps.HitObject.Std
                 var hitSounds = new List<HitSounds>();
                 var hitSoundstrs = info[8].Split('|');
                 foreach (var str in hitSoundstrs)
-                    hitSounds.Add(HitObjectTools.GetGenericTypesByInt<HitSounds>(int.Parse(str))[0]);
+                    hitSounds.Add(new HitSoundsConverter().Convert(int.Parse(str),out _)[0]);
                 if (hitSoundstrs.Length > 0)
                     StartingHitSound = new SliderHitSound(hitSounds[0]);
                 if (hitSoundstrs.Length > 1)

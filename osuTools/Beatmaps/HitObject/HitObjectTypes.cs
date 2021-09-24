@@ -8,27 +8,26 @@
         /// <summary>
         ///     圈圈
         /// </summary>
-        HitCircle = 0,
+        HitCircle,
 
         /// <summary>
         ///     滑条
         /// </summary>
-        Slider = 1,
+        Slider,
 
         /// <summary>
         ///     开始一个新颜色
         /// </summary>
-        NewCombo = 2,
+        NewCombo,
 
         /// <summary>
         ///     转盘
         /// </summary>
-        Spinner = 3,
-
+        Spinner,
         /// <summary>
         ///     指示要跳过的颜色的数量
         /// </summary>
-        ColorSkipFlag1 = 4,
+        ColorSkipFlag1,
 
         /// <summary>
         ///     指示要跳过的颜色的数量
@@ -41,19 +40,19 @@
         ColorSkipFlag3,
 
         /// <summary>
-        ///     Taiko连打
-        /// </summary>
-        DrumRoll,
-
-        /// <summary>
         ///     Mania长条
         /// </summary>
-        ManiaHold = 7,
+        ManiaHold,
 
         /// <summary>
         ///     Mania单点
         /// </summary>
         ManiaHit,
+
+        /// <summary>
+        ///     Taiko连打
+        /// </summary>
+        DrumRoll,
 
         /// <summary>
         ///     水果

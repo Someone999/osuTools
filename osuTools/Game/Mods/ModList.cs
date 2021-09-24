@@ -133,14 +133,16 @@ namespace osuTools.Game.Mods
         /// <returns></returns>
         public bool HasMod(OsuGameMod mod)
         {
-            foreach (var mod1 in _mods)
+            /*foreach (var mod1 in _mods)
             {
                 if(mod1 is ILegacyMod legacyMod)
                     if (legacyMod.LegacyMod == mod)
                         return true;
-            }
+            }*/
 
-            return false;
+            var eq = (from mod1 in _mods where mod1 is ILegacyMod select mod1).Any(i => (i as ILegacyMod)?.LegacyMod == mod);
+
+            return eq;
         }
 
         /// <summary>

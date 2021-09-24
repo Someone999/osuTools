@@ -1,5 +1,6 @@
 ﻿using System;
 using osuTools.Beatmaps.HitObject.Sounds;
+using osuTools.Beatmaps.HitObject.Tools;
 using osuTools.Game.Modes;
 
 namespace osuTools.Beatmaps.HitObject.Mania
@@ -59,14 +60,14 @@ namespace osuTools.Beatmaps.HitObject.Mania
             var val = double.Parse(info[2]);
             Offset = double.IsNaN(val) || double.IsInfinity(val) ? 0 : (int) val;
             type = int.Parse(info[3]);
-            var types = HitObjectTools.GetGenericTypesByInt<HitObjectTypes>(type,out _);
-            if (!types.Contains(HitObjectTypes.ManiaHold))
+            var types = new HitObjectTypesConverter().Convert(type,out var maybeBestVal);
+            if (maybeBestVal != HitObjectTypes.ManiaHold)
             {
                 throw new ArgumentException("该行的数据不适用。");
             }
 
             Column = (int) Math.Floor(Position.x * BeatmapColumn / 512d);
-            HitSound = HitObjectTools.GetGenericTypesByInt<HitSounds>(int.Parse(info[4]),out _)[0];
+            HitSound = new HitSoundsConverter().Convert(int.Parse(info[4]),out _)[0];
             var ainfo = info[5].Split(':');
             var eval = double.Parse(ainfo[0]);
             EndTime = double.IsNaN(eval) || double.IsInfinity(eval) ? 0 : (int) eval;

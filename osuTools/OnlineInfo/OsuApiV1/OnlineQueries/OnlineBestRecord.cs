@@ -7,6 +7,7 @@ using Newtonsoft.Json.Linq;
 using osuTools.Beatmaps;
 using osuTools.Beatmaps.Beatmaps;
 using osuTools.Beatmaps.HitObject;
+using osuTools.Beatmaps.HitObject.Tools;
 using osuTools.Game.Modes;
 using osuTools.Game.Mods;
 
@@ -67,7 +68,7 @@ namespace osuTools.OnlineInfo.OsuApiV1.OnlineQueries
             _perfect = 0;
             _userId = 0;
             _date = "0-0-0 0:0:0";
-            Mods = HitObjectTools.GetGenericTypesByInt<OsuGameMod>(_mods);
+            Mods = new OsuGameModConverter().Convert(_mods, out _);
             Rank = "?";
         }
 
@@ -96,7 +97,7 @@ namespace osuTools.OnlineInfo.OsuApiV1.OnlineQueries
             double.TryParse(jobj["pp"].ToString(), out _pp);
             _date = jobj["date"].ToString();
             Rank = jobj["rank"].ToString();
-            Mods = HitObjectTools.GetGenericTypesByInt<OsuGameMod>(_mods);
+            Mods = new OsuGameModConverter().Convert(_mods, out _);
             Accuracy = AccCalc(mode);
             DateTime.TryParse(_date, out _d);
             if (_perfect == 1)
