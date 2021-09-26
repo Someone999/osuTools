@@ -1,4 +1,4 @@
-﻿namespace osuTools.OsuDB
+﻿namespace osuTools.OsuDB.Beatmap
 {
     /// <summary>
     ///     谱面的状态

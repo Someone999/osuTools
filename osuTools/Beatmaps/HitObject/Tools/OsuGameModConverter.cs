@@ -41,9 +41,6 @@ namespace osuTools.Beatmaps.HitObject.Tools
             conflict = conflict || AllContains(allMods, currentMod, difficultyRateConflict);
             if (conflict)
                 throw new ConflictingModExistedException("One or more mods in the list conflict with the mod to add.");
-
-
-
         }
         /// <summary>
         /// 将int转换为<see cref="OsuGameMod"/>列表，在此转换中，maybeBestVal恒为null

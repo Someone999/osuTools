@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using osuTools.Game.Modes;
 
-namespace osuTools.OsuDB
+namespace osuTools.OsuDB.Beatmap
 {
     /// <summary>
     ///     包含指定模式的指定Mods与Star的键值对。
@@ -22,13 +22,11 @@ namespace osuTools.OsuDB
             {
                 try
                 {
-                    var ret = Difficuties[mode];
-                    return ret;
+                    return Difficuties[mode];
                 }
                 catch
                 {
-                    var d = new Dictionary<int, double> {{0, 0}};
-                    return d;
+                    return new Dictionary<int, double> { { 0, 0 } };
                 }
             }
         }

@@ -1,4 +1,4 @@
-﻿namespace osuTools.OsuDB
+﻿namespace osuTools.OsuDB.Interface
 {
     internal interface IOsuDb
     {

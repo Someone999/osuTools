@@ -13,7 +13,7 @@ using OsuRTDataProvider.Mods;
 using osuTools.Attributes;
 using osuTools.Beatmaps.BreakTime;
 using osuTools.Beatmaps.HitObject;
-using osuTools.Beatmaps.TimePoint;
+using osuTools.Beatmaps.TimingPoint;
 using osuTools.Exceptions;
 using osuTools.Game;
 using osuTools.Game.Modes;
@@ -33,7 +33,7 @@ namespace osuTools.OrtdpWrapper
         private int _cTmpoint;
         private MD5String _md5Str = new MD5String(), _md5Str1 = new MD5String();
         private bool _noFailTriggered;
-        private TimePointCollection _timepoints = new TimePointCollection();
+        private TimingPointCollection _timepoints = new TimingPointCollection();
         private double _tmpTime;
 
         /// <summary>
@@ -321,9 +321,9 @@ namespace osuTools.OrtdpWrapper
             }
             catch (BeatmapNotFoundException)
             {
-                var m5 = _beatmapDb.MD5;
+                var m5 = _beatmapDb.Md5;
                 _beatmapDb = new OsuBeatmapDB();
-                var m51 = _beatmapDb.MD5;
+                var m51 = _beatmapDb.Md5;
                 if (m5 == m51)
                     ReadFromOrtdp(map);
                 //IO.CurrentIO.WriteColor("Can not find this beatmap by MD5 in osu!DataBase.Beatmap has read from osu file,Info may be correct after re-read OsuDataBase.", ConsoleColor.Red);
@@ -374,7 +374,7 @@ namespace osuTools.OrtdpWrapper
                     }
                 }
 
-                _timepoints.TimePoints = Beatmap.TimePoints.TimePoints.Where(tp => tp.Uninherited).ToList();
+                _timepoints.TimePoints = Beatmap.TimingPoints.TimePoints.Where(tp => tp.Uninherited).ToList();
                 _breaktimes = Beatmap.BreakTimes;
                 NowPlaying = Beatmap.ToString();
                 var osuMode = CurrentMode == OsuGameMode.Osu && Beatmap.Mode == OsuGameMode.Osu;
@@ -388,19 +388,19 @@ namespace osuTools.OrtdpWrapper
                     if (!(Beatmap is null))
                     {
                         var hit = Beatmap.HitObjects;
-                        var tm = Beatmap.TimePoints;
-                        var uinh = Beatmap.TimePoints.TimePoints.Where(t => t.Uninherited).ToArray();
-                        var inh = Beatmap.TimePoints.TimePoints.Where(t => !t.Uninherited).ToArray();
+                        var tm = Beatmap.TimingPoints;
+                        var uinh = Beatmap.TimingPoints.TimePoints.Where(t => t.Uninherited).ToArray();
+                        var inh = Beatmap.TimingPoints.TimePoints.Where(t => !t.Uninherited).ToArray();
                         var btm = Beatmap.BreakTimes;
                         var builder = new StringBuilder();
                         builder.AppendLine($"Beatmap: {Beatmap}\nHitObject Count: {hit.Count}");
                         builder.AppendLine($"Mode:{Beatmap.Mode}");
                         builder.AppendLine($"BreakTime: {btm.Count}");
                         builder.AppendLine(
-                            $"TimePoints: {tm.Count} Inherited TimePoint Count: {inh.Length} UnInherited TimePoint Count: {uinh.Length}");
+                            $"TimingPoints: {tm.Count} Inherited TimingPoint Count: {inh.Length} UnInherited TimingPoint Count: {uinh.Length}");
                         builder.AppendLine($"[Beatmap BreakTime Detector] BreakTime:{_breaktimes.Count}");
                         builder.AppendLine(
-                            $"[Beatmap Uninherited TimePoint Detector] Uninherited TimePoint:{_timepoints.Count}");
+                            $"[Beatmap Uninherited TimingPoint Detector] Uninherited TimingPoint:{_timepoints.Count}");
                         IO.CurrentIO.Write(builder.ToString(), true, false);
                     }
                     else

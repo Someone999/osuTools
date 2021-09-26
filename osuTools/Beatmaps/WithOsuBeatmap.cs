@@ -5,6 +5,7 @@ using osuTools.Exceptions;
 using osuTools.GameInfo;
 using osuTools.MD5Tools;
 using osuTools.OsuDB;
+using osuTools.OsuDB.Beatmap;
 
 namespace osuTools.Beatmaps
 {

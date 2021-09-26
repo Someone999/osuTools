@@ -3,7 +3,7 @@ using osuTools.Beatmaps.Beatmaps;
 using osuTools.Exceptions;
 using osuTools.Game.Modes;
 
-namespace osuTools.OsuDB
+namespace osuTools.OsuDB.Beatmap
 {
     /// <summary>
     ///     存储<see cref="OsuBeatmap" />的集合

@@ -1,11 +1,11 @@
-﻿namespace osuTools.OsuDB
+﻿namespace osuTools.OsuDB.Beatmap
 {
     /// <summary>
     ///     一个变速点或时间标志。
     /// </summary>
-    public class OsuBeatmapTimePoint
+    public class OsuBeatmapTimingPoint
     {
-        internal OsuBeatmapTimePoint(double bpm, double offset, bool inherit)
+        internal OsuBeatmapTimingPoint(double bpm, double offset, bool inherit)
         {
             Bpm = 1 / bpm * 1000 * 60;
             Offset = offset;

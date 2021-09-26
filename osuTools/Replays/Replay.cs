@@ -7,6 +7,7 @@ using osuTools.Game;
 using osuTools.Game.Modes;
 using osuTools.Game.Mods;
 using osuTools.OsuDB;
+using osuTools.OsuDB.Score;
 using osuTools.Replays.AdditionalInfo;
 
 namespace osuTools.Replays

@@ -1,22 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace osuTools.Beatmaps.TimePoint
+namespace osuTools.Beatmaps.TimingPoint
 {
     /// <summary>
     ///     存储TimePoint的集合
     /// </summary>
-    public class TimePointCollection
+    public class TimingPointCollection
     {
         /// <summary>
         /// 原始列表
         /// </summary>
-        public List<TimePoint> TimePoints { get; set; } = new List<TimePoint>();
+        public List<TimingPoint> TimePoints { get; set; } = new List<TimingPoint>();
 
         /// <summary>
         ///     平均BPM
         /// </summary>
-        public double AverageBPM
+        public double AverageBpm
         {
             get
             {
@@ -37,18 +37,18 @@ namespace osuTools.Beatmaps.TimePoint
         /// </summary>
         /// <param name="index"></param>
         /// <returns></returns>
-        public TimePoint this[int index]
+        public TimingPoint this[int index]
         {
             get => index <= TimePoints.Count - 1
                 ? TimePoints[index]
                 : throw new IndexOutOfRangeException(
-                    $"[osuTools::TimePointCollection]Index{index}大于数组下标{TimePoints.Count - 1}");
+                    $"[osuTools::TimingPointCollection]Index{index}大于数组下标{TimePoints.Count - 1}");
             set
             {
                 if (index <= TimePoints.Count - 1) TimePoints[index] = value;
                 else
                     throw new IndexOutOfRangeException(
-                        $"[osuTools::TimePointCollection]Index{index}大于数组下标{TimePoints.Count - 1}");
+                        $"[osuTools::TimingPointCollection]Index{index}大于数组下标{TimePoints.Count - 1}");
             }
         }
     }

@@ -416,18 +416,19 @@
     <Compile Include="OrtdpWrapper\Main.cs" />
     <Compile Include="OrtdpWrapper\osuToolsEvents.cs" />
     <Compile Include="OrtdpWrapper\Properties.cs" />
-    <Compile Include="OsuDB\DifficultyRate.cs" />
-    <Compile Include="OsuDB\IOsuDB.cs" />
-    <Compile Include="OsuDB\IOsuDBData.cs" />
-    <Compile Include="OsuDB\OsuBeatmap.cs" />
-    <Compile Include="OsuDB\OsuBeatmapCollection.cs" />
+    <Compile Include="OsuDB\Beatmap\DifficultyRate.cs" />
+    <Compile Include="OsuDB\Interface\IOsuDB.cs" />
+    <Compile Include="OsuDB\Interface\IOsuDBData.cs" />
+    <Compile Include="OsuDB\Beatmap\OsuBeatmap.cs" />
+    <Compile Include="OsuDB\Beatmap\OsuBeatmapCollection.cs" />
     <Compile Include="OsuDB\OsuBeatmapDB.cs" />
-    <Compile Include="OsuDB\OsuBeatmapStatus.cs" />
-    <Compile Include="OsuDB\OsuBeatmapTimePoint.cs" />
+    <Compile Include="OsuDB\Beatmap\OsuBeatmapStatus.cs" />
+    <Compile Include="OsuDB\Beatmap\OsuBeatmapTimingPoint.cs" />
     <Compile Include="OsuDB\OsuManifest.cs" />
     <Compile Include="OsuDB\OsuScoreDB.cs" />
-    <Compile Include="OsuDB\OsuScoreInfo.cs" />
-    <Compile Include="OsuDB\ScoreManifest.cs" />
+    <Compile Include="OsuDB\Score\OsuScoreInfo.cs" />
+    <Compile Include="OsuDB\Score\ScoreManifest.cs" />
+    <Compile Include="OsuDB\UserPermission.cs" />
     <Compile Include="PerformanceCalculator\Catch\Bezier.cs" />
     <Compile Include="PerformanceCalculator\Catch\CatchBeatmap.cs" />
     <Compile Include="PerformanceCalculator\Catch\CatchDifficultyAttribute.cs" />
@@ -585,8 +586,8 @@
     <Compile Include="StoryBoard\Tools\StoryBoardCommandString.cs" />
     <Compile Include="StoryBoard\Tools\StoryBoardTools.cs" />
     <Compile Include="StoryBoard\Tools\StringProcessor.cs" />
-    <Compile Include="Beatmaps\TimePoint\TimePoint.cs" />
-    <Compile Include="Beatmaps\TimePoint\TimePointCollection.cs" />
+    <Compile Include="Beatmaps\TimingPoint\TimingPoint.cs" />
+    <Compile Include="Beatmaps\TimingPoint\TimingPointCollection.cs" />
     <Compile Include="StringStream.cs" />
     <Compile Include="ValueObserver.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -599,7 +600,7 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties Reactor_Enabled="0" Reactor_Commands="" Reactor_Project="" Reactor_Configuration="ALL" Reactor_Output="" Reactor_Deploy="0" />
+      <UserProperties Reactor_Deploy="0" Reactor_Output="" Reactor_Configuration="ALL" Reactor_Project="" Reactor_Commands="" Reactor_Enabled="0" />
     </VisualStudio>
   </ProjectExtensions>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

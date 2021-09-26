@@ -1,4 +1,4 @@
-﻿namespace osuTools.OsuDB
+﻿namespace osuTools.OsuDB.Score
 {
     /// <summary>
     ///     分数文件起始部位的数据

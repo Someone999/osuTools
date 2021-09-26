@@ -64,7 +64,7 @@ namespace osuTools.Beatmaps.BeatmapFileCreator
             if (bookm.Count == 0) bookm.Add(0);
             var breaks = b.BreakTimes;
             var hitObjects = b.HitObjects;
-            var timePoints = b.TimePoints;
+            var timePoints = b.TimingPoints;
             var breaktimestrs = new StringBuilder();
             var bookmks = new StringBuilder();
             var timePointsStrs = new StringBuilder();

@@ -74,7 +74,7 @@ namespace osuTools.PerformanceCalculator.Catch
 
         void HandleTimePoints()
         {
-            var tmpts = BaseBeatmap.TimePoints.TimePoints;
+            var tmpts = BaseBeatmap.TimingPoints.TimePoints;
             foreach (var t in tmpts)
             {
                 double timefocus = t.BeatLength;

@@ -44,31 +44,30 @@ namespace osuTools.Game.Mods
             _mods.Sort((x, y) =>
                 Math.Abs(x.ScoreMultiplier - y.ScoreMultiplier) < double.Epsilon ? 0 : x.ScoreMultiplier > y.ScoreMultiplier ? -1 : 1);
             var multiplier = _mods[0].ScoreMultiplier;
-            double add = 0;
+            double bonus = 0;
             if (_mods.Count > 1)
                 for (var i = 1; i < _mods.Count; i++)
                 {
-                    var x = _mods[i].ScoreMultiplier;
-                    if (x > 1)
+                    var initVal = _mods[i].ScoreMultiplier;
+                    if (initVal > 1)
                     {
                         if (multiplier > 1)
-                            multiplier += x - 1;
+                            multiplier += initVal - 1;
                         else
-                            multiplier += (x - 1) / 2;
-                        if (multiplier > 1.3) add = 0.02;
-                        else if (multiplier > 1.2) add = 0.01;
+                            multiplier += (initVal - 1) / 2;
+                        if (multiplier > 1.3) bonus = 0.02;
+                        else if (multiplier > 1.2) bonus = 0.01;
                     }
 
-                    if (x < 1) multiplier *= x;
+                    if (initVal < 1) multiplier *= initVal;
                 }
 
             if (multiplier > 1.3) multiplier += 0.03;
             else if (multiplier > 1.15) multiplier += 0.01;
             if (multiplier >= 1.39) multiplier += 0.02;
             if (multiplier < 1)
-                multiplier += add;
-            multiplier = double.Parse(multiplier.ToString("f2"));
-            ScoreMultiplier = multiplier;
+                multiplier += bonus;
+            ScoreMultiplier = Math.Round(multiplier, 2);
         }
 
         void CalcTimeRate()

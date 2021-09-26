@@ -2,14 +2,15 @@
 using System.Collections.Generic;
 using System.Globalization;
 using osuTools.Beatmaps.HitObject.Sounds;
+using osuTools.Beatmaps.HitObject.Tools;
 using osuTools.Skins;
 
-namespace osuTools.Beatmaps.TimePoint
+namespace osuTools.Beatmaps.TimingPoint
 {
     /// <summary>
     ///     表示一个时间点
     /// </summary>
-    public class TimePoint : IOsuFileContent, IEqualityComparer<TimePoint>
+    public class TimingPoint : IOsuFileContent, IEqualityComparer<TimingPoint>
     {
         private readonly int _effect;
 
@@ -17,7 +18,7 @@ namespace osuTools.Beatmaps.TimePoint
         ///     通过正确的字符串构造一个TimePoint对象
         /// </summary>
         /// <param name="line">指定的字符串</param>
-        public TimePoint(string line)
+        public TimingPoint(string line)
         {
             var data = line.Split(',');
             Offset = double.Parse(data[0]);
@@ -35,8 +36,8 @@ namespace osuTools.Beatmaps.TimePoint
             }
 
             _effect = int.Parse(data[7]);
-            Bpm = double.Parse((1 / BeatLength * 1000 * 60).ToString(CultureInfo.InvariantCulture));
-            Bitprocesser(_effect);
+            Bpm = Math.Round((1 / BeatLength * 1000 * 60), 2);
+            BitProcesser(_effect);
         }
 
         /// <summary>
@@ -97,9 +98,9 @@ namespace osuTools.Beatmaps.TimePoint
         /// <summary>
         ///     获取TimePoint对象的Hash，返回Offset + BeatLength * Meter
         /// </summary>
-        /// <param name="timePoint"></param>
+        /// <param name="timingPoint"></param>
         /// <returns></returns>
-        public int GetHashCode(TimePoint timePoint)
+        public int GetHashCode(TimingPoint timingPoint)
         {
             return (int) (Offset + BeatLength * Meter);
         }
@@ -110,7 +111,7 @@ namespace osuTools.Beatmaps.TimePoint
         /// <param name="a"></param>
         /// <param name="b"></param>
         /// <returns></returns>
-        public bool Equals(TimePoint a, TimePoint b)
+        public bool Equals(TimingPoint a, TimingPoint b)
         {
             if (a is null && b is null) return true;
             if (a is null || b is null) return false;
@@ -124,17 +125,23 @@ namespace osuTools.Beatmaps.TimePoint
                 $"{Offset},{BeatLength},{Meter},{(int) SampleSet},{SampleIndex},{Volume},{(Uninherited ? 1 : 0)},{_effect}";
         }
 
-        private void Bitprocesser(int num)
+        private void BitProcesser(int num)
         {
             var cur = num;
             if (cur == 0) return;
-            while (cur > 0)
+            string bin = IntToEnumListConverter<int>.ToReversedBinary(num);
+            for (int i = 0; i < bin.Length; i++)
             {
-                var log2Int = (int) Math.Truncate(Math.Log(cur, 2));
-                var value = log2Int;
-                if (value == 0) KiaiTime = true;
-                if (value == 3) OmitFirstBarline = true;
-                cur -= (int) Math.Pow(2, log2Int);
+                if (bin[i] != '1')
+                    continue;
+                if (i == 0)
+                {
+                    KiaiTime = true;
+                }
+                if(i == 3)
+                {
+                    OmitFirstBarline = true;
+                }
             }
         }
 

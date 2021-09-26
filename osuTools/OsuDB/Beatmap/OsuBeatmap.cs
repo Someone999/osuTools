@@ -3,15 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using osuTools.Beatmaps;
 using osuTools.Game.Modes;
+using osuTools.OsuDB.Interface;
+using osuTools.OsuDB.Score;
 
-namespace osuTools.OsuDB
+namespace osuTools.OsuDB.Beatmap
 {
     /// <summary>
     ///     谱面，存储的信息多于Beatmap类
     /// </summary>
     public class OsuBeatmap : IOsuDbData,IBeatmap
     {
-        internal List<OsuBeatmapTimePoint> Timepoints = new List<OsuBeatmapTimePoint>();
+        internal List<OsuBeatmapTimingPoint> TimingPoints = new List<OsuBeatmapTimingPoint>();
 
         /// <summary>
         ///     谱面的难度星级
@@ -151,7 +153,7 @@ namespace osuTools.OsuDB
         /// <summary>
         ///     谱面的时间点
         /// </summary>
-        public IReadOnlyList<OsuBeatmapTimePoint> TimePoints => Timepoints.AsReadOnly();
+        public IReadOnlyList<OsuBeatmapTimingPoint> TimePoints => TimingPoints.AsReadOnly();
 
         /// <summary>
         ///     谱面ID
@@ -185,9 +187,9 @@ namespace osuTools.OsuDB
         ///     将OsuBeatmap转化成<seealso cref="Beatmap" />
         /// </summary>
         /// <returns></returns>
-        public Beatmap ToBeatmap()
+        public Beatmaps.Beatmap ToBeatmap()
         {
-            return new Beatmap(this);
+            return new Beatmaps.Beatmap(this);
         }
 
         /// <summary>
@@ -231,7 +233,7 @@ namespace osuTools.OsuDB
                 {
                     Dictionary<double, double> bpmTime = new Dictionary<double, double>();
                     var tmPts = TimePoints;
-                    OsuBeatmapTimePoint cur = tmPts[0];
+                    OsuBeatmapTimingPoint cur = tmPts[0];
                     for (int i = 1; i < tmPts.Count; i++)
                     {
                         

@@ -4,6 +4,8 @@ using System.IO;
 using System.Linq;
 using osuTools.Game.Modes;
 using osuTools.GameInfo;
+using osuTools.OsuDB.Interface;
+using osuTools.OsuDB.Score;
 
 namespace osuTools.OsuDB
 {

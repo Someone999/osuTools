@@ -58,7 +58,7 @@ namespace osuTools.Beatmaps
                 if (_bpm == 0)
                 {
                     Dictionary<double, double> bpmTime = new Dictionary<double, double>();
-                    var tmPts = TimePoints;
+                    var tmPts = TimingPoints;
                     var cur = tmPts[0];
                     for (int i = 1; i < tmPts.Count; i++)
                     {

@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using osuTools.Beatmaps.HitObject;
 using osuTools.Beatmaps.HitObject.Tools;
 using osuTools.Exceptions;
 using osuTools.Game.Modes;
 using osuTools.Game.Mods;
 using osuTools.OnlineInfo.OsuApiV1.OnlineQueries;
+using osuTools.OsuDB.Beatmap;
+using osuTools.OsuDB.Interface;
 
-namespace osuTools.OsuDB
+namespace osuTools.OsuDB.Score
 {
     /// <summary>
     ///     scores.db中存储的成绩
