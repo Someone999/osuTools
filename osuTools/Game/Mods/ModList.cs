@@ -130,39 +130,21 @@ namespace osuTools.Game.Mods
         /// </summary>
         /// <param name="mod"></param>
         /// <returns></returns>
-        public bool HasMod(OsuGameMod mod)
-        {
-            /*foreach (var mod1 in _mods)
-            {
-                if(mod1 is ILegacyMod legacyMod)
-                    if (legacyMod.LegacyMod == mod)
-                        return true;
-            }*/
-
-            var eq = (from mod1 in _mods where mod1 is ILegacyMod select mod1).Any(i => (i as ILegacyMod)?.LegacyMod == mod);
-
-            return eq;
-        }
+        public bool HasMod(OsuGameMod mod) => (from mod1 in _mods where mod1 is ILegacyMod select mod1).Any(i => (i as ILegacyMod)?.LegacyMod == mod);
 
         /// <summary>
         ///     列表中是否含有指定Mod
         /// </summary>
         /// <param name="mod"></param>
         /// <returns></returns>
-        public bool Contains(Type mod)
-        {
-            return HasMod(mod);
-        }
+        public bool Contains(Type mod) => HasMod(mod);
 
         /// <summary>
         ///     列表中是否含有指定Mod
         /// </summary>
         /// <param name="mod"></param>
         /// <returns></returns>
-        public bool Contains(OsuGameMod mod)
-        {
-            return HasMod(mod);
-        }
+        public bool Contains(OsuGameMod mod) => HasMod(mod);
 
         /// <summary>
         ///     添加Mod到列表
@@ -353,10 +335,7 @@ namespace osuTools.Game.Mods
         ///     获取列表的枚举器
         /// </summary>
         /// <returns></returns>
-        public IEnumerator<Mod> GetEnumerator()
-        {
-            return _mods.GetEnumerator();
-        }
+        public IEnumerator<Mod> GetEnumerator() => _mods.GetEnumerator();
 
         /// <summary>
         ///     获取列表中所有Mod的名称

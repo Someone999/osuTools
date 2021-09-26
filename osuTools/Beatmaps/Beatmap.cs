@@ -10,6 +10,7 @@ using osuTools.MD5Tools;
 using osuTools.MusicPlayer;
 using osuTools.OnlineInfo.OsuApiV1.OnlineQueries;
 using osuTools.OsuDB;
+using osuTools.OsuDB.Beatmap;
 using osuTools.Skins.Mania;
 
 namespace osuTools.Beatmaps

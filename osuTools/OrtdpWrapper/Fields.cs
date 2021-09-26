@@ -5,6 +5,7 @@ using OsuRTDataProvider.Listen;
 using osuTools.Beatmaps.HitObject;
 using osuTools.Game.Mods;
 using osuTools.OsuDB;
+using osuTools.OsuDB.Beatmap;
 using RealTimePPDisplayer;
 
 namespace osuTools.OrtdpWrapper

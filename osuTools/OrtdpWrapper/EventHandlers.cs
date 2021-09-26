@@ -20,6 +20,7 @@ using osuTools.Game.Modes;
 using osuTools.Game.Mods;
 using osuTools.MD5Tools;
 using osuTools.OsuDB;
+using osuTools.OsuDB.Beatmap;
 using Sync.Tools;
 
 namespace osuTools.OrtdpWrapper

@@ -7,6 +7,7 @@ using osuTools.Exceptions;
 using osuTools.Game.Modes;
 using osuTools.GameInfo;
 using osuTools.OsuDB;
+using osuTools.OsuDB.Beatmap;
 
 namespace osuTools.Beatmaps
 {
@@ -53,7 +54,7 @@ namespace osuTools.Beatmaps
             private readonly List<string> _sinfo = new List<string>();
 
             /// <summary>
-            ///     将<see cref="OsuDB.OsuBeatmapCollection" />的信息转移到BeatmapCollection中
+            ///     将<see cref="OsuBeatmapCollection" />的信息转移到BeatmapCollection中
             /// </summary>
             /// <param name="c"></param>
             public BeatmapCollection(OsuBeatmapCollection c)

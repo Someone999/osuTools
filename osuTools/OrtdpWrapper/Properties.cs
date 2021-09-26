@@ -5,6 +5,7 @@ using osuTools.Game;
 using osuTools.Game.Modes;
 using osuTools.Game.Mods;
 using osuTools.OsuDB;
+using osuTools.OsuDB.Beatmap;
 using RealTimePPDisplayer;
 
 namespace osuTools.OrtdpWrapper
@@ -139,7 +140,7 @@ namespace osuTools.OrtdpWrapper
         public double Hp { get; private set; }
 
         /// <summary>
-        ///     谱面的状态，详见<seealso cref="OsuDB.OsuBeatmapStatus" />
+        ///     谱面的状态，详见<seealso cref="OsuBeatmapStatus" />
         /// </summary>
         [AvailableVariable("BeatmapStatus", "LANG_VAR_BEATMAPSTATUS")]
         public OsuBeatmapStatus BeatmapStatus
