@@ -147,7 +147,10 @@ namespace osuTools.OrtdpWrapper
 
         private void ListenerManagerOnPlayerChanged(string player)
         {
-            PlayerName = player.Trim();
+            if (!string.IsNullOrEmpty(player))
+            {
+                PlayerName = player?.Trim();
+            }
         }
 
         private void InitLisenter(OsuRTDataProviderPlugin pl)
