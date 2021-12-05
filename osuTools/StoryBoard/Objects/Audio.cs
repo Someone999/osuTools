@@ -63,7 +63,7 @@ namespace osuTools.StoryBoard.Objects
         /// <param name="dataline">包含数据的字符串</param>
         public void Parse(string dataline)
         {
-            if (!dataline.StartsWith("Sample,")) throw new FailToParseException("该行的数据不适用。");
+            if (!dataline.StartsWith("Sample,") && !dataline.StartsWith("5,")) throw new FailToParseException("该行的数据不适用。");
 
             var data = dataline.Split(',');
             var sample = data[0];

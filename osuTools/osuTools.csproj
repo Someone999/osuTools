@@ -271,7 +271,7 @@
     <Compile Include="Exceptions\osuToolsExceptionBase.cs" />
     <Compile Include="Exceptions\ReplayNotFoundException.cs" />
     <Compile Include="GameInfo\ProcessAccess.cs" />
-    <Compile Include="GameInfo\ProcessDetector.cs" />
+    <Compile Include="GameInfo\ProcessMonitor.cs" />
     <Compile Include="GameInfo\KeyBinding\KeyBinding.cs" />
     <Compile Include="GameInfo\KeyLayout\CatchKeyLayout.cs" />
     <Compile Include="GameInfo\KeyLayout\ManiaKeyLayout.cs" />
@@ -375,7 +375,7 @@
     <Compile Include="MusicPlayer\IBassPlayer.cs" />
     <Compile Include="MusicPlayer\MediaInfo.cs" />
     <Compile Include="MusicPlayer\MediaState.cs" />
-    <Compile Include="MusicPlayer\Player.cs" />
+    <Compile Include="MusicPlayer\BassMusicPlayer.cs" />
     <Compile Include="MusicPlayer\PlayerException.cs" />
     <Compile Include="OnlineInfo\OsuApiV1\OnlineQueries\Beatmap.cs" />
     <Compile Include="OnlineInfo\OsuApiV1\OnlineQueries\BeatmapStatus.cs" />
@@ -421,11 +421,11 @@
     <Compile Include="OsuDB\Interface\IOsuDBData.cs" />
     <Compile Include="OsuDB\Beatmap\OsuBeatmap.cs" />
     <Compile Include="OsuDB\Beatmap\OsuBeatmapCollection.cs" />
-    <Compile Include="OsuDB\OsuBeatmapDB.cs" />
+    <Compile Include="OsuDB\OsuBeatmapDb.cs" />
     <Compile Include="OsuDB\Beatmap\OsuBeatmapStatus.cs" />
     <Compile Include="OsuDB\Beatmap\OsuBeatmapTimingPoint.cs" />
     <Compile Include="OsuDB\OsuManifest.cs" />
-    <Compile Include="OsuDB\OsuScoreDB.cs" />
+    <Compile Include="OsuDB\OsuScoreDb.cs" />
     <Compile Include="OsuDB\Score\OsuScoreInfo.cs" />
     <Compile Include="OsuDB\Score\ScoreManifest.cs" />
     <Compile Include="OsuDB\UserPermission.cs" />
@@ -600,7 +600,7 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties Reactor_Deploy="0" Reactor_Output="" Reactor_Configuration="ALL" Reactor_Project="" Reactor_Commands="" Reactor_Enabled="0" />
+      <UserProperties Reactor_Enabled="0" Reactor_Commands="" Reactor_Project="" Reactor_Configuration="ALL" Reactor_Output="" Reactor_Deploy="0" />
     </VisualStudio>
   </ProjectExtensions>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

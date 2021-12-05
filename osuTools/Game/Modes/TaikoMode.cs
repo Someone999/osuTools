@@ -184,17 +184,24 @@ namespace osuTools.Game.Modes
                 hitobject = new DrumRoll();
             if (maybeBestVal == HitObjectTypes.HitCircle)
             {
-                if (hitSounds.Contains(HitSounds.Finish))
-                    hitobject = new LargeTaikoRedHit();
+                //根据音效选择红色
+                //有Finish音效则是双打
+                if (hitSounds.Contains(HitSounds.Finish))                    
+                    hitobject = new LargeTaikoRedHit();                
                 if (hitSounds.Contains(HitSounds.Normal))
                     if (hitSounds.Contains(HitSounds.Finish))
+                        //有Finish音效则是双打
                         hitobject = new LargeTaikoRedHit();
+                    //否则是单打
                     else
                         hitobject = new TaikoRedHit();
+                //根据音效选择蓝色
                 if (hitSounds.Contains(HitSounds.Whistle) || hitSounds.Contains(HitSounds.Clap))
                     if (hitSounds.Contains(HitSounds.Finish))
+                        //有Finish音效则是双打
                         hitobject = new LargeTaikoBlueHit();
                     else
+                        //否则是单打
                         hitobject = new TaikoBlueHit();
             }
 

@@ -20,7 +20,7 @@ namespace osuTools.OrtdpWrapper
         /// </summary>
         public OrtdpWrapper()
         {
-            _beatmapDb = new OsuBeatmapDB();
+            _beatmapDb = new OsuBeatmapDb();
             Beatmap = new Beatmap();
             InitLisenter();
             Application.ThreadException += Application_ThreadException;
@@ -34,7 +34,7 @@ namespace osuTools.OrtdpWrapper
         /// </summary>
         public OrtdpWrapper(OsuRTDataProviderPlugin ortdp)
         {
-            _beatmapDb = new OsuBeatmapDB();
+            _beatmapDb = new OsuBeatmapDb();
             Beatmap = new Beatmap();
             InitLisenter(ortdp);
             Application.ThreadException += Application_ThreadException;
@@ -48,7 +48,7 @@ namespace osuTools.OrtdpWrapper
         /// </summary>
         public OrtdpWrapper(OsuRTDataProviderPlugin ortdp, RealTimePPDisplayerPlugin rtppd, RtppdInfo d)
         {
-            _beatmapDb = new OsuBeatmapDB();
+            _beatmapDb = new OsuBeatmapDb();
             Beatmap = new Beatmap();
 
             _arp = rtppd ?? new RealTimePPDisplayerPlugin();

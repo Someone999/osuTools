@@ -173,6 +173,7 @@ namespace osuTools.OrtdpWrapper
             _listenerManager.OnPlayModeChanged += ListenerManagerOnPlayModeChanged;
             _listenerManager.OnStatusChanged += ListenerManagerOnStatusChanged;
             _listenerManager.OnHitEventsChanged += ListenerManagerOnHitEventsChanged;
+            _listenerManager.OnPlayerChanged += ListenerManagerOnPlayerChanged;
         }
 
         private void ListenerManagerOnHitEventsChanged(PlayType playType, List<HitEvent> hitEvents)
@@ -284,7 +285,7 @@ namespace osuTools.OrtdpWrapper
             _md5Str = new MD5String("");
             if (_md5Str != _md5Str1)
             {
-                _beatmapDb = new OsuBeatmapDB();
+                _beatmapDb = new OsuBeatmapDb();
                 _md5Str1 = _md5Str;
             }
 
@@ -323,7 +324,7 @@ namespace osuTools.OrtdpWrapper
             catch (BeatmapNotFoundException)
             {
                 var m5 = _beatmapDb.Md5;
-                _beatmapDb = new OsuBeatmapDB();
+                _beatmapDb = new OsuBeatmapDb();
                 var m51 = _beatmapDb.Md5;
                 if (m5 == m51)
                     ReadFromOrtdp(map);

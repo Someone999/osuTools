@@ -16,7 +16,7 @@ namespace osuTools.OsuDB.Score
     /// </summary>
     public class OsuScoreInfo : SortByScore, IOsuDbData
     {
-        private static OsuBeatmapDB _currentDb = new OsuBeatmapDB();
+        private static OsuBeatmapDb _currentDb = new OsuBeatmapDb();
         internal List<OsuGameMod> IternalMods;
 
         /// <summary>

@@ -17,7 +17,7 @@ namespace osuTools.GameInfo
     /// <summary>
     /// 进程检测器，可以等待进程启动和退出
     /// </summary>
-    public class ProcessDetector
+    public class ProcessMonitor
     {
 
         [DllImport("psapi.dll",SetLastError = true)]
@@ -67,7 +67,7 @@ namespace osuTools.GameInfo
         /// 使用指定的进程名初始化ProcessDetector
         /// </summary>
         /// <param name="targetProcessName">进程名</param>
-        public ProcessDetector(string targetProcessName)
+        public ProcessMonitor(string targetProcessName)
         {
             if (targetProcessName.EndsWith(".exe"))
             {

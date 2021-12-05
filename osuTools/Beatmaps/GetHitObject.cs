@@ -8,9 +8,7 @@ namespace osuTools.Beatmaps
     public partial class Beatmap
     {
         private void GetHitObjects()
-        {
-            //Stopwatch t = new Stopwatch();
-            // t.Start();
+        {           
             var block = DataBlock.None;
             var objects = new HitObjectCollection();
             if (string.IsNullOrEmpty(FullPath))
@@ -36,10 +34,7 @@ namespace osuTools.Beatmaps
                 }
             }
 
-            _hitObjects = objects;
-            // t.Stop();
-
-            //IO.CurrentIO.Write($"Read HitObjects:{objects.Count} Time:{t.Elapsed.TotalSeconds}s");
+            _hitObjects = objects;           
         }
 
         /// <summary>

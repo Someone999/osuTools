@@ -1,6 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
 using osuTools.StoryBoard.Commands.Interface;
 using osuTools.StoryBoard.Interfaces;
 using osuTools.StoryBoard.Objects;
@@ -87,6 +90,29 @@ namespace osuTools.Beatmaps
             get => _sbCommands ?? GetStoryBoardCommands();
             set => _sbCommands = value;
         }
+        static char[] _invalidChars = Path.GetInvalidFileNameChars().Concat(Path.GetInvalidPathChars()).ToArray();
+        string InvalidCharFilter(string path)
+        {
+            StringBuilder builder =  new StringBuilder();
+            bool isInvalid = false;
+            foreach(var c in path)
+            {
+                foreach(var invalid in _invalidChars)
+                {
+                    if(c == invalid)
+                    {
+                        isInvalid = true;
+                        break;
+                    }
+                }
+                if(!isInvalid)
+                {
+                    builder.Append(c);
+                }
+                isInvalid = false;
+            }
+            return builder.ToString();
+        }
         List<IStoryBoardCommand> GetStoryBoardCommands()
         {
             var commandList = new List<IStoryBoardCommand>();
@@ -94,9 +120,16 @@ namespace osuTools.Beatmaps
                 return new List<IStoryBoardCommand>();
             if (!(_sbCommands is null))
                 return _sbCommands;
-            string fileName = FileName.Substring(0, FileName.Length - 4);
-            var dirs = Directory.GetFiles($"{FullPath.Replace(FileName, "")}\\", $"{fileName + ".osb"}", SearchOption.AllDirectories);
-            
+            string fileName = Path.GetFileNameWithoutExtension(FileName);
+            string searchDir = $"{FullPath.Replace(FileName, "")}";
+            string pattern = $"{fileName + ".osb"}";
+            var dirs = Directory.GetFiles(searchDir, pattern, SearchOption.AllDirectories);
+            if(dirs.Length == 0)
+            {
+
+                string fallbackPattern = InvalidCharFilter($"{$"{Artist} - {Title} ({Creator})" + ".osb"}");               
+                dirs = Directory.GetFiles(searchDir,fallbackPattern, SearchOption.AllDirectories);
+            }
             StoryBoardCommandParser parser = new StoryBoardCommandParser(FullPath);
             if (dirs.Length == 1)
             {

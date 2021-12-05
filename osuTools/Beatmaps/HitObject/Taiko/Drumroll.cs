@@ -94,7 +94,7 @@ namespace osuTools.Beatmaps.HitObject.Taiko
             Offset = double.IsNaN(val) || double.IsInfinity(val) ? 0 : (int) val;
             _type = int.Parse(info[3]);
             var types = new HitObjectTypesConverter().Convert(_type, out var maybeBestVal);
-            if (maybeBestVal != HitObjectTypes.Slider || maybeBestVal != HitObjectTypes.Spinner)
+            if (maybeBestVal != HitObjectTypes.Slider && maybeBestVal != HitObjectTypes.Spinner)
                 throw new ArgumentException("该行的数据不适用。");
 
             if (maybeBestVal == HitObjectTypes.Spinner)

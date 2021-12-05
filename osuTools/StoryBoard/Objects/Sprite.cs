@@ -57,7 +57,7 @@ namespace osuTools.StoryBoard.Objects
         /// <param name="dataline"></param>
         public void Parse(string dataline)
         {
-            if (!dataline.StartsWith("Sprite,")) throw new FailToParseException("该行的数据不适用。");
+            if (!dataline.StartsWith("Sprite,") && !dataline.StartsWith("4,")) throw new FailToParseException("该行的数据不适用。");
 
             var data = dataline.Split(',');
             var sprite = data[0];

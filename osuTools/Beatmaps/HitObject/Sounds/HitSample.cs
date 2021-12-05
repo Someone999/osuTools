@@ -16,14 +16,14 @@
         ///     使用两种音效，编号，音量，和文件名构造一个HitSample对象
         /// </summary>
         /// <param name="normalSet"></param>
-        /// <param name="addtionSet"></param>
+        /// <param name="additionSet"></param>
         /// <param name="index"></param>
         /// <param name="volume"></param>
         /// <param name="fileName"></param>
-        public HitSample(SampleSets normalSet, SampleSets addtionSet, int index, int volume, string fileName)
+        public HitSample(SampleSets normalSet, SampleSets additionSet, int index, int volume, string fileName)
         {
             NormalSet = normalSet;
-            AdditionSet = addtionSet;
+            AdditionSet = additionSet;
             Index = index;
             Volume = volume;
             FileName = !string.IsNullOrEmpty(fileName) ? fileName : "";

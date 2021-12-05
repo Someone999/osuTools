@@ -17,5 +17,7 @@ namespace osuTools.StoryBoard.Commands.Interface
         ///     StoryBoard资源
         /// </summary>
         IStoryBoardResource Resource { get; }
+
+
     }
 }

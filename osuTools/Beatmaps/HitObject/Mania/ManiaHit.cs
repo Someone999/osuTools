@@ -86,11 +86,6 @@ namespace osuTools.Beatmaps.HitObject.Mania
         ///     谱面的键位数
         /// </summary>
         public int BeatmapColumn { get; set; }
-
-        internal void SetBeatmapColumn(int column)
-        {
-            BeatmapColumn = column >= 1 && column <= 10 ? column : -1;
-        }
         /// <inheritdoc />
         public override string ToString()
         {

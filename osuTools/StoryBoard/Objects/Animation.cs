@@ -3,6 +3,7 @@ using osuTools.Exceptions;
 using osuTools.StoryBoard.Enums;
 using osuTools.StoryBoard.Interfaces;
 using osuTools.StoryBoard.Tools;
+using System.IO.Compression;
 
 namespace osuTools.StoryBoard.Objects
 {
@@ -36,7 +37,7 @@ namespace osuTools.StoryBoard.Objects
         /// <inheritdoc />
         public void Parse(string dataline)
         {
-            if (!dataline.StartsWith("Animation,")) throw new FailToParseException("该行的数据不适用。");
+            if (!dataline.StartsWith("Animation,") && !dataline.StartsWith("6,")) throw new FailToParseException("该行的数据不适用。");
 
             var data = dataline.Split(',');
             var suc = int.TryParse(data[1], out var layer);

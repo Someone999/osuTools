@@ -67,15 +67,17 @@ namespace osuTools.StoryBoard.Commands
             if (i + 1 == parts.Length)
                 Translations.Add(
                     new FadeTranslation(double.Parse(parts[4]), double.Parse(parts[4]), StartTime, EndTime));
-            while (i + 1 < parts.Length)
+            while (true)
             {
                 var stindex = i;
                 var st = double.Parse(parts[i++]);
-                var end = double.Parse(parts[i + 1 < parts.Length ? i++ : i + 1 == parts.Length ? i : stindex]);
-                var dur = StartTime - EndTime;
+                var end = double.Parse(parts[i]);/*(parts[i + 1 < parts.Length ? i++ : i + 1 == parts.Length ? i : stindex])*/;
+                var dur = EndTime - StartTime;
                 Translations.Add(new FadeTranslation(st, end, StartTime + dur * j, EndTime + dur * j));
                 if (i + 1 < parts.Length) i--;
                 j++;
+                if (i + 1 >= parts.Length)
+                    break;
             }
         }
     }

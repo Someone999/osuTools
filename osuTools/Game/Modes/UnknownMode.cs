@@ -5,7 +5,7 @@ using osuTools.Game.Mods;
 namespace osuTools.Game.Modes
 {
     /// <summary>
-    /// 出错时的预留Mod
+    /// 出错时的预留Mode
     /// </summary>
     public class UnknownMode : GameMode
     {

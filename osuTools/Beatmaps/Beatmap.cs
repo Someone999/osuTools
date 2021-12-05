@@ -211,7 +211,7 @@ namespace osuTools.Beatmaps
         /// <returns></returns>
         public OsuBeatmap ToOsuBeatmap()
         {
-            var baseDb = new OsuBeatmapDB();
+            var baseDb = new OsuBeatmapDb();
             return baseDb.Beatmaps.FindByMd5(Md5.ToString());
         }
 
@@ -287,8 +287,6 @@ namespace osuTools.Beatmaps
                 throw new PlayerException($"在{state}文件{info.Path}时出现错误\n{error}");
             musicPlayer.Load(FullAudioFileName);
             return musicPlayer;
-
-
         }
     }
 }

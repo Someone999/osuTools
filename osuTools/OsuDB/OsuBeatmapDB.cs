@@ -1,8 +1,11 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Security.Cryptography;
+using System.Windows.Forms;
 using osuTools.Game.Modes;
 using osuTools.GameInfo;
 using osuTools.MD5Tools;
@@ -14,27 +17,25 @@ namespace osuTools.OsuDB
     /// <summary>
     ///     通过读取osu!.db获取所有的谱面以及一些游戏相关的信息。
     /// </summary>
-    public class OsuBeatmapDB : IOsuDb
+    public class OsuBeatmapDb : IOsuDb
     {
-        private readonly string f;
+        private readonly string _dbFilePath;
 
-        private readonly BinaryReader reader;
-        private bool readmanifest;
+        private readonly BinaryReader _binReader;
+        private bool _manifestHasRead;
 
         /// <summary>
         ///     初始化一个OsuBeatmapDB对象
         /// </summary>
-        public OsuBeatmapDB()
+        public OsuBeatmapDb()
         {
             var info = new OsuInfo();
             var file = info.OsuDirectory + "osu!.db";
             var stream = File.Open(file, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
-            reader = new BinaryReader(stream);
+            _binReader = new BinaryReader(stream);
 
-            f = file;
-            //System.Windows.Forms.MessageBox.Show(f);
+            _dbFilePath = file;
             Md5 = GetMd5();
-            //Sync.Tools.IO.CurrentIO.Write(or.CurrentMode.ToString());
             try
             {
                 Read();
@@ -49,13 +50,13 @@ namespace osuTools.OsuDB
         /// 从指定的文件中读取数据
         /// </summary>
         /// <param name="dbPath">文件的绝对路径或相对于osu!游戏文件夹的路径</param>
-        public OsuBeatmapDB(string dbPath)
+        public OsuBeatmapDb(string dbPath)
         {
             if (!File.Exists(dbPath))
                 dbPath = Path.Combine(new OsuInfo().OsuDirectory, dbPath);
             var stream = File.Open(dbPath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
-            reader = new BinaryReader(stream);
-            f = dbPath;
+            _binReader = new BinaryReader(stream);
+            _dbFilePath = dbPath;
             Md5 = GetMd5();
             try
             {
@@ -88,70 +89,134 @@ namespace osuTools.OsuDB
         {
             Manifest = new OsuManifest();
             Beatmaps = new OsuBeatmapCollection();
-            if (!readmanifest) ReadManifest();
+            if (!_manifestHasRead) ReadManifest();
             GetAllBeatmaps();
         }
 
         private MD5String GetMd5()
         {
             var provider = new MD5CryptoServiceProvider();
-            var data = File.ReadAllBytes(f);
+            var data = File.ReadAllBytes(_dbFilePath);
             provider.ComputeHash(data);
             return new MD5String(provider);
         }
-
+        #region Wrapped methods of BinaryReader
+#if SHOWMSG
         private short GetInt16()
         {
-            var v = reader.ReadInt16();
+            var v = _binReader.ReadInt16();
+            MessageBox.Show(v.ToString(CultureInfo.CurrentCulture));
             return v;
         }
-
         private int GetInt32()
         {
-            var v = reader.ReadInt32();
+            var v = _binReader.ReadInt32();
+            MessageBox.Show(v.ToString(CultureInfo.CurrentCulture));
             return v;
         }
 
         private long GetInt64()
         {
-            var v = reader.ReadInt64();
+            var v = _binReader.ReadInt64();
+            MessageBox.Show(v.ToString(CultureInfo.CurrentCulture));
             return v;
         }
 
         private double GetDouble()
         {
-            var v = reader.ReadDouble();
+            var v = _binReader.ReadDouble();
+            MessageBox.Show(v.ToString(CultureInfo.CurrentCulture));
             return v;
         }
 
         private float GetSingle()
         {
-            var v = reader.ReadSingle();
+            var v = _binReader.ReadSingle();
+            MessageBox.Show(v.ToString(CultureInfo.CurrentCulture));
+
             return v;
         }
 
         private byte GetByte()
         {
-            var v = reader.ReadByte();
+            var v = _binReader.ReadByte();
+            MessageBox.Show(v.ToString(CultureInfo.CurrentCulture));
             return v;
         }
 
         private bool GetBoolean()
         {
-            var v = reader.ReadBoolean();
+            var v = _binReader.ReadBoolean();
+            MessageBox.Show(v.ToString(CultureInfo.CurrentCulture));
             return v;
         }
-
         private string GetString()
         {
-            if (reader.ReadByte() == 0x0b)
+            if (_binReader.ReadByte() == 0x0b)
             {
-                var v = reader.ReadString();
+                var v = _binReader.ReadString();
+                MessageBox.Show(v);
                 return v;
             }
 
             return string.Empty;
         }
+
+#else
+        private short GetInt16()
+        {
+            var v = _binReader.ReadInt16();
+            return v;
+        }
+        private int GetInt32()
+        {
+            var v = _binReader.ReadInt32();
+            return v;
+        }
+
+        private long GetInt64()
+        {
+            var v = _binReader.ReadInt64();
+            return v;
+        }
+
+        private double GetDouble()
+        {
+            var v = _binReader.ReadDouble();
+            return v;
+        }
+
+        private float GetSingle()
+        {
+            var v = _binReader.ReadSingle();
+            return v;
+        }
+
+        private byte GetByte()
+        {
+            var v = _binReader.ReadByte();
+            return v;
+        }
+
+        private bool GetBoolean()
+        {
+            var v = _binReader.ReadBoolean();
+            return v;
+        }
+        private string GetString()
+        {
+            if (_binReader.ReadByte() == 0x0b)
+            {
+                var v = _binReader.ReadString();
+                return v;
+            }
+
+            return string.Empty;
+        }
+
+#endif
+        #endregion
+
 
         private void ReadManifest()
         {
@@ -173,7 +238,7 @@ namespace osuTools.OsuDB
             //谱面的数目
             //Number of the beatmap.
             Manifest.NumberOfBeatmap = GetInt32();
-            readmanifest = true;
+            _manifestHasRead = true;
         }
 
         private OsuBeatmap ReadBeatmap()
@@ -265,19 +330,19 @@ namespace osuTools.OsuDB
             {
                 //获取std模式的Mod<->难度星级的键值对
                 //Get the key-value pairs of Mod and Stars in std mode
-                GetModStarsPair(reader, osustars, GetInt32());
+                GetModStarsPair(_binReader, osustars, GetInt32());
 
                 //获取Taiko模式的Mod<->难度星级的键值对
                 //Get the key-value pairs of Mod and Stars in Taiko mode
-                GetModStarsPair(reader,taikostars,GetInt32());
+                GetModStarsPair(_binReader,taikostars,GetInt32());
 
                 //获取CTB模式的Mod<->难度星级的键值对
                 //Get the key-value pairs of Mod and Stars in CTB mode
-                GetModStarsPair(reader,ctbstars,GetInt32());
+                GetModStarsPair(_binReader,ctbstars,GetInt32());
 
                 //获取Mania模式的Mod<->难度星级的键值对
                 //Get the key-value pairs of Mod and Stars in Mania mode
-                GetModStarsPair(reader,maniastars,GetInt32());
+                GetModStarsPair(_binReader,maniastars,GetInt32());
             }
 
             //谱面最后一个打击物件的偏移
@@ -291,7 +356,7 @@ namespace osuTools.OsuDB
             beatmap.PreviewPoint = TimeSpan.FromMilliseconds(GetInt32());
             //获取谱面OsuTimingPoint
             //Get the OsuTimingPoints of the beatmap.
-            GetTimingPoints(reader,beatmap.TimingPoints, GetInt32());
+            GetTimingPoints(_binReader,beatmap.TimingPoints, GetInt32());
             //谱面的Id
             //Id of the beatmap
             beatmap.BeatmapId = GetInt32();
@@ -347,7 +412,7 @@ namespace osuTools.OsuDB
             //The font used for the title of the beatmap
             GetString();
             //这个谱面是否没玩过
-            //Is thie beatmap unplayed
+            //Is the beatmap unplayed
             GetBoolean();
             //谱面上次的游玩时间
             //Last time when the beatmap played
@@ -412,7 +477,7 @@ namespace osuTools.OsuDB
                     beatmaps.Add(newBeatmap);
             }
             Beatmaps = beatmaps;
-            reader.Close();
+            _binReader.Close();
         }
 
         private void GetModStarsPair(BinaryReader reader, Dictionary<int, double> dict,int countToRead)
@@ -421,7 +486,7 @@ namespace osuTools.OsuDB
             {
                 //分隔符
                 //Separator
-                GetByte();
+                reader.ReadByte();
                 //Mod
                 var mod = GetInt32();
                 //分隔符
@@ -440,13 +505,13 @@ namespace osuTools.OsuDB
             {
                 //该OsuTimingPoint的BPM
                 //The BPM of this OsuTimingPoint
-                var bpm = GetDouble();
+                var bpm = reader.ReadDouble();
                 //该OsuTimingPoint的偏移
                 //The offset of this OsuTimingPoint
-                var offset = GetDouble();
+                var offset = reader.ReadDouble();
                 //这个OsuTimingPoint是否为继承（是否为绿线）
                 //If this OsuTimingPoint inherited (Is this line a green line)
-                var inherit = GetBoolean();
+                var inherit = reader.ReadBoolean();
                 timingPotins.Add(new OsuBeatmapTimingPoint(bpm, offset, inherit));
             }
         }

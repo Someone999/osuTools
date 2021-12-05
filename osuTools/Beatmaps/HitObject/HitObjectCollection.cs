@@ -21,19 +21,19 @@ namespace osuTools.Beatmaps.HitObject
         /// <returns></returns>
         public static HitObjectCollection Contact(HitObjectCollection a, HitObjectCollection b, int breakTimeInMs = 0)
         {
-            var beatmapoffset = a.Last().Offset;
+            var beatmapOffset = a.Last().Offset;
             var c = new HitObjectCollection();
             foreach (var hitobject in a)
                 c.Add(hitobject);
             foreach (var hitobject in b)
             {
-                hitobject.Offset += breakTimeInMs + beatmapoffset;
+                hitobject.Offset += breakTimeInMs + beatmapOffset;
                 if (hitobject is ManiaHold hold)
-                    hold.EndTime += beatmapoffset + breakTimeInMs;
+                    hold.EndTime += beatmapOffset + breakTimeInMs;
                 if (hitobject is Spinner spinner)
-                    spinner.EndTime += beatmapoffset + breakTimeInMs;
+                    spinner.EndTime += beatmapOffset + breakTimeInMs;
                 if (hitobject is BananaShower shower)
-                    shower.EndTime += beatmapoffset + breakTimeInMs;
+                    shower.EndTime += beatmapOffset + breakTimeInMs;
                 c.Add(hitobject);
             }
 
@@ -47,12 +47,12 @@ namespace osuTools.Beatmaps.HitObject
         /// <param name="overwrite">true将会用新的数据覆写文件，false则会在已有的数据后继续添加</param>
         public void WriteToFile(string file, bool overwrite = false)
         {
-            var datas = new List<string>();
-            foreach (var hitobject in this) datas.Add(hitobject.ToOsuFormat());
+            var data = new List<string>();
+            foreach (var hitobject in this) data.Add(hitobject.ToOsuFormat());
             if (!overwrite)
-                File.AppendAllLines(file, datas.ToArray());
+                File.AppendAllLines(file, data.ToArray());
             else
-                File.WriteAllLines(file, datas.ToArray());
+                File.WriteAllLines(file, data.ToArray());
         }
     }
 }

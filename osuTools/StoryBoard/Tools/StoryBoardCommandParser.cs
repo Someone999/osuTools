@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using osuTools.StoryBoard.Commands;
 using osuTools.StoryBoard.Commands.Interface;
+using osuTools.StoryBoard.Enums;
 
 namespace osuTools.StoryBoard.Tools
 {
@@ -51,6 +53,61 @@ namespace osuTools.StoryBoard.Tools
             }
             return _commands.ToArray();
         }
-
+        public static int GetSpaceCount(string s)
+        {
+            int count = 0;
+            if (string.IsNullOrEmpty(s))
+                return 0;
+            while (s[count] == ' ')
+            {
+                count++;
+            }
+            return count;
+        }
+        /*public IStoryBoardCommand[] Parse()
+        {
+            string[] s = File.ReadAllLines(StoryBoardCommandFile);
+            Stack<IStoryBoardCommand> commandStack = new Stack<IStoryBoardCommand>();
+            IStoryBoardCommand currentCommand;
+            int lastSpace = -1;
+            foreach (var line in s)
+            {
+                if (StoryBoardCommandString.IsInvalidCommand(line))
+                    continue;
+                int space = GetSpaceCount(line);
+                if(space > lastSpace)
+                {
+                    if(space == 0)
+                    {
+                        currentCommand = new StoryBoardMainCommand();
+                        currentCommand.Parse(line);
+                        commandStack.Push(currentCommand);
+                        _commands.Add(currentCommand);
+                    }
+                    else if (space > 0)
+                    {
+                        currentCommand = StoryBoardTools.GetEventClassByString(line.TrimStart());
+                        ((IStoryBoardSubCommand)currentCommand).ParentCommand = commandStack.Peek();
+                        commandStack.Peek().SubCommands.Add((IStoryBoardSubCommand)currentCommand);
+                        commandStack.Push(currentCommand);
+                        _commands.Add(currentCommand);
+                    }
+                    lastSpace = space;
+                }
+                else if (space < lastSpace)
+                {
+                    
+                    commandStack.Pop().SubCommands.Add(StoryBoardTools.GetEventClassByString(line));
+                    lastSpace = space;
+                }
+                else if(space == lastSpace)
+                {
+                    currentCommand = StoryBoardTools.GetEventClassByString(line.TrimStart());
+                    IStoryBoardSubCommand subCommand = (IStoryBoardSubCommand)commandStack.Peek();
+                    subCommand.ParentCommand.SubCommands.Add((IStoryBoardSubCommand)currentCommand);
+                }
+            }
+            return _commands.ToArray();
+        }*/
     }
 }

@@ -27,11 +27,11 @@ namespace osuTools.StoryBoard.Commands
                 return;
             if (line[0] != ' ')
             {
-                if (ls[0] == "Sprite")
+                if (ls[0] == "Sprite" || ls[0] == "4")
                     Resource = new Sprite();
-                if (ls[0] == "Sample")
+                if (ls[0] == "Sample" || ls[0] == "5")
                     Resource = new Audio();
-                if (ls[0] == "Animation")
+                if (ls[0] == "Animation" || ls[0] == "6")
                     Resource = new Animation();
                 if (Resource is null)
                     return;

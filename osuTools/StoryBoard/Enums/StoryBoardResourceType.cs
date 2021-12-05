@@ -6,18 +6,20 @@
     public enum StoryBoardResourceType
     {
         /// <summary>
-        ///     音频
-        /// </summary>
-        Audio,
-
-        /// <summary>
         ///     精灵
         /// </summary>
-        Sprite,
+        Sprite = 4,
 
+
+        /// <summary>
+        ///     音频
+        /// </summary>
+        Audio = 5,
+
+        
         /// <summary>
         ///     动画
         /// </summary>
-        Animation
+        Animation = 6
     }
 }

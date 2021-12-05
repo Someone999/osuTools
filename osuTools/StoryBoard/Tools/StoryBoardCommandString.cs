@@ -13,14 +13,14 @@ namespace osuTools.StoryBoard.Tools
         public bool IsFirstSubCommand { get; }
         public string Command { get; }
 
-        bool IsInvalid(string commandStr)
+        public static bool IsInvalidCommand(string commandStr)
         {
-            return commandStr.StartsWith("[") || commandStr.StartsWith("//");
+            return commandStr.StartsWith("[") || commandStr.StartsWith("//") || string.IsNullOrEmpty(commandStr);
         }
         public StoryBoardCommandString(StoryBoardCommandString last, string commandStr, int level,out bool failed)
         {
             failed = false;
-            if (!IsInvalid(commandStr))
+            if (!IsInvalidCommand(commandStr))
             {
                 
                 Level = level;

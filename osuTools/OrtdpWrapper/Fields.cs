@@ -23,7 +23,7 @@ namespace osuTools.OrtdpWrapper
             Ortdp,
 
             /// <summary>
-            ///     通过<see cref="osuTools.OsuDB.OsuBeatmapDB" />获取谱面信息
+            ///     通过<see cref="OsuBeatmapDb" />获取谱面信息
             /// </summary>
             OsuDb
         }
@@ -31,7 +31,7 @@ namespace osuTools.OrtdpWrapper
         private double _acc;
         private RealTimePPDisplayerPlugin _arp;
         private OsuBeatmapStatus _bStatus = OsuBeatmapStatus.Unknown;
-        private OsuBeatmapDB _beatmapDb;
+        private OsuBeatmapDb _beatmapDb;
         private ModList _mods=new ModList();
         private TimeSpan _drainTime;
 
