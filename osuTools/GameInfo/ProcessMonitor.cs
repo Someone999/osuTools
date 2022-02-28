@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
-using InfoReaderPlugin.I18n;
+using InfoReader.Tools.I8n;
 using Microsoft.Win32.SafeHandles;
 using osuTools.Exceptions;
 
@@ -118,12 +115,12 @@ namespace osuTools.GameInfo
         {
             switch (code)
             {
-                case 0x00000080: throw new ObjectWaitException(NI18n.GetLanguageElement("LANG_ERR_WAITABANDONED"));
-                case 0: throw new ObjectWaitException(NI18n.GetLanguageElement("LANG_ERR_WAITOBJECTSIGNALED"));
+                case 0x00000080: throw new ObjectWaitException(LocalizationInfo.Current.Translations["LANG_ERR_WAITABANDONED"]);
+                case 0: throw new ObjectWaitException(LocalizationInfo.Current.Translations["LANG_ERR_WAITOBJECTSIGNALED"]);
                 case 0x102: throw new Exception("LANG_ERR_WAITTIMEOUT");
-                case -1: throw new ObjectWaitException(NI18n.GetLanguageElement("LANG_ERR_WAITFAILED"),
+                case -1: throw new ObjectWaitException(LocalizationInfo.Current.Translations["LANG_ERR_WAITFAILED"],
                     new Win32Exception(Marshal.GetLastWin32Error()));
-                default: throw new Exception(NI18n.GetLanguageElement("LANG_ERR_WAITFAILED"));
+                default: throw new Exception(LocalizationInfo.Current.Translations["LANG_ERR_WAITFAILED"]);
             }
         }
         /// <summary>

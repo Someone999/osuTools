@@ -50,7 +50,7 @@ namespace osuTools.Beatmaps.HitObject.Taiko
         /// <summary>
         ///     结束时间
         /// </summary>
-        public int EndTime { get; private set; }
+        public double EndTime { get; private set; }
 
         /// <summary>
         ///     打击物件的类型
@@ -60,7 +60,7 @@ namespace osuTools.Beatmaps.HitObject.Taiko
         /// <summary>
         ///     打击物件相对于开始的偏移
         /// </summary>
-        public int Offset { get; set; } = -1;
+        public double Offset { get; set; } = -1;
 
         /// <summary>
         ///     音效

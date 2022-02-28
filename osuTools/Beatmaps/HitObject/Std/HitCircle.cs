@@ -20,7 +20,7 @@ namespace osuTools.Beatmaps.HitObject.Std
         /// <summary>
         ///     打击物件相对于开始时的偏移
         /// </summary>
-        public int Offset { get; set; } = -1;
+        public double Offset { get; set; } = -1;
 
         /// <summary>
         ///     打击物件的音效类型
@@ -60,10 +60,14 @@ namespace osuTools.Beatmaps.HitObject.Std
             }
 
             if (types.Contains(HitObjectTypes.NewCombo))
+            {
                 IsNewGroup = true;
+            }
             HitSound = new HitSoundsConverter().Convert(int.Parse(info[4]),out _)[0];
             if (info.Length > 5)
+            {
                 HitSample = new HitSample(info[5]);
+            }
         }
 
         /// <summary>

@@ -108,7 +108,7 @@ namespace osuTools.OnlineInfo.OsuApiV2.ResultClasses
         /// <summary>
         ///     谱面的模式
         /// </summary>
-        public OsuGameMode Mode { get; } = OsuGameMode.Unkonwn;
+        public OsuGameMode Mode { get; } = OsuGameMode.Unknown;
 
         /// <summary>
         ///     谱面的难度标签

@@ -53,6 +53,11 @@ namespace osuTools.StoryBoard.Tools
             }
             return _commands.ToArray();
         }
+        /// <summary>
+        /// 获取空格的数量
+        /// </summary>
+        /// <param name="s"></param>
+        /// <returns></returns>
         public static int GetSpaceCount(string s)
         {
             int count = 0;

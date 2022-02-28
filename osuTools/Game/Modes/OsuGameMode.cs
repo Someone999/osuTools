@@ -5,6 +5,7 @@ namespace osuTools.Game.Modes
     /// <summary>
     ///     Osu的游戏模式
     /// </summary>
+    [Flags]
     [Serializable]
     public enum OsuGameMode
     {
@@ -31,6 +32,6 @@ namespace osuTools.Game.Modes
         /// <summary>
         ///     未定义
         /// </summary>
-        Unkonwn = -1
+        Unknown = -1
     }
 }

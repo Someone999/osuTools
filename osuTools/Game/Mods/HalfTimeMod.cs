@@ -1,4 +1,5 @@
 ﻿using osuTools.Beatmaps;
+using osuTools.Game.Modes;
 
 namespace osuTools.Game.Mods
 {
@@ -14,7 +15,8 @@ namespace osuTools.Game.Mods
         /// <inheritdoc />
         public override string ShortName => "HT";
         /// <inheritdoc />
-        public override double ScoreMultiplier => 0.3d;
+        public override double ScoreMultiplier => _scoreMul;
+        double _scoreMul = 0.3d;
         /// <inheritdoc />
         public override ModType Type => ModType.DifficultyReduction;
         /// <inheritdoc />
@@ -25,6 +27,14 @@ namespace osuTools.Game.Mods
         public double TimeRate => 0.75d;
         /// <inheritdoc />
         public OsuGameMod LegacyMod => OsuGameMod.HalfTime;
+        public override bool CheckAndSetForMode(GameMode mode)
+        {
+            if (mode is ManiaMode)
+            {
+                _scoreMul = 0.5;
+            }
+            return true;
+        }
         /// <inheritdoc />
         public override Beatmap Apply(Beatmap beatmap)
         {

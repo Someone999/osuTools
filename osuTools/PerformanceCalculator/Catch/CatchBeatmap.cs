@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using osuTools.Beatmaps;
 using osuTools.Beatmaps.HitObject;
 using osuTools.Beatmaps.HitObject.Catch;
@@ -39,7 +40,7 @@ namespace osuTools.PerformanceCalculator.Catch
         /// <summary>
         /// 谱面的所有处理后的HitObject
         /// </summary>
-        public List<CatchHitObject> CatchHitObjects { get; } = new List<CatchHitObject>();
+        public List<IHitObject> CatchHitObjects { get; } = new List<IHitObject>();
         /// <summary>
         /// 谱面的难度信息
         /// </summary>
@@ -182,6 +183,30 @@ namespace osuTools.PerformanceCalculator.Catch
                 }
                 CatchHitObjects.Add(catchHitObject);
                 MaxCombo += catchHitObject.GetCombo();
+            }
+        }
+        List<IHitObject> _hitObjs;
+        public IHitObject[] HitObjects
+        {
+            get
+            {
+                if (_hitObjs == null)
+                {
+                    _hitObjs = new List<IHitObject>();
+                    foreach (var hitObject in CatchHitObjects)
+                    {
+                        if (hitObject is CatchHitObject catchHitObject)
+                        {
+                            _hitObjs.Add(catchHitObject);
+                            foreach (var sliderTick in catchHitObject.Ticks.Concat(catchHitObject.EndTicks))
+                            {
+                                _hitObjs.Add(sliderTick);
+                            }
+                        }
+                    }
+                    _hitObjs.Sort((x, y) => x.Offset == y.Offset ? 0 : x.Offset > y.Offset ? 1 : -1);
+                }
+                return _hitObjs.ToArray();
             }
         }
     }

@@ -19,7 +19,7 @@ namespace osuTools.Beatmaps.HitObject.Taiko
         /// <summary>
         ///     该打击物件相对于开始时的偏移
         /// </summary>
-        public int Offset { get; set; }
+        public double Offset { get; set; }
 
         /// <summary>
         ///     音效

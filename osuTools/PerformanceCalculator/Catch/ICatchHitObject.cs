@@ -1,9 +1,11 @@
-﻿namespace osuTools.PerformanceCalculator.Catch
+﻿using osuTools.Beatmaps.HitObject;
+
+namespace osuTools.PerformanceCalculator.Catch
 {
     /// <summary>
-    /// Catch pp计算器专用的HitObject.因为需要的信息有限，没有继承IHitObject
+    /// Catch pp计算器专用的HitObject.
     /// </summary>
-    public interface ICatchHitObject
+    public interface ICatchHitObject: IHitObject
     {
         /// <summary>
         /// x坐标
@@ -13,9 +15,5 @@
         /// y坐标
         /// </summary>
         double y { get; }
-        /// <summary>
-        /// 时间偏移
-        /// </summary>
-        double Offset { get; }
     }
 }

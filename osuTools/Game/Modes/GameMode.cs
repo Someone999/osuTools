@@ -1,4 +1,5 @@
-﻿using System;
+﻿#define SYNC
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -74,7 +75,7 @@ namespace osuTools.Game.Modes
                 return false;
             if (a is ILegacyMode mode && b is ILegacyMode legacyMode)
                 return mode.LegacyMode == legacyMode.LegacyMode;
-            return a.ModeName == b.ModeName;
+            return a.GetType() == b.GetType();
         }
 
         /// <summary>
@@ -109,23 +110,12 @@ namespace osuTools.Game.Modes
         {
             throw new NotImplementedException($"模式{ModeName}不使用这个方法创建HitObject");
         }
-
         /// <summary>
         ///     这个模式的准度计算方法
         /// </summary>
         /// <param name="scoreInfo"></param>
         /// <returns></returns>
-        public virtual double AccuracyCalc(OrtdpWrapper.OrtdpWrapper scoreInfo)
-        {
-            return 0;
-        }
-
-        /// <summary>
-        ///     这个模式的准度计算方法
-        /// </summary>
-        /// <param name="scoreInfo"></param>
-        /// <returns></returns>
-        public virtual double AccuracyCalc(ScoreInfo scoreInfo)
+        public virtual double AccuracyCalc(IScoreInfo scoreInfo)
         {
             return 0;
         }
@@ -215,7 +205,7 @@ namespace osuTools.Game.Modes
         /// <param name="b"></param>
         /// <param name="mods"></param>
         /// <returns></returns>
-        public virtual int GetBeatmapHitObjectCount(Beatmap b,ModList mods)
+        public virtual int GetBeatmapHitObjectCount(Beatmap b, ModList mods)
         {
             return 0;
         }
@@ -225,7 +215,7 @@ namespace osuTools.Game.Modes
         /// </summary>
         /// <param name="info"></param>
         /// <returns></returns>
-        public virtual int GetPassedHitObjectCount(OrtdpWrapper.OrtdpWrapper info)
+        public virtual int GetPassedHitObjectCount(IScoreInfo info)
         {
             return 0;
         }
@@ -244,7 +234,7 @@ namespace osuTools.Game.Modes
         /// </summary>
         /// <param name="info"></param>
         /// <returns></returns>
-        public virtual bool IsPerfect(OrtdpWrapper.OrtdpWrapper info)
+        public virtual bool IsPerfect(IScoreInfo info)
         {
             return false;
         }
@@ -254,7 +244,7 @@ namespace osuTools.Game.Modes
         /// </summary>
         /// <param name="info"></param>
         /// <returns></returns>
-        public virtual double GetCountGekiRate(OrtdpWrapper.OrtdpWrapper info)
+        public virtual double GetCountGekiRate(IScoreInfo info)
         {
             return 0;
         }
@@ -264,7 +254,7 @@ namespace osuTools.Game.Modes
         /// </summary>
         /// <param name="info"></param>
         /// <returns></returns>
-        public virtual double GetCount300Rate(OrtdpWrapper.OrtdpWrapper info)
+        public virtual double GetCount300Rate(IScoreInfo info)
         {
             return 0;
         }
@@ -274,7 +264,7 @@ namespace osuTools.Game.Modes
         /// </summary>
         /// <param name="info"></param>
         /// <returns></returns>
-        public virtual GameRanking GetRanking(OrtdpWrapper.OrtdpWrapper info)
+        public virtual GameRanking GetRanking(IScoreInfo info)
         {
             return GameRanking.Unknown;
         }
@@ -283,13 +273,13 @@ namespace osuTools.Game.Modes
         /// </summary>
         /// <param name="info"></param>
         /// <returns></returns>
-        public virtual int GetBeatmapMaxCombo(OrtdpWrapper.OrtdpWrapper info) => info.Beatmap.HitObjects.Count;
+        public virtual int GetBeatmapMaxCombo(IScoreInfo info) => info.Beatmap.HitObjects.Count;
         /// <summary>
         /// 获取游戏中出现过的HitObject在总HitObject中的占比
         /// </summary>
         /// <param name="info"></param>
         /// <returns></returns>
-        public virtual double GetHitObjectPercent(OrtdpWrapper.OrtdpWrapper info) =>
+        public virtual double GetHitObjectPercent(IScoreInfo info) =>
             GetPassedHitObjectCount(info) / (double)GetBeatmapHitObjectCount(info.Beatmap, info.Mods);
     }
 }

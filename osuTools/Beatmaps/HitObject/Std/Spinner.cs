@@ -13,7 +13,7 @@ namespace osuTools.Beatmaps.HitObject.Std
         /// <summary>
         ///     Spinner的结束时间
         /// </summary>
-        public int EndTime { get; set; }
+        public double EndTime { get; set; }
 
         /// <summary>
         ///     Note的类型
@@ -23,7 +23,7 @@ namespace osuTools.Beatmaps.HitObject.Std
         /// <summary>
         ///     Note相对于开始的位置
         /// </summary>
-        public int Offset { get; set; } = -1;
+        public double Offset { get; set; } = -1;
 
         /// <summary>
         ///     Note的音效类型
@@ -62,12 +62,16 @@ namespace osuTools.Beatmaps.HitObject.Std
             }
 
             if (types.Contains(HitObjectTypes.NewCombo))
+            {
                 IsNewGroup = true;
+            }
             HitSound = new HitSoundsConverter().Convert(int.Parse(info[4]),out _)[0];
             var eval = double.Parse(info[5]);
             EndTime = double.IsNaN(eval) || double.IsInfinity(eval) ? 0 : (int) eval;
             if (info.Length > 6)
+            {
                 HitSample = new HitSample(info[6]);
+            }
         }
 
         /// <summary>

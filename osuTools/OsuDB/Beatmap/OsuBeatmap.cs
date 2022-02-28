@@ -28,7 +28,7 @@ namespace osuTools.OsuDB.Beatmap
         /// <summary>
         ///     谱面的游戏模式
         /// </summary>
-        public OsuGameMode Mode { get; internal set; } = OsuGameMode.Unkonwn;
+        public OsuGameMode Mode { get; internal set; } = OsuGameMode.Unknown;
 
         /// <summary>
         ///     谱面的音乐文件名称

@@ -55,11 +55,12 @@ namespace osuTools.PerformanceCalculator.Catch
             }
             foreach (var hitObject in Beatmap.CatchHitObjects)
             {
-                HitObjectsWithTicks.Add(hitObject);
-                if (hitObject.BaseHitObject.HitObjectType == HitObjectTypes.JuiceStream || hitObject.BaseHitObject.HitObjectType == HitObjectTypes.Slider)
+                var catchHitObj = (CatchHitObject)hitObject;
+                HitObjectsWithTicks.Add(catchHitObj);
+                if (catchHitObj.BaseHitObject.HitObjectType == HitObjectTypes.JuiceStream || catchHitObj.BaseHitObject.HitObjectType == HitObjectTypes.Slider)
                 {
-                    HitObjectsWithTicks.AddRange(hitObject.Ticks);
-                    HitObjectsWithTicks.AddRange(hitObject.EndTicks);
+                    HitObjectsWithTicks.AddRange(catchHitObj.Ticks);
+                    HitObjectsWithTicks.AddRange(catchHitObj.EndTicks);
                 }
             }
             TimeRate = Mods.TimeRate;

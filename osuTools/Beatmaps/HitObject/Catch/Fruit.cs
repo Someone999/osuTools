@@ -20,7 +20,7 @@ namespace osuTools.Beatmaps.HitObject.Catch
         /// <summary>
         ///     相对于开始的偏移
         /// </summary>
-        public int Offset { get; set; }
+        public double Offset { get; set; }
 
         /// <summary>
         ///     位置

@@ -1,4 +1,6 @@
-﻿namespace osuTools.Game.Modes
+﻿using osuTools.Game.Modes;
+
+namespace osuTools.Game
 {
     /// <summary>
     ///     表示一个判定

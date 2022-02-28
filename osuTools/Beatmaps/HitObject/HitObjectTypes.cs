@@ -68,7 +68,10 @@
         ///     香蕉雨
         /// </summary>
         BananaShower,
-
+        /// <summary>
+        ///  JuiceStream中的果粒
+        /// </summary>
+        CatchSliderTick,
         /// <summary>
         ///     Taiko内侧单打
         /// </summary>

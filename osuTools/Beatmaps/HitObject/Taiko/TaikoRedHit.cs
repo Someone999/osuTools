@@ -19,7 +19,7 @@ namespace osuTools.Beatmaps.HitObject.Taiko
         /// <summary>
         ///     该Note相对于歌曲开始的时间点
         /// </summary>
-        public int Offset { get; set; }
+        public double Offset { get; set; }
 
         /// <summary>
         ///     自定义的音效

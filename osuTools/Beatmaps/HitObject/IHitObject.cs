@@ -16,7 +16,7 @@ namespace osuTools.Beatmaps.HitObject
         /// <summary>
         ///     打击物件相对于开始的偏移
         /// </summary>
-        int Offset { get; set; }
+        double Offset { get; set; }
 
         /// <summary>
         ///     打击物件的音效

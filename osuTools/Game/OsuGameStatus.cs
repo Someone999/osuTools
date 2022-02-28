@@ -6,6 +6,7 @@ namespace osuTools.Game
     ///     osu的游戏状态
     /// </summary>
     [Serializable]
+    [Flags]
     public enum OsuGameStatus
     {
         /// <summary>

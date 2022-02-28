@@ -30,12 +30,12 @@ namespace osuTools.Beatmaps.HitObject.Std
         /// </summary>
         public SliderHitSound EndingHitSound { get; set; } = new SliderHitSound();
 
-        internal List<OsuPixel> curvePoints { get; set; } = new List<OsuPixel>();
+        internal List<OsuPixel> InternalCurvePoints { get; set; } = new List<OsuPixel>();
 
         /// <summary>
         ///     绘制该滑条所需的点
         /// </summary>
-        public IReadOnlyList<OsuPixel> CurvePoints => curvePoints.AsReadOnly();
+        public IReadOnlyList<OsuPixel> CurvePoints => InternalCurvePoints.AsReadOnly();
 
         /// <summary>
         ///     滑条的算法
@@ -58,7 +58,7 @@ namespace osuTools.Beatmaps.HitObject.Std
         /// <summary>
         ///     该Slider相对于曲目开始的时间
         /// </summary>
-        public int Offset { get; set; } = -1;
+        public double Offset { get; set; } = -1;
 
         /// <summary>
         ///     滑条在未指定StartingHitSound等时使用的音效
@@ -111,7 +111,7 @@ namespace osuTools.Beatmaps.HitObject.Std
                 {
                     var x = int.Parse(point[0]);
                     var y = int.Parse(point[1]);
-                    curvePoints.Add(new OsuPixel(x, y));
+                    InternalCurvePoints.Add(new OsuPixel(x, y));
                 }
             }
 
@@ -124,13 +124,21 @@ namespace osuTools.Beatmaps.HitObject.Std
                 var hitSounds = new List<HitSounds>();
                 var hitSoundstrs = info[8].Split('|');
                 foreach (var str in hitSoundstrs)
-                    hitSounds.Add(new HitSoundsConverter().Convert(int.Parse(str),out _)[0]);
+                {
+                    hitSounds.Add(new HitSoundsConverter().Convert(int.Parse(str), out _)[0]);
+                }
                 if (hitSoundstrs.Length > 0)
-                    StartingHitSound = new SliderHitSound(hitSounds[0]);
+                {
+                    StartingHitSound = new SliderHitSound(hitSounds[0]); 
+                }
                 if (hitSoundstrs.Length > 1)
+                { 
                     DuringHitSound = new SliderHitSound(hitSounds[1]);
+                }
                 if (hitSoundstrs.Length > 2)
-                    EndingHitSound = new SliderHitSound(hitSounds[2]);
+                { 
+                    EndingHitSound = new SliderHitSound(hitSounds[2]); 
+                }
                 if (info.Length > 9)
                 {
                     var sampleSetstrs = info[9].Split('|');
@@ -144,18 +152,26 @@ namespace osuTools.Beatmaps.HitObject.Std
                     }
 
                     if (sampleSets.Count > 1)
+                    {
                         StartingHitSound = new SliderHitSound(hitSounds[0],
                             new EdgeSound(sampleSets[0], additionSampleSets[0]));
+                    }
                     if (sampleSets.Count > 2)
+                    {
                         DuringHitSound = new SliderHitSound(hitSounds[1],
                             new EdgeSound(sampleSets[1], additionSampleSets[1]));
+                    }
                     if (sampleSets.Count > 3)
+                    {
                         EndingHitSound = new SliderHitSound(hitSounds[2],
                             new EdgeSound(sampleSets[2], additionSampleSets[2]));
+                    }
                 }
 
                 if (info.Length > 10)
+                {
                     HitSample = new HitSample(info[10]);
+                }
             }
         }
 
@@ -167,18 +183,22 @@ namespace osuTools.Beatmaps.HitObject.Std
         {
             var b = new StringBuilder(
                 $"{Position.x},{Position.y},{Offset},{1 << (int) HitObjectType},{1 << (int) HitSound},{_curvetype}");
-            for (var i = 0; i < curvePoints.Count; i++)
+            for (var i = 0; i < InternalCurvePoints.Count; i++)
             {
-                if (curvePoints.Count == 1)
+                if (InternalCurvePoints.Count == 1)
                 {
-                    b.Append("|" + curvePoints[i].GetData() + ",");
+                    b.Append("|" + InternalCurvePoints[i].GetData() + ",");
                     break;
                 }
 
-                if (i == curvePoints.Count - 1)
-                    b.Append("|" + curvePoints[i].GetData() + ",");
+                if (i == InternalCurvePoints.Count - 1)
+                {
+                    b.Append("|" + InternalCurvePoints[i].GetData() + ",");
+                }
                 else
-                    b.Append($"|{curvePoints[i].GetData()}");
+                {
+                    b.Append($"|{InternalCurvePoints[i].GetData()}");
+                }
             }
 
             b.Append(

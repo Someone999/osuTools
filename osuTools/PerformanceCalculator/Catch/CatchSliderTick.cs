@@ -1,4 +1,7 @@
-﻿using System;
+﻿using osuTools.Beatmaps.HitObject;
+using osuTools.Beatmaps.HitObject.Sounds;
+using osuTools.Game.Modes;
+using System;
 
 namespace osuTools.PerformanceCalculator.Catch
 {
@@ -7,6 +10,7 @@ namespace osuTools.PerformanceCalculator.Catch
     /// </summary>
     public class CatchSliderTick:ICatchHitObject,ICloneable
     {
+
         /// <summary>
         /// x坐标
         /// </summary>
@@ -18,7 +22,20 @@ namespace osuTools.PerformanceCalculator.Catch
         /// <summary>
         /// 时间偏移
         /// </summary>
-        public double Offset { get; internal set; } 
+        public double Offset { get; internal set; }
+
+        public HitObjectTypes HitObjectType => HitObjectTypes.CatchSliderTick;
+
+        double IHitObject.Offset { get => Offset; set => throw new NotImplementedException(); }
+
+        public HitSample HitSample => null;
+
+        public OsuGameMode SpecifiedMode => OsuGameMode.Catch;
+
+        public HitSounds HitSound => HitSounds.Normal;
+        OsuPixel _pixel;
+        public OsuPixel Position => _pixel;
+
         /// <summary>
         /// 使用x,y,时间偏移初始化一个CatchSliderTick
         /// </summary>
@@ -29,6 +46,7 @@ namespace osuTools.PerformanceCalculator.Catch
         {
             this.x = x;
             this.y = y;
+            _pixel = new OsuPixel(x, y);
             Offset = offset;
         }
         /// <summary>
@@ -38,6 +56,16 @@ namespace osuTools.PerformanceCalculator.Catch
         public object Clone()
         {
             return new CatchSliderTick(x, y, Offset);
+        }
+
+        public void Parse(string data)
+        {
+            throw new NotSupportedException("This is not a part of file.");
+        }
+
+        public string ToOsuFormat()
+        {
+            throw new NotSupportedException("This is not a part of file.");
         }
     }
 }

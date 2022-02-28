@@ -1,4 +1,5 @@
-﻿using osuTools.Beatmaps;
+﻿#define SYNCPP
+using osuTools.Beatmaps;
 using RealTimePPDisplayer.Displayer;
 
 namespace osuTools.Game.Modes

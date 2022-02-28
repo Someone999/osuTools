@@ -10,7 +10,7 @@
         /// </summary>
         /// <param name="hitObject"></param>
         /// <returns></returns>
-        public static int GetEndTime(this IHitObject hitObject)
+        public static double GetEndTime(this IHitObject hitObject)
         {
             if (hitObject is null) return 0;
             if (hitObject is IHasEndHitObject hasEnd)

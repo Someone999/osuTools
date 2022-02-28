@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using osuTools.Beatmaps.HitObject;
 using osuTools.Beatmaps.HitObject.Catch;
+using osuTools.Beatmaps.HitObject.Sounds;
 using osuTools.Beatmaps.HitObject.Std;
 using osuTools.Collections;
 using osuTools.Game.Modes;
@@ -11,7 +12,7 @@ namespace osuTools.PerformanceCalculator.Catch
     /// <summary>
     /// 用于<seealso cref="CatchBeatmap"/>pp计算的HitObject
     /// </summary>
-    public class CatchHitObject:ICatchHitObject
+    public class CatchHitObject: ICatchHitObject
     {
         ///<inheritdoc/>
         public double x => BaseHitObject.Position.x;
@@ -49,6 +50,19 @@ namespace osuTools.PerformanceCalculator.Catch
         /// 持续时间
         /// </summary>
         public double Duration { get; }
+
+        public HitObjectTypes HitObjectType => BaseHitObject.HitObjectType;
+
+        double IHitObject.Offset { get => BaseHitObject.Offset; set => BaseHitObject.Offset = value; }
+
+        public HitSample HitSample => BaseHitObject.HitSample;
+
+        public OsuGameMode SpecifiedMode => BaseHitObject.SpecifiedMode;
+
+        public HitSounds HitSound => BaseHitObject.HitSound;
+
+        public OsuPixel Position => BaseHitObject.Position;
+
         /// <summary>
         /// 使用指定的参数初始化一个CatchHitObject
         /// </summary>
@@ -228,5 +242,14 @@ namespace osuTools.PerformanceCalculator.Catch
             return val;
         }
 
+        public void Parse(string data)
+        {
+            throw new NotImplementedException();
+        }
+
+        public string ToOsuFormat()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

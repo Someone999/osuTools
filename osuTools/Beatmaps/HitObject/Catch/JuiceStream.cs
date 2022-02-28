@@ -64,7 +64,7 @@ namespace osuTools.Beatmaps.HitObject.Catch
         /// <summary>
         ///     打击物件相对于开始的偏移
         /// </summary>
-        public int Offset { get; set; } = -1;
+        public double Offset { get; set; } = -1;
 
         /// <summary>
         ///     音效类型

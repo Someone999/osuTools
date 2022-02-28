@@ -20,7 +20,7 @@ namespace osuTools.Beatmaps.HitObject.Mania
         /// <summary>
         ///     该打击物件相对于开始的偏移
         /// </summary>
-        public int Offset { get; set; }
+        public double Offset { get; set; }
 
         /// <summary>
         ///     音效的类型
@@ -48,9 +48,11 @@ namespace osuTools.Beatmaps.HitObject.Mania
         /// <param name="data"></param>
         public void Parse(string data)
         {
-            var info = data.Split(','); 
-            if (BeatmapColumn == 0) 
-                throw new ArgumentException(); 
+            var info = data.Split(',');
+            if (BeatmapColumn == 0)
+            {
+                throw new ArgumentException();
+            } 
             Position = new OsuPixel(int.Parse(info[0]), int.Parse(info[1]));
             var val = double.Parse(info[2]);
             Offset = double.IsNaN(val) || double.IsInfinity(val) ? 0 : (int) val; 
@@ -62,9 +64,11 @@ namespace osuTools.Beatmaps.HitObject.Mania
             }
 
             Column = (int) Math.Floor(Position.x * BeatmapColumn / 512d);
-            HitSound = new HitSoundsConverter().Convert(int.Parse(info[4]),out _)[0]; 
+            HitSound = new HitSoundsConverter().Convert(int.Parse(info[4]),out _)[0];
             if (info.Length > 5)
+            {
                 HitSample = new HitSample(info[5]);
+            }
         }
 
         /// <summary>

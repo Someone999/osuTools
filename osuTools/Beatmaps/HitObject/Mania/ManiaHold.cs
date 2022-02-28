@@ -15,7 +15,7 @@ namespace osuTools.Beatmaps.HitObject.Mania
         /// <summary>
         ///     长条的结束时间
         /// </summary>
-        public int EndTime { get; set; }
+        public double EndTime { get; set; }
 
         /// <summary>
         ///     打击物件的类型
@@ -25,7 +25,7 @@ namespace osuTools.Beatmaps.HitObject.Mania
         /// <summary>
         ///     打击物件相对于开始的偏移
         /// </summary>
-        public int Offset { get; set; }
+        public double Offset { get; set; }
 
         /// <summary>
         ///     此属性对长条无效
@@ -58,22 +58,24 @@ namespace osuTools.Beatmaps.HitObject.Mania
                 throw new ArgumentException();
             Position = new OsuPixel(int.Parse(info[0]), int.Parse(info[1]));
             var val = double.Parse(info[2]);
-            Offset = double.IsNaN(val) || double.IsInfinity(val) ? 0 : (int) val;
+            Offset = double.IsNaN(val) || double.IsInfinity(val) ? 0 : (int)val;
             type = int.Parse(info[3]);
-            var types = new HitObjectTypesConverter().Convert(type,out var maybeBestVal);
+            var types = new HitObjectTypesConverter().Convert(type, out var maybeBestVal);
             if (maybeBestVal != HitObjectTypes.ManiaHold)
             {
                 throw new ArgumentException("该行的数据不适用。");
             }
 
-            Column = (int) Math.Floor(Position.x * BeatmapColumn / 512d);
-            HitSound = new HitSoundsConverter().Convert(int.Parse(info[4]),out _)[0];
+            Column = (int)Math.Floor(Position.x * BeatmapColumn / 512d);
+            HitSound = new HitSoundsConverter().Convert(int.Parse(info[4]), out _)[0];
             var ainfo = info[5].Split(':');
             var eval = double.Parse(ainfo[0]);
-            EndTime = double.IsNaN(eval) || double.IsInfinity(eval) ? 0 : (int) eval;
+            EndTime = double.IsNaN(eval) || double.IsInfinity(eval) ? 0 : (int)eval;
             if (ainfo.Length > 5)
-                HitSample = new HitSample((SampleSets) int.Parse(ainfo[1]), (SampleSets) int.Parse(ainfo[2]),
+            {
+                HitSample = new HitSample((SampleSets)int.Parse(ainfo[1]), (SampleSets)int.Parse(ainfo[2]),
                     int.Parse(ainfo[3]), int.Parse(ainfo[4]), ainfo[5]);
+            }
         }
 
         /// <summary>

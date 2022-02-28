@@ -86,7 +86,7 @@ namespace osuTools.OnlineInfo.OsuApiV1.OnlineQueries
         /// <summary>
         ///     谱面模式
         /// </summary>
-        public OsuGameMode Mode { get; set; } = OsuGameMode.Unkonwn;
+        public OsuGameMode Mode { get; set; } = OsuGameMode.Unknown;
 
         /// <summary>
         ///     要附带查询的Mod
@@ -115,7 +115,7 @@ namespace osuTools.OnlineInfo.OsuApiV1.OnlineQueries
             builder.Append(string.IsNullOrEmpty(CreatorUserName) ? CreatorUserId == 0 ? "" : userid : uname);
             builder.Append(Limit != 0 ? lim : "");
             builder.Append(!string.IsNullOrEmpty(Hash) ? hash : "");
-            builder.Append(Mode != OsuGameMode.Unkonwn ? mode : "");
+            builder.Append(Mode != OsuGameMode.Unknown ? mode : "");
             builder.Append(Mods.Count == 0 ? mods : "");
             builder.Append(RankedOrLovedSince != new DateTime() ? since : "");
             builder.Append(BeatmapId != 0 ? id : setid);

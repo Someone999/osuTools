@@ -14,13 +14,13 @@ namespace osuTools.Beatmaps.HitObject.Catch
         private int _type;
 
         /// <inheritdoc />
-        public int EndTime { get; internal set; }
+        public double EndTime { get; internal set; }
 
         /// <inheritdoc />
         public HitObjectTypes HitObjectType => HitObjectTypes.BananaShower;
 
         /// <inheritdoc />
-        public int Offset { get; set; } = -1;
+        public double Offset { get; set; } = -1;
         /// <inheritdoc />
         public OsuPixel Position { get; } = new OsuPixel(256, 192);
         /// <inheritdoc />

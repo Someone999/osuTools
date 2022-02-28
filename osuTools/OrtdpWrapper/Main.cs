@@ -2,18 +2,17 @@
 using System.IO;
 using System.Threading;
 using System.Windows.Forms;
-using InfoReaderPlugin;
-using InfoReaderPlugin.I18n;
+using InfoReader.Tools.I8n;
 using OsuRTDataProvider;
 using osuTools.Beatmaps;
 using osuTools.OsuDB;
+using osuTools.Tools;
 using RealTimePPDisplayer;
-using Sync.Tools;
 
 namespace osuTools.OrtdpWrapper
 {
     [Serializable]
-    public partial class OrtdpWrapper
+    public partial class OrtdpWrapper : IMemoryDataSource
     {
         /// <summary>
         ///     不使用额外类型构建ORTDP
@@ -25,8 +24,8 @@ namespace osuTools.OrtdpWrapper
             InitLisenter();
             Application.ThreadException += Application_ThreadException;
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
-            var format = NI18n.GetLanguageElement("LANG_INFO_STH_INITED");
-            IO.CurrentIO.Write(string.Format(format, "ORTDP"));
+            var format = LocalizationInfo.Current.Translations["LANG_INFO_STH_INITED"];
+            OutputHelper.Output(string.Format(format, "ORTDP"));
         }
 
         /// <summary>
@@ -38,8 +37,8 @@ namespace osuTools.OrtdpWrapper
             Beatmap = new Beatmap();
             InitLisenter(ortdp);
             Application.ThreadException += Application_ThreadException;
-            var format = NI18n.GetLanguageElement("LANG_INFO_STH_INITED");
-            IO.CurrentIO.Write(string.Format(format, "ORTDP"));
+            var format = LocalizationInfo.Current.Translations["LANG_INFO_STH_INITED"];
+            OutputHelper.Output(string.Format(format, "ORTDP"));
             Application.ThreadException += Application_ThreadException;
         }
         /// <summary>
@@ -55,13 +54,13 @@ namespace osuTools.OrtdpWrapper
             _rtppi = d ?? new RtppdInfo();
             _arp.RegisterDisplayer("osuToolsDisplayer", id => _rtppi = _rtppi ?? new RtppdInfo());
             InitLisenter(ortdp);
-            var format = NI18n.GetLanguageElement("LANG_INFO_STH_INITED");
-            IO.CurrentIO.Write(string.Format(format, "ORTDP"));
+            var format = LocalizationInfo.Current.Translations["LANG_INFO_STH_INITED"];
+            OutputHelper.Output(string.Format(format, "ORTDP"));
             Application.ThreadException += Application_ThreadException;
         }
         private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
-            File.AppendAllText("osuToolsEx.txt", ((Exception) e.ExceptionObject).ToString());
+            File.AppendAllText("osuToolsEx.txt", ((Exception)e.ExceptionObject).ToString());
         }
 
         private void Application_ThreadException(object sender, ThreadExceptionEventArgs e)

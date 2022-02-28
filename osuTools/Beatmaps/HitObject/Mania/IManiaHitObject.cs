@@ -1,4 +1,5 @@
-﻿namespace osuTools.Beatmaps.HitObject.Mania
+﻿
+namespace osuTools.Beatmaps.HitObject.Mania
 {
     /// <summary>
     ///     表示Mania模式的HitObject

@@ -158,7 +158,7 @@ namespace osuTools.Game.Mods
                 return false;
             if (a is ILegacyMod aLegacyMod && b is ILegacyMod bLegacyMod)
                 return aLegacyMod.LegacyMod == bLegacyMod.LegacyMod;
-            return a.Name == b.Name;
+            return a.GetType() == b.GetType();
         }
         /// <summary>
         /// 比较两个Mod是否相等
@@ -175,7 +175,7 @@ namespace osuTools.Game.Mods
         
             if (a is ILegacyMod aLegacyMod && b is ILegacyMod  bLegacyMod)
                 return aLegacyMod.LegacyMod !=  bLegacyMod.LegacyMod;
-            return a.Name != b.Name;
+            return a.GetType() == b.GetType();
         }
         ///<inheritdoc/>
         public override bool Equals(object obj)

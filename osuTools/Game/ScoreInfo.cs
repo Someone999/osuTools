@@ -1,12 +1,22 @@
-﻿using osuTools.Game.Mods;
+﻿using osuTools.Game.Modes;
+using osuTools.Game.Mods;
 
 namespace osuTools.Game
 {
     /// <summary>
     ///     分数的组成
     /// </summary>
-    public class ScoreInfo
+    public class ScoreInfo: IScoreInfo
     {
+        /// <summary>
+        /// <inheritdoc />
+        /// </summary>
+        public int CurrentCombo { get; set; }
+
+        /// <summary>
+        /// 当前的谱面，需要手动设置
+        /// </summary>
+        public Beatmaps.Beatmap Beatmap { get; set; }
         /// <summary>
         ///     300g的数量
         /// </summary>
@@ -21,10 +31,11 @@ namespace osuTools.Game
         ///     200的数量
         /// </summary>
         public int CountKatu { get; set; }
+
         /// <summary>
         /// 开启的Mod
         /// </summary>
-        public ModList Mods { get; set; }
+        public ModList Mods { get; set; } = new ModList();
 
         /// <summary>
         ///     100的数量
@@ -93,5 +104,7 @@ namespace osuTools.Game
                 return true;
             return a.GetHashCode() != b.GetHashCode() || !a.Equals(b);
         }
+
+
     }
 }

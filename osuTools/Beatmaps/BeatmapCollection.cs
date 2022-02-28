@@ -6,7 +6,6 @@ using System.Windows.Forms;
 using osuTools.Exceptions;
 using osuTools.Game.Modes;
 using osuTools.GameInfo;
-using osuTools.OsuDB;
 using osuTools.OsuDB.Beatmap;
 
 namespace osuTools.Beatmaps

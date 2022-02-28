@@ -22,6 +22,7 @@ using osuTools.MD5Tools;
 using osuTools.OsuDB;
 using osuTools.OsuDB.Beatmap;
 using Sync.Tools;
+using osuTools.MemoryCache.Beatmap;
 
 namespace osuTools.OrtdpWrapper
 {
@@ -30,35 +31,106 @@ namespace osuTools.OrtdpWrapper
         private int _allhit;
         private OsuBeatmap _osuBeatmap;
         private BreakTimeCollection _breaktimes = new BreakTimeCollection();
-        private int _cBtime;
         private int _cTmpoint;
         private MD5String _md5Str = new MD5String(), _md5Str1 = new MD5String();
         private bool _noFailTriggered;
         private TimingPointCollection _timepoints = new TimingPointCollection();
         private double _tmpTime;
+        //private MemoryBeatmapCollection _beatmapCollection = new MemoryBeatmapCollection();
 
         /// <summary>
         ///     OsuRTDataProvider提供的Beatmap
         /// </summary>
         public Beatmap OrtdpBeatmap { get; private set; }
-
         /// <summary>
         ///     当前BreakTime剩余的时间
         /// </summary>
         [AvailableVariable("RemainingBreakTime", "LANG_VAR_REMAINBREAKTIME")]
-        public TimeSpan RemainingBreakTime { get; private set; }
+        public TimeSpan RemainingBreakTime 
+        {
+            get
+            {
+                if (PlayTime == 0)
+                {
+                    _currentBreakTimeIdx = -1;
+                }
+                if(_breaktimes.Count == 0)
+                {
+                    return TimeSpan.Zero;
+                }
+                if (PlayTime > _breaktimes[0].Start && _currentBreakTimeIdx == -1)
+                {
+                    Interlocked.Add(ref _currentBreakTimeIdx, 1);
+                }
+                if(_currentBreakTimeIdx == -1)
+                {
+                    return TimeSpan.Zero;
+                }
+                                          
+                var breakTimes = Beatmap.BreakTimes;
+                if (PlayTime > breakTimes[_currentBreakTimeIdx].Start)
+                {                 
+                    if (breakTimes[_currentBreakTimeIdx].InBreakTime((long)PlayTime))
+                    {
+                        return TimeSpan.FromMilliseconds(breakTimes[_currentBreakTimeIdx].End - PlayTime);
+                    }
+                }
+                
+                return TimeSpan.Zero;
+            }
+        }
 
         /// <summary>
         ///     BreakTime的数量
         /// </summary>
         [AvailableVariable("BreakTimeCount", "LANG_VAR_CBREAKTIME")]
         public int BreakTimeCount => Beatmap?.BreakTimes.Count ?? 0;
-
+        int _currentBreakTimeIdx = -1;
         /// <summary>
         ///     距离下一个BreakTime的时间
         /// </summary>
         [AvailableVariable("TimeToNextBreakTime", "LANG_VAR_TIMETONEXTBREAKTIME")]
-        public TimeSpan TimeToNextBreakTime { get; private set; }
+        public TimeSpan TimeToNextBreakTime 
+        {
+            get
+            {
+                
+                if(_breaktimes.Count == 0)
+                {
+                    return TimeSpan.Zero;
+                }
+                if(PlayTime == 0) 
+                {
+                    _currentBreakTimeIdx = -1;
+                }
+                var breakTimes = Beatmap.BreakTimes;
+
+                if (_currentBreakTimeIdx == -1)
+                {
+                    return TimeSpan.FromMilliseconds(breakTimes[0].Start - PlayTime);
+                }            
+                if (_currentBreakTimeIdx < BreakTimeCount - 1)
+                {
+                    if (PlayTime > breakTimes[_currentBreakTimeIdx < 0 ? 0 : _currentBreakTimeIdx].End) 
+                    {
+                        _currentBreakTimeIdx++;
+                    }
+                    if (!breakTimes[_currentBreakTimeIdx].InBreakTime((long)PlayTime))
+                    {
+                        return TimeSpan.FromMilliseconds(breakTimes[_currentBreakTimeIdx].Start - PlayTime);
+                    }
+                }
+                if (_currentBreakTimeIdx == BreakTimeCount - 1)
+                {
+                    if (PlayTime > _breaktimes.BreakTimes.Last().Start)
+                    {
+                        return TimeSpan.Zero;
+                    }
+                    return TimeSpan.FromMilliseconds(breakTimes[_currentBreakTimeIdx].Start - PlayTime);
+                }
+                return TimeSpan.Zero;
+            }
+        }
 
         /// <summary>
         ///     当前BreakTime剩余的时间，以秒为单位
@@ -93,7 +165,8 @@ namespace osuTools.OrtdpWrapper
         {
             Task.Run(new Action(() =>
             {
-                while (true)
+                Thread.Sleep(1);
+                while (CurrentStatus == OsuGameStatus.Playing)
                 {
                     if (GameMode.CurrentMode == OsuGameMode.Mania)
                     {
@@ -247,7 +320,6 @@ namespace osuTools.OrtdpWrapper
             CountMiss = 0;
             Score = 0;
             _acc = 0;
-            _cBtime = 0;
             _cTmpoint = 0;
             _maxcb = 0;
             _lastAcc = 0;
@@ -280,7 +352,7 @@ namespace osuTools.OrtdpWrapper
             }
         }
 
-        private void ReadFromOsudb(Beatmap map)
+        private void ReadFromOsudb(Beatmap beatmap)
         {
             NowPlaying = "Loading...";
             _bStatus = OsuBeatmapStatus.Loading;
@@ -294,10 +366,10 @@ namespace osuTools.OrtdpWrapper
 
             try
             {
-                if (map != null)
+                if (beatmap != null)
                 {
                     var md5 = MD5String.GetString(
-                        new MD5CryptoServiceProvider().ComputeHash(File.ReadAllBytes(map.FilenameFull)));
+                        new MD5CryptoServiceProvider().ComputeHash(File.ReadAllBytes(beatmap.FilenameFull)));
                     var beatmapa = _beatmapDb.Beatmaps.FindByMd5(md5);
                     if (!(beatmapa is null))
                     {
@@ -330,7 +402,7 @@ namespace osuTools.OrtdpWrapper
                 _beatmapDb = new OsuBeatmapDb();
                 var m51 = _beatmapDb.Md5;
                 if (m5 == m51)
-                    ReadFromOrtdp(map);
+                    ReadFromOrtdp(beatmap);
                 //IO.CurrentIO.WriteColor("Can not find this beatmap by MD5 in osu!DataBase.Beatmap has read from osu file,Info may be correct after re-read OsuDataBase.", ConsoleColor.Red);
             }
             catch (Exception e)
@@ -350,13 +422,15 @@ namespace osuTools.OrtdpWrapper
             if (val > 30) return 6;
             return -1;
         }
-
+        MD5CryptoServiceProvider _globalMd5Calculator = new MD5CryptoServiceProvider();
         private void ListenerManagerOnBeatmapChanged(Beatmap map)
         {
             try
             {
                 _listenerManager.OnPlayingTimeChanged -= ListenerManagerOnPlayingTimeChanged;
                 OrtdpBeatmap = map;
+                var hash = _globalMd5Calculator.ComputeHash(File.ReadAllBytes(map.FilenameFull));
+                var currentMd5 = MD5String.GetString(hash);
                 Beatmap = new Beatmaps.Beatmap();
                 if (DebugMode)
                     IO.CurrentIO.Write("[osuTools] Beatmap Changed");
@@ -486,7 +560,7 @@ namespace osuTools.OrtdpWrapper
                 }
             }
         }
-        void ProcessBreakTime(double ms)
+        /*void ProcessBreakTime(double ms)
         {
             try
             {
@@ -542,26 +616,30 @@ namespace osuTools.OrtdpWrapper
                 RemainingBreakTime = TimeSpan.Zero;
                 TimeToNextBreakTime = TimeSpan.Zero;
             }
-        }
+        }*/
         private void ListenerManagerOnPlayingTimeChanged(int ms)
         {
             if (CurrentStatus == OsuGameStatus.Playing)
+            {
                 CalcHitObjectPercent();
+                ProcessTimePoint(ms);
+            }
+
             if (_osuBeatmap != null)
             {
                 _tmper = ms / SongDuration.TotalMilliseconds;
                 if (CurrentStatus == OsuGameStatus.Playing)
                 {
                     
-                    ProcessTimePoint(ms);
+                    /*ProcessTimePoint(ms);
                     if (_breaktimes.Count > 0)
                         ProcessBreakTime(ms);
                     else
-                        RemainingBreakTime = TimeToNextBreakTime = TimeSpan.Zero;
+                        RemainingBreakTime = TimeToNextBreakTime = TimeSpan.Zero;*/
                 }
                 else
                 {
-                    RemainingBreakTime = TimeToNextBreakTime = TimeSpan.Zero;
+                    //RemainingBreakTime = TimeToNextBreakTime = TimeSpan.Zero;
                     if (_timepoints.Count > 0) CurrentBpm = _timepoints[0].Bpm;
                 }
             }
@@ -580,9 +658,9 @@ namespace osuTools.OrtdpWrapper
                 if (hitObject != null)
                 {
                     if (hitObject is IHasEndHitObject hasEnd)
-                        time = hasEnd.EndTime;
+                        time = (int)hasEnd.EndTime;
                     else
-                        time = hitObject.Offset;
+                        time = (int)hitObject.Offset;
                 }
 
                 _dur = TimeSpan.FromMilliseconds(time);

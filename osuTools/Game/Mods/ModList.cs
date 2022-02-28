@@ -15,7 +15,15 @@ namespace osuTools.Game.Mods
     /// </summary>
     public class ModList:IEnumerable<Mod>
     {
+        public static ModList Empty { get; } = new ModList();
         private readonly List<Mod> _mods = new List<Mod>();
+        public ModList()
+        {
+            ScoreMultiplier = 1;
+            AllowsFail = true;
+            TimeRate = 1;
+            IsRanked = true;
+        }
         IEnumerator IEnumerable.GetEnumerator() => _mods.GetEnumerator();
 
         /// <summary>
@@ -32,7 +40,7 @@ namespace osuTools.Game.Mods
             get;
             private set;
         }
-
+        
         void CalcScoreMul()
         {
             if (_mods.Count == 0)
@@ -65,8 +73,7 @@ namespace osuTools.Game.Mods
             if (multiplier > 1.3) multiplier += 0.03;
             else if (multiplier > 1.15) multiplier += 0.01;
             if (multiplier >= 1.39) multiplier += 0.02;
-            if (multiplier < 1)
-                multiplier += bonus;
+            multiplier += bonus;
             ScoreMultiplier = Math.Round(multiplier, 2);
         }
 
@@ -151,7 +158,8 @@ namespace osuTools.Game.Mods
         /// </summary>
         /// <param name="item"></param>
         /// <param name="mode"></param>
-        public void Add(Mod item,OsuGameMode? mode = null)
+        /// <param name="throwWhenError"></param>
+        public void Add(Mod item,OsuGameMode? mode = null,bool throwWhenError = true)
         {
             var comparer = new ModEqulityComparer();
             if (item != null)
@@ -159,13 +167,35 @@ namespace osuTools.Game.Mods
                 if (item is IHasConflictMods spMod)
                 {
                     var conflict = spMod.ConflictMods;
-                    foreach (var m in _mods)
+                    for (int i = 0; i < _mods.Count; i++)
+                    {
+                        var m = _mods[i];
                         if (conflict.Contains(m, comparer))
-                            throw new ConflictingModExistedException(item, m);
+                        {
+                            if (throwWhenError)
+                            {
+                                throw new ConflictingModExistedException(item, m);
+                            }
+                            else
+                            {
+                                Remove(m);
+                                break;
+                            }
+                        }
+                    }
                 }
 
                 if (_mods.Contains(item, comparer))
-                    throw new ModExsitedException(item);
+                {
+                    if (throwWhenError)
+                    {
+                        throw new ModExsitedException(item);
+                    }
+                    else
+                    {
+                        return;
+                    }
+                }
                 if (mode.HasValue)
                     item.CheckAndSetForMode(GameMode.FromLegacyMode(mode.Value));
                 _mods.Add(item);
@@ -179,10 +209,15 @@ namespace osuTools.Game.Mods
         /// <param name="item"></param>
         public void Remove(Mod item)
         {
-            foreach (var mod in _mods)
+            for (int i = 0; i < _mods.Count; i++)
+            {
+                var mod = _mods[i];
                 if (mod == item)
+                {
                     _mods.Remove(mod);
-            RecalculateProperties();
+                }
+                RecalculateProperties();
+            }
         }
 
         /// <summary>
@@ -208,11 +243,11 @@ namespace osuTools.Game.Mods
         {
             var mods = new ModList();
             if (mod == -1) return mods;
-            var s = new string(Convert.ToString(mod, 2).Reverse().ToArray());
+            var s = Convert.ToString(mod, 2);
             for (var i = 0; i < s.Length; i++)
                 if (s[i] == '1')
                 {
-                    var tmpMod = Mod.FromLegacyMod((OsuGameMod) (1 << i));
+                    var tmpMod = Mod.FromLegacyMod((OsuGameMod) (1 << (s.Length - i - 1)));
                     if (mode.HasValue)
                         tmpMod.CheckAndSetForMode(GameMode.FromLegacyMode(mode.Value));
                     if (tmpMod != null) 
@@ -293,7 +328,7 @@ namespace osuTools.Game.Mods
             for (var i = 0; i < s.Length; i++)
                 if (s[i] == '1')
                 {
-                    var tmpMod = Mod.FromLegacyMod((OsuGameMod) (1 << i));
+                    var tmpMod = Mod.FromLegacyMod((OsuGameMod) (1 << (s.Length - i - 1)));
                     if (mode.HasValue)
                         tmpMod.CheckAndSetForMode(GameMode.FromLegacyMode(mode.Value));
                     if (tmpMod != null)

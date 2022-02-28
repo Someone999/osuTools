@@ -4,7 +4,7 @@ using osuTools.Beatmaps;
 using osuTools.Game;
 using osuTools.Game.Modes;
 using osuTools.Game.Mods;
-using osuTools.OsuDB;
+using osuTools.MemoryCache.Beatmap;
 using osuTools.OsuDB.Beatmap;
 using RealTimePPDisplayer;
 
@@ -630,7 +630,7 @@ namespace osuTools.OrtdpWrapper
         {
             get
             {
-                if (_osuBeatmap == null) return new TimeSpan();
+                if (_osuBeatmap == null && OrtdpBeatmap == null) return new TimeSpan();
                 if (PlayTime <= _dur.TotalMilliseconds) return _dur;
                 return new TimeSpan();
             }

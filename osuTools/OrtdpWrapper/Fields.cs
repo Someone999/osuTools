@@ -1,5 +1,4 @@
 ﻿using System;
-using InfoReaderPlugin;
 using OsuRTDataProvider;
 using OsuRTDataProvider.Listen;
 using osuTools.Beatmaps.HitObject;

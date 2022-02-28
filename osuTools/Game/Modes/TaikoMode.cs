@@ -1,8 +1,8 @@
-﻿using System;
+﻿#define SYNCPP
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using InfoReaderPlugin.Command.CommandClasses;
 using osuTools.Beatmaps;
 using osuTools.Beatmaps.HitObject;
 using osuTools.Beatmaps.HitObject.Sounds;
@@ -10,6 +10,7 @@ using osuTools.Beatmaps.HitObject.Taiko;
 using osuTools.Beatmaps.HitObject.Tools;
 using osuTools.Exceptions;
 using osuTools.Game.Mods;
+using osuTools.Tools;
 using RealTimePPDisplayer.Beatmap;
 using RealTimePPDisplayer.Calculator;
 using RealTimePPDisplayer.Displayer;
@@ -29,11 +30,14 @@ namespace osuTools.Game.Modes
         public override Mod[] AvaliableMods => Mod.TaikoMods;
         ///<inheritdoc/>
         public override string Description => "打鼓";
+
+#if SYNCPP
         ///<inheritdoc/>
         public double GetMaxPerformance(OrtdpWrapper.OrtdpWrapper ortdpInfo)
         {
             return GetPPTuple(ortdpInfo).MaxPP;
         }
+
         ///<inheritdoc/>
         public void SetBeatmap(Beatmap b)
         {
@@ -47,7 +51,7 @@ namespace osuTools.Game.Modes
                 _calculator = _calculator ?? new TaikoPerformanceCalculator();
                 _calculator.Beatmap = new BeatmapReader(ortdpInfo.OrtdpBeatmap, (int) ortdpInfo.Beatmap.Mode);
                 if (ortdpInfo.DebugMode)
-                    IO.CurrentIO.Write(
+                    OutputHelper.Output(
                         $"[osuTools::PrePPCalc::Taiko] Current ORTDP Beatmap:{_calculator.Beatmap.OrtdpBeatmap.Artist} - {_calculator.Beatmap.OrtdpBeatmap.Title} [{_calculator.Beatmap.OrtdpBeatmap.Difficulty}]",
                         true, false);
                 _calculator.ClearCache();
@@ -59,13 +63,13 @@ namespace osuTools.Game.Modes
                 _calculator.Mods = (uint) ortdpInfo.Mods.ToIntMod();
                 _calculator.MaxCombo = ortdpInfo.Beatmap.HitObjects.Count;
                 _calculator.Count300 = 0;
-                if (ortdpInfo.DebugMode) IO.CurrentIO.Write("[osuTools::PrePPCalc::Taiko] Calc Completed", true, false);
+                if (ortdpInfo.DebugMode) OutputHelper.Output("[osuTools::PrePPCalc::Taiko] Calc Completed", true, false);
                 return _calculator.GetPerformance();
             }
             catch (Exception ex)
             {
-                IO.CurrentIO.Write("Error when PreCalc PP.");
-                if (ortdpInfo.DebugMode) IO.CurrentIO.Write($"[osuTools::PrePPCalc::Taiko] Exception:{ex.Message}");
+                OutputHelper.Output("Error when PreCalc PP.");
+                if (ortdpInfo.DebugMode) OutputHelper.Output($"[osuTools::PrePPCalc::Taiko] Exception:{ex.Message}");
                 return new PPTuple
                 {
                     FullComboAccuracyPP = -1,
@@ -88,10 +92,11 @@ namespace osuTools.Game.Modes
         {
             return GetPPTuple(ortdpInfo).RealTimePP;
         }
+#endif
         ///<inheritdoc/>
         public OsuGameMode LegacyMode => OsuGameMode.Taiko;
         ///<inheritdoc/>
-        public override double AccuracyCalc(ScoreInfo scoreInfo)
+        public override double AccuracyCalc(IScoreInfo scoreInfo)
         {
             double c300 = scoreInfo.Count300;
             double c100 = scoreInfo.Count100;
@@ -100,16 +105,7 @@ namespace osuTools.Game.Modes
             return double.IsNaN(rawValue) ? 0 : double.IsInfinity(rawValue) ? 0 : rawValue;
         }
         ///<inheritdoc/>
-        public override double AccuracyCalc(OrtdpWrapper.OrtdpWrapper scoreInfo)
-        {
-            double c300 = scoreInfo.Count300;
-            double c100 = scoreInfo.Count100;
-            double cMiss = scoreInfo.CountMiss;
-            var rawValue = (c300 + c100 * 0.5d) / (c300 + c100 + cMiss);
-            return double.IsNaN(rawValue) ? 0 : double.IsInfinity(rawValue) ? 0 : rawValue;
-        }
-        ///<inheritdoc/>
-        public override bool IsPerfect(OrtdpWrapper.OrtdpWrapper info)
+        public override bool IsPerfect(IScoreInfo info)
         {
             return info.CountMiss <= 0;
         }
@@ -122,19 +118,19 @@ namespace osuTools.Game.Modes
             return normalHit;
         }
         /// <inheritdoc/>
-        public override double GetCountGekiRate(OrtdpWrapper.OrtdpWrapper info)
+        public override double GetCountGekiRate(IScoreInfo info)
         {
             if (info is null) return 0d;
             return GetCount300Rate(info);
         }
         ///<inheritdoc/>
-        public override double GetCount300Rate(OrtdpWrapper.OrtdpWrapper info)
+        public override double GetCount300Rate(IScoreInfo info)
         {
             if (info is null) return 0d;
             return (double) info.Count300 / (info.Count300 + info.Count100 + info.CountMiss);
         }
         ///<inheritdoc/>
-        public override GameRanking GetRanking(OrtdpWrapper.OrtdpWrapper info)
+        public override GameRanking GetRanking(IScoreInfo info)
         {
             if (info is null) return GameRanking.Unknown;
             var noMiss = info.CountMiss == 0;
@@ -230,7 +226,7 @@ namespace osuTools.Game.Modes
             return hitobject;
         }
         /// <inheritdoc/>
-        public override int GetPassedHitObjectCount(OrtdpWrapper.OrtdpWrapper info)
+        public override int GetPassedHitObjectCount(IScoreInfo info)
         {
             return info.Count300 + info.Count100 + info.CountMiss;
         }

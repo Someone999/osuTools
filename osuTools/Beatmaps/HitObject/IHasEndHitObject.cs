@@ -8,6 +8,6 @@
         /// <summary>
         ///     结束时间
         /// </summary>
-        int EndTime { get; }
+        double EndTime { get; }
     }
 }
