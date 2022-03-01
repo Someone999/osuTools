@@ -41,8 +41,8 @@ namespace osuTools.MemoryCache.Beatmap
             else
             {
                 double memPercent = (double)status.AvailablePhysicalMemory / status.TotalPhysicalMemory;
-                OutputHelper.Output($"[osuTools::BeatmapCache] Current available memory: {status.AvailablePhysicalMemory / Math.Pow(1024, 2):f2}MB " +
-                                    $"({memPercent:p2}) Program used {(double)_currentProcess.WorkingSet64 / status.TotalPhysicalMemory:p2}");
+                /*OutputHelper.Output($"[osuTools::BeatmapCache] Current available memory: {status.AvailablePhysicalMemory / Math.Pow(1024, 2):f2}MB " +
+                                    $"({memPercent:p2}) Program used {(double)_currentProcess.WorkingSet64 / status.TotalPhysicalMemory:p2}");*/
                 if(memPercent > 0.95)
                 {
                     Enabled = false;
