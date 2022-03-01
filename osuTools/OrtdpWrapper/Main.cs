@@ -21,7 +21,7 @@ namespace osuTools.OrtdpWrapper
         {
             _beatmapDb = new OsuBeatmapDb();
             Beatmap = new Beatmap();
-            InitLisenter();
+            InitListener();
             Application.ThreadException += Application_ThreadException;
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
             var format = LocalizationInfo.Current.Translations["LANG_INFO_STH_INITED"];
@@ -35,7 +35,7 @@ namespace osuTools.OrtdpWrapper
         {
             _beatmapDb = new OsuBeatmapDb();
             Beatmap = new Beatmap();
-            InitLisenter(ortdp);
+            InitListener(ortdp);
             Application.ThreadException += Application_ThreadException;
             var format = LocalizationInfo.Current.Translations["LANG_INFO_STH_INITED"];
             OutputHelper.Output(string.Format(format, "ORTDP"));
@@ -53,7 +53,7 @@ namespace osuTools.OrtdpWrapper
             _arp = rtppd ?? new RealTimePPDisplayerPlugin();
             _rtppi = d ?? new RtppdInfo();
             _arp.RegisterDisplayer("osuToolsDisplayer", id => _rtppi = _rtppi ?? new RtppdInfo());
-            InitLisenter(ortdp);
+            InitListener(ortdp);
             var format = LocalizationInfo.Current.Translations["LANG_INFO_STH_INITED"];
             OutputHelper.Output(string.Format(format, "ORTDP"));
             Application.ThreadException += Application_ThreadException;

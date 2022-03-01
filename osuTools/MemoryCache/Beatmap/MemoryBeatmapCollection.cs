@@ -14,8 +14,8 @@ namespace osuTools.MemoryCache.Beatmap
     /// </summary>
     public class MemoryBeatmapCollection: IMemoryCache
     {
-        Dictionary<string,Beatmaps.Beatmap> _beatmaps = new Dictionary<string, Beatmaps.Beatmap>();
-        public Beatmaps.Beatmap this[string md5] => _beatmaps[md5];            
+        Dictionary<string, CacheBeatmap> _beatmaps = new Dictionary<string, CacheBeatmap>();
+        public CacheBeatmap this[string md5] => _beatmaps[md5];            
         static Process _currentProcess = Process.GetCurrentProcess();
         /// <summary>
         /// <inheritdoc/>
@@ -28,9 +28,8 @@ namespace osuTools.MemoryCache.Beatmap
         /// </summary>
         /// <param name="md5">谱面md5</param>
         /// <param name="beatmap">谱面</param>
-        public unsafe void Add(string md5, Beatmaps.Beatmap beatmap)
+        public unsafe void Add(string md5, CacheBeatmap beatmap)
         {
-            return;
             MemoryStatusEx status = new MemoryStatusEx();
             status.Length = (uint)sizeof(MemoryStatusEx);
             Win32.Api.Win32Api.GlobalMemoryStatusEx(out status);
@@ -42,7 +41,8 @@ namespace osuTools.MemoryCache.Beatmap
             else
             {
                 double memPercent = (double)status.AvailablePhysicalMemory / status.TotalPhysicalMemory;
-                
+                OutputHelper.Output($"[osuTools::BeatmapCache] Current available memory: {status.AvailablePhysicalMemory / Math.Pow(1024, 2):f2}MB " +
+                                    $"({memPercent:p2}) Program used {(double)_currentProcess.WorkingSet64 / status.TotalPhysicalMemory:p2}");
                 if(memPercent > 0.95)
                 {
                     Enabled = false;

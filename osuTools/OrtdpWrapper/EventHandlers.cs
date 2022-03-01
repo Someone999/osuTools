@@ -36,7 +36,7 @@ namespace osuTools.OrtdpWrapper
         private bool _noFailTriggered;
         private TimingPointCollection _timepoints = new TimingPointCollection();
         private double _tmpTime;
-        //private MemoryBeatmapCollection _beatmapCollection = new MemoryBeatmapCollection();
+        private MemoryBeatmapCollection _beatmapCollection = new MemoryBeatmapCollection();
 
         /// <summary>
         ///     OsuRTDataProvider提供的Beatmap
@@ -163,7 +163,7 @@ namespace osuTools.OrtdpWrapper
 
         private void HitChanged()
         {
-            Task.Run(new Action(() =>
+            Task.Run(() =>
             {
                 Thread.Sleep(1);
                 while (CurrentStatus == OsuGameStatus.Playing)
@@ -189,10 +189,10 @@ namespace osuTools.OrtdpWrapper
                         JudgementPerSecond = Count300 + Count50 + CountMiss - _allhit;
                     }
                 }
-            }));
+            });
         }
 
-        private void InitLisenter()
+        private void InitListener()
         {
             GameMode = new GmMode(OsuPlayMode.Unknown, OsuPlayMode.Unknown);
             GameStatus = new GMStatus(OsuListenerManager.OsuStatus.Unkonwn, OsuListenerManager.OsuStatus.Unkonwn);
@@ -222,11 +222,11 @@ namespace osuTools.OrtdpWrapper
         {
             if (!string.IsNullOrEmpty(player))
             {
-                PlayerName = player?.Trim();
+                PlayerName = player.Trim();
             }
         }
 
-        private void InitLisenter(OsuRTDataProviderPlugin pl)
+        private void InitListener(OsuRTDataProviderPlugin pl)
         {
             GameMode = new GmMode(OsuPlayMode.Unknown, OsuPlayMode.Unknown);
             GameStatus = new GMStatus(OsuListenerManager.OsuStatus.Unkonwn, OsuListenerManager.OsuStatus.Unkonwn);
@@ -370,16 +370,16 @@ namespace osuTools.OrtdpWrapper
                 {
                     var md5 = MD5String.GetString(
                         new MD5CryptoServiceProvider().ComputeHash(File.ReadAllBytes(beatmap.FilenameFull)));
-                    var beatmapa = _beatmapDb.Beatmaps.FindByMd5(md5);
-                    if (!(beatmapa is null))
+                    var osuBeatmap = _beatmapDb.Beatmaps.FindByMd5(md5);
+                    if (!(osuBeatmap is null))
                     {
-                        Beatmap = new Beatmaps.Beatmap(beatmapa);
-                        _osuBeatmap = beatmapa;
+                        Beatmap = new Beatmaps.Beatmap(osuBeatmap);
+                        _osuBeatmap = osuBeatmap;
                         NowPlaying = Beatmap.ToString();
                         _hitObjects = Beatmap.HitObjects;
                         var lastHitObjectEndTime = TimeSpan.FromMilliseconds(_hitObjects.LastOrDefault().GetEndTime());
-                        _bStatus = beatmapa.BeatmapStatus;
-                        var totalTime = beatmapa.TotalTime;
+                        _bStatus = osuBeatmap.BeatmapStatus;
+                        var totalTime = osuBeatmap.TotalTime;
                         _dur = totalTime;
                         _drainTime = lastHitObjectEndTime;
                         if (CurrentMode is ILegacyMode le)
@@ -431,11 +431,30 @@ namespace osuTools.OrtdpWrapper
                 OrtdpBeatmap = map;
                 var hash = _globalMd5Calculator.ComputeHash(File.ReadAllBytes(map.FilenameFull));
                 var currentMd5 = MD5String.GetString(hash);
-                Beatmap = new Beatmaps.Beatmap();
-                if (DebugMode)
-                    IO.CurrentIO.Write("[osuTools] Beatmap Changed");
-                if (BeatmapReadMethod == BeatmapReadMethods.Ortdp) ReadFromOrtdp(map);
-                if (BeatmapReadMethod == BeatmapReadMethods.OsuDb) ReadFromOsudb(map);
+                if (!_beatmapCollection.ContainsBeatmap(currentMd5))
+                {
+                    
+                    Beatmap = new Beatmaps.Beatmap();
+                    lock (Beatmap)
+                    {
+                        if (DebugMode)
+                            IO.CurrentIO.Write("[osuTools] Beatmap Changed");
+                        if (BeatmapReadMethod == BeatmapReadMethods.Ortdp) ReadFromOrtdp(map);
+                        if (BeatmapReadMethod == BeatmapReadMethods.OsuDb) ReadFromOsudb(map);
+                        CacheBeatmap cacheBeatmap = new CacheBeatmap(Beatmap, _dur, _drainTime, _bStatus);
+                        _beatmapCollection.Add(currentMd5, cacheBeatmap);
+                    }
+                }
+                else
+                {
+                    CacheBeatmap currentCacheBeatmap = _beatmapCollection[currentMd5];
+                    Beatmap = currentCacheBeatmap.CurrentBeatmap;
+                    NowPlaying = Beatmap.ToString();
+                    _hitObjects = Beatmap.HitObjects;
+                    _dur = currentCacheBeatmap.SongDuration;
+                    _drainTime = currentCacheBeatmap.DrainTime;
+                    _bStatus = currentCacheBeatmap.Status;
+                }
                 PreCalculatedPp = 0;
                 if (CurrentMode is IHasPerformanceCalculator m)
                 {
@@ -672,13 +691,12 @@ namespace osuTools.OrtdpWrapper
         {
             try
             {
-                double current = obj - Score;
-                double retryflag = 0;
+                double retryFlag = 0;
                 Score = obj;
                 var scoreZeroed = obj == 0;
                 if (CurrentStatus == OsuGameStatus.SelectSong)
-                    retryflag++;
-                if (scoreZeroed && retryflag >= 0 && PlayerMaxCombo != 0)
+                    retryFlag++;
+                if (scoreZeroed && retryFlag >= 0 && PlayerMaxCombo != 0)
                     if (CurrentStatus != OsuGameStatus.Rank)
                     {
                         if (InDebugMode())

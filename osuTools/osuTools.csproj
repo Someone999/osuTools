@@ -266,6 +266,7 @@
     <Compile Include="Beatmaps\Properties.cs" />
     <Compile Include="Beatmaps\BreakTime\BreakTime.cs" />
     <Compile Include="Beatmaps\BreakTime\BreakTimeCollection.cs" />
+    <Compile Include="MemoryCache\Beatmap\CacheBeatmap.cs" />
     <Compile Include="RtppdInfo.cs" />
     <Compile Include="Collections\CloneableList.cs" />
     <Compile Include="Collections\CloneableObservableList.cs" />
@@ -619,11 +620,10 @@
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties Reactor_Deploy="0" Reactor_Output="" Reactor_Configuration="ALL" Reactor_Project="" Reactor_Commands="" Reactor_Enabled="0" />
+      <UserProperties Reactor_Enabled="0" Reactor_Commands="" Reactor_Project="" Reactor_Configuration="ALL" Reactor_Output="" Reactor_Deploy="0" />
     </VisualStudio>
   </ProjectExtensions>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
